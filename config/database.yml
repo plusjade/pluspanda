@@ -1,0 +1,27 @@
+
+# jade@delly credentials
+development:
+  adapter: mysql
+  database: pluspanda_development
+  pool: 5
+  timeout: 5000
+  user: pandabots
+  password: '!#taketomo#!'
+
+test:
+  adapter: mysql
+  database: pluspanda_test
+  pool: 5
+  timeout: 5000
+  user: pandabots
+  password: '!#taketomo#!'
+
+# root@[linode] credentials
+production:
+  adapter: mysql
+  encoding: utf8
+  database: pluspanda_production
+  pool: 5
+  username: pandabots
+  password: '!#taketomo#!'
+  socket: /var/run/mysqld/mysqld.sock
