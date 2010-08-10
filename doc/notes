@@ -1,0 +1,13 @@
+
+
+api.pluspanda.com/testimonials/
+
+http://panda.com/?callback=jsonp1281408076950&apikey=gAbpWSc5&service=testimonials&tag=all&sort=newest&page=2&jsoncallback=pandaLoadTstml
+
+
+# fetch the widget environment.
+denoted by "fetch"
+
+ # get testimonials in json
+ denoted by "tag" 
+ simple call being "tag=all" and limited by user-specified config

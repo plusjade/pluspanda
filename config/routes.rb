@@ -58,6 +58,11 @@ Pluspanda::Application.routes.draw do
   
   resource :user_session
   resource :account, :controller => "users"
+  
+  resources :testimonials do
+    get :env, :on => :collection
+  end
+  
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.

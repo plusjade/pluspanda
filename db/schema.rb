@@ -10,7 +10,48 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100810020741) do
+ActiveRecord::Schema.define(:version => 20100810053322) do
+
+  create_table "tags", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "desc"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tconfigs", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "theme"
+    t.string   "sort"
+    t.integer  "per_page"
+    t.text     "form"
+    t.text     "message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "testimonials", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "tag_id"
+    t.string   "token"
+    t.string   "name"
+    t.string   "company"
+    t.string   "c_position"
+    t.string   "location"
+    t.string   "url"
+    t.text     "body"
+    t.text     "body_edit"
+    t.integer  "rating"
+    t.boolean  "publish",    :default => false
+    t.integer  "position"
+    t.boolean  "lock",       :default => false
+    t.string   "email"
+    t.string   "meta"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                              :null => false
