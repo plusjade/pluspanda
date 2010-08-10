@@ -48,8 +48,14 @@ Pluspanda::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "marketing#index"
-
+  root :to                  => "marketing#index"
+  match 'home'              => 'marketing#index'
+  match 'pricing'           => 'marketing#pricing'
+  match 'faq'               => 'marketing#faq'
+  match 'contact'           => 'marketing#contact'
+  match 'terms_of_service'  => 'marketing#terms_of_service'
+  match 'privacy_policy'    => 'marketing#privacy_policy'
+  
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.

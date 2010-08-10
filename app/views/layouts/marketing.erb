@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title><%= @title %> | PlusPanda</title>
+  <meta name="description" content="<%= @meta %>" />
+  <meta name="google-site-verification" content="V80VygXkuzvIBgN6-03u1PMHN05e1C2q0iK--hl3vPQ" />
+  <%= stylesheet_link_tag "marketing/global", "marketing/pages" %>
+  <%= javascript_include_tag "common/jquery", "common/addon" %>
+</head>
+
+<%
+@links = [
+  'home', 
+  'pricing',
+  'faq',   
+  'contact'
+]
+@active ||= request.request_uri.split('/')[1]
+@login_link ||= 'Login' #or Admin
+%>
+<body>
+<div id="outer">
+  <div class="contentwidth main">  
+    <a href="/admin/login" id="login-link"><%= @login_link %></a>  
+    <a href="/"><img src="/images/marketing/pluspanda-logo.png" class="logo" alt="pluspanda logo"></a>
+
+    <div class="menu">
+      <ul class="clearfix">
+    <% @links.each do |page| %>
+      <% if @active == page %>
+        <li><a href="<%= page %>" class="active"><%= page.upcase %></a></li>
+      <% else %>
+        <li><a href="<%= page %>"><%= page.upcase %></a></li>
+      <% end %>
+    <% end %>
+      </ul>
+    </div>    
+    
+    <%= yield %>
+  </div>
+    
+  <div class="footer">
+    <div class="contentwidth">
+      <p><strong>&copy; 2009 PlusPanda =)</strong></p>
+      <ul class="footer-menu">
+      <% @links.push('terms_of_service', 'privacy_policy') %>
+      <% @links.each do |page| %>
+        <li><a href="<%= page %>"><%= page.upcase %></a></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+
+</script>
+
+<% if RAILS_ENV=='production' %>
+    
+<% end %>
+</body>
+</html>
+
+

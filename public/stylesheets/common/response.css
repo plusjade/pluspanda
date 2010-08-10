@@ -1,0 +1,63 @@
+
+
+#server_response {
+position:fixed; top:0; left:0; 
+min-width:890px; width:100%; 
+z-index:9995; margin:0; padding:0; 
+font-size:12px !important; 
+font-family:verdana !important; 
+text-align:center;
+}
+#server_response div.load,
+#server_response span.rsp{
+display:block;
+margin:auto;
+}
+#server_response span.rsp{width:350px;}
+#server_response div.load{
+width:180px;
+padding:3px 20px;
+background:#09A0FB url('/static/images/admin/circle.gif') no-repeat 80% 50%;
+color:#fff;
+height:55px;
+text-align:left;
+}
+#server_response div.load strong{
+  display:block;
+  margin-top:20px;
+  font-size:1.2em;
+}
+  
+/* NOTIFICATIONS */
+.success, .error, .information, .attention{
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  padding: 10px;
+  padding-left: 60px;
+  font-size: 12px;
+  height: 30px;
+  font-weight: bold;
+  line-height: 30px;
+}
+.success { background-color: #D5FFCF; border: 1px solid #97FF88; color: #009900; background-image: url('/static/images/admin/accept.png');}
+.error { background-color: #FFCFCF;border: 1px solid #FF9595;color: #CC3300; background-image: url('/static/images/admin/delete.png');}
+.information { background-color: #DCE3FF;border: 1px solid #93A8FF;color: #0033FF; background-image: url('/static/images/admin/information.png');}
+.attention { background-color: #FFFBCC;border: 1px solid #FFF35E;color: #C69E00; background-image: url('/static/images/admin/warning.png');}
+.close-notification {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  background: url('/static/images/admin/close.png') no-repeat;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+/* form status stuff */
+div.jade_form_status_box { font-weight: bold; color: #000; font-size: 1.2em; margin: 10px; padding: 10px; text-align: center; -moz-border-radius:7px;-webkit-border-radius:7px;}
+div.jade_form_status_box.box_positive { background: green; border: 1px solid green; color:#fff; }
+div.jade_form_status_box.box_negative { background: #fad6d6; border: 1px solid #cc0000; }
+div.ajax_loading { width: 100%; height: 90px; background: transparent url('/static/images/common/load.gif') no-repeat 50% 50%; text-align: center; }
+fieldset span.jade_required_star{color:red;}
+fieldset.jade_error {padding:10px !important; background: #fad6d6 !important; -moz-border-radius:7px;-webkit-border-radius:7px;}
+fieldset span.error_msg { display: block; color: red; }

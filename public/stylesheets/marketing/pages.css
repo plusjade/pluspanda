@@ -1,0 +1,262 @@
+
+.indent{margin-left:25px;}
+  /* home */
+h2.home-header{clear:both; margin-bottom:25px; text-align:center;line-height:1.4em;}
+h2.home-header span{font-style:italic;}
+.home-main-text{margin-bottom:35px; text-align:center;font-style:italic; color:#555;}
+.home-intro{
+margin:10px 20px;
+padding-bottom:30px;
+overflow:auto;
+background: #fff url('/images/marketing/homepage-arrow.png') no-repeat 93% 84%;
+}
+
+.main-steps{margin:auto; width:490px;
+}
+.main-steps h4{
+padding:10px; margin:0 30px; background:#eee; color:#999;
+-moz-border-radius:7px;
+-webkit-border-radius:7px;
+font-size:16px;
+}
+.main-steps h4.active{
+margin:0;
+background:#0099ff;
+ /*background:#ffff99 rl('/images/common/gradients.jpg') repeat-x 0px -205px; 
+*/
+ order:1px dashed #ff7676;
+color:#fff;
+text-align:center;
+}
+.main-steps div {padding:5px; margin:5px 30px; margin-bottom:15px; color:#999;line-height:1.5em;}
+.main-steps div.active{color:#333; margin:5px;text-align:center;}
+
+
+.home-intro .pane-screenshot{
+width:460px;
+float:right;
+line-height:1.5em;
+}
+.home-intro .pane-screenshot ul{margin:0;}
+.home-intro .pane-screenshot ul li{
+margin-bottom:6px;
+}
+.home-intro .pane-text{
+width:420px;
+float:left;
+text-align:center;
+}
+.home-intro .pane-text h4{
+color:#333;
+text-align:center;
+}
+.home-intro .pane-text div{
+  text-align:left;
+  height:130px;
+  padding:0 25px;
+  padding-top:10px;
+  padding-bottom:20px;
+  background: #fff url('/images/marketing/shadow-y.png') no-repeat 50% 100%;
+  }
+a#signup{
+  display:block;
+  width:231px;
+  height:63px;
+  margin:0 auto;
+  background: #fff url('/images/marketing/signup-button.jpg') no-repeat 0 0;
+}
+a#signup:hover{
+  background-position: 0 -63px;
+}
+a.layout{
+  display:block;
+  width:231px;
+  height:63px;
+  background: #fff url('/images/marketing/layout-button.gif') no-repeat 0 0;
+}
+a.layout:hover{
+  background-position: 0 -62px;
+}
+
+
+a#demo{
+  display:block;
+  width:229px;
+  height:62px;
+  margin:0 auto;
+  background: #fff url('/images/marketing/demo-button.jpg') no-repeat 0 0;
+}
+a#demo:hover{
+  background-position: 0 -62px;
+}
+
+.demo-switcher{
+width:600px;
+margin:auto;
+margin-bottom:30px;
+padding:15px;
+}
+.demo-switcher span{font-size:1.1em; font-weight:bold;}
+.demo-switcher ul{
+float:right; 
+margin:0;
+padding:0;
+list-style:none;
+text-align:right;
+}
+.demo-switcher ul li {display:inline; margin-left:15px;}
+.demo-switcher ul li a {
+padding:7px 20px;
+background:#eee;
+text-decoration:none;
+-webkit-border-radius:6px;
+-moz-border-radius:6px;
+}
+.demo-switcher ul li a:hover,
+.demo-switcher ul li a.active {
+background:#ffff99;
+color:#111;
+border:1px solid #111;
+}
+
+/* start page */
+
+.signup-wrapper{
+  float:left;
+  width: 60%;
+  margin-left:70px;
+  margin-top:50px;
+  line-height:1.6em;
+}
+.signup-wrapper .hurry{
+  font-weight:bold;
+  text-align:center;
+}
+.signup-wrapper .hurry span{
+  background:#ffff99;
+  text-decoration:underline;
+}
+#signup-form {
+  padding: 10px;
+  background:#ffff99;
+  border:2px solid #ffcc33;
+  overflow:auto;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+}
+
+#signup-form input {width:200px; border:1px solid #333; background:#fff;}
+#signup-form fieldset{float:left;  margin:0 15px;}
+#signup-form .panda-email{}
+#signup-form .panda-password{}
+#signup-form .panda-password2{}
+.twitter-action{margin:30px 0 50px 0; text-align:center;}
+.twitter-action img{display:block; margin:20px auto;}
+.left-copy{
+float:right;
+width:175px;
+margin-right:50px;
+}
+
+/* demo page */
+
+.demo-widget{
+clear:both; 
+padding:20px;
+padding-top:0;
+overflow:auto;
+}
+
+.demo-text{
+width:40%;
+line-height:1.5em;
+}
+.demo-text.left{
+float:left;
+margin-left:60px;
+}
+.demo-text.right{
+float:right;
+margin-right:60px;
+}
+.demo-text h6{
+padding-left:20px;
+background:#fff url('/images/marketing/check.gif') no-repeat 0% 50%;
+}
+.demo-text div{margin-left:20px; margin-bottom:10px;}
+
+
+/* cases */
+h3.cases-head{text-align:center; border-bottom:1px dashed #ccc; margin:50px 80px 30px 80px;}
+.each-co{clear:both; width:700px; margin:30px auto; overflow:auto;}
+.each-co img{float:left;}
+.each-co div{float:right; width:400px; line-height:1.4em;}
+
+/* faq page */
+.faq-page{margin:0 70px;}
+.faq-page div{line-height:1.6em; margin:5px 30px;}
+
+/*contact page */
+#twitter, #jade, #ben, #location{width:750px; margin:0 auto; margin-bottom:80px; overflow:auto;}
+
+/* tos page */
+.tos-page{margin:0 70px;}
+.tos-page div, .tos-page p {line-height:1.6em; margin:5px 30px;}
+.tos-page li {
+  margin-bottom:5px;
+  line-height:1.6em;
+
+}
+.tos-page li.important {
+  padding:5px;
+  background:#ffffcc;
+  border:1px solid orange;
+}
+
+
+
+#twitter div.contact-text{
+width:365px;
+text-align:right;
+}
+#twitter img{
+float:right;
+margin-right:160px;
+}
+
+#jade div.contact-text{
+width:365px;
+height:305px; 
+text-align:right;
+background:#fff url('/images/marketing/tree.png') no-repeat bottom right;
+
+}
+#jade img{
+float:right;
+border:4px solid #eee;
+}
+
+#ben div.contact-text{
+width:365px;
+height:290px; 
+text-align:right;
+background:#fff url('/images/marketing/tree.png') no-repeat bottom right;
+}
+#ben img{
+float:right;
+border:4px solid #eee;
+margin-right:180px;
+}
+
+#location div.contact-text{
+width:365px;
+text-align:right;
+}
+#location img{
+float:right;
+border:4px solid #eee;
+margin-right:10px;
+}
+
+
+
