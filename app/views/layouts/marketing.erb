@@ -17,7 +17,7 @@
   'contact'
 ]
 @active ||= request.request_uri.split('/')[1]
-@login_link ||= 'Login' #or Admin
+@login_link = (current_user) ? 'Admin' : 'Login'
 %>
 <body>
 <div id="outer">

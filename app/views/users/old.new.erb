@@ -1,0 +1,36 @@
+
+<h1 class="cufon" style="text-align:center">Get In Good With The Beta!</h1>
+<div id="signup">
+  <% form_for @user, :url => account_path do |f| %>
+    <%= f.error_messages %>
+    <%= render :partial => "form", :object => f %>
+  
+  <fieldset style="text-align:center">
+    <button type="submit" name="submit" class="submit" style="width:260px">Register</button>
+  </fieldset>
+  <% end %>
+</div>
+
+<h2 class="cufon" style="margin-bottom:20px; text-align:center">Or Try Our Demo Account:</h2>
+<div id="login">
+<% form_for @user_session, :url => user_session_path do |f| %>
+  <fieldset> 
+    <%= f.text_field :email, :value => 'sample@sample.com' %>
+  
+    <%= f.password_field :password, :value => 'sample' %>
+  </fieldset>
+  
+  <fieldset>
+    <button type="submit" name="submit" class="submit" style="width:260px">Login</button>
+  </fieldset>
+<% end %>
+
+  <div id="beta">
+    Aplanofattack is in <b class="colorize">beta</b>. Service is 100% free of charge.
+    If service should stop, all pages will be fully exportable.
+    Your feedback and help is very much appreciated.
+    Thank you for your interest.
+  </div>
+    
+</div>
+

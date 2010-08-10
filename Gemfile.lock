@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/binarylogic/authlogic.git
+  revision: 6e2745b
+  specs:
+    authlogic (2.1.6)
+      activesupport
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -68,4 +75,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  authlogic!
   rails (= 3.0.0.rc)

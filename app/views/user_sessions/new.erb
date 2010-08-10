@@ -1,0 +1,26 @@
+
+<h1 class="cufon" style="text-align:center">Login</h1>
+
+<div id="login">
+  <% form_for @user_session, :url => user_session_path do |f| %>
+    <%= f.error_messages %>
+    <fieldset>
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+    </fieldset>
+    
+    <fieldset>
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </fieldset>
+    
+    <fieldset>
+    <%= f.label 'Remember me?' %>
+    <%= f.check_box :remember_me, :style => 'width:30px; display:inline;' %> (yes)
+    </fieldset>
+    
+  <fieldset>
+    <button type="submit" name="submit" class="submit" style="width:260px">Login</button>
+  </fieldset>
+  <% end %>
+</div>

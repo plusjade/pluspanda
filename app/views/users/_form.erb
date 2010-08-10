@@ -1,0 +1,14 @@
+<fieldset>
+  <%= form.label :email %>
+  <%= form.text_field :email %>
+</fieldset>
+
+<fieldset>
+  <%= form.label :password, form.object.new_record? ? nil : "Change password" %>
+  <%= form.password_field :password %>
+</fieldset>
+
+<fieldset>
+  <%= form.label :password_confirmation %>
+  <%= form.password_field :password_confirmation %>
+</fieldset>
