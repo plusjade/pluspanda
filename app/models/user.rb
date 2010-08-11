@@ -56,6 +56,18 @@ class User < ActiveRecord::Base
       #$dest = t_paths::css($this.apikey)
       #dir::copy($src, $dest)    
   end
+
+  # return url or path to the data directory
+
+  def data_path(path=nil)
+    return (path.nil?) ? File.join(ensure_path) : File.join(ensure_path, path)
+  end
+      
+  def ensure_path
+    path = Rails.root.join('public','system', 'data', self.apikey)
+    FileUtils.mkdir_p(path) if !File.directory?(path)
+    return path
+  end
   
-  
+    
 end

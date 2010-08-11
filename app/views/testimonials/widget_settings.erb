@@ -1,0 +1,9 @@
+/*<%= Time.new %>*/
+var pandaTheme = '<%= @theme %>';
+var pandaApikey = '<%= @apikey %>';
+var pandaAssetUrl = '<%= "#{root_url}system/data/#{@user.apikey}" %>';
+var pandaStructure = '<%= @panda_structure %>';
+function pandaItemHtml(item){
+  return '<%= @item_html %>';
+};
+

@@ -132,12 +132,16 @@ class TestimonialsController < ApplicationController
   end
 
   # serve the javascript build environment
-  def env
-    render :text => 'env'
-  
+  # TODO: use google cdn to load jquery if necessary
+  def widget    
+    render :js => render_settings + render_cache 
   end
 
+
+
   private
+
+###############################
   
   def setup
     @user = User.find(3)
@@ -169,13 +173,10 @@ class TestimonialsController < ApplicationController
   end  
 
 
-=begin
- * interface for fetching testimonials
- * based on defined filters, sorters, and limits.
- 
- * filters: page, publish, tag, rating, date.
- * sorters: created
-=end
+  # interface for fetching testimonials
+  # based on defined filters, sorters, and limits.
+  # filters: page, publish, tag, rating, date.
+  # sorters: created
   def fetch(new_params, get_count=false)
     params = {
       'user_id'=> '',
@@ -214,65 +215,45 @@ class TestimonialsController < ApplicationController
     return Testimonial.where(where).order(sort).limit(params['limit']).offset(offset)
    end 
 
+######################################
 
-=begin
-  # serve the widget javascript files.
-  # caches them if they don't exist.
-  def widget
-    $settings_file = t_paths::js_cache($this->apikey);
-    $init_file     = t_paths::init_cache();
-    if(!file_exists($settings_file))
-      $this->cache_settings($settings_file);
-
-    if(!file_exists($init_file))
-      self::cache_init();
-
-    readfile($settings_file);
-    readfile($init_file);
-  end
-
-  
-
-  # regenerates a fresh widget settings file cache.
-  def cache_settings($file)
-    $keys = array("\n","\r","\t");
-    
-    # get the html based on theme.
-    $wrapper = new View("testimonials/themes/$this->theme/wrapper");
-    $wrapper->tag_list = t_build::tag_list($this->tags, $this->active_tag);
-    
-    $item_html  = new View("testimonials/themes/$this->theme/item");
-    
-    # create the settings javascript file.
-    $settings = new View('testimonials/widget_settings');
-    $settings->theme           = $this->theme;
-    $settings->apikey          = $this->apikey;
-    $settings->asset_url       = t_paths::service($this->apikey, 'url');
-    $settings->panda_structure = str_replace($keys, '', $wrapper->render());
-    $settings->item_html       = str_replace($keys, '', $item_html->render());
-
-    file_put_contents(
-      $file,
-      $settings->render()."\n/*".date('m.d.y g:ia')."*/"
-    );
-    
+  def render_cache
+    @path = File.join('tmp/cache', "tstml_init.js")
+    update_cache if !File.exist?(@path)
+    f = File.open(@path) 
+    return f.read
   end
   
-
-  # regenerates a fresh widget init file cache.
-  # this should be static relative to user layout settings.
-  def cache_init()
-    file_put_contents(
-      t_paths::init_cache(),
-      View::factory('testimonials/widget_init')->render()."\n//".date('m.d.y g:ia')
-    );
+  
+  def render_settings
+    settings_file = File.join(@user.data_path, 'settings.js')
+    update_settings(settings_file) if !File.exist?(settings_file)
+    f = File.open(settings_file) 
+    return f.read  
+  end
+  
+  
+  # regenerate a fresh widget javascript file for the system.
+  def update_cache
+    Dir.mkdir 'tmp/cache' if !File.directory?('tmp/cache')
+    
+    f = File.new(@path, "w+")
+    f.write(render_to_string(:template => "testimonials/widget_init", :layout =>false))
+    f.rewind
   end  
-=end
-
-
-
-
-
-
+  
+    
+  # regenerate a fresh settings file for the user.
+  def update_settings(settings_file)
+    #@tag_list = t_build::tag_list(@tags, @active_tag)
+    @item_html        = render_to_string(:template => "testimonials/themes/#{@theme}/item", :layout =>false).gsub!(/[\n\r\t]/,'')
+    @panda_structure  = render_to_string(:template => "testimonials/themes/#{@theme}/wrapper", :layout =>false).gsub!(/[\n\r\t]/,'')
+    @settings         = render_to_string(:template => "testimonials/widget_settings", :layout =>false)
+    
+    f = File.new(settings_file, "w+")
+    f.write(@settings)
+    f.rewind    
+  end  
+  
 
 end

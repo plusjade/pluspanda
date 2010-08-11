@@ -60,7 +60,7 @@ Pluspanda::Application.routes.draw do
   resource :account, :controller => "users"
   
   resources :testimonials do
-    get :env, :on => :collection
+    get :widget, :on => :collection
   end
   
   # See how all your routes lay out with "rake routes"
