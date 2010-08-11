@@ -29,9 +29,9 @@
       <ul class="clearfix">
     <% @links.each do |page| %>
       <% if @active == page %>
-        <li><a href="<%= page %>" class="active"><%= page.upcase %></a></li>
+        <li><a href="/<%= page %>" class="active"><%= page.upcase %></a></li>
       <% else %>
-        <li><a href="<%= page %>"><%= page.upcase %></a></li>
+        <li><a href="/<%= page %>"><%= page.upcase %></a></li>
       <% end %>
     <% end %>
       </ul>
@@ -46,7 +46,7 @@
       <ul class="footer-menu">
       <% @links.push('terms_of_service', 'privacy_policy') %>
       <% @links.each do |page| %>
-        <li><a href="<%= page %>"><%= page.upcase %></a></li>
+        <li><a href="/<%= page %>"><%= page %></a></li>
       <% end %>
       </ul>
     </div>
