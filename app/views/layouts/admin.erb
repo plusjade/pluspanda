@@ -6,7 +6,10 @@
 
   <style type="text/css">img, div { behavior: url(iepngfix.htc) }</style> 
   <%= stylesheet_link_tag "common/reset","common/buttons",'admin/global','admin/pages','testimonials/edit','common/facebox','common/jcrop','common/response' %>
-  <%= javascript_include_tag 'common/jquery', 'common/addon', 'common/jquery.ui', 'common/json/json2', 'common/facebox.js', 'common/jquery.tablesorter.min', 'common/jcrop', 'common/validate', 'common/binds', 'testimonials/binds', 'admin/init' %>
+  <%= javascript_include_tag 'common/jquery', 'common/jquery.ui', 'common/addon',  'common/json/json2', 'common/facebox.js', 'common/jquery.tablesorter.min' %>
+  <% javascript_include_tag 'common/jcrop', 'testimonials/binds' %>
+  
+  <%= javascript_include_tag 'admin/init' %>
 </head>
 
 <body>
@@ -46,32 +49,26 @@
     </div>
   </div>
      
-  <div id="parent_nav">
-    <ul> 
-      <li class="display"><a href="/admin" class="active" rel="tab-display">1. Choose Layout</a></li> 
-      <li class="manage"><a href="/admin/manage" rel="tab-manage">2. Manage Testimonials</a></li> 
-      <li class="install"><a href="/admin/install" rel="tab-install">3. Install On Your Site</a></li> 
-      <li class="form"><a href="/admin/form" rel="tab-form">4. Add Testimonial Collection Form</a></li> 
-    </ul>  
-  </div>
+  <ul id="parent_nav"> 
+    <li class="display"><a href="/admin" class="active" rel="">1. Choose Layout</a></li> 
+    <li class="manage"><a href="/admin/manage" rel="manage">2. Manage Testimonials</a></li> 
+    <li class="form"><a href="/admin/form" rel="form">3. Collect Testimonials</a></li> 
+    <li class="install"><a href="/admin/install" rel="install">4. Install On Your Site</a></li> 
+  </ul>  
 
-  <div id="content_wrapper">
-    <div class="child_nav"> &#160; </div>
-    
-    <div class="grandchild_nav">
-      <%= yield :tabs %>
-    </div>
-
-    <div id="primary_content">
-      <%= yield %>
-    </div>
-    
-    <div id="footer">© Copyright 2009 PlusPanda =] | <a href="#">Top</a></div>
-  
+  <div id="main-wrapper">
+    <%= yield %>
   </div>
+  <div id="footer">© Copyright 2009 PlusPanda =] | <a href="#">Top</a></div>
   
 </div>
-
+  <script type="text/javascript">
+    $(function(){
+      $(document).trigger('ajaxify.form');
+      $('ul.grandchild_nav li a:first').click();
+      $('abbr.timeago').timeago();
+    })
+  </script>
 
 <% if RAILS_ENV=='production' %>
     

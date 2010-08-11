@@ -1,10 +1,7 @@
 
-$(document).ready(function(){
- 
-  $('a[rel*=facebox]').live('click',function(){
-    $.facebox({ ajax: this.href });
-    return false;
-  });
+$(function(){
+  var loading = '<div class="loading">Loading...</div>';
+  // TODO: refactor this.
   $('li.fb-help a').click(function(){
     $.facebox({ div: this.href });
     return false;
@@ -14,42 +11,55 @@ $(document).ready(function(){
     $('div.share-data input').val(this.href);
     return false;
   });
-  $('abbr.timeago').timeago();      
-
-
+        
+/* delegations
+ */
   $('body').click($.delegate({
-  //main panel links
-    '#sidebar ul li.ajax a' : function(e){
-      $(document).trigger('submit.server');
-      $('#primary_content').html('Loading...');
-      $('#sidebar ul li a').removeClass('active');
+   // delegate facebox links
+    'a[rel*=facebox]' :function(e){
+      $.facebox(function(){ 
+        $.get(e.target.href, function(data) { $.facebox(data) })
+      })
+      return false;
+    },
+      
+  // main panel links
+    '#parent_nav li a' : function(e){
+      $('#main-wrapper').html(loading);
+      $('#parent_nav li a').removeClass('active');
       $(e.target).addClass("active");    
       $.get(e.target.href, function(data){
-        $('#primary_content').html(data);
-        $(document).trigger('rsp.server');
+        $('#main-wrapper').html(data);
+        $('ul.grandchild_nav li a:first').click();
+        $(document).trigger('ajaxify.form');
+        window.location.hash = $(e.target).attr('rel');
       });
       return false;
     },
-    
-  // flag a review
-    '.review-wrapper img' : function(e){
-      var id = $(e.target).attr('rel');
-      $('.flag-review.helper').remove();
-      $('.flag-review input:first').val(id);
-      $('.flag-review').clone().addClass('helper')
-        .insertBefore($('table#review-'+ id));
+ 
+  // main tabs
+    'ul.grandchild_nav li a' : function(e){
+      $('div.tab-content').hide();
+      $('ul.grandchild_nav li a').removeClass('active');
+      $(e.target).addClass('active');
+      $('#'+ $(e.target).attr('rel')).show();
+      /*
+      if(e.target.id == 'reload-widget-iframe'){
+        var $container = $('#widget-view-container');
+        $container.html($iframe.clone().attr('src', '/sliders/'+ $container.attr('rel')));
+      }
+      */
+      return false;
     },
-
-    
-    
-  // common add a category.
+        
+  // add a category.
     'form#add-cat button' :function(e){
       $('form#add-cat').ajaxSubmit({
         dataType: 'json',
         beforeSubmit: function(fields, form){
           if(! $("input, textarea", form[0]).jade_validate()) return false;
           $('button', form).attr('disabled', 'disabled').html('Submitting...');
-          $(document).trigger('submit.server');
+          $(document).trigger('submitting');
         },
         success: function(rsp) {
           $(document).trigger('rsp.server', rsp);
@@ -63,14 +73,14 @@ $(document).ready(function(){
       return false;
     },
     
-  // common save category edits.
+  // save category edits.
     '.cat-save button' : function(e){
       var $form = $(e.target).parent('div').parent('form');
       $form.ajaxSubmit({
         dataType : 'json',
         beforeSubmit : function(fields, form){
           if(!$("input", form[0]).jade_validate()) return false;
-          $(document).trigger('submit.server');
+          $(document).trigger('submitting');
         },
         success : function(rsp){
           $(document).trigger('rsp.server', rsp);
@@ -80,10 +90,10 @@ $(document).ready(function(){
       return false;
     },
     
-  // common delete a category.
+  // delete a category.
     '.cat-delete a' : function(e){
       if(confirm('This cannot be undone!! Delete this category?')){
-        $(document).trigger('submit.server');
+        $(document).trigger('submitting');
         $.get(e.target.href, function(rsp){
           $(document).trigger('rsp.server', rsp);
           $(e.target).parent('div').parent('form').parent('li').remove();
@@ -92,19 +102,17 @@ $(document).ready(function(){
       return false;
     },
 
-  // common save categories/tags sort order.
+  // save categories/tags sort order.
     '#save_order' : function(e){
       var order = $("#sortable").sortable("serialize");
       if(!order){alert("No items to sort");return false;}
       var url = $(e.target).attr('rel');
-      $(document).trigger('submit.server');
+      $(document).trigger('submitting');
       $.get(url, order, function(rsp){
         $(document).trigger('rsp.server', rsp);
       });    
       return false;
     },
-    
-/*Testimonial Manager */
 
   // load the edit view into the bottom container
     '.admin-new-testimonials-list table td.edit a, li.create a' : function(e){  
@@ -124,7 +132,7 @@ $(document).ready(function(){
           });
           if(!valid){alert('Filetype not supported'); return false};
           
-          $(document).trigger('submit.server');
+          $(document).trigger('submitting');
           //var url = $('#save-testimonial').attr('action').replace('save', 'save_image');
           var id = $('#save-testimonial').attr('rel');
           $('#save-testimonial').ajaxSubmit({
@@ -162,7 +170,7 @@ $(document).ready(function(){
         dataType : 'json',
         url : '/admin/testimonials/manage/save?id=' + id,
         beforeSubmit: function(fields, form){
-          $(document).trigger('submit.server');
+          $(document).trigger('submitting');
           // json response acts up when we send a file =/
           $('.panda-image input').attr('disabled','disabled');
         },
@@ -184,7 +192,7 @@ $(document).ready(function(){
   // delete a testimonial
     '.t-data td.delete a' : function(e){
       if(confirm('This cannot be undone! Delete testimonial?')){
-        $(document).trigger('submit.server');
+        $(document).trigger('submitting');
         $.get(e.target.href, function(rsp){
           $(document).trigger('rsp.server', rsp);
           $(e.target).parent('td').parent('tr').remove();
@@ -193,20 +201,6 @@ $(document).ready(function(){
       return false;
     },
 
-  // common ajax form 
-    'form.common-ajax button, form.common-ajax input[type=submit]' :function(e){
-      $('form.common-ajax').ajaxSubmit({
-        dataType : 'json',
-        beforeSubmit: function(fields, form){
-          if(!$("input", form[0]).jade_validate()) return false;
-          $(document).trigger('submit.server');
-        },
-        success: function(rsp){
-          $(document).trigger('rsp.server', rsp);
-        }
-      });
-      return false;
-    },
   // hide the round boxes
     '.round-box-top a.close, .panda-image a.close' : function(e){
       $(e.target).parent().parent().hide();
@@ -214,17 +208,74 @@ $(document).ready(function(){
     }
   }));
 
+ /*
+  // css handling
+  $('.common-ajax button.positive, a.update-css').click(function(){
+    $('head link#pandaTheme').remove();
+    var css = $('textarea[name="css"]').val();
+    $('style#custom-css').html(css);
+    return false;
+  });
+  
+  $('a.load-stock').click(function(){
+    var css = $('div.stock-css').html();
+    $('textarea[name="css"]').val(css);
+    return false;
+  });
+  
+  $('a.toggle-html').click(function(){
+    $('textarea[name="html"]').slideToggle('fast');
+    return false;
+  });
+ */
+  
 /*
-var emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-        if(! val.match(emailRegex) ){
-          $(this).addClass("input_error");
-          $(this).parent('fieldset').addClass("jade_error");
-          $(this).after(' <span class="error_msg">Invalid email</span>');
-          errors = true;
+   #### bindings 
+  -------------------------------------------
+*/
+ // ajaxify the forms
+  $(document).bind('ajaxify.form', function(){
+    $('form').ajaxForm({
+      dataType : 'json',     
+      beforeSubmit: function(fields, form){
+        //if(! $("input", form[0]).jade_validate() ) return false;
+        $('button', form[0]).attr('disabled','disabled').removeClass('positive');
+        $(document).trigger('submitting');
+      },
+      success: function(rsp) {
+        if(undefined != rsp.created){
         }
-        */
-        
-}); // end document ready
+        $(document).trigger('responding', rsp);
+        $('form button').removeAttr('disabled').addClass('positive');
+      }
+    });
+  });
+  
+ // show server response.
+  $(document).bind('responding', function(e, rsp){
+    if(typeof rsp === "string"){
+      // hacky. All responses should be one object
+      if('{' == rsp.substring(0, 1)) rsp = JSON.parse(rsp);
+      else rsp = {'status':'attention','msg':'Server gave a bad response'};
+    }
+    // validate required responses.
+    if(typeof rsp.status !== "string") rsp.status = 'attention';
+    if(typeof rsp.msg !== "string") rsp.msg = 'Server gave no message';
+
+    $('#server_response .load').hide();
+    $('<div></div>').addClass(rsp.status).html(rsp.msg).appendTo($('#server_response .rsp'));
+    setTimeout('$("#server_response span div").fadeOut(4000)', 1500);
+  });
+
+// show submit icon
+  $(document).bind('submitting', function(e, data){
+    $('#server_response .rsp').empty();
+    $('#server_response div.load').show();
+  });
+  
+  
+    
+}); // end
 
 
 

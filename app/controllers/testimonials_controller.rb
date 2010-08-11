@@ -161,7 +161,6 @@ class TestimonialsController < ApplicationController
     @active_page  = (params['page'].nil? ) ? 1       : params['page'].to_i 
     
     @tags  = Tag.where({:user_id => @user.id })
-    @limit = 1 #testing
   end
 
   # get the testimonials

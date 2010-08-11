@@ -153,15 +153,16 @@ text-decoration:none;
 #top ul li a:hover{background:#cc0000}
 
 
-#content_wrapper {
+#main-wrapper {
   margin:0 auto 20px 50px;
   padding: 0px;
   float: left;
   clear: both;
   width: 90%;
   min-width:850px;
+  min-height:350px;
 }
-#primary_content {
+.primary-content {
   width: 95%;
   min-width:800px;
   min-height:400px;
@@ -172,19 +173,20 @@ text-decoration:none;
 
 
 /* main parent navigation */
-#parent_nav  {
-  min-width:800px;
+ul#parent_nav {
+  min-width:750px;
   margin-left:40px;
-  padding:5px 0;
+  margin-bottom:15px;
+  padding:10px 0 20px 0;
+  border-bottom:2px solid #ffcccc;
+  list-style:none;
   overflow:hidden;
 }
-#parent_nav ul {
-padding:9px 0;
-list-type:none;}
-#parent_nav ul li{
-display:inline;
+
+#parent_nav li{
+  display:inline;
 }
-  #parent_nav ul a{
+  #parent_nav a{
     position:relative;
     padding:8px 12px;
     margin-left:5px;
@@ -195,12 +197,11 @@ display:inline;
     ackground:#eee;
     -webkit-border-radius:7px;
   }
-  #parent_nav ul a:hover,
-  #parent_nav ul a.active{
+  #parent_nav a:hover,
+  #parent_nav a.active{
     color:#000;
     background:#eee;
     background:#fff url('/images/common/gradients.jpg') repeat-x 0 -200px;
-    /* CSS 3 DROP SHADOW */
     -moz-box-shadow: 0px 2px 4px #ccc;
     -webkit-box-shadow: 0px 2px 4px #ccc;
     box-shadow: 0px 2px 4px #ccc;
@@ -235,13 +236,11 @@ div.child_nav ul li a{
     font-size:14px;
     text-decoration: none;
     font-weight:bold;
-    ackground:#eee;
     -webkit-border-radius:7px;
 } 
 .child_nav ul a:hover,
 .child_nav ul a.active{
   color:#000;
-  background:#fff url('/images/common/gradients.jpg') repeat-x 0 -350px;
     /* CSS 3 DROP SHADOW */
     -moz-box-shadow: 0px 2px 4px #ccc;
     -webkit-box-shadow: 0px 2px 4px #ccc;
@@ -249,17 +248,16 @@ div.child_nav ul li a{
   }
   
 /* grandchild top navigation */
-.grandchild_nav  {
-  min-width:800px;
-  margin-left:50px;
-}
-  .grandchild_nav ul {
+
+  ul.grandchild_nav {
+    min-width:800px;
+    margin-left:50px;
     list-style:none;
     padding:15px 0;
     border-bottom:1px solid #66ccff; 
   }
-  .grandchild_nav ul li{ display:inline;}
-  .grandchild_nav ul li a{
+  ul.grandchild_nav li{ display:inline;}
+  ul.grandchild_nav li a{
     position:relative;
     top:5px;
     padding:10px 17px;
@@ -274,15 +272,14 @@ div.child_nav ul li a{
     text-decoration: none;
     font-weight:bold;
   }
-  .grandchild_nav ul li a:hover,
-  .grandchild_nav ul li a.active{
+  ul.grandchild_nav li a:hover,
+  ul.grandchild_nav li a.active{
     padding:11px 17px;
     background:#fff;
     border:1px solid #66ccff; /*0099ff */
     border-bottom:1px solid #fff;
     color:#ff7676;
     text-decoration:none;
-    /* CSS 3 DROP SHADOW */
     -moz-box-shadow: 1px -1px 4px #eee;
     -webkit-box-shadow: 2px -2px 4px #eee;
     box-shadow: 1px -1px 4px #eee;
@@ -295,7 +292,7 @@ div.child_nav ul li a{
   padding: 10px 0;
   padding-left: 20px;
   font-size: 10px;
-  text-align:right;
+  text-align:center;
 }
 #subnav{display:none;}
 #subnav ul{text-align:right; border:1px solid red;}
@@ -324,7 +321,7 @@ td   {
   padding: 3px;
 }
 
-#primary_content tr:hover {
+.primary-content tr:hover {
   background-color: #FFFFCC;
 }
 /* tables */
@@ -369,4 +366,44 @@ table.tablesorter thead tr .headerSortDown {
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
   background-color: #B7B7B7;
 }
+
+
+
+/* ajax responses
+ ---------------------------------------- */
+.submitting{
+  padding:3px 3px 0 170px;
+  text-align:left;
+  color:#222;
+  background:#ffff99 url('/images/loading.gif') no-repeat 5% 50%;
 }
+.responding{
+  padding:3px 3px 0 3px;
+  text-align:center;
+}
+.loading{
+  width:200px;
+  margin:auto; margin-top:30px;
+  padding-top:45px;
+  text-align:center;
+  color:#222;
+  background:url('/images/loading.gif') no-repeat top center;
+}
+.loading.white{color:#fff}
+
+div.responding.active.good {
+  background:green;
+  color:#fff;
+}
+div.responding.active.bad {
+  background:red;
+  color:#fff;
+}
+div.responding.active.warn {
+  background:orange;
+  color:#fff;
+}
+
+
+
+
