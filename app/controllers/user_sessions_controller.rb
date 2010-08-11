@@ -16,6 +16,11 @@ class UserSessionsController < ApplicationController
     end
   end
   
+  def logout
+    current_user_session.destroy
+    redirect_to new_user_session_url
+  end
+    
   def destroy
     current_user_session.destroy
     redirect_to new_user_session_url

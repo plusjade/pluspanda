@@ -144,8 +144,13 @@ class TestimonialsController < ApplicationController
 ###############################
   
   def setup
-    @user = User.find(3)
-    #@user      = current_user
+    if params['apikey']
+      @user = User.first(:conditions => {:apikey => params['apikey']})
+    elsif current_user
+      @user = current_user
+    end
+    render :text => 'invalid user' and return if @user.nil?
+    
     @apikey     = @user.apikey
     @theme      = (@user.tconfig.theme.empty?)    ? 'left'    : @user.tconfig.theme
     @sort       = (@user.tconfig.sort.empty?)     ? 'created' : @user.tconfig.sort
