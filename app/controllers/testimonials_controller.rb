@@ -153,9 +153,10 @@ class TestimonialsController < ApplicationController
 
     @active_tag   = (params['tag'].nil?)  ? 'all'    : params['tag']
     @active_sort  = (params['sort'].nil?) ? 'newest' : params['sort'].downcase
-    @active_page  = (params['page'].is_a?(Numeric) ) ? params['page'] : 1 
+    @active_page  = (params['page'].nil? ) ? 1       : params['page'].to_i 
     
-    @tags  = Tag.where({:user_id => @user.id }) 
+    @tags  = Tag.where({:user_id => @user.id })
+    @limit = 1 #testing
   end
 
   # get the testimonials
@@ -201,14 +202,32 @@ class TestimonialsController < ApplicationController
       where['user_id'] = params['user_id']
     else
       where['tag_id'] = params['tag'].to_i
-    end    
+    end
+        
     # filter by rating
     #if(is_numeric($params['rating']))
     #  where['rating'] = $params['rating'];
     
     return Testimonial.where(where).count if get_count
-    
-    sort = "name ASC"
+
+    #--sorters--
+    sort = "created_at DESC"
+    case(params['sort'])
+      when 'created'
+        case(params['created'])
+          when 'newest'
+            sort = "created_at DESC"
+          when 'oldest'
+            sort = "created_at ASC"
+        end
+      when 'name'
+        sort = "name ASC"
+      when 'company'
+        sort = "company ASC"
+      when 'position'
+        sort = "position ASC"
+     end 
+       
     # determine the offset and limits.
     offset = (params['page']*params['limit']) - params['limit']
 
@@ -245,7 +264,7 @@ class TestimonialsController < ApplicationController
     
   # regenerate a fresh settings file for the user.
   def update_settings(settings_file)
-    #@tag_list = t_build::tag_list(@tags, @active_tag)
+    @tag_list         = render_to_string(:template => "testimonials/tag_list", :layout =>false).gsub!(/[\n\r\t]/,'')
     @item_html        = render_to_string(:template => "testimonials/themes/#{@theme}/item", :layout =>false).gsub!(/[\n\r\t]/,'')
     @panda_structure  = render_to_string(:template => "testimonials/themes/#{@theme}/wrapper", :layout =>false).gsub!(/[\n\r\t]/,'')
     @settings         = render_to_string(:template => "testimonials/widget_settings", :layout =>false)

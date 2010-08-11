@@ -1,0 +1,19 @@
+<% extra ||= false %>
+
+  <ul>
+    <li><a href="#all" class="active">Everyone</a></li>
+  <% if extra %>
+    <% extra.each do |val, text| %>
+        <li><a href="#<%= val %>"><%= text %></a></li>
+    <% end %>
+  <% end %>
+  
+  <% for tag in @tags do %>
+    <% if(tag.id == @active_tag) %>
+      <li><a href="#<%= tag.id %>" class="active"><%= tag.name %></a></li>
+    <% else %>
+      <li><a href="#<%= tag.id %>"><%= tag.name %></a></li>
+    <% end %>
+  <% end %>
+  </ul>
+

@@ -36,8 +36,9 @@
   
   <a href="/admin/testimonials/display" class="layout" style="margin:0 auto 25px auto"></a>
 
-  <?php echo t_build::embed_code(Kohana::config('core.apikey'), NULL,FALSE)?>
-
+  <div id="plusPandaYes"></div>
+  <script type="text/javascript" src="http://localhost:3000/testimonials/widget.js?apikey=c1b0262bae41a328" charset="utf-8"></script> 
+  
   <br style="clear:both"/>
   <a href="/admin/testimonials/display" class="layout" style="margin:25px auto;"></a>
 </div>
@@ -52,7 +53,7 @@
     PlusPanda works like a widget. Just add a piece of custom code wherever you want your testimonials to appear and that's it!
     
     <br/><br/>Sample Code:<br/>
-    <textarea style="width:99%; height:80px; border:1px solid #777; background:#ffffcc;font-size:0.9em"><?php echo t_build::embed_code('abcd','fake')?></textarea>
+    <textarea style="width:99%; height:80px; border:1px solid #777; background:#ffffcc;font-size:0.9em"><%=h embed_code('abcd') %></textarea>
   
   </div>
   
@@ -99,6 +100,7 @@
 
 
 <script type="text/javascript">
+/*
  $('div.demo-switcher ul a:first').addClass('active');
   $('div.demo-switcher ul a').click(function(){
     var url = '<?php echo t_paths::css(Kohana::config('core.apikey'), 'url')?>/';
@@ -108,5 +110,7 @@
     $('head link#pandaTheme').attr('href', url + theme + '.css');
     $('#panda-select-tags ul a:first').click();
   });
+ */ 
+  
 </script>
 

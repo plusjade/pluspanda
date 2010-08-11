@@ -38,12 +38,12 @@ margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: 
   #pluspanda-testimonials .panda-header { border-bottom: 1px solid #d4d4d4; clear: both; display: inline-block; padding-bottom: 9px; margin-bottom: 15px; height: 57px; width: 100%; }
     #pluspanda-testimonials .title { position: relative; margin-bottom: 10px; height: 35px; }
       #pluspanda-testimonials .title h2 { color: #222; float: left; font-size: 1em; font-weight: bold; }
-        #pluspanda-testimonials .title .lft { background: url(/static/images/themes/list/panda_title_lft.png) no-repeat; left:0; position:absolute; top:0; width:5px; height: 35px; }
-        #pluspanda-testimonials .title .mdl { background: url(/static/images/themes/list/panda_title_mdl.png) repeat-x; padding: 12px 0 12px 10px; left:5px; position:absolute; top:0; right: 5px; height: 11px; }
-        #pluspanda-testimonials .title .rgt { background: url(/static/images/themes/list/panda_title_rgt.png) no-repeat; position:absolute; top:0; right: 0px; width:5px; height: 35px; }
+        #pluspanda-testimonials .title .lft { background: url(/images/themes/list/panda_title_lft.png) no-repeat; left:0; position:absolute; top:0; width:5px; height: 35px; }
+        #pluspanda-testimonials .title .mdl { background: url(/images/themes/list/panda_title_mdl.png) repeat-x; padding: 12px 0 12px 10px; left:5px; position:absolute; top:0; right: 5px; height: 11px; }
+        #pluspanda-testimonials .title .rgt { background: url(/images/themes/list/panda_title_rgt.png) no-repeat; position:absolute; top:0; right: 0px; width:5px; height: 35px; }
           #pluspanda-testimonials .title .switcher { display: inline-block; float: right; margin-top: -7px; }
             #pluspanda-testimonials .title .switcher li{ display: block; float: left; height: 25px; width: 38px; }
-              #pluspanda-testimonials .title .switcher a{ background: url(/static/images/themes/list/toggle_view_sprite.png) no-repeat 0 0; display: block; float: left; text-indent: -9999px; height: 25px; width: 38px; }
+              #pluspanda-testimonials .title .switcher a{ background: url(/images/themes/list/toggle_view_sprite.png) no-repeat 0 0; display: block; float: left; text-indent: -9999px; height: 25px; width: 38px; }
               #pluspanda-testimonials .title .switcher .grid a{ background-position: 0 0; }
                 #pluspanda-testimonials .title .switcher .grid a:hover{ background-position: 0 -25px; }
                 #pluspanda-testimonials .title .switcher .grid.current a{ background-position: 0 -50px; }
@@ -58,7 +58,7 @@ margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: 
               #pluspanda-testimonials .panda-tags a:hover{ text-decoration: none; }
     #pluspanda-testimonials .panda-avg-rating { float: right; padding-right: 15px; position: relative; }
       #pluspanda-testimonials .panda-avg-rating .panda-rating-stars, #pluspanda-testimonials .t-rating .panda-rating-stars { 
-                                                                background: url(/static/images/themes/list/stars_sprite.png) no-repeat 0 0; 
+                                                                background: url(/images/themes/list/stars_sprite.png) no-repeat 0 0; 
                                                                 display: inline-block; 
                                                                 float: left; 
                                                                 margin-top: -3px; 
@@ -77,10 +77,10 @@ margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: 
         #pluspanda-testimonials .panda-avg-rating span b{ color: #444; }
   #pluspanda-testimonials .panda-container { padding: 0 15px; }
   
-    #pluspanda-testimonials .panda-container .image { background: url(/static/images/themes/list/panda_image_bg.png) no-repeat; margin-bottom: 5px; height: 148px; padding: 6px 5px 10px 5px; width: 148px; }
+    #pluspanda-testimonials .panda-container .image { background: url(/images/themes/list/panda_image_bg.png) no-repeat; margin-bottom: 5px; height: 148px; padding: 6px 5px 10px 5px; width: 148px; }
       #pluspanda-testimonials .panda-container .image img {   }
   #pluspanda-testimonials .show-more { 
-                    background: url(/static/images/themes/list/show_more_bg.png) no-repeat; 
+                    background: url(/images/themes/list/show_more_bg.png) no-repeat; 
                     clear: both; 
                     color: #333; 
                     display: block; 
@@ -92,7 +92,7 @@ margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: 
                     height: 10px; 
                     width: 61px; 
                   }
-  #pluspanda-testimonials .loader { background: url(/static/images/themes/list/loader.gif) no-repeat center; color: #333; display: block; float: left; font-size: 1em; text-indent: -9999px; padding: 4px 12px; height: 16px; width: 16px; }
+  #pluspanda-testimonials .loader { background: url(/images/themes/list/loader.gif) no-repeat center; color: #333; display: block; float: left; font-size: 1em; text-indent: -9999px; padding: 4px 12px; height: 16px; width: 16px; }
   
   
   #pluspanda-testimonials .grid { }
@@ -124,9 +124,9 @@ margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: 
                      z-index: 100;
                    }
                    
-    #pluspanda-testimonials .dropdown .arrow { background: url(/static/images/themes/list/dropbox_arrow_top.png) no-repeat; display: block; position: absolute; top: -15px; left: 125px; height: 15px; width: 27px; }
-    #pluspanda-testimonials  .p1 { background: url(/static/images/themes/list/quote.png) no-repeat; display: inline-block; float: left; margin-right: 8px; margin-top: -4px; height: 31px; width: 40px; }
-    #pluspanda-testimonials  .p2 { background: url(/static/images/themes/list/quote_small.png) no-repeat; display: inline-block; float: right; margin-top: -20px; height: 22px; width: 29px; }
+    #pluspanda-testimonials .dropdown .arrow { background: url(/images/themes/list/dropbox_arrow_top.png) no-repeat; display: block; position: absolute; top: -15px; left: 125px; height: 15px; width: 27px; }
+    #pluspanda-testimonials  .p1 { background: url(/images/themes/list/quote.png) no-repeat; display: inline-block; float: left; margin-right: 8px; margin-top: -4px; height: 31px; width: 40px; }
+    #pluspanda-testimonials  .p2 { background: url(/images/themes/list/quote_small.png) no-repeat; display: inline-block; float: right; margin-top: -20px; height: 22px; width: 29px; }
     #pluspanda-testimonials .dropdown p { font-style: italic; line-height: 1.4em; margin-bottom: 10px; }
     #pluspanda-testimonials .dropdown .name { color: #1d7fdb; clear: both; float: right; font-size: 0.9em; font-style: italic; margin-top: 5px; }
 
@@ -147,7 +147,7 @@ margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: 
     #pluspanda-testimonials .list .t-single { float: left; margin-bottom: 20px; }
       #pluspanda-testimonials .panda-container.list .image { float: left; margin-right: 20px; }
       #pluspanda-testimonials .panda-container.list .content { 
-                                  background: #fafafa url(/static/images/themes/list/quote_big.png) no-repeat top right; 
+                                  background: #fafafa url(/images/themes/list/quote_big.png) no-repeat top right; 
                                   border: 1px solid #d5d5d5; 
                                   -moz-border-radius: 4px; 
                                   -webkit-border-radius: 4px; 
@@ -160,7 +160,7 @@ margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: 
                                   position: relative; 
                                   width: 590px; 
                                 }
-        #pluspanda-testimonials .panda-container.list .content .arrow { background: url(/static/images/themes/list/arrow_list.png) no-repeat; position: absolute; left: -11px; top: -1px; height: 14px; width: 11px; }
+        #pluspanda-testimonials .panda-container.list .content .arrow { background: url(/images/themes/list/arrow_list.png) no-repeat; position: absolute; left: -11px; top: -1px; height: 14px; width: 11px; }
         #pluspanda-testimonials .panda-container .content p { color: #777; line-height: 1.4em; }
         #pluspanda-testimonials .panda-container .content .head { border-bottom: 1px solid #d8d8d8; margin-bottom: 15px; overflow: hidden; padding-bottom: 3px; }
       #pluspanda-testimonials .list .t-rating { display: inline-block; float: left; margin-right: 10px; height: 17px; width: 89px; z-index: 1; }

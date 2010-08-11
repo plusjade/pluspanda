@@ -10,11 +10,9 @@ class User < ActiveRecord::Base
   end
   
   def create_dependencies
-     # auto create a new tconfig.
     @tconfig = self.build_tconfig
     @tconfig.save    
     
-    # add 3 sample testimonials to get the party started.
     @testimonial = Testimonial.new
     @testimonial.user_id    = self.id
     @testimonial.name       = 'Stephanie Lo'
@@ -51,14 +49,13 @@ class User < ActiveRecord::Base
     @testimonial.publish    = 1
     @testimonial.save
       
-      # copy stock testimonial css to user data folder
-      #$src  = DOCROOT .'static/css/testimonials/stock'
-      #$dest = t_paths::css($this.apikey)
-      #dir::copy($src, $dest)    
+    # copy stock testimonial css to user data folder
+    src = Rails.root.join('public','stylesheets', 'testimonials', 'stock')
+    FileUtils.cp_r(src, File.join(data_path, 'css'))
   end
 
-  # return url or path to the data directory
 
+  # return path to user data directory
   def data_path(path=nil)
     return (path.nil?) ? File.join(ensure_path) : File.join(ensure_path, path)
   end
