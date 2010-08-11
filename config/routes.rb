@@ -56,6 +56,11 @@ Pluspanda::Application.routes.draw do
   match 'terms_of_service'  => 'marketing#terms_of_service'
   match 'privacy_policy'    => 'marketing#privacy_policy'
   
+  match 'admin'             => 'admin#index'
+  match 'admin/manage'      => 'admin#manage'
+  match 'admin/install'     => 'admin#install'
+  match 'admin/form'        => 'admin#form'
+  
   resource :user_session do
     get :logout, :on => :member
   end

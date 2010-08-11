@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>PlusPanda Admin Panel</title>
+
+  <style type="text/css">img, div { behavior: url(iepngfix.htc) }</style> 
+  <%= stylesheet_link_tag "common/reset","common/buttons",'admin/global','admin/pages','testimonials/edit','common/facebox','common/jcrop','common/response' %>
+  <%= javascript_include_tag 'common/jquery', 'common/addon', 'common/jquery.ui', 'common/json/json2', 'common/facebox.js', 'common/jquery.tablesorter.min', 'common/jcrop', 'common/validate', 'common/binds', 'testimonials/binds', 'admin/init' %>
+</head>
+
+<body>
+<div id="wrapper">
+  <div id="top">
+    <a href="/admin">
+      <img src="/images/admin/panda.png" />
+    </a>
+    
+    <ul>
+      <li><a href="/">Return Home</a></li>
+      <li><a href="/account">Account</a></li>
+      <li><a href="/user_session/logout">Logout</a></li>
+    </ul>
+    
+    <% if @user.email.empty? %>
+    <div class="user-status guest">
+      <b>This Guest account will expire in 24 hours...</b>
+      <br/>Would You Like to Save Your Progress?
+      <form action="/admin/account/save" method="POST" class="common-ajax">
+        <fieldset>
+          <label>your email:</label> <input type="text" name="email" rel="email_req"/> 
+          <input type="submit" value="Save My Progress" class="save-account"/>
+        </fieldset>
+      </form>
+    </div>
+    <% else %>
+    <div class="user-status owner">
+      Logged in as <%= @user.email %>
+    </div>
+    <% end %>
+  </div>
+  <div id="server_response">
+    <span class="rsp"></span>
+    <div class="load" style="display:none">
+      <strong>Loading...</strong>
+    </div>
+  </div>
+     
+  <div id="parent_nav">
+    <ul> 
+      <li class="display"><a href="/admin" class="active" rel="tab-display">1. Choose Layout</a></li> 
+      <li class="manage"><a href="/admin/manage" rel="tab-manage">2. Manage Testimonials</a></li> 
+      <li class="install"><a href="/admin/install" rel="tab-install">3. Install On Your Site</a></li> 
+      <li class="form"><a href="/admin/form" rel="tab-form">4. Add Testimonial Collection Form</a></li> 
+    </ul>  
+  </div>
+
+  <div id="content_wrapper">
+    <div class="child_nav"> &#160; </div>
+    
+    <div class="grandchild_nav">
+      <%= yield :tabs %>
+    </div>
+
+    <div id="primary_content">
+      <%= yield %>
+    </div>
+    
+    <div id="footer">© Copyright 2009 PlusPanda =] | <a href="#">Top</a></div>
+  
+  </div>
+  
+</div>
+
+
+<% if RAILS_ENV=='production' %>
+    
+<% end %>
+</body>
+</html>
+
+

@@ -19,13 +19,13 @@ color:#fff;
 
 /* POSITIVE */
 button.positive, .buttons a.positive{
-color:#fff; background:#d1f0b9 url('/static/images/common/gradients.jpg') repeat-x 0px -205px; border:1px solid #bde99c;}
+color:#fff; background:#d1f0b9 url('/images/common/gradients.jpg') repeat-x 0px -205px; border:1px solid #bde99c;}
 .buttons a.positive:hover,
 button.positive:hover,
 .buttons a.positive:active{
-background:orange url('/static/images/common/gradients.jpg') repeat-x 0px -250px; border:1px solid orange; }
+background:orange url('/images/common/gradients.jpg') repeat-x 0px -250px; border:1px solid orange; }
 
 /* NEGATIVE */
-.buttons a.negative, button.negative{background:#333 url('/static/images/common/gradients.jpg') repeat-x 0px -15px; border:1px solid #000; color:#fff;		}
+.buttons a.negative, button.negative{background:#333 url('/images/common/gradients.jpg') repeat-x 0px -15px; border:1px solid #000; color:#fff;		}
 .buttons a.negative:hover, button.negative:hover{background-attachment:fixed; background:#d52020 url(../images/gradients.jpg) repeat-x 0px -465px; border:1px solid #cc0000; color:#fff;}
 .buttons a.negative:active{background-color:#d12f19; border:1px solid #d12f19; color:#fff;}

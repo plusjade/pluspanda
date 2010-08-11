@@ -17,7 +17,7 @@ ul#sortable{
 }
 div.cat-handle{float:left;width:60px;height:50px; cursor:move;}
 .cat-sort{
-background:#FFFBCC url('/static/images/admin/move.png') no-repeat 10px center;
+background:#FFFBCC url('/images/admin/move.png') no-repeat 10px center;
 border: 1px solid #FFF35E;
 color: #C69E00; 
 }
@@ -25,7 +25,7 @@ color: #C69E00;
  border: 1px solid #97FF88;
  color: #009900;
  padding-left:60px; 
- background:#D5FFCF url('/static/images/admin/accept.png') no-repeat 10px center;
+ background:#D5FFCF url('/images/admin/accept.png') no-repeat 10px center;
 
 }
 
@@ -40,11 +40,11 @@ color: #C69E00;
 .cat-item .cat-delete{}
 
 button.save-cat{
-  background:transparent url('/static/images/admin/accept.png') no-repeat 50% 50%;
+  background:transparent url('/images/admin/accept.png') no-repeat 50% 50%;
   width:30px;
 }
 a.del-cat{
-  background:transparent url('/static/images/admin/delete.png') no-repeat 50% 50%;
+  background:transparent url('/images/admin/delete.png') no-repeat 50% 50%;
   width:30px;
 }
 
@@ -55,7 +55,7 @@ a.del-cat{
 .help-page-inner h4{
 padding-left:25px;
 margin:15px 0;
-background: url('/static/images/marketing/check.gif') no-repeat 0 50%;
+background: url('/images/marketing/check.gif') no-repeat 0 50%;
 color:#555
 }
 .help-page-inner .indent{margin-left:25px; color:#555;line-height:1.5em;}
@@ -107,7 +107,7 @@ table.t-data thead tr th, table.t-data tfoot tr th {
   padding: 4px;
 }
 table.t-data thead tr .header {
-  background-image: url('/static/images/admin/bg.gif');
+  background-image: url('/images/admin/bg.gif');
   background-repeat: no-repeat;
   background-position: center right;
   cursor: pointer;
@@ -120,10 +120,10 @@ table.t-data tbody tr.odd td {
   background-color:#F0F0F6;
 }
 table.t-data thead tr .headerSortUp {
-  background-image: url('/static/images/admin/asc.gif');
+  background-image: url('/images/admin/asc.gif');
 }
 table.t-data thead tr .headerSortDown {
-  background-image: url('/static/images/admin/desc.gif');
+  background-image: url('/images/admin/desc.gif');
 }
 table.t-data thead tr .headerSortDown, table.t-data thead tr .headerSortUp {
 background-color: #555;

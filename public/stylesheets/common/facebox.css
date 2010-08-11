@@ -1,27 +1,27 @@
 #facebox .b {
-  background:url('/static/images/fb/b.png');
+  background:url('/images/fb/b.png');
 }
 
 #facebox .tl {
-  background:url('/static/images/fb/fbx-border-sprite.png') 0 0;
+  background:url('/images/fb/fbx-border-sprite.png') 0 0;
   width: 10px; 
   height: 10px;
 }
 
 #facebox .tr {
-  background:url('/static/images/fb/fbx-border-sprite.png') -10px 0;
+  background:url('/images/fb/fbx-border-sprite.png') -10px 0;
   width: 10px; 
   height: 10px;
 }
 
 #facebox .bl {
-  background:url('/static/images/fb/fbx-border-sprite.png') -20px 0;
+  background:url('/images/fb/fbx-border-sprite.png') -20px 0;
   width: 10px; 
   height: 10px;
 }
 
 #facebox .br {
-  background:url('/static/images/fb/fbx-border-sprite.png') -30px 0;
+  background:url('/images/fb/fbx-border-sprite.png') -30px 0;
   width: 10px; 
   height: 10px;
 }
