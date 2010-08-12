@@ -49,25 +49,15 @@ class TestimonialsController < ApplicationController
     @shop = current_user.shop
     @artist = @shop.artists.build(params[:artist])    
     if @artist.save
-      render :json =>
-      {
-        'status'  => 'good',
-        'msg'     => 'Artist created!',
-        'created' => { 'resource' => 'artists', 'id' => @artist.id }
-      }
+      created = { 'resource' => 'artists', 'id' => @artist.id }
+      serve_json_response('good','Artist created!', created)
     elsif !@artist.valid?
-      render :json => 
-      {
-        'status' => 'bad',
-        'msg'    => "Oops! Please make sure all fields are valid!"
-      }
+      serve_json_response('bad', 'Oops! Please make sure all fields are valid!')
     else
-      render :json => 
-      {
-        'status' => 'bad',
-        'msg'    => "Oops! Please try again!"
-      }
+      serve_json_response
     end
+    
+    return
   end
 
 
@@ -89,24 +79,14 @@ class TestimonialsController < ApplicationController
       :conditions => { :shop_id => current_user.shop.id }
     )
     if @artist.update_attributes(params[:artist])
-      render :json => 
-      {
-        'status' => 'good',
-        'msg'    => "Artist Updated!"
-      }
+      serve_json_response('good', 'Artist Updated!')
     elsif !@artist.valid?
-      render :json => 
-      {
-        'status' => 'bad',
-        'msg'    => "Oops! Please make sure all fields are valid!"
-      }
+      serve_json_response('bad', 'Oops! Please make sure all fields are valid!')
     else
-      render :json => 
-      {
-        'status' => 'bad',
-        'msg'    => "Oops! Please try again!"
-      }
+      serve_json_response
     end
+    
+    return
   end
 
   
@@ -116,19 +96,12 @@ class TestimonialsController < ApplicationController
       :conditions => { :shop_id => current_user.shop.id }
     )
     if @artist.destroy
-      render :json =>
-      {
-        "status" => 'good',
-        'msg'    => 'Artist deleted!'
-      }
+      serve_json_response('good', 'Artist deleted!')
     else
-      render :json =>
-      {
-        "status" => 'bad',
-        'msg'    => 'Problem deleting the artist.'
-      }    
+      serve_json_response('bad', 'Problem deleting the artist.')  
     end
     
+    return
   end
 
   # serve the javascript build environment

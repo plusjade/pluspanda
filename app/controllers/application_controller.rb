@@ -52,5 +52,15 @@ class ApplicationController < ActionController::Base
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
     end
+
+    def serve_json_response(status=false, message=false, created=false)
+        status  ||= 'bad'
+        message ||= 'Oops! Please try again!'
+        
+        response = {'status' => status, 'msg' => message }
+        response['created'] = created if created
+        
+        render :json => response
+    end
     
 end

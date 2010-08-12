@@ -25,8 +25,7 @@ class UsersController < ApplicationController
     @user = @current_user
     render :template => 
       'users/show',
-      :layout => false,
-      :locals => {:user => @user} if request.xhr?
+      :layout => false if request.xhr?
   end
 
 
@@ -34,32 +33,20 @@ class UsersController < ApplicationController
     @user = @current_user
     render :template => 
       'users/edit',
-      :layout => false,
-      :locals => {:user => @user} if request.xhr?
+      :layout => false if request.xhr?
   end
   
   
   def update
     @user = @current_user
     if @user.update_attributes(params[:user])
-      render :json => 
-      {
-        'status' => 'good',
-        'msg'    => "Account Updated!"
-      }
+      serve_json_response('good','Account Updated!')
     elsif !@user.valid?
-      render :json => 
-      {
-        'status' => 'bad',
-        'msg'    => "Oops! Please make sure all fields are valid!"
-      }
+      serve_json_response('bad','Oops! Please make sure all fields are valid!')
     else
-      render :json => 
-      {
-        'status' => 'bad',
-        'msg'    => "Oops! Please try again!"
-      }
+      serve_json_response
     end
+    return
   end
   
   
