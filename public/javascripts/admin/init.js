@@ -32,6 +32,7 @@ $(function(){
         $('#main-wrapper').html(data);
         $('ul.grandchild_nav li a:first').click();
         $(document).trigger('ajaxify.form');
+        $(document).trigger('page.' + $(e.target).attr('rel'));
         window.location.hash = $(e.target).attr('rel');
       });
       return false;
@@ -224,8 +225,23 @@ $(function(){
     '.round-box-top a.close, .panda-image a.close' : function(e){
       $(e.target).parent().parent().hide();
       return false;
+    },
+    
+  // save the sort for testimonials  
+    '#manage-buttons button' : function(e){
+      alert('works but offline');
+      return false;
+      var order = $("table.t-data").sortable("serialize");
+      if(!order){alert("No items to sort");return false;}
+      $(document).trigger('submitting');
+      $.get('/admin/positions', order, function(rsp){
+        $(document).trigger('responding', rsp);
+      });    
+      return false;
     }
+      
   }));
+
 
  /*
   // css handling
@@ -252,6 +268,25 @@ $(function(){
    #### bindings 
   -------------------------------------------
 */
+ // manage tab
+  $(document).bind('page.manage', function(){
+    $("table.t-data").tablesorter({
+      headers:{
+        0:{sorter:false},
+        1:{sorter:false},
+        9:{sorter:false},
+        10:{sorter:false},
+        11:{sorter:false}
+      }
+    }); 
+    $('table.t-data').sortable({
+      items:'tr',
+      handle:'td.move',
+      axis: 'y',
+      helper: 'clone'
+    });  
+  });
+  
  // ajaxify the forms
   $(document).bind('ajaxify.form', function(){
     $('form').ajaxForm({

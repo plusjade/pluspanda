@@ -33,7 +33,6 @@
           </tr>
         </thead>
         <tbody id="t-data">
-         <!-- might need to pass the apikey -->
          <% for testimonial in @testimonials %>
           <%= render testimonial %>
          <% end %>
@@ -97,33 +96,4 @@
   </div>
 
 </div>
-
-
-<script type="text/javascript">
-  $("table.t-data").tablesorter({
-    headers:{
-      0:{sorter:false},
-      1:{sorter:false},
-      9:{sorter:false},
-      10:{sorter:false},
-      11:{sorter:false}
-    }
-  }); 
-  $('table.t-data').sortable({
-    items:'tr',
-    handle:'td.move',
-    axis: 'y',
-    helper: 'clone'
-  });
-  
-  $('#manage-buttons button').click(function(){
-      var order = $("table.t-data").sortable("serialize");
-      if(!order){alert("No items to sort");return false;}
-      $(document).trigger('submit.server');
-      $.get('/admin/testimonials/manage/positions', order, function(rsp){
-        $(document).trigger('rsp.server', rsp);
-      });    
-      return false;
-  });
-</script>
 
