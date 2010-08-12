@@ -5,9 +5,10 @@
   <title>PlusPanda Admin Panel</title>
 
   <style type="text/css">img, div { behavior: url(iepngfix.htc) }</style> 
-  <%= stylesheet_link_tag "common/reset","common/buttons",'admin/global','admin/pages','testimonials/edit','common/facebox','common/jcrop' %>
-  <%= javascript_include_tag 'common/jquery', 'common/jquery.ui', 'common/addon',  'common/json/json2', 'common/facebox.js', 'common/jquery.tablesorter.min' %>
-  <% javascript_include_tag 'common/jcrop', 'testimonials/binds' %>
+  <%= stylesheet_link_tag "shared/reset", "shared/buttons", 'shared/facebox', 'shared/jcrop', 'testimonials/edit', 'admin/global', 'admin/pages' %>
+  
+  <%= javascript_include_tag 'shared/jquery', 'shared/jquery.ui', 'facebox/facebox', 'shared/addon', 'shared/jquery.tablesorter.min' %>
+    <% javascript_include_tag 'shared/jcrop', 'testimonials/binds' %>
   
   <%= javascript_include_tag 'admin/init' %>
 </head>

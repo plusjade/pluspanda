@@ -1,77 +1,10 @@
-/*
- * Facebox (for jQuery)
- * version: 1.2 (05/05/2008)
- * @requires jQuery v1.2 or later
- *
- * Examples at http://famspam.com/facebox/
- *
- * Licensed under the MIT:
- *   http://www.opensource.org/licenses/mit-license.php
- *
- * Copyright 2007, 2008 Chris Wanstrath [ chris@ozmm.org ]
- *
- * Usage:
- *
- *  jQuery(document).ready(function() {
- *    jQuery('a[rel*=facebox]').facebox()
- *  })
- *
- *  <a href="#terms" rel="facebox">Terms</a>
- *    Loads the #terms div in the box
- *
- *  <a href="terms.html" rel="facebox">Terms</a>
- *    Loads the terms.html page in the box
- *
- *  <a href="terms.png" rel="facebox">Terms</a>
- *    Loads the terms.png image in the box
- *
- *
- *  You can also use it programmatically:
- *
- *    jQuery.facebox('some html')
- *    jQuery.facebox('some html', 'my-groovy-style')
- *
- *  The above will open a facebox with "some html" as the content.
- *
- *    jQuery.facebox(function($) {
- *      $.get('blah.html', function(data) { $.facebox(data) })
- *    })
- *
- *  The above will show a loading screen before the passed function is called,
- *  allowing for a better ajaxy experience.
- *
- *  The facebox function can also display an ajax page, an image, or the contents of a div:
- *
- *    jQuery.facebox({ ajax: 'remote.html' })
- *    jQuery.facebox({ ajax: 'remote.html' }, 'my-groovy-style')
- *    jQuery.facebox({ image: 'stairs.jpg' })
- *    jQuery.facebox({ image: 'stairs.jpg' }, 'my-groovy-style')
- *    jQuery.facebox({ div: '#box' })
- *    jQuery.facebox({ div: '#box' }, 'my-groovy-style')
- *
- *  Want to close the facebox?  Trigger the 'close.facebox' document event:
- *
- *    jQuery(document).trigger('close.facebox')
- *
- *  Facebox also has a bunch of other hooks:
- *
- *    loading.facebox
- *    beforeReveal.facebox
- *    reveal.facebox (aliased as 'afterReveal.facebox')
- *    init.facebox
- *
- *  Simply bind a function to any of these hooks:
- *
- *   $(document).bind('reveal.facebox', function() { ...stuff to do after the facebox and contents are revealed... })
- *
- */
 (function($) {
   $.facebox = function(data, klass) {
     $.facebox.loading()
 
-    if (data.ajax) fillFaceboxFromAjax(data.ajax, klass)
-    else if (data.image) fillFaceboxFromImage(data.image, klass)
-    else if (data.div) fillFaceboxFromHref(data.div, klass)
+    if (data.ajax) fillFaceboxFromAjax(data.ajax)
+    else if (data.image) fillFaceboxFromImage(data.image)
+    else if (data.div) fillFaceboxFromHref(data.div)
     else if ($.isFunction(data)) data.call($)
     else $.facebox.reveal(data, klass)
   }
@@ -80,12 +13,14 @@
    * Public, $.facebox methods
    */
 
+   var pathname = window.location.pathname;
+   
   $.extend($.facebox, {
     settings: {
-      opacity      : 0,
+      opacity      : 0.7,
       overlay      : true,
-      loadingImage : '/static/images/fb/loading.gif',
-      closeImage   : '/static/images/fb/closelabel.gif',
+      loadingImage : '/images/facebox/loading.gif',
+      closeImage   : '/images/facebox/closelabel.gif',
       imageTypes   : [ 'png', 'jpg', 'jpeg', 'gif' ],
       faceboxHtml  : '\
     <div id="facebox" style="display:none;"> \
@@ -98,12 +33,13 @@
             <tr> \
               <td class="b"/> \
               <td class="body"> \
-                <div class="content"> \
-                </div> \
                 <div class="footer"> \
+				  <a href="'+pathname+'" style="float:left"><img src="/images/save.png" alt=""></a> \
                   <a href="#" class="close"> \
-                    <img src="/static/images/fb/closelabel.gif" title="close" class="close_image" /> \
+                    <img src="/facebox/closelabel.gif" title="close" class="close_image" /> \
                   </a> \
+                </div> \
+                <div class="content"> \
                 </div> \
               </td> \
               <td class="b"/> \
@@ -128,7 +64,8 @@
 
       $('#facebox').css({
         top:	getPageScroll()[1] + (getPageHeight() / 10),
-        left:	$(window).width() / 2 - 205
+		left: 300
+
       }).show()
 
       $(document).bind('keydown.facebox', function(e) {
@@ -145,8 +82,13 @@
       $('#facebox .loading').remove()
       $('#facebox .body').children().fadeIn('normal')
       $('#facebox').css('left', $(window).width() / 2 - ($('#facebox table').width() / 2))
-      $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
-    },
+	  $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
+    
+	  $(window).resize(function(){
+		$("#facebox").css("left", getPageWidth() / 2 - ($("#facebox table").width() / 2));
+	  });	
+	
+	},
 
     close: function() {
       $(document).trigger('close.facebox')
@@ -159,8 +101,6 @@
    */
 
   $.fn.facebox = function(settings) {
-    if ($(this).length == 0) return
-
     init(settings)
 
     function clickHandler() {
@@ -175,7 +115,7 @@
       return false
     }
 
-    return this.bind('click.facebox', clickHandler)
+    return this.click(clickHandler)
   }
 
   /*
@@ -191,7 +131,7 @@
     makeCompatible()
 
     var imageTypes = $.facebox.settings.imageTypes.join('|')
-    $.facebox.settings.imageTypesRegexp = new RegExp('\.(' + imageTypes + ')$', 'i')
+    $.facebox.settings.imageTypesRegexp = new RegExp('\.' + imageTypes + '$', 'i')
 
     if (settings) $.extend($.facebox.settings, settings)
     $('body').append($.facebox.settings.faceboxHtml)
@@ -200,7 +140,7 @@
     preload[0].src = $.facebox.settings.closeImage
     preload[1].src = $.facebox.settings.loadingImage
 
-    $('#facebox').find('.b:first, .bl').each(function() {
+    $('#facebox').find('.b:first, .bl, .br, .tl, .tr').each(function() {
       preload.push(new Image())
       preload.slice(-1).src = $(this).css('background-image').replace(/url\((.+)\)/, '$1')
     })
@@ -208,7 +148,7 @@
     $('#facebox .close').click($.facebox.close)
     $('#facebox .close_image').attr('src', $.facebox.settings.closeImage)
   }
-
+  
   // getPageScroll() by quirksmode.com
   function getPageScroll() {
     var xScroll, yScroll;
@@ -220,9 +160,9 @@
       xScroll = document.documentElement.scrollLeft;
     } else if (document.body) {// all other Explorers
       yScroll = document.body.scrollTop;
-      xScroll = document.body.scrollLeft;
+      xScroll = document.body.scrollLeft;	
     }
-    return new Array(xScroll,yScroll)
+    return new Array(xScroll,yScroll) 
   }
 
   // Adapted from getPageSize() by quirksmode.com
@@ -234,7 +174,7 @@
       windowHeight = document.documentElement.clientHeight;
     } else if (document.body) { // other Explorers
       windowHeight = document.body.clientHeight;
-    }
+    }	
     return windowHeight
   }
 
@@ -258,15 +198,14 @@
     if (href.match(/#/)) {
       var url    = window.location.href.split('#')[0]
       var target = href.replace(url,'')
-      if (target == '#') return
-      $.facebox.reveal($(target).html(), klass)
-
-		/*
+      $.facebox.reveal($(target).clone().show(), klass)	
+	  //find_them(); //append clone to classes
+      // $.facebox.reveal($(target).show(), klass) 
+		  
     // image
     } else if (href.match($.facebox.settings.imageTypesRegexp)) {
       fillFaceboxFromImage(href, klass)
-    */
-		// ajax
+    // ajax
     } else {
       fillFaceboxFromAjax(href, klass)
     }
@@ -285,13 +224,13 @@
   }
 
   function skipOverlay() {
-    return $.facebox.settings.overlay == false || $.facebox.settings.opacity === null
+    return $.facebox.settings.overlay == false || $.facebox.settings.opacity === null 
   }
 
   function showOverlay() {
     if (skipOverlay()) return
 
-    if ($('#facebox_overlay').length == 0)
+    if ($('facebox_overlay').length == 0) 
       $("body").append('<div id="facebox_overlay" class="facebox_hide"></div>')
 
     $('#facebox_overlay').hide().addClass("facebox_overlayBG")
@@ -306,12 +245,34 @@
 
     $('#facebox_overlay').fadeOut(200, function(){
       $("#facebox_overlay").removeClass("facebox_overlayBG")
-      $("#facebox_overlay").addClass("facebox_hide")
+      $("#facebox_overlay").addClass("facebox_hide") 
       $("#facebox_overlay").remove()
     })
-
+    
     return false
   }
+
+
+// http://groups.google.com/group/facebox/browse_thread/thread/d88f32f36b19b24a/290688b405cd077d?lnk=gst&q=re+center#
+// search google groups for "auto center"
+ 
+function getPageWidth()
+{
+	var windowWidth;
+	if( typeof( window.innerWidth ) == 'number' ) 
+	{
+	windowWidth = window.innerWidth; //Non-IE
+	} 
+	else if( document.documentElement &&( document.documentElement.clientWidth ) )
+	{
+	windowWidth = document.documentElement.clientWidth; //IE 6+ in 'standards compliant mode'
+	} 
+	else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) )
+	{
+	windowWidth = document.body.clientWidth; //IE 4 compatible
+	}
+	return windowWidth
+} 
 
   /*
    * Bindings

@@ -429,5 +429,13 @@ div.responding.active.warn {
 }
 
 
+/* form status stuff */
+div.jade_form_status_box { font-weight: bold; color: #000; font-size: 1.2em; margin: 10px; padding: 10px; text-align: center; -moz-border-radius:7px;-webkit-border-radius:7px;}
+div.jade_form_status_box.box_positive { background: green; border: 1px solid green; color:#fff; }
+div.jade_form_status_box.box_negative { background: #fad6d6; border: 1px solid #cc0000; }
+div.ajax_loading { width: 100%; height: 90px; background: transparent url('/images/common/load.gif') no-repeat 50% 50%; text-align: center; }
+fieldset span.jade_required_star{color:red;}
+fieldset.jade_error {padding:10px !important; background: #fad6d6 !important; -moz-border-radius:7px;-webkit-border-radius:7px;}
+fieldset span.error_msg { display: block; color: red; }
 
 
