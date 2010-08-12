@@ -129,6 +129,10 @@ table.t-data thead tr .headerSortDown, table.t-data thead tr .headerSortUp {
 background-color: #555;
 }
 
+td.move img {
+  width:18px;height:18px;margin-top:2px;
+  cursor:move;
+}
 
 /* display settings page */
 form.theme-css-wrapper{margin:10px 0; }
