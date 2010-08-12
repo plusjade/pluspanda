@@ -229,12 +229,10 @@ $(function(){
     
   // save the sort for testimonials  
     '#manage-buttons button' : function(e){
-      alert('works but offline');
-      return false;
       var order = $("table.t-data").sortable("serialize");
       if(!order){alert("No items to sort");return false;}
       $(document).trigger('submitting');
-      $.get('/admin/positions', order, function(rsp){
+      $.get('/admin/save_positions', order, function(rsp){
         $(document).trigger('responding', rsp);
       });    
       return false;

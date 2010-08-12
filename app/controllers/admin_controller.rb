@@ -9,7 +9,7 @@ class AdminController < ApplicationController
   
   
   def manage
-    @testimonials = Testimonial.where({ :user_id => current_user.id })
+    @testimonials = Testimonial.where({ :user_id => current_user.id }).order("position ASC")
   end
   
   
@@ -52,6 +52,22 @@ class AdminController < ApplicationController
     return  
   end
     
+  
+  def save_positions
+    serve_json_response and return if params['tstml'].nil? or !params['tstml'].is_a?(Array) 
+    
+    params['tstml'].each_with_index do |id, position|
+      testimonial = Testimonial.find(
+        id, 
+        :conditions => { :user_id => current_user.id }
+      )
+      testimonial.position = position
+      testimonial.save
+    end
+    serve_json_response('good', 'Positions Saved!')
+    return    
+  end
+  
     
   private 
   
