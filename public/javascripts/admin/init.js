@@ -1,18 +1,8 @@
-
 $(function(){
   var loading = '<div class="loading">Loading...</div>';
-  // TODO: refactor this.
-  $('li.fb-help a').click(function(){
-    $.facebox({ div: this.href });
-    return false;
-  });
-  $('a.fb-div').live('click',function(){
-    $.facebox({ div: $(this).attr('rel') });
-    $('div.share-data input').val(this.href);
-    return false;
-  });
-        
-/* delegations
+
+/*
+ * delegations
  */
   $('body').click($.delegate({
    // delegate facebox links
@@ -22,8 +12,13 @@ $(function(){
       })
       return false;
     },
-      
-  // main panel links
+   // facebox share panel 
+    'a.fb-div' : function(e){
+      $.facebox({ div: $(e.target).attr('rel') });
+      $('div.share-data input').val(e.target.href);
+      return false;
+    },
+   // main panel links
     '#parent_nav li a' : function(e){
       $('#main-wrapper').html(loading);
       $('#parent_nav li a').removeClass('active');
@@ -38,8 +33,7 @@ $(function(){
       });
       return false;
     },
- 
-  // main tabs
+   // main tabs
     'ul.grandchild_nav li a' : function(e){
       $('div.tab-content').hide();
       $('ul.grandchild_nav li a').removeClass('active');
@@ -53,7 +47,17 @@ $(function(){
       */
       return false;
     },
-   
+
+   // save testimonial positions 
+    '#manage-buttons button' : function(e){
+      var order = $("table.t-data").sortable("serialize");
+      if(!order){alert("No items to sort");return false;}
+      $(document).trigger('submitting');
+      $.get('/admin/save_positions', order, function(rsp){
+        $(document).trigger('responding', rsp);
+      });    
+      return false;
+    },
    // delete a resource
     'a.delete' :function(e) {
       $.ajax({
@@ -72,74 +76,9 @@ $(function(){
       return false;     
     },
 
-        
-  // add a category.
-    'form#add-cat button' :function(e){
-      $('form#add-cat').ajaxSubmit({
-        dataType: 'json',
-        beforeSubmit: function(fields, form){
-          if(! $("input, textarea", form[0]).jade_validate()) return false;
-          $('button', form).attr('disabled', 'disabled').html('Submitting...');
-          $(document).trigger('submitting');
-        },
-        success: function(rsp) {
-          $(document).trigger('rsp.server', rsp);
-          $('form#add-cat button').removeAttr('disabled').html('Add Category');
-          $('form#add-cat').clearFields();
-          $('#primary_content').load('/admin/testimonials/tags', function(){
-              $('ul#sortable li:last').effect("highlight", {}, 5000);
-          });
-        }
-      });
-      return false;
-    },
-    
-  // save category edits.
-    '.cat-save button' : function(e){
-      var $form = $(e.target).parent('div').parent('form');
-      $form.ajaxSubmit({
-        dataType : 'json',
-        beforeSubmit : function(fields, form){
-          if(!$("input", form[0]).jade_validate()) return false;
-          $(document).trigger('submitting');
-        },
-        success : function(rsp){
-          $(document).trigger('rsp.server', rsp);
-          $form.parent('li').hide().fadeIn(600);
-        }
-      });
-      return false;
-    },
-    
-  // delete a category.
-    '.cat-delete a' : function(e){
-      if(confirm('This cannot be undone!! Delete this category?')){
-        $(document).trigger('submitting');
-        $.get(e.target.href, function(rsp){
-          $(document).trigger('rsp.server', rsp);
-          $(e.target).parent('div').parent('form').parent('li').remove();
-        });
-      }
-      return false;
-    },
-
-  // save categories/tags sort order.
-    '#save_order' : function(e){
-      var order = $("#sortable").sortable("serialize");
-      if(!order){alert("No items to sort");return false;}
-      var url = $(e.target).attr('rel');
-      $(document).trigger('submitting');
-      $.get(url, order, function(rsp){
-        $(document).trigger('rsp.server', rsp);
-      });    
-      return false;
-    },
-
-  // load the edit view into the bottom container
-    '.admin-new-testimonials-list table td.edit a, li.create a' : function(e){  
-      $('.edit-window').html('<div class="ajax-loading">Loading...</div>');
+  // TODO: save an image with javascript
+    'blah blah' : function(e){  
       $.get(e.target.href, function(data){
-        $('.edit-window').hide().html(data).slideDown('slow');
 
         // upload the image given in the file input.
         $('.panda-image input').change(function(){
@@ -173,68 +112,60 @@ $(function(){
               }
               $(document).trigger('rsp.server', rsp);
             }
-          });
-        });
-        // override the normal submit event
-        $('#save-testimonial').submit(function(){
-          $('#save-testimonial button').click();
-          return false;
-        });
+          })
+        })
       });
       return false;
     },
-  // save the edit testimonial
-    '#save-testimonial button' : function(e){
-      //var url = $('#save-testimonial').attr('action');
-      var id = $('#save-testimonial').attr('rel');
-      $('#save-testimonial').ajaxSubmit({
-        dataType : 'json',
-        url : '/admin/testimonials/manage/save?id=' + id,
+    
+/* TODO: refactor category stuff
+ */            
+   // add a category.
+    'form#add-cat button' :function(e){
+      $('form#add-cat').ajaxSubmit({
+        dataType: 'json',
         beforeSubmit: function(fields, form){
+          if(! $("input, textarea", form[0]).jade_validate()) return false;
+          $('button', form).attr('disabled', 'disabled').html('Submitting...');
           $(document).trigger('submitting');
-          // json response acts up when we send a file =/
-          $('.panda-image input').attr('disabled','disabled');
         },
-        success: function(rsp){
+        success: function(rsp) {
           $(document).trigger('rsp.server', rsp);
-          $('#save-testimonial').attr('rel', rsp.id);
-          if('success' == rsp.status){
-            if(rsp.exists) $("tr#tstml_" + rsp.id).replaceWith(rsp.rowHtml);
-            else $("table.t-data tr:first").after(rsp.rowHtml);
-            $("tr#tstml_" + rsp.id).effect("highlight", {}, 3000);
-            $('abbr.timeago').timeago();
-          }
-          $('.panda-image input').removeAttr('disabled');
+          $('form#add-cat button').removeAttr('disabled').html('Add Category');
+          $('form#add-cat').clearFields();
+          $('#primary_content').load('/admin/testimonials/tags', function(){
+              $('ul#sortable li:last').effect("highlight", {}, 5000);
+          });
         }
       });
       return false;
     },
-
-  // delete a testimonial
-    '.t-data td.delete a' : function(e){
-      if(confirm('This cannot be undone! Delete testimonial?')){
-        $(document).trigger('submitting');
-        $.get(e.target.href, function(rsp){
+    
+   // save category edits.
+    '.cat-save button' : function(e){
+      var $form = $(e.target).parent('div').parent('form');
+      $form.ajaxSubmit({
+        dataType : 'json',
+        beforeSubmit : function(fields, form){
+          if(!$("input", form[0]).jade_validate()) return false;
+          $(document).trigger('submitting');
+        },
+        success : function(rsp){
           $(document).trigger('rsp.server', rsp);
-          $(e.target).parent('td').parent('tr').remove();
-        });
-      }
-      return false;
-    },
-
-  // hide the round boxes
-    '.round-box-top a.close, .panda-image a.close' : function(e){
-      $(e.target).parent().parent().hide();
+          $form.parent('li').hide().fadeIn(600);
+        }
+      });
       return false;
     },
     
-  // save the sort for testimonials  
-    '#manage-buttons button' : function(e){
-      var order = $("table.t-data").sortable("serialize");
+   // save categories/tags sort order.
+    '#save_order' : function(e){
+      var order = $("#sortable").sortable("serialize");
       if(!order){alert("No items to sort");return false;}
+      var url = $(e.target).attr('rel');
       $(document).trigger('submitting');
-      $.get('/admin/save_positions', order, function(rsp){
-        $(document).trigger('responding', rsp);
+      $.get(url, order, function(rsp){
+        $(document).trigger('rsp.server', rsp);
       });    
       return false;
     }
@@ -346,7 +277,4 @@ $(function(){
      
     
 }); // end
-
-
-
 
