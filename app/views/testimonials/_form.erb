@@ -1,0 +1,119 @@
+
+<%
+rand   = 'random'
+image = ''
+#image  = (empty($testimonial->image))
+#  ? ''
+#  : "<img src=\"$image_url/$testimonial->image?r=rand\"/>";
+%>
+<div class="admin-testimonial-wrapper t-builder-wrapper">
+
+<!-- old if = save-testimonial rel has the testimonial id -->
+<% form_for @testimonial do |f| %>
+
+  <div class="panda-image">
+    <a href="#close" class="close">[X]</a>
+    Upload new headshot or logo <input type="file" name="image" />
+  </div>  
+  <div class="t-view">
+    <div style="margin:auto;width:725px;">
+      <div class="t-details">
+        <a href="/admin/testimonials/manage/crop?image=<?php echo $testimonial->image?>" rel="facebox">Edit Image</a>
+        
+        <div class="image" rel="<?php echo $image_url?>">
+          <?php echo $image?>
+        </div>
+        
+        <span class="label">Full Name</span>
+        <span class="t-name">
+          <%= f.text_field :name %>
+        </span>
+        
+        <span class="label">Position at Company</span>
+        <span class="t-position">
+          <%= f.text_field :c_position %>
+        </span>
+        
+        <span class="label">Company</span>
+        <span class="t-company">
+          <%= f.text_field :company %>
+        </span>
+        
+        <span class="label">Location</span>
+        <span class="t-location">
+          <%= f.text_field :location %>
+        </span>
+        
+        <span class="label">Website</span>
+        <span class="t-url">
+        http://<%= f.text_field :url %>
+        </span>
+      </div>
+      
+      <div class="t-content">
+        
+        <span style="display:none">
+          <%= f.hidden_field :rating %>
+          <!--
+          <?php echo common_build::rating_select_nice($testimonial->rating)?>
+          -->
+        </span>        
+        <div class="rating-fallback">
+          Select a rating 
+          <!--
+          <?php echo common_build::rating_select_dropdown($testimonial->rating);?>
+          -->
+        </div>
+
+        <div class="t-body">
+          <%= f.text_area :body %>
+        </div>
+        
+        <div class="t-date">
+          <%= @testimonial.created_at %>
+          <!--<?php echo common_build::timeago($testimonial->created)?>-->
+        </div>
+      
+        <div class="t-tag">
+          (tag list)
+        </div>
+        
+        <div class="admin-extra">
+          Lock Testimonial? 
+          <%= f.check_box :lock %>
+          <%= f.label(:lock, "(yes)") %>          
+          <div class="t-publish">
+            Publish? 
+            <%= f.check_box :publish %>
+            <%= f.label(:publish, "(yes)") %>              
+          </div>
+        </div>
+      </div>
+
+      <div class="round-box-tabs buttons" style="clear:both">
+        <button class="submit-button positive" type="submit">Save Changes</button>
+      </div>
+    
+    </div>
+  </div>
+
+<% end %>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).trigger('tstml.edit');
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+

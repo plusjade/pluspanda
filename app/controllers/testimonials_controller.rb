@@ -1,6 +1,6 @@
 class TestimonialsController < ApplicationController
 
-  #before_filter :require_user
+  before_filter :require_user, :except => [:index, :widget]
   before_filter :setup
   
 
@@ -30,57 +30,57 @@ class TestimonialsController < ApplicationController
 
   def show
     @testimonial = Testimonial.find(params[:id])
+    render :template => 
+      'testimonials/show',
+      :layout => false if request.xhr?    
   end
 
 
   # GET
   def new
     @testimonial = Testimonial.new
-    @testimonial.user_id = @user.id
+    @testimonial.user_id = current_user.id
     render :template => 
-      'artists/new',
-      :layout => false,
-      :locals => {:testimonial => @testimonial} if request.xhr?
+      'testimonials/new',
+      :layout => false if request.xhr?
   end
 
 
   #POST
   def create
-    @shop = current_user.shop
-    @artist = @shop.artists.build(params[:artist])    
-    if @artist.save
-      created = { 'resource' => 'artists', 'id' => @artist.id }
-      serve_json_response('good','Artist created!', created)
-    elsif !@artist.valid?
+    @testimonial = Testimonial.new(params[:testimonial])
+    @testimonial.user_id = current_user.id    
+    if @testimonial.save
+      @testimonial.freeze
+      serve_json_response('good','Testimonial created!', @testimonial)
+    elsif !@testimonial.valid?
       serve_json_response('bad', 'Oops! Please make sure all fields are valid!')
     else
       serve_json_response
     end
-    
     return
   end
 
 
   def edit
-    @artist = Artist.find(
+    @testimonial = Testimonial.find(
       params[:id], 
-      :conditions => { :shop_id => current_user.shop.id }
+      :conditions => { :user_id => current_user.id }
     )
     render :template =>
-      'artists/edit',
-      :layout => false,
-      :locals => {:artist => @artist} if request.xhr?
+      'testimonials/edit',
+      :layout => false if request.xhr?
   end
 
 
   def update
-    @artist = Artist.find(
+    @testimonial = Testimonial.find(
       params[:id], 
-      :conditions => { :shop_id => current_user.shop.id }
+      :conditions => { :user_id => current_user.id }
     )
-    if @artist.update_attributes(params[:artist])
-      serve_json_response('good', 'Artist Updated!')
-    elsif !@artist.valid?
+    if @testimonial.update_attributes(params[:testimonial])
+      serve_json_response('good', 'Testimonial Updated!', @testimonial)
+    elsif !@testimonial.valid?
       serve_json_response('bad', 'Oops! Please make sure all fields are valid!')
     else
       serve_json_response
@@ -91,14 +91,14 @@ class TestimonialsController < ApplicationController
 
   
   def destroy
-    @artist = Artist.find(
+    @testimonial = Testimonial.find(
       params[:id], 
-      :conditions => { :shop_id => current_user.shop.id }
+      :conditions => { :user_id => current_user.id }
     )
-    if @artist.destroy
-      serve_json_response('good', 'Artist deleted!')
+    if @testimonial.destroy
+      serve_json_response('good', 'Testimonial deleted!')
     else
-      serve_json_response('bad', 'Problem deleting the artist.')  
+      serve_json_response('bad', 'Problem deleting the testimonial.')  
     end
     
     return

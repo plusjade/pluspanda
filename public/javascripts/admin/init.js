@@ -51,6 +51,25 @@ $(function(){
       */
       return false;
     },
+   
+   // delete a resource
+    'a.delete' :function(e) {
+      $.ajax({
+        type: 'DELETE',
+        dataType:'json',
+        url: e.target.href,
+        beforeSend: function(){
+          if(!confirm('Sure you want to delete?')) return false;
+          $(document).trigger('submitting');
+        },
+        success: function(rsp){
+          $(document).trigger('responding', rsp);
+          $(e.target).parent().parent().remove();
+        }
+      })
+      return false;     
+    },
+
         
   // add a category.
     'form#add-cat button' :function(e){
@@ -243,14 +262,36 @@ $(function(){
         $(document).trigger('submitting');
       },
       success: function(rsp) {
-        if(undefined != rsp.created){
+        if(undefined != rsp.resource){
+          if('created' == rsp.resource.action){
+            $('#facebox form').clearForm();
+            $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
+              $('#t-data').prepend(data);
+            });
+          }
+          else if('updated' == rsp.resource.action){
+            $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
+              $('#tstml_' + rsp.resource.id).replaceWith(data);
+            });        
+          }
         }
         $(document).trigger('responding', rsp);
         $('form button').removeAttr('disabled').addClass('positive');
       }
     });
   });
+
+  // facebox reveal callback  
+  $(document).bind('reveal.facebox', function(){
+    $(document).trigger('ajaxify.form');
+  });
+
+  // facebox close callback
+  $(document).bind('close.facebox', function() {
+    //$('body').removeClass('disable_body').removeAttr('scroll');
+  });
   
+    
  // show server response.
   $(document).bind('responding', function(e, rsp){
     if(typeof rsp === "string"){

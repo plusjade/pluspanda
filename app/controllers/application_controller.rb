@@ -53,13 +53,19 @@ class ApplicationController < ActionController::Base
       session[:return_to] = nil
     end
 
-    def serve_json_response(status=false, message=false, created=false)
+    def serve_json_response(status=false, message=false, resource=false)
         status  ||= 'bad'
         message ||= 'Oops! Please try again!'
-        
         response = {'status' => status, 'msg' => message }
-        response['created'] = created if created
         
+        # hack: newly created resources will be "frozen" as a way to identify them.
+        if resource
+          response['resource'] = {
+            'action' => resource.frozen? ? 'created' : 'updated',
+            'name'   => resource.class.to_s.pluralize.downcase,
+            'id'     => resource.id
+          }
+        end
         render :json => response
     end
     

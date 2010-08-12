@@ -9,7 +9,7 @@ class AdminController < ApplicationController
   
   
   def manage
-  
+    @testimonials = Testimonial.where({ :user_id => current_user.id })
   end
   
   
