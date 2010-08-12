@@ -53,21 +53,20 @@
 
 
   <div id="tab-css" class="tab-content">
-    <form id="theme-css-wrapper" action="/admin/testimonials/display/save_css" method="POST">
+    <%= form_tag('/admin/save_css', :method => "post", :id => 'theme-css-wrapper') do %>
       <div class="round-box-top">
         Customize CSS
       </div>
       <div class="round-box-body">
-        <a href="#" class="update-css">update view</a>
-         -- <a href="#" class="load-stock">load stock</a>
-        <textarea name="css" style="width:99%; height:600px"><?php echo $stylesheet?></textarea>
-        <div class="stock-css" style="display:none"><?php echo $stock?></div>
-      
         <div class="round-box-tabs buttons">
           <button type="submit" class="positive">Save CSS</button>
         </div> 
+          <a href="#" class="update-css">update view</a>
+         -- <a href="#" class="load-stock">load stock</a>  
+        <textarea name="css" style="width:99%; height:600px"><%= @css_file %></textarea>
+        <div class="stock-css" style="display:none"><?php echo $stock?></div>
       </div>
-    </form>
+    <% end %>
   </div>
 
 

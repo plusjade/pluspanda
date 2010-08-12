@@ -4,7 +4,7 @@ class AdminController < ApplicationController
   before_filter :require_user, :setup_user
   
   def index
-  
+    @css_file = get_css_file
   end
   
   def manage
@@ -19,7 +19,7 @@ class AdminController < ApplicationController
   
   end 
  
- 
+  # post to save tconfig settings
   def settings
     render :text => 'bad' and return unless request.put?
     
@@ -43,7 +43,23 @@ class AdminController < ApplicationController
       }
     end
   end
-  
+
+  # post to save css file of current theme
+  def save_css
+    render :text => 'bad' and return unless request.post?
+
+    path = File.join(@user.data_path, 'css', "#{@user.tconfig.theme}.css")
+    f = File.new(path, "w+")
+    f.write(params['css'])
+    f.rewind
+        
+    render :json => {
+      'status' => 'good',
+      'msg'    => "CSS Updated!"
+    }
+
+  end
+    
     
   private 
   
@@ -51,4 +67,12 @@ class AdminController < ApplicationController
     @user = current_user
   end
   
+  def get_css_file
+    path = File.join(@user.data_path, 'css', "#{@user.tconfig.theme}.css")
+    f = File.open(path) 
+    return f.read
+  end  
+
+
+    
 end
