@@ -8,7 +8,7 @@
   <li class="settings"><a href="#settings" rel="tab-settings">Widget Settings</a></li> 
   <li class="show-css css"><a href="#css" rel="tab-css">Widget CSS</a></li> 
   <li class="tags"><a href="/admin/tags" rel="tab-tags">Set Categories</a></li> 
-  <li class="fb-help help"><a href="#help-page" rel="tab-help">(help)</a></li> 
+  <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
 <div class="primary-content">
@@ -60,7 +60,7 @@
       <div class="round-box-body">
         <div class="round-box-tabs buttons">
           <button type="submit" class="positive">Save CSS</button>
-        </div> 
+        </div>  
           <a href="#" class="update-css">update view</a>
          -- <a href="#" class="load-stock">load stock</a>  
         <textarea name="css" style="width:99%; height:600px"><%= @css_file %></textarea>
@@ -70,8 +70,7 @@
   </div>
 
 
-  <div id="help-page">
-    <div class="help-page-inner">
+  <div id="tab-help" class="tab-content">
       <h3>Main Panel</h3>
       <div class="indent">
         Only testimonials marked "published" will display on your testimonials widget.
@@ -104,7 +103,6 @@
           </li>
         </ul>
       </div>
-    </div>
   </div>
 
 </div>
