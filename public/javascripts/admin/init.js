@@ -34,6 +34,7 @@ $(function(){
         $(document).trigger('ajaxify.form');
         $(document).trigger('page.' + $(e.target).attr('rel'));
         window.location.hash = $(e.target).attr('rel');
+        $('abbr.timeago').timeago();
       });
       return false;
     },
@@ -300,11 +301,13 @@ $(function(){
             $('#facebox form').clearForm();
             $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
               $('#t-data').prepend(data);
+              $('abbr.timeago').timeago();
             });
           }
           else if('updated' == rsp.resource.action){
             $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
               $('#tstml_' + rsp.resource.id).replaceWith(data);
+              $('abbr.timeago').timeago();
             });        
           }
         }

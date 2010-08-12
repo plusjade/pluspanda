@@ -1,18 +1,14 @@
-
 <tr id="tstml_<%= testimonial.id %>" class="<%= testimonial.publish ? '' : 'off' %>">
   <td class="move"><img src="/images/admin/move.png" style="width:18px;height:18px;margin-top:2px;"/></td>
   <td><input type="checkbox" name=""/></td>
   <td><%= testimonial.position %></td>
   <td class="name"><%= testimonial.name %></td>
-  
   <td class="company"><%= testimonial.company %></td>
   <td class="category">(tag name)</td>
   <td><%= testimonial.publish ? 'yes' : 'no' %></td>
-  <td><%= testimonial.updated_at %></td>
-    <!-- common_build::timeago($testimonial->updated)-->
-  <td><%= testimonial.created_at %></td>
+  <td><abbr class="timeago" title="<%= Time.parse("#{testimonial.updated_at}").iso8601 %>"><%= testimonial.updated_at %></abbr></td>
+  <td><abbr class="timeago" title="<%= Time.parse("#{testimonial.created_at}").iso8601 %>"><%= testimonial.created_at %></td>
   <td class="edit"><%= link_to 'edit', edit_testimonial_path(testimonial), :rel => "facebox" %></td>
   <td><a href="<%= "#{root_url}testimonials/save/#{@user.apikey}?ttk=#{testimonial.token}" %>" class="fb-div" rel="#share-window">share</a></td>
   <td class="delete"><%= link_to '[x]', testimonial_path(testimonial), :class => "delete" %></td>
-
 </tr>
