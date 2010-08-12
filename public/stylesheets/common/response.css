@@ -1,32 +1,6 @@
 
 
-#server_response {
-position:fixed; top:0; left:0; 
-min-width:890px; width:100%; 
-z-index:9995; margin:0; padding:0; 
-font-size:12px !important; 
-font-family:verdana !important; 
-text-align:center;
-}
-#server_response div.load,
-#server_response span.rsp{
-display:block;
-margin:auto;
-}
-#server_response span.rsp{width:350px;}
-#server_response div.load{
-width:180px;
-padding:3px 20px;
-background:#09A0FB url('/images/admin/circle.gif') no-repeat 80% 50%;
-color:#fff;
-height:55px;
-text-align:left;
-}
-#server_response div.load strong{
-  display:block;
-  margin-top:20px;
-  font-size:1.2em;
-}
+
   
 /* NOTIFICATIONS */
 .success, .error, .information, .attention{

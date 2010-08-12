@@ -369,18 +369,37 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 
 
 
+
+
+
 /* ajax responses
  ---------------------------------------- */
-.submitting{
-  padding:3px 3px 0 170px;
-  text-align:left;
-  color:#222;
-  background:#ffff99 url('/images/loading.gif') no-repeat 5% 50%;
-}
-.responding{
-  padding:3px 3px 0 3px;
+ #status-bar {
+  position:fixed; top:0; left:0; 
+  min-width:890px; width:100%; 
+  z-index:9995; margin:0; padding:0; 
+  font-size:12px; 
   text-align:center;
 }
+#status-bar div#submitting,
+#status-bar div.responding{
+  margin:auto;
+}
+#status-bar div.responding{width:350px;}
+#status-bar div#submitting{
+  width:180px;
+  padding:3px 20px;
+  background:#09A0FB url('/images/admin/circle.gif') no-repeat 80% 50%;
+  color:#fff;
+  height:55px;
+  text-align:left;
+}
+#status-bar div#submitting strong{
+  display:block;
+  margin-top:20px;
+  font-size:1.2em;
+}
+
 .loading{
   width:200px;
   margin:auto; margin-top:30px;
@@ -390,7 +409,12 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
   background:url('/images/loading.gif') no-repeat top center;
 }
 .loading.white{color:#fff}
-
+div.responding.active{
+  padding:5px;
+  font-size:14px;
+  color:#fff;
+  font-weight:bold;
+}
 div.responding.active.good {
   background:green;
   color:#fff;

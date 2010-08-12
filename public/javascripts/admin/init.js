@@ -291,30 +291,23 @@ $(function(){
     //$('body').removeClass('disable_body').removeAttr('scroll');
   });
   
-    
- // show server response.
+  // show the submit ajax loading graphic.
+  $(document).bind('submitting', function(){
+    $('#status-bar div.responding.active').remove();
+    $('#submitting').show();
+  });
+
+  // show the response (always json)
   $(document).bind('responding', function(e, rsp){
-    if(typeof rsp === "string"){
-      // hacky. All responses should be one object
-      if('{' == rsp.substring(0, 1)) rsp = JSON.parse(rsp);
-      else rsp = {'status':'attention','msg':'Server gave a bad response'};
-    }
-    // validate required responses.
-    if(typeof rsp.status !== "string") rsp.status = 'attention';
-    if(typeof rsp.msg !== "string") rsp.msg = 'Server gave no message';
-
-    $('#server_response .load').hide();
-    $('<div></div>').addClass(rsp.status).html(rsp.msg).appendTo($('#server_response .rsp'));
-    setTimeout('$("#server_response span div").fadeOut(4000)', 1500);
-  });
-
-// show submit icon
-  $(document).bind('submitting', function(e, data){
-    $('#server_response .rsp').empty();
-    $('#server_response div.load').show();
-  });
-  
-  
+    var status = (undefined == rsp.status) ? 'bad' : rsp.status;
+    var msg = (undefined == rsp.msg) ? 'There was a problem!' : rsp.msg;
+    $('#submitting').hide();
+    $('div.responding').hide();
+    $('div.responding.active').remove();
+    $('div.responding').clone().addClass('active ' + status).html(msg).show().insertAfter('div.responding');
+    setTimeout('$("div.responding.active").fadeOut(4000)', 1900);  
+  }); 
+     
     
 }); // end
 
