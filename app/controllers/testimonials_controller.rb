@@ -1,7 +1,7 @@
 class TestimonialsController < ApplicationController
 
   before_filter :require_user, :except => [:index, :widget]
-  before_filter :setup
+  before_filter :setup, :only => [:index, :widget]
   
 
   def index
