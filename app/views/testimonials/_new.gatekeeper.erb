@@ -1,0 +1,47 @@
+
+<div class="message-wrapper">
+  <%= @user.tconfig.message %>
+</div>
+
+<% if flash[:notice] %>
+  <div class="notice"><h1><%= flash[:notice] %></h1></div>
+<% end %>
+
+<div id="public-top">Thank You For Your Time!</div>
+
+<% form_for @testimonial do |f| %>
+  <%= hidden_field_tag(:apikey, params[:apikey]) if params['apikey'] %>
+  
+<% if !@user.tconfig.form["require_key"].empty? %>
+  <fieldset>
+    <label>Access Key <span class="req_star">*</span></label>
+    <%= text_field_tag :access_key, "", :rel => "text_req" %>
+  </fieldset>
+<% end %>
+
+  <fieldset class="panda-name "> 
+	  <label>Full Name <span class="jade_required_star">*</span></label> 
+	  <%= f.text_field :name, :rel => "text_req" %>
+  </fieldset>
+  
+<% if @user.tconfig.form["email"] %> 
+  <fieldset class="panda-email "> 
+	  <label>Email <span class="req_star">*</span></label> 
+	  <%= f.text_field :email, :rel => "email_req" %>
+  </fieldset>	
+<% end %>
+
+<% if !@user.tconfig.form["meta"].empty? %>
+  <fieldset class="panda-meta "> 
+	  <label>Order # <span class="req_star">*</span></label>
+	  <%= f.text_field :meta, :rel => "text_req" %>
+  </fieldset>
+<% end %>		
+		
+  <fieldset class="buttons">
+    <button type="submit" class="positive">Build Your Testimonial!</button>
+  </fieldset>
+<% end %>
+
+
+

@@ -345,7 +345,7 @@ margin:10px auto;
   -webkit-border-top-left-radius:10px;
   -webkit-border-top-right-radius:10px;
   }
-#public-add{
+#new_testimonial{
   width:315px;
   margin:auto;
   margin-bottom:60px;
@@ -359,18 +359,18 @@ margin:10px auto;
   border-bottom:2px solid #ddd;
 }
 
-#public-add fieldset{
+#new_testimonial fieldset{
 margin-bottom:15px;
 }
-#public-add fieldset label{
+#new_testimonial fieldset label{
 
 }
-#public-add fieldset input{
+#new_testimonial fieldset input{
 width:300px;
 padding:5px;
 font-size:1.2em;
 }
-#public-add fieldset button{
+#new_testimonial fieldset button{
   margin:auto;
 }
 

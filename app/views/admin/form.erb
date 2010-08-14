@@ -1,5 +1,5 @@
 <%
-  collection_form_url = "#{root_url}testimonial/add/#{@user.apikey}"
+  collection_form_url = "#{root_url.chomp('/')}#{new_testimonial_path}?apikey=#{@user.apikey}"
 %>
 <ul class="grandchild_nav">  
   <li class="collect"><a href="/admin/testimonials/form" class="active" rel="tab-collect">Main Panel</a></li> 
