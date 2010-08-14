@@ -1,5 +1,5 @@
 class Tconfig < ActiveRecord::Base
-
+  serialize :form, Hash
   belongs_to :user
   
   before_create :generate_defaults

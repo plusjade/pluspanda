@@ -19,7 +19,7 @@ class AdminController < ApplicationController
   
   
   def form
-  
+
   end 
  
  
