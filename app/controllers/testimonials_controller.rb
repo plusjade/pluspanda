@@ -143,8 +143,10 @@ class TestimonialsController < ApplicationController
 ###############################
 
   def ensure_valid_user
+    # prioritize the api environment but mark as such...
     if params['apikey']
       @user = User.first(:conditions => {:apikey => params['apikey']})
+      @user[:is_via_api] = true
       render :text => 'invalid apikey' and return if @user.nil?
     else
       require_user
@@ -163,7 +165,7 @@ class TestimonialsController < ApplicationController
 
 
   def is_able_to_publish
-    return true if current_user
+    return true if current_user && !@user[:is_via_api]
     params[:testimonial].delete('publish')
     params[:testimonial].delete('lock')
         
