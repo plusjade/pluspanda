@@ -203,7 +203,33 @@ $(function(){
  * top navigation page callbacks
  *******************************
  */
-   
+  // index page
+  $(document).bind('page.index', function(){
+    var widgetCss = CodeMirror.fromTextArea('widget_css', {
+      width: "800px",
+      height: "700px",
+      parserfile: "parsecss.js",
+      stylesheet: "/stylesheets/codemirror/csscolors.css?3453",
+      path: "/javascripts/codemirror/",
+      continuousScanning: 500,
+      lineNumbers: true,
+      textWrapping: false,
+      saveFunction: function(){
+        $('#widget_css').val(widgetCss.getCode());
+        $('#css-form').submit();
+      },
+      initCallback: function(editor){
+        //editor.setCode('some value');    
+      }    
+    });
+
+   // overload save button for saving css
+    $('#css-form button').click(function(){
+      $('#widget_css').val(widgetCss.getCode());
+    })  
+
+  });
+     
  // manage page
   $(document).bind('page.manage', function(){
     $("table.t-data").tablesorter({

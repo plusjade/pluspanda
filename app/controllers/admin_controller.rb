@@ -50,7 +50,7 @@ class AdminController < ApplicationController
 
     path = File.join(@user.data_path, 'css', "#{@user.tconfig.theme}.css")
     f = File.new(path, "w+")
-    f.write(params['css'])
+    f.write(params['widget_css'])
     f.rewind
 
     serve_json_response('good','CSS Updated')

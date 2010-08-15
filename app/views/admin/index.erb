@@ -47,7 +47,7 @@
 
 
   <div id="tab-css" class="tab-content">
-    <%= form_tag('/admin/save_css', :method => "post", :id => 'theme-css-wrapper') do %>
+    <%= form_tag('/admin/save_css', :method => "post", :id => 'css-form' ) do %>
       <div class="round-box-top">
         Customize CSS
       </div>
@@ -57,7 +57,7 @@
         </div>  
           <a href="#" class="update-css">update view</a>
          -- <a href="#" class="load-stock">load stock</a>  
-        <textarea name="css" style="width:99%; height:600px"><%= @css_file %></textarea>
+        <textarea id="widget_css" name="widget_css" style="width:95%; height:600px"><%= @css_file %></textarea>
         <div class="stock-css" style="display:none"><?php echo $stock?></div>
       </div>
     <% end %>
