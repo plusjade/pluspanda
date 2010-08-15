@@ -18,7 +18,7 @@ class AdminController < ApplicationController
   end
   
   
-  def form
+  def collect
 
   end 
  

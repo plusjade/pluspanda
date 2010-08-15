@@ -76,8 +76,8 @@
       <h4>Pre-populating The Public Form.</h4>
       <div class="indent">
         You can easily pre-populate known fields by passing them in the url string.
-        <br/><input style="margin:7px 0; padding:5px; width:100%" type="text" value="<%= collection_form_url %>?name=your_customers_name&key=you_private_key&email=customer_email&meta=custom_meta_data" />
-        <br/><b>See it in action:</b> <a href="<%= collection_form_url %>?name=your_customers_name&key=you_private_key&email=customer_email&meta=custom_meta_data">View your pre-populated public form</a>
+        <br/><input style="margin:7px 0; padding:5px; width:100%" type="text" value="<%= collection_form_url %>?name=your_customers_name&key=your_private_access_key&email=customer_email&meta=custom_meta_data" />
+        <br/><b>See it in action:</b> <a href="<%= collection_form_url %>&name=your_customers_name&access_key=your_private_access_key&email=customer_email&meta=custom_meta_data" target="_blank">View your pre-populated public form</a>
       </div>
     </div>
   
@@ -103,7 +103,7 @@
       from you by revealing your pluspanda link on the "order confirmation" page or "thank you" email.
       You can then pass identifier data into the url to pre-populate the fields.
       The pluspanda link would look something like this: 
-      <br/><%= link_to "#{collection_form_url}?name=John%20Smith&meta=8239&key=Kas987sf", "#{collection_form_url}?name=John%20Smith&meta=8239&key=Kas987sf" %>
+      <br/><%= link_to "#{collection_form_url}&name=John%20Smith&meta=8239&access_key=Kas987sf", "#{collection_form_url}&name=John%20Smith&meta=8239&access_key=Kas987sf" %>
     </div>
   
   </div>

@@ -15,7 +15,7 @@
 <% if !@user.tconfig.form["require_key"].empty? %>
   <fieldset>
     <label>Access Key <span class="req_star">*</span></label>
-    <%= text_field_tag :access_key, "", :rel => "text_req" %>
+    <%= text_field_tag :access_key, params[:access_key], :rel => "text_req" %>
   </fieldset>
 <% end %>
 

@@ -44,7 +44,11 @@ class TestimonialsController < ApplicationController
 
   # GET
   def new
-    @testimonial = Testimonial.new
+    @testimonial = Testimonial.new({
+      :name  => params[:name],
+      :email => params[:email],
+      :meta  => params[:meta]
+    })
   end
 
 

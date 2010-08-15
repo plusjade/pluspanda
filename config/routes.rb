@@ -59,7 +59,7 @@ Pluspanda::Application.routes.draw do
   match 'admin'             => 'admin#index'
   match 'admin/manage'      => 'admin#manage'
   match 'admin/install'     => 'admin#install'
-  match 'admin/form'        => 'admin#form'
+  match 'admin/collect'     => 'admin#collect'
   match 'admin/settings'    => 'admin#settings'
   match 'admin/save_css'    => 'admin#save_css'
   match 'admin/save_positions'    => 'admin#save_positions'
