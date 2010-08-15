@@ -61,12 +61,13 @@
   <div id="footer">© Copyright 2009 PlusPanda =] | <a href="#">Top</a></div>
   
 </div>
+<%
+  page = request.url.split('/').last
+  page = (page == "admin") ? "index" : page
+%>
   <script type="text/javascript">
     $(function(){
-      $(document).trigger('ajaxify.form');
-      $(document).trigger('page.<%= request.url.split('/').last %>');
-      $('ul.grandchild_nav li a:first').click();
-      $('abbr.timeago').timeago();
+      $(document).trigger('page.init', "<%= page %>");
     })
   </script>
 

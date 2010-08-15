@@ -23,16 +23,13 @@ $(function(){
     },
    // primary page links
     '#parent_nav li a' : function(e){
+      console.log('hit');
       $('#main-wrapper').html(loading);
       $('#parent_nav li a').removeClass('active');
       $(e.target).addClass("active");    
       $.get(e.target.href, function(data){
         $('#main-wrapper').html(data);
-        $('ul.grandchild_nav li a:first').click();
-        $(document).trigger('ajaxify.form');
-        $(document).trigger('page.' + $(e.target).attr('rel'));
-        window.location.hash = $(e.target).attr('rel');
-        $('abbr.timeago').timeago();
+        $(document).trigger('page.init', $(e.target).attr('rel'));
       });
       return false;
     },
@@ -246,9 +243,10 @@ $(function(){
       handle:'td.move',
       axis: 'y',
       helper: 'clone'
-    });  
+    });
+    $('abbr.timeago').timeago();  
   });
-
+  
     
 /*
  * form callbacks (can be called from any form through rel="" tag)
@@ -259,7 +257,14 @@ $(function(){
 /*
  * base callbacks
  ****************
- */   
+ */
+  $(document).bind('page.init', function(e, page){ 
+    $('ul.grandchild_nav li a:first').click();
+    $(document).trigger('ajaxify.form');
+    window.location.hash = page;
+    $(document).trigger('page.' + page);
+  });
+            
   // facebox reveal callback  
   $(document).bind('reveal.facebox', function(){
     $(document).trigger('ajaxify.form');
