@@ -24,7 +24,7 @@
     <div id="panda-powered">
       <img src="/images/marketing/panda.png" alt="pluspanda logo" />
       <h1>Want to add testimonials to your own site?</h1>
-      <h2><%= link_to root_url, root_url %></a></h2>
+      <h2><%= link_to root_url, root_url %></h2>
     </div>
     <div id="footer">© Copyright 2009 PlusPanda =] | <a href="#">Top</a></div>
   </div>
@@ -32,14 +32,15 @@
 </div>
 
  <%= javascript_include_tag 'shared/jquery' %>
-<script type="text/javascript" src="/js/t_public.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
-  $('a[rel*=facebox]').facebox();
+/*
+  //$('a[rel*=facebox]').facebox();
   $("div#qs").codaSlider();
   $("div#t-questions").codaSlider();
   $(document).trigger('tstml.edit');
+*/
 });
 </script>
 

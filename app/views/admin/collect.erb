@@ -1,42 +1,72 @@
 <%
   collection_form_url = "#{root_url.chomp('/')}#{new_testimonial_path}?apikey=#{@user.apikey}"
 %>
-<ul class="grandchild_nav">  
-  <li class="collect"><a href="/admin/testimonials/form" class="active" rel="tab-collect">Main Panel</a></li> 
+<ul class="grandchild_nav">
+  <li class="view"><a href="#help" rel="tab-view">View Collector Form</a></li>  
+  <li class="settings"><a href="/admin/testimonials/form" rel="tab-settings">Collector Form Settings</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
 <div class="primary-content">
 
-  <div id="tab-collect" class="tab-content">
-    <div class="public-link">
-      <span>Your Public Form Link:</span> <%= link_to collection_form_url, collection_form_url %>
-      <input type="text" style="width:450px;padding:5px;" value="<%= collection_form_url %>" />
+  <div id="tab-view" class="tab-content">
+    <div id="public-link">
+      <span>Your Public Form Link:</span> 
+      <input id="collector-form-url" type="text" value="<%= collection_form_url %>" /> 
+       <%= link_to "View Externally", collection_form_url, :target => "_blank" %>
     </div>
-
-    <% form_for @user.tconfig, :url => '/admin/settings' do |f| %>
+    <div id="collector-form-view">&#160;</div>
+  </div>
+  
+  
+  <div id="tab-settings" class="tab-content">
+    <% form_for @user.tconfig, :url => '/admin/settings', :html => {:rel => "form.collectSettings"} do |f| %>
       <div class="round-box-top">Configure Form Settings.</div>
       <div class="round-box-body">
         <fieldset>
           <label>Custom Header Message.</label>
           <%= f.text_area :message, :style => 'width:100%;height:100px' %>
+          <p class="indent">
+            This text will display at the top of your public form.
+            Place your company name here, offer incentives for submitting testimonials,
+            or just give a nice thank you.
+          </p>        
         </fieldset>
         
-        <br/>A customer's full name is always required. You can optionally require 3 more fields:
-
+        <fieldset>
+          <label>Customer Full Name</label>
+          <p class="indent">
+            A customer's full name is always required. You can optionally require 3 more fields:
+          </p>
+        </fieldset>
+        
         <fieldset>
           <label>Access Key</label>
           <input type="text" name="tconfig[form][require_key]" value="<%= @user.tconfig.form['require_key'] %>" />
+          <div class="indent">
+            New testimonials cannot be created without <em>this</em> valid access key.
+          </div>        
         </fieldset>
         
         <fieldset>
           <label>Require Email (Yes)</label> 
           <input type="checkbox" name="tconfig[form][email]" <%= 'CHECKED' if @user.tconfig.form['email'] %>/>
+          <div class="indent">
+            Customers are required to enter a valid email address.
+            Use this option if you wish to openly collect testimonials from anyone interested in writing one.
+            This way you can maintain contact with people you may not know.
+          </div>        
         </fieldset>
         
         <fieldset>
           <label>Define Meta Data Name</label>
           <input type="text" name="tconfig[form][meta]" value="<%= @user.tconfig.form['meta'] %>" />
+          <div class="indent">
+            Customers are required to enter specific meta data defined below.
+            <br/><b>Example:</b> If you wish to collect testimonials from only customers that have 
+            made purchases, you can place the link onto your order confirmation page. Rather than using
+            an email identifier of which you already have, you can pass the order confirmation code or customer_id as meta data.
+          </div>        
         </fieldset>
 
         <div class="round-box-tabs buttons">
@@ -44,43 +74,6 @@
         </div>
       </div>
     <% end %>
-
-    <div class="indent">
-      <h4>Customize Header Message.</h4>
-      <div class="indent">
-        This text will display at the top of your public form.
-        Place your company name here, offer incentives for submitting testimonials,
-        or just give a nice thank you.
-      </div>
-      
-      <h4>Require Access Key.</h4>
-      <div class="indent">
-        New testimonials cannot be created without a valid access key.
-      </div>
-      
-      <h4>Require Email Address.</h4>
-      <div class="indent">
-        Customers are required to enter a valid email address.
-        Use this option if you wish to openly collect testimonials from anyone interested in writing one.
-        This way you can maintain contact with people you may not know.
-      </div>
-      
-      <h4>Require Additional Meta Data.</h4>
-      <div class="indent">
-        Customers are required to enter specific meta data defined below.
-        <br/><b>Example:</b> If you wish to collect testimonials from only customers that have 
-        made purchases, you can place the link onto your order confirmation page. Rather than using
-        an email identifier of which you already have, you can pass the order confirmation code or customer_id as meta data.
-      </div>
-
-      <h4>Pre-populating The Public Form.</h4>
-      <div class="indent">
-        You can easily pre-populate known fields by passing them in the url string.
-        <br/><input style="margin:7px 0; padding:5px; width:100%" type="text" value="<%= collection_form_url %>?name=your_customers_name&key=your_private_access_key&email=customer_email&meta=custom_meta_data" />
-        <br/><b>See it in action:</b> <a href="<%= collection_form_url %>&name=your_customers_name&access_key=your_private_access_key&email=customer_email&meta=custom_meta_data" target="_blank">View your pre-populated public form</a>
-      </div>
-    </div>
-  
   </div>
   
   
@@ -103,7 +96,11 @@
       from you by revealing your pluspanda link on the "order confirmation" page or "thank you" email.
       You can then pass identifier data into the url to pre-populate the fields.
       The pluspanda link would look something like this: 
-      <br/><%= link_to "#{collection_form_url}&name=John%20Smith&meta=8239&access_key=Kas987sf", "#{collection_form_url}&name=John%20Smith&meta=8239&access_key=Kas987sf" %>
+      <div class="indent">
+        You can easily pre-populate known fields by passing them in the url string.
+        <br/><input style="margin:7px 0; padding:5px; width:100%" type="text" value="<%= collection_form_url %>?name=your_customers_name&key=your_private_access_key&email=customer_email&meta=custom_meta_data" />
+        <br/><b>See it in action:</b> <a href="<%= collection_form_url %>&name=your_customers_name&access_key=your_private_access_key&email=customer_email&meta=custom_meta_data" target="_blank">View your pre-populated public form</a>
+      </div>
     </div>
   
   </div>

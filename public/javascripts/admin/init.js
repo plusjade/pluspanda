@@ -1,8 +1,11 @@
 $(function(){
   var loading = '<div class="loading">Loading...</div>';
-
+  var $iframe = $('<iframe width="100%" height="800px">Iframe not Supported</iframe>');
+  var formCallback = 'undefined';
+  
 /*
  * delegations
+ *************
  */
   $('body').click($.delegate({
    // delegate facebox links
@@ -18,7 +21,7 @@ $(function(){
       $('div.share-data input').val(e.target.href);
       return false;
     },
-   // main panel links
+   // primary page links
     '#parent_nav li a' : function(e){
       $('#main-wrapper').html(loading);
       $('#parent_nav li a').removeClass('active');
@@ -33,7 +36,7 @@ $(function(){
       });
       return false;
     },
-   // main tabs
+   // secondary navigation tabs
     'ul.grandchild_nav li a' : function(e){
       $('div.tab-content').hide();
       $('ul.grandchild_nav li a').removeClass('active');
@@ -195,10 +198,10 @@ $(function(){
  */
   
 /*
-   #### bindings 
-  -------------------------------------------
-*/
- // manage tab
+ * top navigation page callbacks
+ *******************************
+ */
+ // manage page
   $(document).bind('page.manage', function(){
     $("table.t-data").tablesorter({
       headers:{
@@ -216,38 +219,25 @@ $(function(){
       helper: 'clone'
     });  
   });
-  
- // ajaxify the forms
-  $(document).bind('ajaxify.form', function(){
-    $('form').ajaxForm({
-      dataType : 'json',     
-      beforeSubmit: function(fields, form){
-        //if(! $("input", form[0]).jade_validate() ) return false;
-        $('button', form[0]).attr('disabled','disabled').removeClass('positive');
-        $(document).trigger('submitting');
-      },
-      success: function(rsp) {
-        if(undefined != rsp.resource){
-          if('created' == rsp.resource.action){
-            $('#facebox form').clearForm();
-            $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
-              $('#t-data').prepend(data);
-              $('abbr.timeago').timeago();
-            });
-          }
-          else if('updated' == rsp.resource.action){
-            $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
-              $('#tstml_' + rsp.resource.id).replaceWith(data);
-              $('abbr.timeago').timeago();
-            });        
-          }
-        }
-        $(document).trigger('responding', rsp);
-        $('form button').removeAttr('disabled').addClass('positive');
-      }
-    });
+
+ // collect page
+  $(document).bind('page.collect', function(){
+   $('#collector-form-view').html($iframe.clone().attr('src', $('#collector-form-url').val()));
+  });
+    
+
+/*
+ * form callbacks (can be called from any form through rel="" tag)
+ ****************
+ */  
+  $(document).bind('form.collectSettings', function(){
+   $('#collector-form-view').html($iframe.clone().attr('src', $('#collector-form-url').val()));
   });
 
+/*
+ * base callbacks
+ ****************
+ */   
   // facebox reveal callback  
   $(document).bind('reveal.facebox', function(){
     $(document).trigger('ajaxify.form');
@@ -275,6 +265,39 @@ $(function(){
     setTimeout('$("div.responding.active").fadeOut(4000)', 1900);  
   }); 
      
-    
+ // ajaxify the forms
+  $(document).bind('ajaxify.form', function(){
+    $('form').ajaxForm({
+      dataType : 'json',     
+      beforeSubmit: function(fields, form){
+        //if(! $("input", form[0]).jade_validate() ) return false;
+        $('button', form[0]).attr('disabled','disabled').removeClass('positive');
+        $(document).trigger('submitting');
+        formCallback = $(form).attr('rel');
+      },
+      success: function(rsp) {
+        if(undefined != rsp.resource){
+          if('created' == rsp.resource.action){
+            $('#facebox form').clearForm();
+            $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
+              $('#t-data').prepend(data);
+              $('abbr.timeago').timeago();
+            });
+          }
+          else if('updated' == rsp.resource.action){
+            $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
+              $('#tstml_' + rsp.resource.id).replaceWith(data);
+              $('abbr.timeago').timeago();
+            });        
+          }
+        }
+        $(document).trigger('responding', rsp);
+        $('form button').removeAttr('disabled').addClass('positive');
+        if(formCallback != 'undefined')
+          $(document).trigger(formCallback);
+      }
+    });
+  });
+      
 }); // end
 

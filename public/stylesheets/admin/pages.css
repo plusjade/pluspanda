@@ -223,10 +223,15 @@ margin-bottom:20px;
 }
 
 /* public form */
-.public-link{margin-bottom:25px;}
-.public-link span, .public-link a{font-size:1.2em; font-weight:bold;}
-.public-link a:hover{color:green}
-.public-link input{display:block;margin-top:10px;}
+#public-link{margin-bottom:25px;}
+#public-link span {font-size:1.2em; font-weight:bold;}
+#public-link a:hover{color:green}
+#public-link input{
+width:450px; padding:5px;
+border:1px solid #ffff99;
+background:#ffffcc;
+font-weight:bold;
+}
 
 .public-form fieldset{margin:5px 0;}
 .public-form label{font-weight:bold;}
