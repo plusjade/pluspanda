@@ -38,16 +38,18 @@ $(function(){
     },
    // secondary navigation tabs
     'ul.grandchild_nav li a' : function(e){
+      var $target = $(e.target);
+      var rel = $target.attr('rel');
       $('div.tab-content').hide();
       $('ul.grandchild_nav li a').removeClass('active');
-      $(e.target).addClass('active');
-      $('#'+ $(e.target).attr('rel')).show();
-      /*
-      if(e.target.id == 'reload-widget-iframe'){
-        var $container = $('#widget-view-container');
-        $container.html($iframe.clone().attr('src', '/sliders/'+ $container.attr('rel')));
+      $target.addClass('active');
+      $('#'+ rel).show();
+      if($target.hasClass('reload')){
+          if('tab-widget' == rel)
+            $('#widget-wrapper').html($iframe.clone().attr('src', '/admin/staging'));
+          else if('tab-collect' == rel)
+            $('#collector-form-view').html($iframe.clone().attr('src', $('#collector-form-url').val()));
       }
-      */
       return false;
     },
 
@@ -201,6 +203,7 @@ $(function(){
  * top navigation page callbacks
  *******************************
  */
+   
  // manage page
   $(document).bind('page.manage', function(){
     $("table.t-data").tablesorter({
@@ -220,19 +223,12 @@ $(function(){
     });  
   });
 
- // collect page
-  $(document).bind('page.collect', function(){
-   $('#collector-form-view').html($iframe.clone().attr('src', $('#collector-form-url').val()));
-  });
     
-
 /*
  * form callbacks (can be called from any form through rel="" tag)
  ****************
  */  
-  $(document).bind('form.collectSettings', function(){
-   $('#collector-form-view').html($iframe.clone().attr('src', $('#collector-form-url').val()));
-  });
+
 
 /*
  * base callbacks

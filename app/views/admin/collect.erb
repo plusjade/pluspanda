@@ -2,14 +2,14 @@
   collection_form_url = "#{root_url.chomp('/')}#{new_testimonial_path}?apikey=#{@user.apikey}"
 %>
 <ul class="grandchild_nav">
-  <li class="view"><a href="#help" rel="tab-view">View Collector Form</a></li>  
+  <li class="collect"><a href="#help" class="reload active" rel="tab-collect">View Collector Form</a></li>  
   <li class="settings"><a href="/admin/testimonials/form" rel="tab-settings">Collector Form Settings</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
 <div class="primary-content">
 
-  <div id="tab-view" class="tab-content">
+  <div id="tab-collect" class="tab-content">
     <div id="public-link">
       <span>Your Public Form Link:</span> 
       <input id="collector-form-url" type="text" value="<%= collection_form_url %>" /> 
@@ -20,7 +20,7 @@
   
   
   <div id="tab-settings" class="tab-content">
-    <% form_for @user.tconfig, :url => '/admin/settings', :html => {:rel => "form.collectSettings"} do |f| %>
+    <% form_for @user.tconfig, :url => '/admin/settings' do |f| %>
       <div class="round-box-top">Configure Form Settings.</div>
       <div class="round-box-body">
         <fieldset>

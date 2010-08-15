@@ -63,6 +63,8 @@ Pluspanda::Application.routes.draw do
   match 'admin/settings'    => 'admin#settings'
   match 'admin/save_css'    => 'admin#save_css'
   match 'admin/save_positions'    => 'admin#save_positions'
+  match 'admin/staging'     => 'admin#staging'
+  
   
   resource :user_session do
     get :logout, :on => :member

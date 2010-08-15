@@ -22,7 +22,12 @@ class AdminController < ApplicationController
 
   end 
  
- 
+  
+  def staging
+    render :template => "admin/staging", :layout => "staging"
+  end
+  
+   
   # post to save tconfig settings
   def settings
     render :text => 'bad' and return unless request.put?
