@@ -33,6 +33,9 @@ class AdminController < ApplicationController
     render :text => 'bad' and return unless request.put?
     
     if @user.tconfig.update_attributes(params[:tconfig])
+      settings_file = File.join(@user.data_path, 'settings.js')
+      File.delete(settings_file) if File.exist?(settings_file)
+      
       serve_json_response('good','Settings Updated')
     elsif !@user.tconfig.valid?
       serve_json_response('bad','Oops! Please make sure all fields are valid!')
