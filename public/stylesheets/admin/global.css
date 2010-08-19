@@ -72,15 +72,12 @@ div.textual {
 label {font-weight:bold;}
 iframe {border:1px dashed #555;}
 
-
-
 #login-wrapper {
   width: 320px;
   margin: 50px auto 10px auto;
   order: 10px solid #d6d6d6;
   padding: 15px 30px;
   -webkit-border-radius:10px;
-  /* CSS 3 DROP SHADOW */
   -moz-box-shadow: 0px 2px 8px #ccc;
   -webkit-box-shadow: 0px 2px 8px #ccc;
   box-shadow: 0px 2px 4px #ccc;
@@ -124,9 +121,9 @@ input.save-account:hover {
 .user-status.owner{background:#e7ffd8;}
 .user-status b{font-size:1.2em;}
 
-/* ----------------------------
-    LAYOUT
-------------------------------- */
+/* base layout
+ ***********************
+ */
 #wrapper{
   min-width:800px;
   overflow:hidden;
@@ -142,17 +139,16 @@ input.save-account:hover {
 }
 #top img { float:left;}
 #top ul{
-float:right;
-list-style:none; 
-padding:5px 0;
+  float:right;
+  list-style:none; 
+  padding:5px 0;
  }
 #top ul li{display:inline;  margin:0 6px;}
 #top ul li a{
-background:#333;padding:5px 10px; color:#fff;
-text-decoration:none;
+  background:#333;padding:5px 10px; color:#fff;
+  text-decoration:none;
 }
 #top ul li a:hover{background:#cc0000}
-
 
 #main-wrapper {
   margin:0 auto 20px 50px;
@@ -171,7 +167,6 @@ text-decoration:none;
   padding: 25px;
   background: transparent;
 }
-
 
 /* main parent navigation */
 ul#parent_nav {
@@ -299,10 +294,50 @@ div.child_nav ul li a{
 #subnav ul{text-align:right; border:1px solid red;}
 
 
-/* ----------------------------
-    TABLES
-------------------------------- */
+/* a bit of reusable element formatting
+ ***********************
+ */
+.round-box-tabs{margin-top:10px;}
+.round-box-tabs button, .round-box-tabs a {
+  float:right;
+  padding:7px 10px !important;
+  margin:0;
+  border:1px solid #bde99c;
+  font-weight:bold;
+  font-size:16px;
+  -moz-border-radius:7px;
+  -webkit-border-radius:7px;
+}
+.round-box-top{
+  clear:both;
+  padding:7px 15px;background:#555;color:#fff;
+  -moz-border-radius-topleft:10px;
+  -moz-border-radius-topright:10px;
+  -webkit-border-top-left-radius:10px;
+  -webkit-border-top-right-radius:10px;
+  }
+.round-box-top a.close,
+.panda-image a.close{float:right;color:#fff;text-decoration:none;}
+.round-box-top a.close:hover,
+.panda-image a.close:hover{text-decoration:underline;}
 
+.round-box-body{
+  clear:both;
+  overflow:auto;
+  padding:20px;
+  background:#f7f7f7;
+  -moz-border-radius-bottomleft:10px;
+  -moz-border-radius-bottomright:10px;
+  -webkit-border-bottom-left-radius:10px;
+  -webkit-border-bottom-right-radius:10px;
+  margin-bottom:15px;
+  border-right:2px solid #ddd;
+  border-bottom:2px solid #ddd;
+}
+
+/* tables
+ ***********************
+ */
 table {
   font: 11px/24px Verdana, Arial, Helvetica, sans-serif;
   border-collapse: collapse;
@@ -325,7 +360,7 @@ td   {
 .primary-content tr:hover {
   background-color: #FFFFCC;
 }
-/* tables */
+
 table.tablesorter {
   font-family:arial;
   background-color: #CDCDCD;
@@ -369,12 +404,9 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 }
 
 
-
-
-
-
 /* ajax responses
- ---------------------------------------- */
+ ***********************
+ */
  #status-bar {
   position:fixed; top:0; left:0; 
   min-width:890px; width:100%; 
@@ -430,7 +462,9 @@ div.responding.active.warn {
 }
 
 
-/* form status stuff */
+/* form status
+ ***********************
+ */
 div.jade_form_status_box { font-weight: bold; color: #000; font-size: 1.2em; margin: 10px; padding: 10px; text-align: center; -moz-border-radius:7px;-webkit-border-radius:7px;}
 div.jade_form_status_box.box_positive { background: green; border: 1px solid green; color:#fff; }
 div.jade_form_status_box.box_negative { background: #fad6d6; border: 1px solid #cc0000; }

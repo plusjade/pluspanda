@@ -1,9 +1,10 @@
 
-
-/*
- * testimonials stuff
+/* admin/index 
+ ***********************
  */
- 
+#widget-wrapper{}
+
+/* set categories */
 ul#sortable{
   border:1px solid #000;
   list-style:none !important; margin:0 !important;padding:0 !important;
@@ -17,9 +18,9 @@ ul#sortable{
 }
 div.cat-handle{float:left;width:60px;height:50px; cursor:move;}
 .cat-sort{
-background:#FFFBCC url('/images/admin/move.png') no-repeat 10px center;
-border: 1px solid #FFF35E;
-color: #C69E00; 
+  background:#FFFBCC url('/images/admin/move.png') no-repeat 10px center;
+  border: 1px solid #FFF35E;
+  color: #C69E00; 
 }
 .cat-add{
  border: 1px solid #97FF88;
@@ -35,8 +36,7 @@ color: #C69E00;
 .cat-item input.cat-desc{width:300px;}
 
 .cat-item .cat-save,
-.cat-item .cat-delete
-{float:right;}
+.cat-item .cat-delete{float:right;}
 .cat-item .cat-delete{}
 
 button.save-cat{
@@ -49,19 +49,10 @@ a.del-cat{
 }
 
 
-#help-page{display:none}
-.help-page-inner{width:500px}
-.help-page-inner h3{padding:5px; margin-top:25px; color:#333; border-bottom:1px dashed #ccc;}
-.help-page-inner h4{
-padding-left:25px;
-margin:15px 0;
-background: url('/images/marketing/check.gif') no-repeat 0 50%;
-color:#555
-}
-.help-page-inner .indent{margin-left:25px; color:#555;line-height:1.5em;}
 
-
-/* MANAGER PAGE */
+/* admin/manage 
+ ***********************
+ */
 #manage-buttons {overflow:hidden}
 #manage-buttons button, #manage-buttons a{
   float:right;
@@ -78,23 +69,11 @@ color:#555
   -webkit-border-top-right-radius:7px;
 }
 
+.with-selected{list-style:none;margin:0;padding:0;}
+.with-selected li {display:inline; margin-right:10px;}
 
-ul.tab-pagination{
-margin:0; padding:4px 0; list-style:none;}
-ul.tab-pagination li{
-display:inline;
-margin-right:10px !important;
-}
-ul.tab-pagination li a{
-padding:5px 12px; background:#888;
--moz-border-radius-topleft:7px;
--moz-border-radius-topright:7px;
--webkit-border-top-left-radius:7px;
--webkit-border-top-right-radius:7px;
-}
-ul.tab-pagination a{color:#fff; text-decoration:none }
-ul.tab-pagination li a.active,
-ul.tab-pagination li a:hover {background:#333 }
+.share-data{width:600px;height:300px; text-align:center}
+.share-data input{width:500px;font-size:1.2em;padding:5px;}
 
 table.t-data{margin:0; padding:0; margin-bottom:20px;}
 table.t-data tr td{border-bottom:1px solid #ccc; background:#fff}
@@ -134,116 +113,23 @@ td.move img {
   cursor:move;
 }
 
-/* display settings page */
-form.theme-css-wrapper{margin:10px 0; }
 
-.round-box-tabs{margin-top:10px;}
-.round-box-tabs button, .round-box-tabs a {
-  float:right;
-  padding:7px 10px !important;
-  margin:0;
-  border:1px solid #bde99c;
-  font-weight:bold;
-  font-size:16px;
-  -moz-border-radius:7px;
-  -webkit-border-radius:7px;
-}
-.round-box-top{
-  clear:both;
-  padding:7px 15px;background:#555;color:#fff;
-  -moz-border-radius-topleft:10px;
-  -moz-border-radius-topright:10px;
-  -webkit-border-top-left-radius:10px;
-  -webkit-border-top-right-radius:10px;
-  }
-.round-box-top a.close,
-.panda-image a.close{float:right;color:#fff;text-decoration:none;}
-.round-box-top a.close:hover,
-.panda-image a.close:hover{text-decoration:underline;}
+/* admin/install 
+ ***********************
+ */
+.install-page div{padding:5px; margin-bottom:5px; font-size:0.9em;}
+.install-page .info {margin-bottom:10px; background:#ffffcc;}
+.install-page textarea {width:100%; height:100px; margin-bottom:10px;}
 
-.round-box-body{
-  clear:both;
-  overflow:auto;
-  padding:20px;
-  background:#f7f7f7;
-  -moz-border-radius-bottomleft:10px;
-  -moz-border-radius-bottomright:10px;
-  -webkit-border-bottom-left-radius:10px;
-  -webkit-border-bottom-right-radius:10px;
-  margin-bottom:15px;
-  border-right:2px solid #ddd;
-  border-bottom:2px solid #ddd;
-}
-
-.with-selected{list-style:none;margin:0;padding:0;}
-.with-selected li {display:inline; margin-right:10px;}
-
-.share-data{width:600px;height:300px; text-align:center}
-.share-data input{width:500px;font-size:1.2em;padding:5px;}
-
-.admin-extra{clear:both;margin-top:10px;}
-.t-publish{
-  width:170px;
-  padding:5px 8px;
-  margin:5px 0;
-  border:1px solid #ffff99;
-  background:#ffffcc;
-  font-weight:bold;
-}
-
-.admin-testimonial-wrapper {
-clear: both;
-overflow: auto;
-margin-bottom:20px;
-}
-
-
-#display-settings{
-
-}
-fieldset { margin-bottom:10px;}
-label {display:block;font-weight:bold;}
-#widget-wrapper{
-
-}
-
-
-
-
-
-
-
-/*
- * survey questions
+ 
+/* survey questions (not using)
+ ***********************
  */
 .questions-wrapper{
 }
 .questions-wrapper p{
   margin:5px;padding:5px;background:#eee;
 }
-
-/* public form */
-#public-link{margin-bottom:25px;}
-#public-link span {font-size:1.2em; font-weight:bold;}
-#public-link a:hover{color:green}
-#public-link input{
-width:450px; padding:5px;
-border:1px solid #ffff99;
-background:#ffffcc;
-font-weight:bold;
-}
-
-.public-form fieldset{margin:5px 0;}
-.public-form label{font-weight:bold;}
-
-
-
-/* install page */
-
-.install-page div{padding:5px; margin-bottom:5px; font-size:0.9em;}
-.install-page .info {margin-bottom:10px; background:#ffffcc;}
-.install-page textarea {width:100%; height:100px; margin-bottom:10px;}
-
 
 
 
