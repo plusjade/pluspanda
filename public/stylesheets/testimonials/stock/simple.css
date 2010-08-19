@@ -1,3 +1,4 @@
+/*simple.css*/
 #pluspanda-testimonials html, #pluspanda-testimonials body, #pluspanda-testimonials div, #pluspanda-testimonials span, #pluspanda-testimonials applet, #pluspanda-testimonials object, #pluspanda-testimonials iframe, #pluspanda-testimonials h1, #pluspanda-testimonials h2, #pluspanda-testimonials h3, #pluspanda-testimonials h4, #pluspanda-testimonials h5, #pluspanda-testimonials h6, #pluspanda-testimonials p, #pluspanda-testimonials blockquote, #pluspanda-testimonials pre, #pluspanda-testimonials a, #pluspanda-testimonials abbr, #pluspanda-testimonials acronym, #pluspanda-testimonials address, #pluspanda-testimonials big, #pluspanda-testimonials cite, #pluspanda-testimonials code, #pluspanda-testimonials del, #pluspanda-testimonials dfn, #pluspanda-testimonials em, #pluspanda-testimonials font, #pluspanda-testimonials img, #pluspanda-testimonials ins, #pluspanda-testimonials kbd, #pluspanda-testimonials q, #pluspanda-testimonials s, #pluspanda-testimonials samp, #pluspanda-testimonials small, #pluspanda-testimonials strike, #pluspanda-testimonials strong, #pluspanda-testimonials sub, #pluspanda-testimonials sup, #pluspanda-testimonials tt, #pluspanda-testimonials var, #pluspanda-testimonials dl, #pluspanda-testimonials dt, #pluspanda-testimonials dd, #pluspanda-testimonials ol, #pluspanda-testimonials ul, #pluspanda-testimonials li, #pluspanda-testimonials fieldset, #pluspanda-testimonials form, #pluspanda-testimonials label, #pluspanda-testimonials legend, #pluspanda-testimonials table, #pluspanda-testimonials caption, #pluspanda-testimonials tbody, #pluspanda-testimonials tfoot, #pluspanda-testimonials thead, #pluspanda-testimonials tr, #pluspanda-testimonials th, #pluspanda-testimonials td{ 
 margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline;
 }
@@ -10,7 +11,7 @@ margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: 
 #pluspanda-testimonials blockquote, #pluspanda-testimonials q { quotes: "" ""; }
 
 /* GENERAL LAYOUT  */
-#pluspanda-testimonials { height: 100%; min-width: 400px; background: #fff; color: #555; font-size: 12px; font-family: Arial, sans-serif; }
+#pluspanda-testimonials { height: 100%; min-width: 400px; background: transparent; color: #555; font-size: 12px; font-family: Arial, sans-serif; }
 
 #pluspanda-testimonials { margin:auto; }
   #pluspanda-testimonials .panda-header { border-bottom: 1px solid #d4d4d4; clear: both; display: inline-block; padding-bottom: 9px; margin-bottom: 15px; height: 57px; width: 100%; }
