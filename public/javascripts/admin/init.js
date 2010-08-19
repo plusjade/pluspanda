@@ -77,7 +77,7 @@ $(function(){
       })
       return false;     
     },
-
+    
   // TODO: save an image with javascript
     'blah blah' : function(e){  
       $.get(e.target.href, function(data){
@@ -223,7 +223,15 @@ $(function(){
    // overload save button for saving css
     $('#css-form button').click(function(){
       $('#widget_css').val(widgetCss.getCode());
-    })  
+    });
+    
+    $('#load-stock-css').click(function(){
+      $(document).trigger('submitting');
+      $.get('/admin/theme_stock_css', {rand: Math.random()}, function(data){
+        widgetCss.setCode(data);
+        $(document).trigger('responding', {status:'good', msg:'Stock CSS Loaded!'});
+      });
+    })        
 
   });
      

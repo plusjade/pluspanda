@@ -62,6 +62,7 @@ Pluspanda::Application.routes.draw do
   match 'admin/collect'     => 'admin#collect'
   match 'admin/settings'    => 'admin#settings'
   match 'admin/save_css'    => 'admin#save_css'
+  match 'admin/theme_stock_css'     => 'admin#theme_stock_css'
   match 'admin/save_positions'    => 'admin#save_positions'
   match 'admin/staging'     => 'admin#staging'
   

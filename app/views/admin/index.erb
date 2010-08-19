@@ -49,16 +49,14 @@
   <div id="tab-css" class="tab-content">
     <%= form_tag('/admin/save_css', :method => "post", :id => 'css-form' ) do %>
       <div class="round-box-top">
-        Customize CSS
+        Customize CSS.
       </div>
       <div class="round-box-body">
         <div class="round-box-tabs buttons">
           <button type="submit" class="positive">Save CSS</button>
         </div>  
-          <a href="#" class="update-css">update view</a>
-         -- <a href="#" class="load-stock">load stock</a>  
+        <a href="#" id="load-stock-css">regenerate stock CSS</a>  
         <textarea id="widget_css" name="widget_css" style="width:95%; height:600px"><%= @css_file %></textarea>
-        <div class="stock-css" style="display:none"><?php echo $stock?></div>
       </div>
     <% end %>
   </div>

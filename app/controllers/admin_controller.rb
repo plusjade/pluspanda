@@ -46,6 +46,17 @@ class AdminController < ApplicationController
     return
   end
 
+  # return the stock css for current theme.
+  def theme_stock_css
+    path = Rails.root.join('public', 'stylesheets','testimonials','stock', "#{@user.tconfig.theme}.css")
+    if File.exists?(path)
+      render :text => File.open(path).read  
+    else
+      render :text => "/* no available css for theme:#{@user.tconfig.theme}*/"
+    end
+    return
+  end
+
 
   # post to save css file of current theme
   def save_css
