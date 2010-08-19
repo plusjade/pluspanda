@@ -4,7 +4,7 @@ class AdminController < ApplicationController
   before_filter :require_user, :setup_user
   
   def index
-    @css_file = get_css_file
+
   end
   
   
@@ -28,14 +28,12 @@ class AdminController < ApplicationController
   end
   
    
-  # post to save tconfig settings
+  # PUT to save tconfig settings
   def settings
     render :text => 'bad' and return unless request.put?
     
     if @user.tconfig.update_attributes(params[:tconfig])
-      settings_file = File.join(@user.data_path, 'settings.js')
-      File.delete(settings_file) if File.exist?(settings_file)
-      
+      @user.update_settings(self)
       serve_json_response('good','Settings Updated')
     elsif !@user.tconfig.valid?
       serve_json_response('bad','Oops! Please make sure all fields are valid!')
@@ -46,29 +44,18 @@ class AdminController < ApplicationController
     return
   end
 
-  # return the stock css for current theme.
+  # return the stock css for the user theme.
   def theme_stock_css
-    path = Rails.root.join('public', 'stylesheets','testimonials','stock', "#{@user.tconfig.theme}.css")
-    if File.exists?(path)
-      render :text => File.open(path).read  
-    else
-      render :text => "/* no available css for theme:#{@user.tconfig.theme}*/"
-    end
-    return
+    render :text => @user.theme_stock_css
   end
 
 
   # post to save css file of current theme
   def save_css
     render :text => 'bad' and return unless request.post?
-
-    path = File.join(@user.data_path, 'css', "#{@user.tconfig.theme}.css")
-    f = File.new(path, "w+")
-    f.write(params['widget_css'])
-    f.rewind
-
+    @user.update_css(params['widget_css'])
     serve_json_response('good','CSS Updated')
-    return  
+    return
   end
     
   
@@ -93,13 +80,5 @@ class AdminController < ApplicationController
   def setup_user
     @user = current_user
   end
-
-  
-  def get_css_file
-    path = File.join(@user.data_path, 'css', "#{@user.tconfig.theme}.css")
-    f = File.open(path) 
-    return f.read
-  end  
-
 
 end

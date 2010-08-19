@@ -32,8 +32,9 @@ class TestimonialsController < ApplicationController
 
   # serve the javascript build environment
   # TODO: use google cdn to load jquery if necessary
-  def widget    
-    render :js => render_settings + render_cache 
+  def widget 
+    @user.update_settings(self) unless @user.has_settings?   
+    render :js => @user.settings + render_cache 
   end
   
 
@@ -265,15 +266,7 @@ class TestimonialsController < ApplicationController
     f = File.open(@path) 
     return f.read
   end
-  
-  
-  def render_settings
-    settings_file = File.join(@user.data_path, 'settings.js')
-    update_settings(settings_file) if !File.exist?(settings_file)
-    f = File.open(settings_file) 
-    return f.read  
-  end
-  
+   
   
   # regenerate a fresh widget javascript file for the system.
   def update_cache
@@ -284,18 +277,5 @@ class TestimonialsController < ApplicationController
     f.rewind
   end  
   
-    
-  # regenerate a fresh settings file for the user.
-  def update_settings(settings_file)
-    @tag_list         = render_to_string(:template => "testimonials/tag_list", :layout =>false).gsub!(/[\n\r\t]/,'')
-    @item_html        = render_to_string(:template => "testimonials/themes/#{@user.tconfig.theme}/item", :layout =>false).gsub!(/[\n\r\t]/,'')
-    @panda_structure  = render_to_string(:template => "testimonials/themes/#{@user.tconfig.theme}/wrapper", :layout =>false).gsub!(/[\n\r\t]/,'')
-    @settings         = render_to_string(:template => "testimonials/widget_settings", :layout =>false)
-    
-    f = File.new(settings_file, "w+")
-    f.write(@settings)
-    f.rewind    
-  end  
   
-
 end

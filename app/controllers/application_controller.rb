@@ -69,4 +69,8 @@ class ApplicationController < ActionController::Base
         render :json => response
     end
     
+    
+    def current_theme_stock_css_path
+      return Rails.root.join('app','views','testimonials','themes',@user.tconfig.theme, "#{@user.tconfig.theme}.css")
+    end
 end

@@ -1,5 +1,4 @@
 <%
-  css_dir = 'css'
   image_dir = 'img'
 %>
 
@@ -7,7 +6,7 @@
 jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}
 
 /* For testimonial widget mode =P */
-jQuery('head').append('<link type="text/css" id="pandaTheme" href="' + pandaAssetUrl + '/<%= css_dir %>/' + pandaTheme + '.css" media="screen" rel="stylesheet" />');
+jQuery('head').append('<link type="text/css" id="pandaTheme" href="' + pandaAssetUrl + '/' + pandaTheme + '.css" media="screen" rel="stylesheet" />');
 
 // attach event triggers.
 jQuery('body').click(jQuery.delegate({

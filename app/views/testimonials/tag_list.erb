@@ -8,12 +8,8 @@
     <% end %>
   <% end %>
   
-  <% for tag in @tags do %>
-    <% if(tag.id == @active_tag) %>
-      <li><a href="#<%= tag.id %>" class="active"><%= tag.name %></a></li>
-    <% else %>
-      <li><a href="#<%= tag.id %>"><%= tag.name %></a></li>
-    <% end %>
+  <% for tag in tags do %>
+    <li><a href="#<%= tag.id %>"><%= tag.name %></a></li>
   <% end %>
   </ul>
 
