@@ -63,13 +63,12 @@ image = ''
       <div class="t-content">
         
         <span style="display:none">
-          <%= f.hidden_field :rating %>
           <!--
           <?php echo common_build::rating_select_nice($testimonial->rating)?>
           -->
         </span>        
         <div class="rating-fallback">
-          Select a rating 
+          Select a rating  <%= f.select(:rating, [['5 stars',5],['4 stars',4],['3 stars',3],['2 stars',2],['1 star',1]])%>
           <!--
           <?php echo common_build::rating_select_dropdown($testimonial->rating);?>
           -->
@@ -81,7 +80,6 @@ image = ''
         
         <div class="t-date">
           <%= @testimonial.created_at %>
-          <!--<?php echo common_build::timeago($testimonial->created)?>-->
         </div>
       
         <div class="t-tag">
