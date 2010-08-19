@@ -44,7 +44,11 @@ class AdminController < ApplicationController
     return
   end
 
-  # return the stock css for the user theme.
+  def theme_css
+    render :text => @user.theme_css
+  end
+  
+  
   def theme_stock_css
     render :text => @user.theme_stock_css
   end

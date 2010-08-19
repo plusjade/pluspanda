@@ -23,7 +23,6 @@ $(function(){
     },
    // primary page links
     '#parent_nav li a' : function(e){
-      console.log('hit');
       $('#main-wrapper').html(loading);
       $('#parent_nav li a').removeClass('active');
       $(e.target).addClass("active");    
@@ -233,6 +232,12 @@ $(function(){
       });
     })        
 
+    // tconfig form settings callback
+    $(document).bind('form.settings', function(){
+      $.get('/admin/theme_css', {rand: Math.random()}, function(data){
+        widgetCss.setCode(data);
+      })
+    })
   });
      
  // manage page
@@ -260,6 +265,7 @@ $(function(){
  * form callbacks (can be called from any form through rel="" tag)
  ****************
  */  
+
 
 
 /*

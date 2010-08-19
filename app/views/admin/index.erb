@@ -19,7 +19,7 @@
 
 
   <div id="tab-settings" class="tab-content">
-    <% form_for @user.tconfig, :url => '/admin/settings', :id => "display-settings" do |f| %>  
+    <% form_for @user.tconfig, :url => '/admin/settings', :html => { :rel => "form.settings" } do |f| %>  
       <div class="round-box-top" style="text-align:center">Theme Settings</div>
       <div class="round-box-body">
         <fieldset>
@@ -37,7 +37,7 @@
           <%= f.select(:sort, sorters) %>
         </fieldset>
         
-        <div style="display:block; margin:10px 0;font-size:0.9em">Define custom order positions by arranging testimonials in the <a href="/admin/testimonials/manage">Add Testimonials Tab</a></div>
+        <div style="display:block; margin:10px 0;font-size:0.9em">Define custom order positions by arranging testimonials in the <b>Manage Testimonials</b> section.</div>
         <div class="round-box-tabs buttons" class="float:left;">
           <button type="submit" class="positive">Update Settings</button>
         </div> 

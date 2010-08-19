@@ -201,8 +201,8 @@ margin-bottom:20px;
 #display-settings{
 
 }
-#display-settings fieldset { margin-bottom:10px;}
-#display-settings label {display:block;font-weight:bold;}
+fieldset { margin-bottom:10px;}
+label {display:block;font-weight:bold;}
 #widget-wrapper{
 
 }
