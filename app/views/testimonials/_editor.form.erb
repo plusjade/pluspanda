@@ -1,10 +1,5 @@
-
 <%
-rand   = 'random'
-image = ''
-#image  = (empty($testimonial->image))
-#  ? ''
-#  : "<img src=\"$image_url/$testimonial->image?r=rand\"/>";
+image_source  = @testimonial.avatar_file_name.empty? ? "/images/stock.png" : @testimonial.avatar.url(:sm) 
 %>
 
 <% if !current_user && @testimonial.lock %>
@@ -17,7 +12,7 @@ image = ''
     
 <div id="editor-wrapper">
 
-<% form_for @testimonial do |f| %>
+<% form_for @testimonial, :html => { :multipart => true } do |f| %>
   <%= hidden_field_tag(:apikey, params[:apikey]) if params['apikey'] %>
   
 <% if !current_user %>
@@ -28,12 +23,7 @@ image = ''
   <div class="t-view">
     <div id="t-view-inner">
       
-      <div class="t-content">
-        <!--
-        <span style="display:none">
-           <?php echo common_build::rating_select_nice($testimonial->rating)?>
-        </span>
-        -->        
+      <div class="t-content">    
         <div class="rating-fallback">
           Select a rating  <%= f.select(:rating, [['5 stars',5],['4 stars',4],['3 stars',3],['2 stars',2],['1 star',1]])%>
         </div>
@@ -71,11 +61,10 @@ image = ''
 
       <div class="t-details">
         Upload new headshot or logo
-        <input type="file" name="image" style="width:180px !important"/>
-        <div class="image" rel="<?php echo $image_url?>">
-          <?php echo $image?>
+        <%= f.file_field :avatar, :style => "width:180px" %>
+        <div class="image" rel="<%= @testimonial.avatar.url(:thumb) %>">
+           <%= image_tag image_source %>
         </div>
-        <a href="/admin/testimonials/manage/crop?image=<?php echo $testimonial->image?>" rel="facebox">Edit Image</a>
         
         <fieldset>
           <label>Select Category</label>

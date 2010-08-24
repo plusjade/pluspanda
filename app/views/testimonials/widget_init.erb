@@ -1,12 +1,11 @@
-<%
-  image_dir = 'img'
-%>
 
 /* Event delegation*/
 jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}
 
 /* For testimonial widget mode =P */
 jQuery('head').append('<link type="text/css" id="pandaTheme" href="' + pandaAssetUrl + '/' + pandaTheme + '.css" media="screen" rel="stylesheet" />');
+$paNdA = jQuery('#plusPandaYes');
+var loading = '<div class="ajax_loading">Loading...</div>';
 
 // attach event triggers.
 jQuery('body').click(jQuery.delegate({
@@ -31,9 +30,8 @@ jQuery('body').click(jQuery.delegate({
 }));
 
 // build the initial interface.
-jQuery('#plusPandaYes').html('<div class="ajax_loading">Loading...</div>');   
 function buildIt() {   
-  jQuery('#plusPandaYes').html(pandaStructure);
+  $paNdA.html(pandaStructure);
   
   // ajaxify tag list.  
   jQuery('div.panda-tags ul a').click(function(e){
@@ -52,11 +50,12 @@ function buildIt() {
   // track
   //jQuery.get('<%= url_for("track") %>',{key:pandaApikey,url:parent.location.href});
 }
-buildIt(); // init the build!
+$paNdA.html(loading);
+setTimeout ( "buildIt()", 1000 ); 
 
 // get the testimonials as json.
 function pandaGetTstmls(tag, sort, page){
-    jQuery('div.panda-container').append('<div class="ajax_loading">Loading...</div>');
+    jQuery('div.panda-container').append(loading);
     
     jQuery.ajax({ 
         type:'GET', 
@@ -75,13 +74,12 @@ function pandaDisplayTstmls(tstmls){
   var date = new Date();
   jQuery(tstmls).each(function(i){
     this.testimonial.created = new Date(this.testimonial.created*1000).toGMTString(); /*this.created = d.getDate() + '/' + (1+d.getMonth()) + '/' + d.getFullYear(); */
-    this.testimonial.image = '<%= image_path("stock.png") %>'
-    //this.testimonial.image = (0 == this.testimonial.image.length) ? '<%= image_path("stock.png") %>' : pandaAssetUrl + '/<%= image_dir %>/' + this.image;
-    this.testimonial.url = (0 == this.testimonial.url.length) ? '' : 'http://' + this.testimonial.url;
-    this.testimonial.alt = (0 == (i+1) % 2) ? 'even' : 'odd';
+    this.testimonial.image   = (0 == this.testimonial.avatar_file_name.length) ? '<%= image_path("stock.png") %>' : '/system/avatars/' + this.testimonial.id + '/sm.' + this.testimonial.avatar_file_name;
+    this.testimonial.url     = (0 == this.testimonial.url.length) ? '' : 'http://' + this.testimonial.url;
+    this.testimonial.alt     = (0 == (i+1) % 2) ? 'even' : 'odd';
     content  += pandaItemHtml(this.testimonial);
   });
-  jQuery('#plusPandaYes div.panda-container .ajax_loading')
+  jQuery('div.panda-container .ajax_loading', $paNdA)
     .replaceWith(content);
   pandaInteractions();
   pandaClean();

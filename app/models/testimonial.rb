@@ -1,6 +1,11 @@
 require 'sanitize'
 class Testimonial < ActiveRecord::Base
+  has_attached_file :avatar,
+    :path   => ":rails_root/public/system/:attachment/:id/:style.:filename",
+    :url    => "/system/:attachment/:id/:style.:filename",
+    :styles => { :sm => "125x125#" }
 
+  after_post_process :randomize_filename
   has_one :tag
   
   before_create :generate_defaults
@@ -17,9 +22,11 @@ class Testimonial < ActiveRecord::Base
     }
   }  
     
+    
   def generate_defaults 
     self.token = ActiveSupport::SecureRandom.hex(6)
   end
+
   
   def sanitize
     self.body       = Sanitize.clean(self.body, SANITIZE_CONFIG) 
@@ -30,5 +37,11 @@ class Testimonial < ActiveRecord::Base
     #self.url gsub!('http://','', strtolower($this->url));
   end
   
-    
+
+  def randomize_filename
+    ext = File.extname(self.avatar_file_name).downcase
+    self.avatar.instance_write(:file_name, "#{ActiveSupport::SecureRandom.hex(4)}#{ext}")
+  end
+  
+      
 end

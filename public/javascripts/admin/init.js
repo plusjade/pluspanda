@@ -309,12 +309,15 @@ $(function(){
  // ajaxify the forms
   $(document).bind('ajaxify.form', function(){
     $('form').ajaxForm({
-      dataType : 'json',     
+      dataType : 'json',
+      //forceSync : true,  
       beforeSubmit: function(fields, form){
+        console.log('beforesubmit1');
         //if(! $("input", form[0]).jade_validate() ) return false;
         $('button', form[0]).attr('disabled','disabled').removeClass('positive');
         $(document).trigger('submitting');
         formCallback = $(form).attr('rel');
+        console.log('beforesubmit');
       },
       success: function(rsp) {
         if(undefined != rsp.resource){

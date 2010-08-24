@@ -1,48 +1,3 @@
-
-/* Event delegation*/
-jQuery.delegate = function(rules) {return function(e) { var target = $(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, $.makeArray(arguments));}}
-
-/* Public Form Validation */
-jQuery.fn.jade_validate=function(){$(this).removeClass("input_error");$(this).parent('fieldset').removeClass("field_error");$("span.error_msg").remove();var nameRegex=/^[a-zA-Z]+(([\'\,\.\- ][a-zA-Z ])?[a-zA-Z]*)*$/;var emailRegex=/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;var urlRegex=/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}$/;var phoneRegex=/^[0-9\-\.\(\)\s]+$/;var errors=false;this.each(function(){var rel=$(this).attr("rel");var val=$.trim(this.value);switch(rel){case"text_req":if(!val){$(this).addClass("input_error");$(this).parent('fieldset').addClass("field_error");$(this).after(' <span class="error_msg">Cannot be blank</span>');errors=true;} break;case"email_req":if(!val.match(emailRegex)){$(this).addClass("input_error");$(this).parent('fieldset').addClass("field_error");$(this).after(' <span class="error_msg">Invalid email</span>');errors=true;} break;case"url_req":if(!val.match(urlRegex)){$(this).addClass("input_error");$(this).parent('fieldset').addClass("field_error");$(this).after(' <span class="error_msg">Invalid url</span>');errors=true;} break;case"phone_req":if(!val.match(phoneRegex)){$(this).addClass("input_error");$(this).parent('fieldset').addClass("field_error");$(this).after(' <span class="error_msg">Numbers, spaces, and () - . only please.</span>');errors=true;} break;}});if(errors)return false;else return true;};
-
-/*
- * timeago: a jQuery plugin, version: 0.7.1 (2009-02-18)
- * @requires jQuery v1.2 or later
- * Timeago is a jQuery plugin that makes it easy to support automatically
- * updating fuzzy timestamps (e.g. "4 minutes ago" or "about 1 day ago").
- * For usage and examples, visit:
- * http://timeago.yarp.com/
- * Licensed under the MIT:
- * http://www.opensource.org/licenses/mit-license.php
- * Copyright (c) 2008-2009, Ryan McGeary (ryanonjavascript -[at]- mcgeary [*dot*] org)
- */
-;(function($){$.timeago=function(timestamp){if(timestamp instanceof Date)return inWords(timestamp);else if(typeof timestamp=="string")return inWords($.timeago.parse(timestamp));else return inWords($.timeago.parse($(timestamp).attr("title")));};var $t=$.timeago;$.extend($.timeago,{settings:{refreshMillis:60000,allowFuture:false,strings:{prefixAgo:null,prefixFromNow:null,suffixAgo:"ago",suffixFromNow:"from now",ago:null,fromNow:null,seconds:"seconds",minute:"a minute",minutes:"%d minutes",hour:"an hour",hours:"%d hours",day:"a day",days:"%d days",month:"a month",months:"%d months",year:"a year",years:"%d years"}},inWords:function(distanceMillis){var $l=this.settings.strings;var prefix=$l.prefixAgo;var suffix=$l.suffixAgo||$l.ago;if(this.settings.allowFuture){if(distanceMillis<0){prefix=$l.prefixFromNow;suffix=$l.suffixFromNow||$l.fromNow;} distanceMillis=Math.abs(distanceMillis);} var seconds=distanceMillis/1000;var minutes=seconds/60;var hours=minutes/60;var days=hours/24;var years=days/365;var words=seconds<45&&substitute($l.seconds,Math.round(seconds))||seconds<90&&substitute($l.minute,1)||minutes<45&&substitute($l.minutes,Math.round(minutes))||minutes<90&&substitute($l.hour,1)||hours<24&&substitute($l.hours,Math.round(hours))||hours<48&&substitute($l.day,1)||days<30&&substitute($l.days,Math.floor(days))||days<60&&substitute($l.month,1)||days<365&&substitute($l.months,Math.floor(days/30))||years<2&&substitute($l.year,1)||substitute($l.years,Math.floor(years));return $.trim([prefix,words,suffix].join(" "));},parse:function(iso8601){var s=$.trim(iso8601);s=s.replace(/-/,"/").replace(/-/,"/");s=s.replace(/T/," ").replace(/Z/," UTC");s=s.replace(/([\+-]\d\d)\:?(\d\d)/," $1$2");return new Date(s);}});$.fn.timeago=function(){var self=this;self.each(refresh);var $s=$t.settings;if($s.refreshMillis>0){setInterval(function(){self.each(refresh);},$s.refreshMillis);} return self;};function refresh(){var date=$t.parse(this.title);if(!isNaN(date)){$(this).text(inWords(date));} return this;} function inWords(date){return $t.inWords(distance(date));} function distance(date){return(new Date().getTime()-date.getTime());} function substitute(stringOrFunction,value){var string=$.isFunction(stringOrFunction)?stringOrFunction(value):stringOrFunction;return string.replace(/%d/i,value);} if($.browser.msie&&$.browser.version<7.0){document.createElement('abbr');}})(jQuery);
-
-// Adapted from getPageSize() by quirksmode.com
-jQuery.getPageHeight = function() {
-	var windowHeight;
-	if (self.innerHeight) { windowHeight = self.innerHeight; }
-	else if (document.documentElement && document.documentElement.clientHeight) {windowHeight = document.documentElement.clientHeight;}
-	else if (document.body) { windowHeight = document.body.clientHeight;}	
-	return windowHeight
-};
-
-// getPageScroll() by quirksmode.com
-jQuery.getPageScroll = function() {
-  var xScroll, yScroll;
-  if (self.pageYOffset) {
-    yScroll = self.pageYOffset;
-    xScroll = self.pageXOffset;
-  } else if (document.documentElement && document.documentElement.scrollTop) {	 // Explorer 6 Strict
-    yScroll = document.documentElement.scrollTop;
-    xScroll = document.documentElement.scrollLeft;
-  } else if (document.body) {// all other Explorers
-    yScroll = document.body.scrollTop;
-    xScroll = document.body.scrollLeft;
-  }
-  return new Array(xScroll,yScroll)
-};
-
 /*!
  * jQuery Form Plugin
  * version: 2.45 (09-AUG-2010)
@@ -54,6 +9,40 @@ jQuery.getPageScroll = function() {
  *   http://www.gnu.org/licenses/gpl.html
  */
 ;(function($) {
+
+/*
+	Usage Note:
+	-----------
+	Do not use both ajaxSubmit and ajaxForm on the same form.  These
+	functions are intended to be exclusive.  Use ajaxSubmit if you want
+	to bind your own submit handler to the form.  For example,
+
+	$(document).ready(function() {
+		$('#myForm').bind('submit', function() {
+			$(this).ajaxSubmit({
+				target: '#output'
+			});
+			return false; // <-- important!
+		});
+	});
+
+	Use ajaxForm when you want the plugin to manage all the event binding
+	for you.  For example,
+
+	$(document).ready(function() {
+		$('#myForm').ajaxForm({
+			target: '#output'
+		});
+	});
+
+	When using ajaxForm, the ajaxSubmit function will be invoked for you
+	at the appropriate time.
+*/
+
+/**
+ * ajaxSubmit() provides a mechanism for immediately submitting
+ * an HTML form using AJAX.
+ */
 $.fn.ajaxSubmit = function(options) {
 	// fast fail if nothing selected (http://dev.jquery.com/ticket/2752)
 	if (!this.length) {
@@ -423,6 +412,22 @@ $.fn.ajaxSubmit = function(options) {
 		}
 	}
 };
+
+/**
+ * ajaxForm() provides a mechanism for fully automating form submission.
+ *
+ * The advantages of using this method instead of ajaxSubmit() are:
+ *
+ * 1: This method will include coordinates for <input type="image" /> elements (if the element
+ *	is used to submit the form).
+ * 2. This method will include the submit element's name/value data (for the element that was
+ *	used to submit the form).
+ * 3. This method binds the submit() method to the form for you.
+ *
+ * The options argument for ajaxForm works exactly as it does for ajaxSubmit.  ajaxForm merely
+ * passes the options argument along after properly binding events for submit elements and
+ * the form itself.
+ */
 $.fn.ajaxForm = function(options) {
 	// in jQuery 1.3+ we can fix mistakes with the ready state
 	if (this.length === 0) {
@@ -474,9 +479,23 @@ $.fn.ajaxForm = function(options) {
 		setTimeout(function() { form.clk = form.clk_x = form.clk_y = null; }, 100);
 	});
 };
+
+// ajaxFormUnbind unbinds the event handlers that were bound by ajaxForm
 $.fn.ajaxFormUnbind = function() {
 	return this.unbind('submit.form-plugin click.form-plugin');
 };
+
+/**
+ * formToArray() gathers form element data into an array of objects that can
+ * be passed to any of the following ajax functions: $.get, $.post, or load.
+ * Each object in the array has both a 'name' and 'value' property.  An example of
+ * an array for a simple login form might be:
+ *
+ * [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ]
+ *
+ * It is this array that is passed to pre-submit callback functions provided to the
+ * ajaxSubmit() and ajaxForm() methods.
+ */
 $.fn.formToArray = function(semantic) {
 	var a = [];
 	if (this.length === 0) {
@@ -528,10 +547,20 @@ $.fn.formToArray = function(semantic) {
 	}
 	return a;
 };
+
+/**
+ * Serializes form data into a 'submittable' string. This method will return a string
+ * in the format: name1=value1&amp;name2=value2
+ */
 $.fn.formSerialize = function(semantic) {
 	//hand off to jQuery.param for proper encoding
 	return $.param(this.formToArray(semantic));
 };
+
+/**
+ * Serializes all field elements in the jQuery object into a query string.
+ * This method will return a string in the format: name1=value1&amp;name2=value2
+ */
 $.fn.fieldSerialize = function(successful) {
 	var a = [];
 	this.each(function() {
@@ -552,6 +581,45 @@ $.fn.fieldSerialize = function(successful) {
 	//hand off to jQuery.param for proper encoding
 	return $.param(a);
 };
+
+/**
+ * Returns the value(s) of the element in the matched set.  For example, consider the following form:
+ *
+ *  <form><fieldset>
+ *	  <input name="A" type="text" />
+ *	  <input name="A" type="text" />
+ *	  <input name="B" type="checkbox" value="B1" />
+ *	  <input name="B" type="checkbox" value="B2"/>
+ *	  <input name="C" type="radio" value="C1" />
+ *	  <input name="C" type="radio" value="C2" />
+ *  </fieldset></form>
+ *
+ *  var v = $(':text').fieldValue();
+ *  // if no values are entered into the text inputs
+ *  v == ['','']
+ *  // if values entered into the text inputs are 'foo' and 'bar'
+ *  v == ['foo','bar']
+ *
+ *  var v = $(':checkbox').fieldValue();
+ *  // if neither checkbox is checked
+ *  v === undefined
+ *  // if both checkboxes are checked
+ *  v == ['B1', 'B2']
+ *
+ *  var v = $(':radio').fieldValue();
+ *  // if neither radio is checked
+ *  v === undefined
+ *  // if first radio is checked
+ *  v == ['C1']
+ *
+ * The successful argument controls whether or not the field element must be 'successful'
+ * (per http://www.w3.org/TR/html4/interact/forms.html#successful-controls).
+ * The default value of the successful argument is true.  If this value is false the value(s)
+ * for each element is returned.
+ *
+ * Note: This method *always* returns an array.  If no valid value can be determined the
+ *	   array will be empty, otherwise it will contain one or more values.
+ */
 $.fn.fieldValue = function(successful) {
 	for (var val=[], i=0, max=this.length; i < max; i++) {
 		var el = this[i];
@@ -563,6 +631,10 @@ $.fn.fieldValue = function(successful) {
 	}
 	return val;
 };
+
+/**
+ * Returns the value of the field element.
+ */
 $.fieldValue = function(el, successful) {
 	var n = el.name, t = el.type, tag = el.tagName.toLowerCase();
 	if (successful === undefined) {
@@ -601,11 +673,24 @@ $.fieldValue = function(el, successful) {
 	}
 	return $(el).val();
 };
+
+/**
+ * Clears the form data.  Takes the following actions on the form's input fields:
+ *  - input text fields will have their 'value' property set to the empty string
+ *  - select elements will have their 'selectedIndex' property set to -1
+ *  - checkbox and radio inputs will have their 'checked' property set to false
+ *  - inputs of type submit, button, reset, and hidden will *not* be effected
+ *  - button elements will *not* be effected
+ */
 $.fn.clearForm = function() {
 	return this.each(function() {
 		$('input,select,textarea', this).clearFields();
 	});
 };
+
+/**
+ * Clears the selected form elements.
+ */
 $.fn.clearFields = $.fn.clearInputs = function() {
 	return this.each(function() {
 		var t = this.type, tag = this.tagName.toLowerCase();
@@ -620,6 +705,10 @@ $.fn.clearFields = $.fn.clearInputs = function() {
 		}
 	});
 };
+
+/**
+ * Resets the form data.  Causes all form elements to be reset to their original value.
+ */
 $.fn.resetForm = function() {
 	return this.each(function() {
 		// guard against an input with the name of 'reset'
@@ -629,6 +718,10 @@ $.fn.resetForm = function() {
 		}
 	});
 };
+
+/**
+ * Enables or disables any matching elements.
+ */
 $.fn.enable = function(b) {
 	if (b === undefined) {
 		b = true;
@@ -637,6 +730,11 @@ $.fn.enable = function(b) {
 		this.disabled = !b;
 	});
 };
+
+/**
+ * Checks/unchecks any matching checkboxes or radio buttons and
+ * selects/deselects and matching option elements.
+ */
 $.fn.selected = function(select) {
 	if (select === undefined) {
 		select = true;
@@ -656,6 +754,9 @@ $.fn.selected = function(select) {
 		}
 	});
 };
+
+// helper fn for console logging
+// set $.fn.ajaxSubmit.debug to true to enable debug logging
 function log() {
 	if ($.fn.ajaxSubmit.debug) {
 		var msg = '[jquery.form] ' + Array.prototype.join.call(arguments,'');
@@ -669,5 +770,3 @@ function log() {
 };
 
 })(jQuery);
-
-

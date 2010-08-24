@@ -101,6 +101,7 @@ class TestimonialsController < ApplicationController
       if request.xhr?
         serve_json_response('good', 'Testimonial Updated!', @testimonial)
       else
+        #render :text => "<textarea>{'status':'good','msg':'tee.hee'}</textarea>" and return
         flash[:notice] = "Testimonial Updated!"
         redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"  
       end

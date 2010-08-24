@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100810053322) do
+ActiveRecord::Schema.define(:version => 20100821000534) do
 
   create_table "tags", :force => true do |t|
     t.integer  "user_id"
@@ -44,13 +44,14 @@ ActiveRecord::Schema.define(:version => 20100810053322) do
     t.text     "body"
     t.text     "body_edit"
     t.integer  "rating"
-    t.boolean  "publish",    :default => false
+    t.boolean  "publish",          :default => false
     t.integer  "position"
-    t.boolean  "lock",       :default => false
+    t.boolean  "lock",             :default => false
     t.string   "email"
     t.string   "meta"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "avatar_file_name"                    :null => false
   end
 
   create_table "users", :force => true do |t|
