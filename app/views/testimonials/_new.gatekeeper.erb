@@ -9,7 +9,7 @@
 
 <div id="public-top">Thank You For Your Time!</div>
 
-<% form_for @testimonial do |f| %>
+<%= form_for @testimonial do |f| %>
   <%= hidden_field_tag(:apikey, params[:apikey]) if params['apikey'] %>
   
 <% if !@user.tconfig.form["require_key"].empty? %>
