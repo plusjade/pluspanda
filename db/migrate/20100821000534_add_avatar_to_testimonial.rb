@@ -1,6 +1,6 @@
 class AddAvatarToTestimonial < ActiveRecord::Migration
   def self.up
-    add_column :testimonials, :avatar_file_name, :string, :null => false
+    add_column :testimonials, :avatar_file_name, :string, :default => '', :null => false
   end
 
   def self.down

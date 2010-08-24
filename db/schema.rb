@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 20100821000534) do
     t.string   "meta"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "avatar_file_name"                    :null => false
+    t.string   "avatar_file_name"  :default => '',  :null => false
   end
 
   create_table "users", :force => true do |t|
