@@ -53,19 +53,32 @@ class ApplicationController < ActionController::Base
     end
 
     def serve_json_response(status=false, message=false, resource=false)
-        status  ||= 'bad'
-        message ||= 'Oops! Please try again!'
-        response = {'status' => status, 'msg' => message }
-        
-        # hack: newly created resources will be "frozen" as a way to identify them.
-        if resource
-          response['resource'] = {
-            'action' => resource.frozen? ? 'created' : 'updated',
-            'name'   => resource.class.to_s.pluralize.downcase,
-            'id'     => resource.id
-          }
+      status  ||= 'bad'
+      message ||= 'Oops! Please try again!'
+      response = {'status' => status, 'msg' => message }
+      
+      # hack: newly created resources will be "frozen" as a way to identify them.
+      if resource
+        response['resource'] = {
+          'action' => resource.frozen? ? 'created' : 'updated',
+          'name'   => resource.class.to_s.pluralize.downcase,
+          'id'     => resource.id
+        }
+        if !resource.avatar_file_name.empty?
+          response['resource']['image'] = resource.avatar.url(:sm)
         end
+      end
+      
+      if request.xhr?
         render :json => response
+        return true
+      elsif params["is_ajax"]
+        # respond to ajaxForm in hidden iframe (not xhr but still js)
+        render :text => "<textarea>#{response.to_json}</textarea>"
+        return true
+      end
+      
+      return false
     end
     
     

@@ -60,19 +60,16 @@ class TestimonialsController < ApplicationController
     @testimonial = Testimonial.new(params[:testimonial])
     @testimonial.user_id = @user.id  
     if @testimonial.save
-      if request.xhr?
-        @testimonial.freeze
-        serve_json_response('good','Testimonial created!', @testimonial)
-      else
-        flash[:notice] = "Testimonial Created!"
-        redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
-      end
+      @testimonial.freeze
+      return if serve_json_response('good','Testimonial created!', @testimonial)
+      flash[:notice] = "Testimonial Created!"
+      redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
     else  
       if !@testimonial.valid?
-        serve_json_response('bad', 'Oops! Please make sure all fields are valid!') and return if request.xhr?
+        return if serve_json_response('bad', 'Oops! Please make sure all fields are valid!')
         flash[:notice] = "Please make sure all fields are valid!"
       else
-        serve_json_response and return if request.xhr?
+        return if serve_json_response
         flash[:notice] = "Oops! An unknown error occured. Please try again."
       end
       @testimonial = Testimonial.new(params[:testimonial])  
@@ -96,21 +93,16 @@ class TestimonialsController < ApplicationController
       :conditions => { :user_id => @user.id }
     )
     return unless is_able_to_publish
-
     if @testimonial.update_attributes(params[:testimonial])
-      if request.xhr?
-        serve_json_response('good', 'Testimonial Updated!', @testimonial)
-      else
-        #render :text => "<textarea>{'status':'good','msg':'tee.hee'}</textarea>" and return
-        flash[:notice] = "Testimonial Updated!"
-        redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"  
-      end
+      return if serve_json_response('good', 'Testimonial Updated!', @testimonial)
+      flash[:notice] = "Testimonial Updated!"
+      redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"  
     else  
       if @testimonial.valid?
-        serve_json_response('bad', 'Oops! Please make sure all fields are valid!') and return if request.xhr?
+        return if serve_json_response('bad', 'Oops! Please make sure all fields are valid!')
         flash[:notice] = "Please make sure all fields are valid!"
       else
-        serve_json_response and return if request.xhr?
+        return if serve_json_response
         flash[:notice] = "Oops! An unknown error occured. Please try again."
       end  
       @testimonial = Testimonial.find(

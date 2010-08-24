@@ -33,7 +33,6 @@ class AdminController < ApplicationController
     render :text => 'bad' and return unless request.put?
     
     if @user.tconfig.update_attributes(params[:tconfig])
-      render :text => "<textarea>{'status':'good','msg':'tee.hee'}</textarea>" and return
       @user.update_settings(self)
       serve_json_response('good','Settings Updated')
     elsif !@user.tconfig.valid?

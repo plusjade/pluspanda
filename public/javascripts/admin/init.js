@@ -75,126 +75,9 @@ $(function(){
         }
       })
       return false;     
-    },
-    
-  // TODO: save an image with javascript
-    'blah blah' : function(e){  
-      $.get(e.target.href, function(data){
-
-        // upload the image given in the file input.
-        $('.panda-image input').change(function(){
-          var file = $(this).val();
-          if(!file)return false;
-          var ext = file.substring(file.lastIndexOf('.')).toLowerCase();
-          var imgTypes = ['.jpg','.jpeg','.png','.gif','.tiff','.bmp'];
-          var valid = false;
-          $.each(imgTypes, function(){
-            if(this == ext){valid = true; return false;}
-          });
-          if(!valid){alert('Filetype not supported'); return false};
-          
-          $(document).trigger('submitting');
-          //var url = $('#save-testimonial').attr('action').replace('save', 'save_image');
-          var id = $('#save-testimonial').attr('rel');
-          $('#save-testimonial').ajaxSubmit({
-            dataType: 'json',
-            type: 'post',
-            url : '/admin/testimonials/manage/save_image?id=' + id,
-            success: function(rsp){
-              console.log(rsp);
-              $('.panda-image input').val('');
-              if('success' == rsp.status){
-                var imgUrl = $('.t-details .image').attr('rel') + '/' + rsp.image + '?r=' + new Date().getTime();
-                newImg = new Image(); 
-                newImg.src = imgUrl;
-                $('#save-testimonial').attr('rel', rsp.id);
-                $('div.t-details a:first').attr('href','/admin/testimonials/manage/crop?image='+rsp.image);
-                $('div.t-details .image').html('<img src="'+ newImg.src +'">');
-              }
-              $(document).trigger('rsp.server', rsp);
-            }
-          })
-        })
-      });
-      return false;
-    },
-    
-/* TODO: refactor category stuff
- */            
-   // add a category.
-    'form#add-cat button' :function(e){
-      $('form#add-cat').ajaxSubmit({
-        dataType: 'json',
-        beforeSubmit: function(fields, form){
-          if(! $("input, textarea", form[0]).jade_validate()) return false;
-          $('button', form).attr('disabled', 'disabled').html('Submitting...');
-          $(document).trigger('submitting');
-        },
-        success: function(rsp) {
-          $(document).trigger('rsp.server', rsp);
-          $('form#add-cat button').removeAttr('disabled').html('Add Category');
-          $('form#add-cat').clearFields();
-          $('#primary_content').load('/admin/testimonials/tags', function(){
-              $('ul#sortable li:last').effect("highlight", {}, 5000);
-          });
-        }
-      });
-      return false;
-    },
-    
-   // save category edits.
-    '.cat-save button' : function(e){
-      var $form = $(e.target).parent('div').parent('form');
-      $form.ajaxSubmit({
-        dataType : 'json',
-        beforeSubmit : function(fields, form){
-          if(!$("input", form[0]).jade_validate()) return false;
-          $(document).trigger('submitting');
-        },
-        success : function(rsp){
-          $(document).trigger('rsp.server', rsp);
-          $form.parent('li').hide().fadeIn(600);
-        }
-      });
-      return false;
-    },
-    
-   // save categories/tags sort order.
-    '#save_order' : function(e){
-      var order = $("#sortable").sortable("serialize");
-      if(!order){alert("No items to sort");return false;}
-      var url = $(e.target).attr('rel');
-      $(document).trigger('submitting');
-      $.get(url, order, function(rsp){
-        $(document).trigger('rsp.server', rsp);
-      });    
-      return false;
     }
-      
   }));
 
-
- /*
-  // css handling
-  $('.common-ajax button.positive, a.update-css').click(function(){
-    $('head link#pandaTheme').remove();
-    var css = $('textarea[name="css"]').val();
-    $('style#custom-css').html(css);
-    return false;
-  });
-  
-  $('a.load-stock').click(function(){
-    var css = $('div.stock-css').html();
-    $('textarea[name="css"]').val(css);
-    return false;
-  });
-  
-  $('a.toggle-html').click(function(){
-    $('textarea[name="html"]').slideToggle('fast');
-    return false;
-  });
- */
-  
 /*
  * top navigation page callbacks
  *******************************
@@ -300,24 +183,21 @@ $(function(){
     var status = (undefined == rsp.status) ? 'bad' : rsp.status;
     var msg = (undefined == rsp.msg) ? 'There was a problem!' : rsp.msg;
     $('#submitting').hide();
-    $('div.responding').hide();
     $('div.responding.active').remove();
-    $('div.responding').clone().addClass('active ' + status).html(msg).show().insertAfter('div.responding');
+    $('div.responding').hide().clone().addClass('active ' + status).html(msg).show().insertAfter('div.responding');
     setTimeout('$("div.responding.active").fadeOut(4000)', 1900);  
   }); 
      
  // ajaxify the forms
   $(document).bind('ajaxify.form', function(){
     $('form').ajaxForm({
-      dataType : 'json',
-      //forceSync : true,  
+      dataType : 'json',      
       beforeSubmit: function(fields, form){
-        console.log('beforesubmit1');
+        $(form).append('<input type="hidden" name="is_ajax" value="true" />');
         //if(! $("input", form[0]).jade_validate() ) return false;
         $('button', form[0]).attr('disabled','disabled').removeClass('positive');
         $(document).trigger('submitting');
         formCallback = $(form).attr('rel');
-        console.log('beforesubmit');
       },
       success: function(rsp) {
         if(undefined != rsp.resource){
@@ -334,14 +214,18 @@ $(function(){
               $('abbr.timeago').timeago();
             });        
           }
+          if ('testimonials' == rsp.resource.name && undefined != rsp.resource.image){
+            $('#testimonial-image-wrapper').html('<img src="' + rsp.resource.image + '" />');
+          }
         }
+               
         $(document).trigger('responding', rsp);
         $('form button').removeAttr('disabled').addClass('positive');
         if(formCallback != 'undefined')
           $(document).trigger(formCallback);
       }
-    });
-  });
+    })
+  })
       
 }); // end
 
