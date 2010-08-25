@@ -34,12 +34,22 @@ class TestimonialsController < ApplicationController
   # TODO: use google cdn to load jquery if necessary
   def widget 
     @user.update_settings(self) unless @user.has_settings?   
-    render :js => @user.settings + render_cache 
+    render :js => @user.settings + render_cache
   end
   
 
   def show
-    @testimonial = Testimonial.find(params[:id])
+    @testimonial = Testimonial.find_by_id(params[:id])
+    render :text => "invalid testimonial" and return if @testimonial.nil?
+    
+    if params['apikey']
+      respond_to do |format|
+        format.html { render :text => "todo: a public better singular html view..." }
+        format.json { render :json => @testimonial }
+        format.js   { render :js   => "pandaDisplayTstml(#{@testimonial.to_json});" }
+      end
+      return
+    end    
   end
 
 
@@ -80,19 +90,29 @@ class TestimonialsController < ApplicationController
 
 
   def edit
-    @testimonial = Testimonial.find(
+    @testimonial = Testimonial.find_by_id(
       params[:id], 
       :conditions => { :user_id => @user.id }
     )
+    if @testimonial.nil?
+      respond_to do |format|
+        format.html { render :text => "error! invalid testimonial" }
+        format.json { render :json => {:status => "bad", :msg => "invalid testimonial"} }
+        format.js   { render :js   => "alert('error! invalid testimonial');" }
+      end
+      return
+    end
   end
 
 
   def update
-    @testimonial = Testimonial.find(
+    @testimonial = Testimonial.find_by_id(
       params[:id], 
       :conditions => { :user_id => @user.id }
     )
+    render :text => "invalid testimonial" and return if @testimonial.nil?
     return unless is_able_to_publish
+    
     if @testimonial.update_attributes(params[:testimonial])
       return if serve_json_response('good', 'Testimonial Updated!', @testimonial)
       flash[:notice] = "Testimonial Updated!"
@@ -105,10 +125,11 @@ class TestimonialsController < ApplicationController
         return if serve_json_response
         flash[:notice] = "Oops! An unknown error occured. Please try again."
       end  
-      @testimonial = Testimonial.find(
+      @testimonial = Testimonial.find_by_id(
         params[:id], 
         :conditions => { :user_id => @user.id }
       )
+      render :text => "invalid testimonial" and return if @testimonial.nil?
       render :action => "edit"                
     end
     return
@@ -117,10 +138,12 @@ class TestimonialsController < ApplicationController
   
   def destroy
     require_user #apikey users cannot delete testimonials
-    @testimonial = Testimonial.find(
+    @testimonial = Testimonial.find_by_id(
       params[:id], 
       :conditions => { :user_id => current_user.id }
     )
+    render :text => "invalid testimonial" and return if @testimonial.nil?
+    
     if @testimonial.destroy
       serve_json_response('good', 'Testimonial deleted!')
     else
@@ -137,15 +160,23 @@ class TestimonialsController < ApplicationController
 ###############################
 
   def ensure_valid_user
-    # prioritize the api environment but mark as such...
-    if params['apikey']
-      @user = User.first(:conditions => {:apikey => params['apikey']})
-      @user[:is_via_api] = true
-      render :text => 'invalid apikey' and return if @user.nil?
-    else
-      require_user
+    # also ensure api calls are prioritized
+    if current_user && params['apikey'].nil?
       @user = current_user
+      return
+    end 
+    
+    @user = User.first(:conditions => {:apikey => params['apikey']})
+    if @user.nil?
+      respond_to do |format|
+        format.html { render :text => "error! invalid apikey" }
+        format.json { render :json => {:status => "bad", :msg => "invalid apikey"} }
+        format.js   { render :js   => "alert('error! invalid apikey');" }
+      end
+      return
     end
+
+    @user[:is_via_api] = true
   end
   
     
@@ -170,12 +201,9 @@ class TestimonialsController < ApplicationController
   # verify a testimonial is editable
   def can_publish_existing
     return true unless @testimonial.lock
-    if request.xhr?
-      serve_json_response('bad', 'This testimonial is locked!')
-    else
-      redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"  
-    end
-    return false  
+    return false if serve_json_response('bad', 'This testimonial is locked!')
+    flash[:notice] = "This testimonial is locked!"
+    redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"  
   end 
   
   # verify this user can create a testimonial
@@ -254,7 +282,7 @@ class TestimonialsController < ApplicationController
 ######################################
 
   def render_cache
-    @path = File.join('tmp/cache', "tstml_init.js")
+    @path = File.join('tmp/cache', "widget.js")
     update_cache if !File.exist?(@path)
     f = File.open(@path) 
     return f.read

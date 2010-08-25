@@ -1,13 +1,29 @@
 
+apikey key can be passed via GET ?apikey=
+or as a POST parameter?
+**************
 
-api.pluspanda.com/testimonials/
+  api.pluspanda.com/testimonials
+    ()      = standalone version or maybe even docs?
+    (.json) = get public testiomonials in json
+    (.js)   = get public testimoniasl in json wrapped in javascript a callback function 
+    
+  api.pluspanda.com/testimonials/widget
+    (.js)   = get the widget javascript file that sets up testimonials on 3rd party site.
 
+  api.pluspanda.com/testimonials/new
+    create a new testimonial standalone page
+    this includes a gatekeeper page to minimize spamming 
+  
+  api.pluspanda.com/testimonials/baec1b041a3/edit
+    edit a specific testimonial.
+    admins can lock the testimonial in which case edit page has no affect.
+
+
+
+
+OLD API
+************
 http://panda.com/?callback=jsonp1281408076950&apikey=gAbpWSc5&service=testimonials&tag=all&sort=newest&page=2&jsoncallback=pandaLoadTstml
 
 
-# fetch the widget environment.
-denoted by "fetch"
-
- # get testimonials in json
- denoted by "tag" 
- simple call being "tag=all" and limited by user-specified config
