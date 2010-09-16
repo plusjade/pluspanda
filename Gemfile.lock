@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/binarylogic/authlogic.git
-  revision: 6e2745b
+  revision: 66ed79515919fe13016911b10ebe734cf8718dc7
   specs:
     authlogic (2.1.6)
       activesupport
@@ -41,18 +41,19 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     i18n (0.4.1)
-    mail (2.2.5)
+    mail (2.2.6)
       activesupport (>= 2.3.6)
       mime-types
       treetop (>= 1.4.5)
     mime-types (1.16)
+    mysql (2.8.1)
     nokogiri (1.4.3.1)
     paperclip (2.3.3)
       activerecord
       activesupport
     polyglot (0.3.1)
     rack (1.2.1)
-    rack-mount (0.6.9)
+    rack-mount (0.6.13)
       rack (>= 1.0.0)
     rack-test (0.5.4)
       rack (>= 1.0)
@@ -75,13 +76,14 @@ GEM
     thor (0.14.0)
     treetop (1.4.8)
       polyglot (>= 0.3.1)
-    tzinfo (0.3.22)
+    tzinfo (0.3.23)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   authlogic!
+  mysql
   nokogiri
   paperclip
   rails (= 3.0.0.rc)

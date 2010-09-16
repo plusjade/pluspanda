@@ -6,3 +6,6 @@ tmp/**/*
 config/database.yml
 config/deploy.rb
 public/system/*
+
+Thumbs.db
+.DS_Store
