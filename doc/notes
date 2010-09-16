@@ -27,3 +27,8 @@ OLD API
 http://panda.com/?callback=jsonp1281408076950&apikey=gAbpWSc5&service=testimonials&tag=all&sort=newest&page=2&jsoncallback=pandaLoadTstml
 
 
+http://pluspanda.com/?apikey=c3Ffavjm&fetch=testimonials
+
+http://pluspanda.com/?apikey=c3Ffavjm&fetch=testimonials&jquery=false
+
+
