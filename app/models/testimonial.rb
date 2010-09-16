@@ -29,11 +29,11 @@ class Testimonial < ActiveRecord::Base
 
   
   def sanitize
-    self.body       = Sanitize.clean(self.body, SANITIZE_CONFIG) 
-    self.company    = Sanitize.clean(self.company)
-    self.c_position = Sanitize.clean(self.c_position)
-    self.location   = Sanitize.clean(self.location)
-    self.url        = Sanitize.clean(self.url)
+    self.body       = Sanitize.clean(self.body.to_s, SANITIZE_CONFIG)
+    self.company    = Sanitize.clean(self.company.to_s)
+    self.c_position = Sanitize.clean(self.c_position.to_s)
+    self.location   = Sanitize.clean(self.location.to_s)
+    self.url        = Sanitize.clean(self.url.to_s)
     #self.url gsub!('http://','', strtolower($this->url));
   end
   
