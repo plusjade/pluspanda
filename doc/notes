@@ -31,4 +31,8 @@ http://pluspanda.com/?apikey=c3Ffavjm&fetch=testimonials
 
 http://pluspanda.com/?apikey=c3Ffavjm&fetch=testimonials&jquery=false
 
+Need to change this to:
+http://api.pluspanda.com/testimonials/widget.js?apikey=577ed4ada1f60e44
+
+
 

@@ -9,4 +9,12 @@ module ApplicationHelper
     return "#{root_url}testimonials/widget.js?apikey=#{@user.apikey}"
   end
 
+  def root_url
+    if RAILS_ENV=='production'
+      return "http://api.pluspanda.com/"
+    else
+      return "http://localhost:3000/"
+    end
+  end
+  
 end
