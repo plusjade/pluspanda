@@ -4,12 +4,14 @@ class UsersController < ApplicationController
   
   
   def new
+    redirect_to admin_path if current_user
     @user = User.new
     @user_session = UserSession.new
   end
   
   
   def create
+    redirect_to admin_path if current_user
     @user = User.new(params[:user])
     if @user.save
       redirect_to("/admin")

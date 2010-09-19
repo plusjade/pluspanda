@@ -1,12 +1,13 @@
 class UserSessionsController < ApplicationController
   layout "frontpage"
-  before_filter :require_no_user
   
   def new
+    redirect_to admin_path if current_user
     @user_session = UserSession.new
   end
   
   def create
+    redirect_to admin_path if current_user
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       redirect_to admin_path
