@@ -78,6 +78,12 @@ class AdminController < ApplicationController
     return    
   end
   
+  
+  def logout
+    current_user_session.destroy
+    redirect_to admin_frontpage
+  end  
+  
     
   private 
   

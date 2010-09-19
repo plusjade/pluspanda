@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-  layout "marketing"
-  before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => [:show, :edit, :update]
+  layout false
+  before_filter :require_user, :except => [:new, :create]
   
   
   def new
@@ -49,5 +48,5 @@ class UsersController < ApplicationController
     return
   end
   
-  
+        
 end

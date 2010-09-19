@@ -1,6 +1,6 @@
 <h1>Login</h1>
 
-<% form_for :user_session, @user_session, :url => { :action => "create" } do |f| %>
+<% form_for :user_session, @user_session, :url => session_path do |f| %>
   <fieldset>
     <%= f.label :email %>
     <%= f.text_field :email %>

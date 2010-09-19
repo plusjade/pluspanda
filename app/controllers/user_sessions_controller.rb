@@ -1,7 +1,6 @@
 class UserSessionsController < ApplicationController
-  layout "marketing"
-  before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => :destroy
+  layout false
+  before_filter :require_no_user
   
   def new
     @user_session = UserSession.new
@@ -10,19 +9,10 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      redirect_to "/admin"
+      redirect_to admin_path
     else
       render :action => :new
     end
   end
   
-  def logout
-    current_user_session.destroy
-    redirect_to new_user_session_url
-  end
-    
-  def destroy
-    current_user_session.destroy
-    redirect_to new_user_session_url
-  end
 end

@@ -4,7 +4,7 @@ class TestimonialsController < ApplicationController
   before_filter :ensure_valid_user
   before_filter :ready_testimonial_filters_and_sorters, :only => [:index, :widget]
   
-  
+  # get the user's testimonials object with applicable filters/sorters (paging)
   def index
     @testimonials = get_testimonials
     respond_to do |format|
@@ -37,7 +37,7 @@ class TestimonialsController < ApplicationController
     render :js => @user.settings + render_cache
   end
   
-
+  # represent a single testimonial ? this isn't in use at the moment.
   def show
     @testimonial = Testimonial.find_by_id(params[:id])
     render :text => "invalid testimonial" and return if @testimonial.nil?

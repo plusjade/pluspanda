@@ -8,8 +8,11 @@
   <%=h @user.login_count %>
 </p>
 
-<%= link_to 'Go To Admin Panel', '/admin' %>
-<br/><br/>
-<%= link_to 'Edit', edit_account_path, :rel => 'facebox' %>
-<br/><br/>
-<%= link_to 'Logout', 'user_session/logout' %>
+<p>
+  <%= link_to 'Go To Admin Panel', admin_path %>
+</p>
+
+<p>
+  <%= link_to 'Edit', edit_account_path, :rel => 'facebox' %>
+</p>
+<%= link_to 'Logout', admin_logout_path %>
