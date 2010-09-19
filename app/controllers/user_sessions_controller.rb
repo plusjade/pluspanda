@@ -1,5 +1,5 @@
 class UserSessionsController < ApplicationController
-  layout false
+  layout "frontpage"
   before_filter :require_no_user
   
   def new
@@ -11,6 +11,7 @@ class UserSessionsController < ApplicationController
     if @user_session.save
       redirect_to admin_path
     else
+      flash[:notice] = "Incorrect login information"
       render :action => :new
     end
   end

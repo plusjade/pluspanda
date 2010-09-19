@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>PlusPanda v2 Login</title>
+
+  <%= stylesheet_link_tag "shared/reset" %>
+  <style type="text/css">
+    body {
+      background: #EAEAEA;
+      font-family: Arial, Helvetica, sans-serif;
+      margin:0;
+      margin-top:20px;
+      padding:0;
+      color:#333;
+    }
+    h1,h2,h3,h4,h5,h6    { color: #333333;}
+    h1{font-size:1.6em;}
+    h2{font-size:1.4em;}
+    h3{font-size:1.2em;}
+    h4{font-size:1em;}
+    a, button {outline:0;}
+    p { 
+      font-size: 12px;
+      padding: 0px;
+      line-height: 24px;
+      margin:0;
+      margin-bottom:10px;
+      text-align:center;
+    }
+    #content_wrapper {
+      margin:auto;
+    }  
+    h1 {
+      font-size:20px;
+      text-align:center;
+      margin-bottom:10px;
+    }  
+    #existing_users {
+      padding:5px;
+      background:#ffffcc;
+    }
+    form {
+      background:#fff;
+      padding:10px;
+      margin:auto;
+      margin-bottom:15px;
+      width:320px;
+      -webkit-border-radius:5px;
+      -webkit-box-shadow:2px 2px 4px #ccc;
+    }
+    label {
+      font-weight:bold;
+      display:block;
+    }
+    input {
+      border:1px solid #777;
+      padding:3px;
+      font-size:14px;
+      font-weight:bold;
+      width:300px;
+    }
+    fieldset {
+      margin-bottom:10px;
+    }
+    #user_session_submit, #user_submit {
+      background:#7BC940;
+      border:1px solid #5E892D;
+      cursor:cursor;
+      cursor:pointer;
+    }
+    #user_session_submit:hover, #user_submit:hover {
+      background:#9EDD4F;
+    } 
+    #questions {
+      text-align:center;
+    }
+    .notice {
+      padding:5px;
+      text-align:center;
+      font-weight:bold;
+      color:red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="content_wrapper">
+      <%= yield %>
+    </div>
+  </div>
+
+</body>
+</html>

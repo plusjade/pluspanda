@@ -1,6 +1,9 @@
-<h1>Login</h1>
+<h1>New Users Login to Pluspanda v2</h1>
 
 <% form_for :user_session, @user_session, :url => session_path do |f| %>
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end%>
   <fieldset>
     <%= f.label :email %>
     <%= f.text_field :email %>
@@ -12,7 +15,8 @@
   </fieldset>
   
   <fieldset>
-    <%= f.check_box :remember_me %><%= f.label :remember_me %>
+    <%= f.label "Yes, remember me." %>
+    <%= f.check_box :remember_me %>
   </fieldset>
   
   <fieldset>

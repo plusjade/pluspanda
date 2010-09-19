@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  layout false
+  layout "frontpage"
   before_filter :require_user, :except => [:new, :create]
   
   
@@ -14,6 +14,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to("/admin")
     else
+      flash[:warning] = "Make sure passwords match!"
       @user_session = UserSession.new
       render :action => :new
     end
