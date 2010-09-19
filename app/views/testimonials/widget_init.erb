@@ -1,126 +1,125 @@
-
-/* Event delegation*/
-jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}
-
-/* For testimonial widget mode =P */
-jQuery('head').append('<link type="text/css" id="pandaTheme" href="' + pandaAssetUrl + '/' + pandaTheme + '.css" media="screen" rel="stylesheet" />');
-$paNdA = jQuery('#plusPandaYes');
-var loading = '<div class="ajax_loading">Loading...</div>';
-
-// attach event triggers.
-jQuery('body').click(jQuery.delegate({
-  'a.show-more' : function(e){  
-    var is_sort = e.target.href.indexOf('#');    
-    var parent = (-1 == is_sort)
-      ? 'a.show-more'
-      : '.panda-testimonials-sorters a';
-    var spltr = (-1 == is_sort) ? '?' : '#';
-
-    // get GET params from links TOD0: optimize this?
-    var hash = e.target.href.split(spltr)[1].split('&');
-    var params = {"tag":"all","sort":"newest","page":1};
-    for(x in hash){
-        var arr = hash[x].split('=');
-        params[arr[0]] = arr[1]; 
-    }
-    jQuery(e.target).remove();
-    pandaGetTstmls(params.tag, params.sort, params.page);
-    return false;
-  }
-}));
-
-// build the initial interface.
-function buildIt() {   
-  $paNdA.html(pandaStructure);
+var panda = {   
+  $container : null,
+  loading: '<div class="ajax_loading">Loading...</div>',
+  pollTry: 0,
   
-  // ajaxify tag list.  
-  jQuery('div.panda-tags ul a').click(function(e){
-    var tag = e.target.hash.substring(1);
-    // highlight the tag link
-    jQuery('div.panda-tags ul a').removeClass('active');
-    jQuery(this).addClass('active');
+  init: function () {
+    if (typeof jQuery == 'undefined') {  
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js";    
+      document.head.appendChild(script);
+      panda.poll();
+      return;
+    }
+    panda.setup();
+  },
+  
+  poll: function (){
+    panda.pollTry = panda.pollTry+1;
+    if (panda.pollTry > 15) { 
+      var container = document.getElementById('plusPandaYes');
+      container.innerHTML = 'pluspanda error! Could not load jquery';
+    } else if (typeof jQuery == 'undefined') {  
+      setTimeout("panda.poll()", 100);
+    } else {
+      panda.setup();
+    }
+  }, 
 
-    // load the testimonials based on selection.
-    jQuery('div.panda-container').empty();
-    pandaGetTstmls(tag,'newest',1);
-    return false;  
-  });
-  // init getting the data.
-  jQuery('div.panda-tags ul a:first').click();
-  // track
-  //jQuery.get('<%= url_for("track") %>',{key:pandaApikey,url:parent.location.href});
-}
-$paNdA.html(loading);
-setTimeout ( "buildIt()", 1000 ); 
+  setup: function(){ 
+    jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}
+    jQuery('head').append('<link type="text/css" id="pandaTheme" href="' + pandaAssetUrl + '/' + pandaTheme + '.css" media="screen" rel="stylesheet" />');
+    panda.$container = jQuery('#plusPandaYes');
 
-// get the testimonials as json.
-function pandaGetTstmls(tag, sort, page){
-    jQuery('div.panda-container').append(loading);
-    
+    /* attach event triggers. */
+    jQuery('body').click(jQuery.delegate({
+      'a.show-more' : function(e){  
+        var is_sort = e.target.href.indexOf('#');    
+        var parent = (-1 == is_sort)
+          ? 'a.show-more'
+          : '.panda-testimonials-sorters a';
+        var spltr = (-1 == is_sort) ? '?' : '#';
+
+        // get GET params from links TOD0: optimize this?
+        var hash = e.target.href.split(spltr)[1].split('&');
+        var params = {"tag":"all","sort":"newest","page":1};
+        for(x in hash){
+            var arr = hash[x].split('=');
+            params[arr[0]] = arr[1]; 
+        }
+        jQuery(e.target).remove();
+        panda.getTstmls(params.tag, params.sort, params.page);
+        return false;
+      }
+    }));
+    panda.$container.html(panda.loading);
+    panda.build();
+  },
+
+
+  /* build the initial interface. */
+  build: function () {
+    panda.$container.html(pandaStructure);
+
+    // ajaxify tag list.  
+    jQuery('div.panda-tags ul a').click(function(e){
+      var tag = e.target.hash.substring(1);
+      // highlight the tag link
+      jQuery('div.panda-tags ul a').removeClass('active');
+      jQuery(this).addClass('active');
+
+      // load the testimonials based on selection.
+      jQuery('div.panda-container').empty();
+      panda.getTstmls(tag,'newest',1);
+      return false;  
+    });
+    // init getting the data.
+    jQuery('div.panda-tags ul a:first').click();
+    // track
+    //jQuery.get('<%= url_for("track") %>',{key:pandaApikey,url:parent.location.href});
+  },
+  
+  /* get the testimonials as json. */
+  getTstmls: function (tag, sort, page){
+    jQuery('div.panda-container').append(panda.loading);
     jQuery.ajax({ 
         type:'GET', 
         url: '<%= root_url %>testimonials.js', 
-        data:"apikey="+pandaApikey+"&tag="+tag+"&sort="+sort+"&page="+page+"&jsoncallback=pandaLoadTstml", 
+        data:"apikey="+pandaApikey+"&tag="+tag+"&sort="+sort+"&page="+page, 
         dataType:'jsonp'
     }); 
-}
+  },
 
 
-// --------- jsonp callbacks ------------  
+  // --------- jsonp callbacks ------------  
 
-// callback to format and inject testimonials data.
-function pandaDisplayTstmls(tstmls){
-  var content = '';
-  var date = new Date();
-  jQuery(tstmls).each(function(i){
-    this.testimonial.created = new Date(this.testimonial.created*1000).toGMTString(); /*this.created = d.getDate() + '/' + (1+d.getMonth()) + '/' + d.getFullYear(); */
-    this.testimonial.image   = (0 == this.testimonial.avatar_file_name.length) ? '<%= image_path("stock.png") %>' : '/system/avatars/' + this.testimonial.id + '/sm.' + this.testimonial.avatar_file_name;
-    this.testimonial.url     = (0 == this.testimonial.url.length) ? '' : 'http://' + this.testimonial.url;
-    this.testimonial.alt     = (0 == (i+1) % 2) ? 'even' : 'odd';
-    content  += pandaItemHtml(this.testimonial);
-  });
-  jQuery('div.panda-container .ajax_loading', $paNdA)
-    .replaceWith(content);
-  pandaInteractions();
-  pandaClean();
-}
+  /* callback to format and inject testimonials data. */
+  display: function (tstmls){
+    var content = '';
+    var date = new Date();
+    jQuery(tstmls).each(function(i){
+      this.testimonial.created = new Date(this.testimonial.created*1000).toGMTString();
+      this.testimonial.image   = (0 == this.testimonial.avatar_file_name.length) ? '<%= image_path("stock.png") %>' : '/system/avatars/' + this.testimonial.id + '/sm.' + this.testimonial.avatar_file_name;
+      this.testimonial.url     = (0 == this.testimonial.url.length) ? '' : 'http://' + this.testimonial.url;
+      this.testimonial.alt     = (0 == (i+1) % 2) ? 'even' : 'odd';
+      content  += pandaItemHtml(this.testimonial);
+    });
+    jQuery('div.panda-container .ajax_loading', panda.$container).replaceWith(content);
+    panda.clean();
+  },
 
-// callback to display the pagination html.
-function pandaShowMore(nextPage, tag, sort){
-  if(!nextPage)
-    return false;
-    
-  var link = '<a href="<%= root_url %>testimonials.js?apikey='+pandaApikey+'&tag='+tag+'&sort='+sort+'&page='+ nextPage +'" class="show-more">Show More</a>';
-  jQuery('div.panda-container').append(link);
-}
+  /* callback to display the pagination html. */
+  showMore: function (nextPage, tag, sort){
+    if(!nextPage) return false;
+    var link = '<a href="<%= root_url %>testimonials.js?apikey='+pandaApikey+'&tag='+tag+'&sort='+sort+'&page='+ nextPage +'" class="show-more">Show More</a>';
+    jQuery('div.panda-container').append(link);
+  },
 
-
-/*
- * utilities
- */
- 
-// bind/unbind javascript interactions based on theme.
-function pandaInteractions(){
-  jQuery('div.t-details div.image img').unbind();
-  var theme = ('' == window.location.hash.substring(1))
-    ? pandaTheme
-    : window.location.hash.substring(1);
-    
-  if('gallery' == theme){
-    jQuery('div.t-details div.image img').hover(function(){
-        jQuery('div.t-content').hide();
-        jQuery(this).parent().parent().next('.t-content').toggle();
-      },
-      function(){
-        jQuery('div.t-content').hide();
-      });
+  /* cleanup our jsonp scripts after execution. */
+  clean: function (){
+    jQuery('head script[src^="<%= root_url %>"]').remove();
   }
 }
-
-// cleanup our jsonp scripts after execution.
-function pandaClean(){
-  jQuery('head script[src^="<%= root_url %>"]').remove();
-}
-
+window.onload = panda.init;
 /*<%= Time.new %>*/
-

@@ -23,19 +23,18 @@ class TestimonialsController < ApplicationController
 
         #@response.headers["Cache-Control"] = 'no-cache, must-revalidate'
         #@response.headers["Expires"] = 'Mon, 26 Jul 1997 05:00:00 GMT'
-        render :js => "pandaDisplayTstmls(#{@testimonials.to_json});pandaShowMore(#{page_vars});"
+        render :js => "panda.display(#{@testimonials.to_json});panda.showMore(#{page_vars});"
       end
     end
     
   end
 
 
-  # serve the javascript build environment
-  # TODO: use google cdn to load jquery if necessary
   def widget 
     @user.update_settings(self) unless @user.has_settings?   
     render :js => @user.settings + render_cache
   end
+  
   
   # represent a single testimonial ? this isn't in use at the moment.
   def show
