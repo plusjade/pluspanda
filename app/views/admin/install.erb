@@ -1,5 +1,3 @@
-
-
 <ul class="grandchild_nav"> 
   <li class="main"><a href="/admin/testimonials/install" class="active" rel="tab-main">Main Panel</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
@@ -13,36 +11,35 @@
      <img src="/static/images/admin/warning.png" />
       Remember to Save Your Account by Entering Your Email!
      <img src="/static/images/admin/warning.png" />
-     <br/>
-     Otherwise this code will expire in 24 hours =(
+     <br/>Otherwise this code will expire in 24 hours =(
     </h2>
     <% end %>
 
     <div class="install-page">
-      <div class="info">
-        Place the install code in the exact place on your page where you want your widget to be displayed.
-      </div>
+      <h4>1) Place This Code Where You Want Your Testimonials to Display:</h4>
+      <textarea><%=h '<div id="plusPandaYes"></div>' %></textarea>
 
-      <h4>Standard</h4>
-      <div>The standard install code is good for all websites!</div>
-      <textarea><%= embed_code(@user.apikey) %></textarea>
+      <h4>2) Place This Code Before The Closing Body Tag at the Bottom of Your Page:</h4>
+      <p>
+        <textarea><%= embed_code(@user.apikey) %></textarea>
+      </p>
 
-      <h4>Developer</h4>
-      <div>
-        Pluspanda uses the jquery javascript framework, which gets loaded by the standard embed code.
-        If your website is already using jquery you can use the following code which omits loading jquery again.
-      </div>
-      <textarea><%= embed_code(@user.apikey, false) %></textarea>
-
-      
-      <br/><br/>
       <h2>Coming Soon: Export Your Layout</h2>
       We are working on adding exporting of all html,css, javascript and data assets
-      to upload onto your own page. Please email <a href="mailto:plusjade@gmail.com">plusjade@gmail.com</a> if this is something you would be interested in, thanks!
+      to upload onto your own page.
+      <br/> Please email <a href="mailto:plusjade@gmail.com">plusjade@gmail.com</a> if this is something you would be interested in, thanks!
     </div>
   
   </div>
   
+  <style type="text/css"> 
+    .install-page textarea {
+      font-size:16px;
+      font-weight:bold;
+      background-color:#FFFFCC;
+      
+    }
+  </style>
   
   <div id="tab-help" class="tab-content">
     No help here yet!
