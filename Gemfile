@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0.rc'
+gem 'rails', '3.0.0'
 gem "nokogiri"
 gem "sanitize"
 gem "paperclip"
@@ -9,7 +9,8 @@ gem "mysql"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
+gem "authlogic"
+#gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 
 # Use unicorn as the web server
