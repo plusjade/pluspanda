@@ -3,46 +3,21 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>PlusPanda Feedback Engine</title>
-
-  <!--  REQUIRED FOR IE6 SUPPORT -->
-  <style type="text/css">img, div { behavior: url(iepngfix.htc) }</style> 
   <%= stylesheet_link_tag "shared/reset", "collect/global", "testimonials/edit", "shared/facebox", "shared/buttons" %>
 </head>
 
 <body>
 <div id="wrapper">
-  <div id="server_response">
-    <span class="rsp"></span>
-    <div class="load" style="display:none">
-      <strong>Loading...</strong>
-    </div>
-  </div>
-  
   <div id="content_wrapper">
     <%= yield %>
     
     <div id="panda-powered">
-      <img src="/images/marketing/panda.png" alt="pluspanda logo" />
-      <h1>Want to add testimonials to your own site?</h1>
-      <h2><%= link_to root_url, root_url %></h2>
+      <h2>Powered by <%= link_to root_url, root_url %></h2>
     </div>
     <div id="footer">© Copyright 2009 PlusPanda =] | <a href="#">Top</a></div>
   </div>
   
 </div>
-
- <%= javascript_include_tag 'shared/jquery' %>
-
-<script type="text/javascript">
-$(document).ready(function(){
-/*
-  //$('a[rel*=facebox]').facebox();
-  $("div#qs").codaSlider();
-  $("div#t-questions").codaSlider();
-  $(document).trigger('tstml.edit');
-*/
-});
-</script>
 
 </body>
 </html>
