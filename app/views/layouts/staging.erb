@@ -2,26 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>PlusPanda Feedback Engine</title>
+  <title>PlusPanda Sample Staging Page</title>
 
-  <!--  REQUIRED FOR IE6 SUPPORT -->
-  <style type="text/css">img, div { behavior: url(iepngfix.htc) }</style> 
   <%= stylesheet_link_tag "shared/reset", "staging/global" %>
-  <%#= javascript_include_tag 'shared/jquery' %>
 </head>
 
 <body>
+
   <div id="wrapper">
     <div id="content_wrapper">
       <%= yield %>
     </div>
   </div>
 
-  <script type="text/javascript">
-
-
-  </script>
   <script type="text/javascript" src="<%= widget_script_url %>" charset="utf-8"></script> 
-
 </body>
 </html>
