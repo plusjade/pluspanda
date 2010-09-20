@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   acts_as_authentic
   has_one :tconfig
   
+  validates_uniqueness_of :email
+  
   before_create :generate_defaults
   after_create  :create_dependencies
   

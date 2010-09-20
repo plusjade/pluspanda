@@ -216,10 +216,20 @@ class TestimonialsController < ApplicationController
   # verify this user can create a testimonial
   def can_publish_new
     access_key = @user.tconfig.form["require_key"]
-    return true if access_key.empty? || access_key == params[:access_key]
+    
+    email = (params[:testimonial][:email].nil?) ? '' : params[:testimonial][:email].strip
+    
+    if !access_key.empty? && access_key != params[:access_key]
+      flash[:notice] = "Invalid Access Key!"
+    elsif params[:testimonial][:name].nil? || params[:testimonial][:name].strip.empty?
+      flash[:notice] = "Please enter your full name."
+    elsif @user.tconfig.form["email"] && (email.empty? || email.index('@') == nil)
+      flash[:notice] = "Please enter a valid email address."
+    else
+      return true
+    end
     
     @testimonial = Testimonial.new(params[:testimonial])  
-    flash[:notice] = "Invalid Access Key!"
     render :action => "new"
     return false  
   end
