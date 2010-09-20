@@ -99,11 +99,11 @@ var panda = {
     var content = '';
     var date = new Date();
     jQuery(tstmls).each(function(i){
-      this.testimonial.created = new Date(this.testimonial.created*1000).toGMTString();
-      this.testimonial.image   = (0 == this.testimonial.avatar_file_name.length) ? '<%= image_path("stock.png") %>' : '/system/avatars/' + this.testimonial.id + '/sm.' + this.testimonial.avatar_file_name;
-      this.testimonial.url     = (0 == this.testimonial.url.length) ? '' : 'http://' + this.testimonial.url;
-      this.testimonial.alt     = (0 == (i+1) % 2) ? 'even' : 'odd';
-      content  += pandaItemHtml(this.testimonial);
+      this.created = new Date(this.created*1000).toGMTString();
+      this.image   = (0 == this.avatar_file_name.length) ? '<%= image_path("stock.png") %>' : '/system/avatars/' + this.id + '/sm.' + this.avatar_file_name;
+      this.url     = (0 == this.url.length) ? '' : 'http://' + this.url;
+      this.alt     = (0 == (i+1) % 2) ? 'even' : 'odd';
+      content  += pandaItemHtml(this);
     });
     jQuery('div.panda-container .ajax_loading', panda.$container).replaceWith(content);
     panda.clean();

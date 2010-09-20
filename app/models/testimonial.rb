@@ -43,5 +43,23 @@ class Testimonial < ActiveRecord::Base
     self.avatar.instance_write(:file_name, "#{ActiveSupport::SecureRandom.hex(4)}#{ext}")
   end
   
-      
+
+  def sanitize_for_api
+    testimonial = {
+      :id               => self.id,
+      :rating           => self.rating,
+      :position         => self.position,
+      :name             => self.name,
+      :company          => self.company,
+      :location         => self.location,
+      :created_at       => self.created_at,
+      :avatar_file_name => self.avatar_file_name,
+      :tag_id           => self.tag_id,
+      :body             => self.body,
+      :url              => self.url,
+      :c_position       => self.c_position
+    }
+    testimonial   
+  end
+  
 end

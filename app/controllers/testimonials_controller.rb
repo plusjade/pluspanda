@@ -6,10 +6,16 @@ class TestimonialsController < ApplicationController
   
   # get the user's testimonials object with applicable filters/sorters (paging)
   def index
-    @testimonials = get_testimonials
+    @testimonials = []
+    get_testimonials.each do |t|
+      @testimonials.push(t.sanitize_for_api)                    
+    end
+    
     respond_to do |format|
       format.html { render :text => 'a standalone version maybe?'}
-      format.json { render :json => @testimonials }
+      format.json do
+        render :json => @testimonials
+      end
       format.js  do
         total = get_testimonials(true)
 
@@ -39,6 +45,8 @@ class TestimonialsController < ApplicationController
   # represent a single testimonial ? this isn't in use at the moment.
   def show
     @testimonial = Testimonial.find_by_id(params[:id])
+    
+    @testimonial = (current_user) ? @testimonial : @testimonial.sanitize_for_api
     render :text => "invalid testimonial" and return if @testimonial.nil?
     
     if params['apikey']
