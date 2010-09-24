@@ -4,6 +4,7 @@ log/*.log
 tmp/**/*
 
 config/database.yml
+config/sendgrid.yml
 config/deploy.rb
 public/system/*
 

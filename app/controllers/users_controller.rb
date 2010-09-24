@@ -14,6 +14,7 @@ class UsersController < ApplicationController
     redirect_to admin_path if current_user
     @user = User.new(params[:user])
     if @user.save
+      UserMailer.welcome(@user).deliver
       redirect_to("/admin")
     else
       flash[:warning] = "Make sure passwords match!"
