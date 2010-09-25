@@ -6,6 +6,7 @@ class Testimonial < ActiveRecord::Base
     :styles => { :sm => "125x125#" }
 
   after_post_process :randomize_filename
+  belongs_to :user
   has_one :tag
   
   before_create :generate_defaults
