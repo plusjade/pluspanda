@@ -8,7 +8,7 @@ var panda = {
       var script = document.createElement("script");
       script.type = "text/javascript";
       script.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js";    
-      document.head.appendChild(script);
+      document.body.appendChild(script);
       panda.poll();
       return;
     }
@@ -121,5 +121,5 @@ var panda = {
     jQuery('head script[src^="<%= root_url %>"]').remove();
   }
 }
-window.onload = panda.init;
+window.onload = panda.init();
 /*<%= Time.new %>*/
