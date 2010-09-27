@@ -65,14 +65,14 @@ a.del-cat{
 .share-data input{width:500px;font-size:1.2em;padding:5px;}
 
 table.t-data{margin:0; padding:0; margin-bottom:20px;}
-table.t-data tr td{border-bottom:1px solid #ccc; background:#fff}
+table.t-data tr td{border-bottom:1px dashed #ccc; background:#fff}
 table.t-data tr.off td{background:#eee; color:#777}
-table.t-data tr td{}
 
 /* tables */
 table.t-data thead tr th, table.t-data tfoot tr th {
   background-color: #333;
-  padding: 4px;
+  padding:4px 4px 4px 6px;
+  border-right:1px solid #fff;
 }
 table.t-data thead tr .header {
   background-image: url('/images/admin/bg.gif');
@@ -81,8 +81,9 @@ table.t-data thead tr .header {
   cursor: pointer;
 }
 table.t-data tbody td {
-  padding: 4px;
+  padding:4px 4px 4px 6px;
   vertical-align: top;
+  border-right:1px dashed #ccc;
 }
 table.t-data tbody tr.odd td {
   background-color:#F0F0F6;
@@ -102,6 +103,8 @@ td.move img {
   cursor:move;
 }
 
+/* td.publish, td.lock {text-align:center;} */
+td.edit {text-align:center;}
 
 /* admin/install 
  ***********************

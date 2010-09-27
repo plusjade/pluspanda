@@ -1,13 +1,14 @@
 <tr id="tstml_<%= testimonial.id %>" class="<%= testimonial.publish ? '' : 'off' %>">
   <td class="move"><img src="/images/admin/move.png"/></td>
   <td class="checkboxes"><input type="checkbox" name="" value="<%= testimonial.id %>"/></td>
-  <td><%= testimonial.position %></td>
+  <td class="position"><%= testimonial.position %></td>
+  <td class="publish"><%= testimonial.publish ? 'yes' : 'no' %></td>
+  <td class="lock"><%= testimonial.lock ? 'yes' : 'no' %></td>
   <td class="name"><%= testimonial.name %></td>
   <td class="company"><%= testimonial.company %></td>
   <td class="category">(tag name)</td>
-  <td><%= testimonial.publish ? 'yes' : 'no' %></td>
   <td><abbr class="timeago" title="<%= Time.parse("#{testimonial.updated_at}").iso8601 %>"><%= testimonial.updated_at %></abbr></td>
   <td><abbr class="timeago" title="<%= Time.parse("#{testimonial.created_at}").iso8601 %>"><%= testimonial.created_at %></td>
+  <td class="share"><a href="<%= "#{root_url}testimonials/#{testimonial.id}/edit?apikey=#{@user.apikey}" %>" class="fb-div" rel="#share-window">share</a></td>
   <td class="edit"><%= link_to 'edit', edit_testimonial_path(testimonial), :rel => "facebox" %></td>
-  <td><a href="<%= "#{root_url}testimonials/#{testimonial.id}/edit?apikey=#{@user.apikey}" %>" class="fb-div" rel="#share-window">share</a></td>
 </tr>

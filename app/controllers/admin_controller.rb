@@ -44,7 +44,7 @@ class AdminController < ApplicationController
   
   def update
     puts params[:id]
-    unless ['publish', 'hide', 'lock', 'delete'].include?(params[:do])
+    unless ['publish', 'hide', 'lock', 'unlock', 'delete'].include?(params[:do])
       serve_json_response('bad','Nothing Changed')
       return
     end 
