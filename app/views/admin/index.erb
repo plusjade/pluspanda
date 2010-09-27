@@ -19,7 +19,7 @@
 
 
   <div id="tab-settings" class="tab-content">
-    <% form_for @user.tconfig, :url => '/admin/settings', :html => { :rel => "form.settings" } do |f| %>  
+    <%= form_for @user.tconfig, :url => '/admin/settings', :html => { :rel => "form.settings" } do |f| %>  
       <div class="round-box-top" style="text-align:center">Theme Settings</div>
       <div class="round-box-body">
         <fieldset>

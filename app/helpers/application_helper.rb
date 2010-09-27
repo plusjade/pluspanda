@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def root_url
-    if RAILS_ENV=='production'
+    if ::Rails.env == 'production'
       return "http://api.pluspanda.com/"
     else
       return "http://localhost:3000/"

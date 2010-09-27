@@ -8,10 +8,7 @@ class AdminController < ApplicationController
   end
   
   def manage
-    @testimonials = Testimonial.where({
-      :user_id => current_user.id,
-      :created_at => (Time.now - 2.day)..Time.now
-    }).order("created_at DESC")  
+
   end
   
   
