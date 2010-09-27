@@ -77,7 +77,9 @@ class TestimonialsController < ApplicationController
     @testimonial = Testimonial.new(params[:testimonial])
     @testimonial.user_id = @user.id  
     if @testimonial.save
+      UserMailer.new_testimonial(@user, @testimonial).deliver if @user[:is_via_api]
       @testimonial.freeze
+
       return if serve_json_response('good','Testimonial created!', @testimonial)
       flash[:notice] = "Testimonial Created!"
       redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"

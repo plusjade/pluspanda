@@ -15,8 +15,11 @@ class UserMailer < ActionMailer::Base
   end
   
   # notify users of a  new testimonial from public form
-  def testimonial_notify
-    
+  def new_testimonial(user, testimonial)
+    @user = user
+    @testimonial = testimonial
+    mail(:to => user.email,
+         :subject => "You've received 1 new testimonial")    
   end 
    
 end
