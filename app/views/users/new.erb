@@ -1,20 +1,22 @@
 
-<%= render :template => "user_sessions/new" %>
+<h1 class="title">Pluspanda Testimonials Service</h1>
 
-<h1>Register for Pluspanda v2</h1>
-<p>
-  Emails are NOT being sent out at this time!
-  <br/> Please remember your login info for a couple more days.
-</p>
-<% form_for @user, :url => account_path do |f| %>
-<% if flash[:warning] %>
-  <div class="notice"><%= flash[:warning] %></div>
-<% end%>
-  <%= render :partial => "form", :object => f %>
-  <%= f.submit "Register" %>
-<% end %>
+<div style="float:left;">
+  <%= render :template => "user_sessions/new" %>
+</div>
 
-<h1>Questions?</h1>
+<div style="float:right;">
+  <h1>Register</h1>
+  <% form_for @user, :url => account_path do |f| %>
+  <% if flash[:warning] %>
+    <div class="notice"><%= flash[:warning] %></div>
+  <% end%>
+    <%= render :partial => "form", :object => f %>
+    <%= f.submit "Register" %>
+  <% end %>
+</div>
+
+<h1 style="clear:both;">Questions?</h1>
 <p id="questions">
   Email me at <a href="mailto:jade@pluspanda.com">jade@pluspanda.com</a>
   <br/> or go to <a href="http://pluspanda.com">http://pluspanda.com</a> for more information.

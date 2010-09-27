@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>PlusPanda v2 Login</title>
+  <title>PlusPanda Testimonials API</title>
 
   <%= stylesheet_link_tag "shared/reset" %>
   <style type="text/css">
@@ -30,12 +30,17 @@
     }
     #content_wrapper {
       margin:auto;
+      width:750px;
     }  
     h1 {
       font-size:20px;
       text-align:center;
       margin-bottom:10px;
     }  
+    h1.title{
+      font-size:24px;
+      margin-bottom:20px;
+    }
     #existing_users {
       padding:5px;
       background:#ffffcc;
@@ -46,6 +51,7 @@
       margin:auto;
       margin-bottom:15px;
       width:320px;
+      border:1px solid #eee;
       -webkit-border-radius:5px;
       -webkit-box-shadow:2px 2px 4px #ccc;
     }
@@ -54,14 +60,19 @@
       display:block;
     }
     input {
-      border:1px solid #777;
-      padding:3px;
-      font-size:14px;
+      border:1px solid #ccc;
+      padding:5px;
+      font-size:18px;
       font-weight:bold;
       width:300px;
+      background:#EAEAEA;
+    }
+    input:focus {
+      background:#ffff99;
+      border:1px solid orange;
     }
     fieldset {
-      margin-bottom:10px;
+      margin-bottom:15px;
     }
     #user_session_submit, #user_submit {
       background:#7BC940;
