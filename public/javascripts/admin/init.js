@@ -32,6 +32,7 @@ $(function(){
       });
       return false;
     },
+   
    // secondary navigation tabs
     'ul.grandchild_nav li a' : function(e){
       var $target = $(e.target);
@@ -40,17 +41,59 @@ $(function(){
       $('ul.grandchild_nav li a').removeClass('active');
       $target.addClass('active');
       $('#'+ rel).show();
+      
       if($target.hasClass('reload')){
           if('tab-widget' == rel)
             $('#widget-wrapper').html($iframe.clone().attr('src', '/admin/staging'));
           else if('tab-collect' == rel)
             $('#collector-form-view').html($iframe.clone().attr('src', $('#collector-form-url').val()));
       }
+      
+      if($target.hasClass('manage')){
+        $("#data-description").html($target.attr('title'));
+        $.get(e.target.href, function(data){
+          var filter = $target.html().toLowerCase();
+          $("#with-selected li.right").hide();
+          if (filter == 'new'){
+            $("#with-selected li.new-testimonial").show();
+          }
+          if (filter == 'published'){
+            $("#with-selected li.save-positions").show();
+          }          
+          $('#t-data').removeClass().addClass(filter).html(data);
+          $('abbr.timeago').timeago();
+        });
+      }
       return false;
     },
 
+    // batch update testimonials
+    '#with-selected li a.do' : function(e){
+      var ids = []
+      $(".checkboxes input:checked").each(function(){
+        ids.push($(this).val());
+      });
+      if (ids.length == 0) {
+        $(document).trigger('responding', {'status':"bad", "msg":'Nothing selected.'});
+        return false;
+      }
+      $(document).trigger('submitting');
+      $.get(e.target.href, $.param( {'id[]': ids}, true), function(rsp){
+        $(document).trigger('responding', rsp);
+        $('ul.grandchild_nav li a.active').click();
+      });      
+      return false;
+    },
+    
+    
+    '#with-selected li a.select' : function(e){
+      toggle = ($(e.target).hasClass('all')) ? true : false; 
+      $(".checkboxes input").attr('checked', toggle);
+      return false;
+    },
+      
    // save testimonial positions 
-    '#manage-buttons button' : function(e){
+    '#with-selected a.save-positions' : function(e){
       var order = $("table.t-data").sortable("serialize");
       if(!order){alert("No items to sort");return false;}
       $(document).trigger('submitting');

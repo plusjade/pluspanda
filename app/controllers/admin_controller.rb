@@ -7,10 +7,75 @@ class AdminController < ApplicationController
 
   end
   
-  
   def manage
-    @testimonials = Testimonial.where({ :user_id => current_user.id }).order("position ASC")
+    @testimonials = Testimonial.where({
+      :user_id => current_user.id,
+      :created_at => (Time.now - 2.day)..Time.now
+    }).order("created_at DESC")  
   end
+  
+  
+  def testimonials
+    
+    case params[:filter]
+    when "published"
+      order = (@user.tconfig.sort == 'position') ? "position ASC" : "created_at DESC"
+      @testimonials = Testimonial.where({
+        :user_id => current_user.id,
+        :publish => true
+      }).order(order)
+    when "hidden"
+      @testimonials = Testimonial.where({
+        :user_id => current_user.id,
+        :publish => false
+      }).order("created_at DESC")
+    else
+      # default to new
+      @testimonials = Testimonial.where({
+        :user_id => current_user.id,
+        :created_at => (Time.now - 2.day)..Time.now
+      }).order("created_at DESC")      
+    end
+    
+    render @testimonials
+    return
+     
+  end
+  
+  def update
+    puts params[:id]
+    unless ['publish', 'hide', 'lock', 'delete'].include?(params[:do])
+      serve_json_response('bad','Nothing Changed')
+      return
+    end 
+    
+    count = 0
+    params[:id].each do |id|
+      t = Testimonial.find_by_id(id.to_i, :conditions => { :user_id => @user.id } )
+      next if t.nil?
+      puts t.id
+      case params[:do]
+      when "publish"  
+        t.publish = true
+      when "hide"
+        t.publish = false
+      when "lock"
+        t.lock = true
+      when "unlock"
+        t.lock = false
+      when "tag"
+        t.tag = params[:tag].to_i
+      when "delete"
+        # psuedo delete this
+        # t.detete = true
+      end
+            
+      (count = (count + 1)) if t.save
+    end
+    
+    serve_json_response('good',"#{count} Testimonials updated")
+    return   
+  end 
   
   
   def install  

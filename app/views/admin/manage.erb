@@ -1,19 +1,32 @@
 
-<ul class="grandchild_nav"> 
-  <li class="main"><a href="/admin/testimonials/manage" class="active" rel="tab-main">Main Panel</a></li> 
+<ul id="manage-tabs" class="grandchild_nav"> 
+  <li class="new"><a href="/admin/testimonials?filter=new" class="active manage" rel="tab-data" title="Testimonials created in the last 48 hours.">New</a></li> 
+  <li class="published"><a href="/admin/testimonials?filter=published" class="manage" rel="tab-data" title="Published testimonials publically viewable in your widget and other testimonial tools.">Published</a></li> 
+  <li class="hidden"><a href="/admin/testimonials?filter=hidden" class="manage" rel="tab-data" title="Hidden testimonials not included in your widget until they are published.">Hidden</a></li> 
+  
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
 <div class="primary-content">
 
-  <div id="tab-main" class="tab-content">
-  
-    <div class="admin-new-testimonials-list">  
-      <%= link_to 'New Testimonial', new_testimonial_path, :rel => 'facebox' %>
-      <div id="manage-buttons" class="buttons">
-        <button class="positive">Save Positions</button>
-      </div>
-
+  <div id="tab-data" class="tab-content">
+    <div id="data-description">&#160;</div>
+    
+    <div class="admin-new-testimonials-list">
+      <ul id="with-selected">
+        <li><a href="#" class="select all">+ All</a></li>
+        <li><a href="#" class="select none">- None</a></li>
+        <li>Actions: </li>
+        <li><a href="/admin/update?do=publish" class="do">Publish</a></li>
+        <li><a href="/admin/update?do=hide" class="do">Hide</a></li>
+        <li><a href="/admin/update?do=lock" class="do">Lock</a></li>
+        <li><a href="/admin/update?do=unlock" class="do">Unlock</a></li>
+        <li><a href="/admin/update?do=delete" class="do">Delete</a></li>
+        
+        <li class="right save-positions" title="Saves the current order the testimonials are in."><%= link_to "Save Positions", "#", :class => "save-positions" %></li>
+        <li class="right new-testimonial" title="Create a new testimonial."><%= link_to 'New Testimonial', new_testimonial_path, :rel => 'facebox', :class => 'positive' %></li>
+      </ul>
+            
       <table class="t-data">
         <thead>
           <tr>
@@ -28,7 +41,6 @@
             <th width="120px">Created</th>
             <th width="25px"></th>
             <th width="60px"></th>
-            <th width="20px"></th>
           </tr>
         </thead>
         <tbody id="t-data">

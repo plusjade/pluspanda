@@ -53,25 +53,14 @@ a.del-cat{
 /* admin/manage 
  ***********************
  */
-#manage-buttons {overflow:hidden}
-#manage-buttons button, #manage-buttons a{
-  float:right;
-  padding:6px 10px;
-  margin:0;
-  margin-left:25px;
-  border:1px solid #bde99c;
-  border-bottom:0;
-  font-weight:bold;
-  font-size:1.1em;
-  -moz-border-radius-topleft:7px;
-  -moz-border-radius-topright:7px;
-  -webkit-border-top-left-radius:7px;
-  -webkit-border-top-right-radius:7px;
+#data-description {
+  text-align:center;
+  margin-bottom:15px;
+  color:#777;
 }
-
-.with-selected{list-style:none;margin:0;padding:0;}
-.with-selected li {display:inline; margin-right:10px;}
-
+#with-selected{list-style:none;margin:0; margin-bottom:10px; padding:0;}
+#with-selected li {display:inline; margin-right:10px;}
+#with-selected li.right {float:right;}
 .share-data{width:600px;height:300px; text-align:center}
 .share-data input{width:500px;font-size:1.2em;padding:5px;}
 

@@ -12,6 +12,8 @@ Pluspanda::Application.routes.draw do
   # admin backend  
   match 'admin'                   => 'admin#index'
   match 'admin/manage'            => 'admin#manage'
+  match 'admin/testimonials'      => 'admin#testimonials'
+  match 'admin/update'            => 'admin#update'
   match 'admin/install'           => 'admin#install'
   match 'admin/collect'           => 'admin#collect'
   match 'admin/settings'          => 'admin#settings'
