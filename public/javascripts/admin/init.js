@@ -44,7 +44,7 @@ $(function(){
       
       if($target.hasClass('reload')){
           if('tab-widget' == rel)
-            $('#widget-wrapper').html($iframe.clone().attr('src', '/admin/staging'));
+            $('#widget-wrapper').html($iframe.clone().attr('src', '/admin/staging#panda.admin'));
           else if('tab-collect' == rel)
             $('#collector-form-view').html($iframe.clone().attr('src', $('#collector-form-url').val()));
       }

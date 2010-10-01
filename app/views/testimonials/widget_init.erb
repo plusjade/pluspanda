@@ -4,6 +4,7 @@ var panda = {
   pollTry: 0,
   
   init: function () {
+    if (window.location.hash == '#panda.admin') panda.admin = true;
     if (typeof jQuery == 'undefined') {  
       var script = document.createElement("script");
       script.type = "text/javascript";
@@ -29,7 +30,7 @@ var panda = {
 
   setup: function(){ 
     jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}
-    jQuery('head').append('<link type="text/css" id="pandaTheme" href="' + pandaAssetUrl + '/' + pandaTheme + '.css" media="screen" rel="stylesheet" />');
+    jQuery('head').append('<link type="text/css" id="pandaTheme" href="' + pandaAssetUrl + '/' + pandaTheme + '.css' + (panda.admin?('?r='+ Math.floor(Math.random()*9999)):'') + '" media="screen" rel="stylesheet" />');
     panda.$container = jQuery('#plusPandaYes');
 
     /* attach event triggers. */
