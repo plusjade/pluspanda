@@ -104,6 +104,8 @@ var panda = {
       this.image   = (0 == this.avatar_file_name.length) ? 'images/stock.png' : 'system/avatars/' + this.id + '/sm.' + this.avatar_file_name;
       this.url     = (0 == this.url.length) ? '' : 'http://' + this.url;
       this.alt     = (0 == (i+1) % 2) ? 'even' : 'odd';
+      /*fixme tag functionality not added yet. */
+      this.tag_name = (this.tag_name)? this.tag_name : '';
       content  += pandaItemHtml(this);
     });
     jQuery('div.panda-container .ajax_loading', panda.$container).replaceWith(content);
