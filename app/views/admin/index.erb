@@ -1,12 +1,7 @@
-<%
-  themes  = ['list','simple','legacy']
-  sorters = {'Creation Date' => 'created', 'Custom Positions' => 'position' }
-%>
 
 <ul class="grandchild_nav"> 
-  <li class="widget"><a href="#main" class="reload active" rel="tab-widget">Widget Preview</a></li> 
-  <li class="settings"><a href="#settings" rel="tab-settings">Widget Settings</a></li> 
-  <li class="show-css css"><a href="#css" rel="tab-css">Widget CSS</a></li> 
+  <li class="widget"><a href="#main" class="reload active" rel="tab-widget" id="widget-tab-link">Widget Preview</a></li> 
+  <li class="show-css css"><a href="#css" rel="tab-css">Edit Widget CSS</a></li> 
   <li class="tags"><a href="/admin/tags" rel="tab-tags">Set Categories</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
@@ -14,39 +9,17 @@
 <div class="primary-content">
 
   <div id="tab-widget" class="tab-content">
+    <div id="data-description">
+      This is your testimonials widget in action. <%= link_to "Edit your display settings", "#settings_form", { :class => "fb-div", :rel => "#settings_form" } %>
+      to update your widget.
+    </div>
     <div id="widget-wrapper">&#160;</div>
   </div>
 
-
-  <div id="tab-settings" class="tab-content">
-    <%= form_for @user.tconfig, :url => '/admin/settings', :html => { :rel => "form.settings" } do |f| %>  
-      <div class="round-box-top" style="text-align:center">Theme Settings</div>
-      <div class="round-box-body">
-        <fieldset>
-          <label>Which Theme?</label> 
-          <%= f.select(:theme, themes) %>
-        </fieldset>
-        
-        <fieldset>  
-          <label>Testimonials per page:</label>
-          #<%= f.text_field(:per_page) %>
-        </fieldset>
-        
-        <fieldset>
-          <label>Order Testimonials by:</label>  
-          <%= f.select(:sort, sorters) %>
-        </fieldset>
-        
-        <div style="display:block; margin:10px 0;font-size:0.9em">Define custom order positions by arranging testimonials in the <b>Manage Testimonials</b> section.</div>
-        <div class="round-box-tabs buttons" class="float:left;">
-          <button type="submit" class="positive">Update Settings</button>
-        </div> 
-      </div>
-    <% end %>
-  </div>
-
-
   <div id="tab-css" class="tab-content">
+    <div id="data-description">
+      This is the complete CSS used to style your widget. View your CSS changes in the <b>Widget Preview Tab</b>.
+    </div>  
     <%= form_tag('/admin/save_css', :method => "post", :id => 'css-form' ) do %>
       <div class="round-box-top">
         Customize CSS.
@@ -61,13 +34,24 @@
     <% end %>
   </div>
 
-
+  <div id="tab-tags" class="tab-content">
+    <div id="data-description">
+      Category tags are temporarily offline. Sorry =/
+    </div>    
+  </div>  
+  
   <div id="tab-help" class="tab-content">
-      <h3>Main Panel</h3>
+      <h3>Widget Preview</h3>
       <div class="indent">
-        Only testimonials marked "published" will display on your testimonials widget.
-
-        <h4>Configuring Layout Settings</h4>
+        <p>
+          The widget preview is... a preview of your widget!
+          You real life widget, installed just as you would install it.
+        </p>
+        <p>
+          Remember only testimonials marked <b>published</b> will display in the widget.
+        </p>
+        
+        <h4>Editing Your Widget Design is easy.</h4>
         <div class="indent">
           <b>Choosing a theme</b> determines which layout your widget will use.
           Set the <b>number of testimonials</b> you wish to display per each "page".
@@ -79,22 +63,24 @@
         </div>
       </div>
         
-      <h3>Edit CSS</h3>
+      <h3>Edit Widget CSS</h3>
       <div class="indent">
-        Clicking on the "edit css" tab will reveal the css editor. The editor is <em>only</em> available within the main panel.
+        Clicking on the "edit css" tab will reveal the css editor.
         <br/>
         <ul>
           <li>
-            <b>Update View</b> will apply the current css to the widget in real time. Use this to see how your changes affect the layout.
-          </li>
-          <li>
-            <b>Load Stock</b> will load the stock css as originally designed by pluspanda.
+            <b>Load Stock CSS</b> will load the stock css as originally designed by pluspanda.
           </li>
           <li>
             <b>Toggle HTML view</b> will show the current HTML structure along with CSS attributes.
           </li>
         </ul>
       </div>
+
+      <h3>Set Categories</h3>
+      <div class="indent">
+        Category tags are temporary offline =\.
+      </div>        
   </div>
 
 </div>

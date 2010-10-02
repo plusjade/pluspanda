@@ -60,6 +60,38 @@
   <div id="footer">© Copyright 2009 PlusPanda =] | <a href="#">Top</a></div>
   
 </div>
+
+<%
+  themes  = ['list','simple','legacy']
+  sorters = {'Creation Date' => 'created', 'Custom Positions' => 'position' }
+%>
+<div id="settings_form">
+<%= form_for @user.tconfig, :url => '/admin/settings', :html => { :rel => "form.settings" } do |f| %>  
+  <div class="round-box-top" style="text-align:center">Theme Settings</div>
+  <div class="round-box-body">
+    <fieldset>
+      <label>Which Theme?</label> 
+      <%= f.select(:theme, themes) %>
+    </fieldset>
+    
+    <fieldset>  
+      <label>Testimonials per page:</label>
+      #<%= f.text_field(:per_page) %>
+    </fieldset>
+    
+    <fieldset>
+      <label>Order Testimonials by:</label>  
+      <%= f.select(:sort, sorters) %>
+    </fieldset>
+    
+    <div style="display:block; margin:10px 0;font-size:0.9em">Define custom order positions by arranging testimonials in the <b>Manage Testimonials</b> section.</div>
+    <div class="round-box-tabs buttons" class="float:left;">
+      <button type="submit" class="positive">Update Settings</button>
+    </div> 
+  </div>
+<% end %>
+</div>
+
 <%
   page = request.url.split('/').last
   page = (page == "admin") ? "index" : page

@@ -1,7 +1,8 @@
 $(function(){
   var loading = '<div class="loading">Loading...</div>';
   var $iframe = $('<iframe width="100%" height="800px">Iframe not Supported</iframe>');
-  var formCallback = 'undefined';
+  var formCallback = false;
+  var widgetCss;
   
 /*
  * delegations
@@ -96,9 +97,12 @@ $(function(){
     '#with-selected a.save-positions' : function(e){
       var order = $("table.t-data").sortable("serialize");
       if(!order){alert("No items to sort");return false;}
-      $(document).trigger('submitting');
+      $(document).trigger('submittinging');
       $.get('/admin/save_positions', order, function(rsp){
         $(document).trigger('responding', rsp);
+        if(rsp.status = 'good'){
+          $.facebox({div : "#settings_form"});
+        }
       });    
       return false;
     },
@@ -127,7 +131,8 @@ $(function(){
  */
   // index page
   $(document).bind('page.index', function(){
-    var widgetCss = CodeMirror.fromTextArea('widget_css', {
+    console.log('index page');
+    widgetCss = CodeMirror.fromTextArea('widget_css', {
       width: "800px",
       height: "700px",
       parserfile: "parsecss.js",
@@ -158,14 +163,9 @@ $(function(){
       });
     })        
 
-    // tconfig form settings callback
-    $(document).bind('form.settings', function(){
-      $.get('/admin/theme_css', {rand: Math.random()}, function(data){
-        widgetCss.setCode(data);
-      })
-    })
   });
-     
+
+       
  // manage page
   $(document).bind('page.manage', function(){
     $("table.t-data").tablesorter({
@@ -192,7 +192,18 @@ $(function(){
  ****************
  */  
 
-
+ // tconfig settings callback
+ $(document).bind('form.settings', function(){
+   // TODO: update the form values
+   
+   if($("#widget_css").length > 0)
+     $.get('/admin/theme_css', {rand: Math.random()}, function(data){
+         widgetCss.setCode(data);
+     })
+   // update the widget
+   if ($("#widget-tab-link").length > 0)
+     $("#widget-tab-link").click();
+ })
 
 /*
  * base callbacks
@@ -243,6 +254,8 @@ $(function(){
         formCallback = $(form).attr('rel');
       },
       success: function(rsp) {
+        // TODO. Modulate this out man!
+        
         if(undefined != rsp.resource){
           if('created' == rsp.resource.action){
             $('#facebox form').clearForm();
@@ -264,8 +277,9 @@ $(function(){
                
         $(document).trigger('responding', rsp);
         $('form button').removeAttr('disabled').addClass('positive');
-        if(formCallback != 'undefined')
+        if(formCallback) {
           $(document).trigger(formCallback);
+        }
       }
     })
   })

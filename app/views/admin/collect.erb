@@ -2,18 +2,23 @@
   collection_form_url = "#{root_url.chomp('/')}#{new_testimonial_path}?apikey=#{@user.apikey}"
 %>
 <ul class="grandchild_nav">
-  <li class="collect"><a href="#help" class="reload active" rel="tab-collect">View Collector Form</a></li>  
-  <li class="settings"><a href="/admin/testimonials/form" rel="tab-settings">Collector Form Settings</a></li> 
+  <li class="collect"><a href="#help" class="reload active" rel="tab-collect">Form Preview</a></li>  
+  <li class="settings"><a href="/admin/testimonials/form" rel="tab-settings">Form Settings</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
 <div class="primary-content">
 
   <div id="tab-collect" class="tab-content">
+    <div id="data-description">
+      Send your customers to your testimonial collection form to fill out a testimonial.
+      Testimonials auto-magically appear in your admin panel.
+    </div>
+    
     <div id="public-link">
-      <span>Your Public Form Link:</span> 
+      <span>Link to your form:</span> 
       <input id="collector-form-url" type="text" value="<%= collection_form_url %>" /> 
-       <%= link_to "View Externally", collection_form_url, :target => "_blank" %>
+       <%= link_to "View this baby in action.", collection_form_url, :target => "_blank" %>
     </div>
     <div id="collector-form-view">&#160;</div>
   </div>
