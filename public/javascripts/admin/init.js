@@ -247,7 +247,10 @@ $(function(){
     $('form').ajaxForm({
       dataType : 'json',      
       beforeSubmit: function(fields, form){
-        $(form).append('<input type="hidden" name="is_ajax" value="true" />');
+        if($(form).hasClass('js-multipart-form')){
+          console.log('js-multipart-form exists');
+          $(form).append('<input type="hidden" name="is_ajax" value="true" />'); 
+        }
         //if(! $("input", form[0]).jade_validate() ) return false;
         $('button', form[0]).attr('disabled','disabled').removeClass('positive');
         $(document).trigger('submitting');

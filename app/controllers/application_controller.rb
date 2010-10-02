@@ -52,33 +52,30 @@ class ApplicationController < ActionController::Base
       session[:return_to] = nil
     end
 
-    def serve_json_response(status=false, message=false, resource=false)
-      status  ||= 'bad'
-      message ||= 'Oops! Please try again!'
-      response = {'status' => status, 'msg' => message }
+    def serve_json_response
+      @status  ||= 'bad'
+      @message ||= 'Oops! Please try again!'
+      response = {'status' => @status, 'msg' => @message }
       
       # hack: newly created resources will be "frozen" as a way to identify them.
-      if resource
+      if @resource
         response['resource'] = {
-          'action' => resource.frozen? ? 'created' : 'updated',
-          'name'   => resource.class.to_s.pluralize.downcase,
-          'id'     => resource.id
+          'action' => @resource.frozen? ? 'created' : 'updated',
+          'name'   => @resource.class.to_s.pluralize.downcase,
+          'id'     => @resource.id
         }
-        if !resource.avatar_file_name.empty?
-          response['resource']['image'] = resource.avatar.url(:sm)
+        if !@resource.avatar_file_name.empty?
+          response['resource']['image'] = @resource.avatar.url(:sm)
         end
       end
       
-      if request.xhr?
-        render :json => response
-        return true
-      elsif params["is_ajax"]
+      # remember this param should be added with js.
+      if params["is_ajax"]
         # respond to ajaxForm in hidden iframe (not xhr but still js)
         render :text => "<textarea>#{response.to_json}</textarea>"
-        return true
+      else
+        render :json => response
       end
-      
-      return false
     end
     
     

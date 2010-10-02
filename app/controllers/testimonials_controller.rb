@@ -13,9 +13,7 @@ class TestimonialsController < ApplicationController
     
     respond_to do |format|
       format.html { render :text => 'a standalone version maybe?'}
-      format.json do
-        render :json => @testimonials
-      end
+      format.json { render :json => @testimonials }
       format.js  do
         total = get_testimonials(true)
 
@@ -45,18 +43,25 @@ class TestimonialsController < ApplicationController
   # represent a single testimonial ? this isn't in use at the moment.
   def show
     @testimonial = Testimonial.find_by_id(params[:id])
-    
     @testimonial = (current_user) ? @testimonial : @testimonial.sanitize_for_api
-    render :text => "invalid testimonial" and return if @testimonial.nil?
     
-    if params['apikey']
+    if @testimonial.nil?
+      @message = "Invalid testimonial."
+      respond_to do |format|
+        format.html { render :text => @message }
+        format.json { render :json => serve_json_response }
+        format.js   { render :js   => "alert('#{@message}');" }
+      end 
+      return     
+    elsif params['apikey']
       respond_to do |format|
         format.html { render :text => "todo: a public better singular html view..." }
         format.json { render :json => @testimonial }
         format.js   { render :js   => "pandaDisplayTstml(#{@testimonial.to_json});" }
       end
       return
-    end    
+    end   
+     
   end
 
 
@@ -76,25 +81,47 @@ class TestimonialsController < ApplicationController
 
     @testimonial = Testimonial.new(params[:testimonial])
     @testimonial.user_id = @user.id  
+    
     if @testimonial.save
       UserMailer.new_testimonial(@user, @testimonial).deliver if @user[:is_via_api]
       @testimonial.freeze
-
-      return if serve_json_response('good','Testimonial created!', @testimonial)
-      flash[:notice] = "Testimonial Created!"
-      redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
+      @status   = "good"
+      @message  = "Testimonial created!"
+      @resource = @testimonial
+      
+      if params["is_ajax"]
+        serve_json_response
+      else
+        respond_to do |format|
+          format.html do
+            flash[:notice] = @message
+            redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
+          end
+          format.json { serve_json_response }
+          format.js   { render :js   => "alert('#{@message}');" }
+        end
+      end
+      return
     else  
       if !@testimonial.valid?
-        return if serve_json_response('bad', 'Oops! Please make sure all fields are valid!')
-        flash[:notice] = "Please make sure all fields are valid!"
+        @message  = "Please make sure all fields are valid!"
+        respond_to do |format|
+          format.html { flash[:notice] = @message }
+          format.json { serve_json_response and return }
+          format.js   { render :js   => "alert('#{@message}');" and return}
+        end
       else
-        return if serve_json_response
-        flash[:notice] = "Oops! An unknown error occured. Please try again."
+        @message = "Oops! An unknown error occured. Please try again." 
+        respond_to do |format|
+          format.html { flash[:notice] = @message }
+          format.json { serve_json_response and return }
+          format.js   { render :js   => "alert('#{@message}');" and return}
+        end         
       end
+      
       @testimonial = Testimonial.new(params[:testimonial])  
       render :action => "new"      
     end
-    return
   end
 
 
@@ -123,24 +150,45 @@ class TestimonialsController < ApplicationController
     return unless is_able_to_publish
     
     if @testimonial.update_attributes(params[:testimonial])
-      return if serve_json_response('good', 'Testimonial Updated!', @testimonial)
-      flash[:notice] = "Testimonial Updated!"
-      redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"  
+      @status   = "good"
+      @message  = "Testiminial Updated!"
+      @resource = @testimonial
+
+      if params["is_ajax"]
+        serve_json_response
+      else
+        respond_to do |format|
+          format.html do 
+            flash[:notice] = @message
+            redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
+          end
+          format.json { json_response }
+          format.js   { render :js   => "alert('something cool');" }
+        end
+      end
     else  
       if @testimonial.valid?
-        return if serve_json_response('bad', 'Oops! Please make sure all fields are valid!')
-        flash[:notice] = "Please make sure all fields are valid!"
+        @message = "Oops! Please make sure all fields are valid!"
+        respond_to do |format|
+          format.html { flash[:notice] = @message }
+          format.json { json_response and return}
+          format.js   { render :js   => "alert('something cool');" and return }
+        end
       else
-        return if serve_json_response
-        flash[:notice] = "Oops! An unknown error occured. Please try again."
+        respond_to do |format|
+          format.html { flash[:notice] = "Oops! An unknown error occured. Please try again." }
+          format.json { json_response and return}
+          format.js   { render :js   => "alert('something cool');" and return }
+        end        
       end  
       @testimonial = Testimonial.find_by_id(
         params[:id], 
         :conditions => { :user_id => @user.id }
       )
-      render :text => "invalid testimonial" and return if @testimonial.nil?
-      render :action => "edit"                
+      render :text   => "invalid testimonial" and return if @testimonial.nil?
+      render :action => "edit"
     end
+    
     return
   end
 
@@ -151,14 +199,16 @@ class TestimonialsController < ApplicationController
       params[:id], 
       :conditions => { :user_id => current_user.id }
     )
-    render :text => "invalid testimonial" and return if @testimonial.nil?
-    
-    if @testimonial.destroy
-      serve_json_response('good', 'Testimonial deleted!')
+    if @testimonial.nil?
+      @message  = "Invalid testimonial."
+    elsif @testimonial.destroy
+      @status   = "good"
+      @message  = "Testiminial deleted!"
     else
-      serve_json_response('bad', 'Problem deleting the testimonial.')  
+      @message  = "There was a problem deleting the testimonial."
     end
     
+    serve_json_response
     return
   end
 
@@ -177,10 +227,11 @@ class TestimonialsController < ApplicationController
     
     @user = User.first(:conditions => {:apikey => params['apikey']})
     if @user.nil?
+      @message = "error! invalid apikey"
       respond_to do |format|
-        format.html { render :text => "error! invalid apikey" }
-        format.json { render :json => {:status => "bad", :msg => "invalid apikey"} }
-        format.js   { render :js   => "alert('error! invalid apikey');" }
+        format.html { render :text => @message }
+        format.json { serve_json_response }
+        format.js   { render :js   => "alert(#{@message});" }
       end
       return
     end
@@ -210,9 +261,17 @@ class TestimonialsController < ApplicationController
   # verify a testimonial is editable
   def can_publish_existing
     return true unless @testimonial.lock
-    return false if serve_json_response('bad', 'This testimonial is locked!')
-    flash[:notice] = "This testimonial is locked!"
-    redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"  
+    
+    @message = "This testimonial is locked!"
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "This testimonial is locked!"
+        redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
+      end
+      format.json { serve_json_response }
+      format.js   { render :js => "alert(#{@message});" }
+    end    
+    return false
   end 
   
   # verify this user can create a testimonial

@@ -12,7 +12,7 @@ image_source  = @testimonial.avatar_file_name.nil? || @testimonial.avatar_file_n
     
 <div id="editor-wrapper">
 
-<% form_for @testimonial, :html => { :multipart => true } do |f| %>
+<% form_for @testimonial, :html => { :multipart => true, :class => "js-multipart-form" } do |f| %>
   <%= hidden_field_tag(:apikey, params[:apikey]) if params['apikey'] %>
   
 <% if !current_user %>

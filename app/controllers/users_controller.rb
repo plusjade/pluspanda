@@ -41,14 +41,14 @@ class UsersController < ApplicationController
   
   
   def update
-    @user = @current_user
-    if @user.update_attributes(params[:user])
-      serve_json_response('good','Account Updated!')
+    if @current_user.update_attributes(params[:user])
+      @status  = "good"
+      @message = "Account Updated!"
     elsif !@user.valid?
-      serve_json_response('bad','Oops! Please make sure all fields are valid!')
-    else
-      serve_json_response
+      @message = 'Oops! Please make sure all fields are valid!'
     end
+    
+    serve_json_response
     return
   end
   

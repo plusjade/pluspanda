@@ -42,7 +42,8 @@ class AdminController < ApplicationController
   def update
     puts params[:id]
     unless ['publish', 'hide', 'lock', 'unlock', 'delete'].include?(params[:do])
-      serve_json_response('bad','Nothing Changed')
+      @message = "Nothing Changed."
+      serve_json_response
       return
     end 
     
@@ -70,7 +71,9 @@ class AdminController < ApplicationController
       (count = (count + 1)) if t.save
     end
     
-    serve_json_response('good',"#{count} Testimonials updated")
+    @status  = "good"
+    @message = "#{count} Testimonials updated"
+    serve_json_response
     return   
   end 
   
@@ -92,17 +95,17 @@ class AdminController < ApplicationController
    
   # PUT to save tconfig settings
   def settings
-    render :text => 'bad' and return unless request.put?
+    serve_json_response and return unless request.put?
     
     if @user.tconfig.update_attributes(params[:tconfig])
       @user.update_settings(self)
-      serve_json_response('good','Settings Updated')
+      @status  = "good"
+      @message = "Settings updated"
     elsif !@user.tconfig.valid?
-      serve_json_response('bad','Oops! Please make sure all fields are valid!')
-    else
-      serve_json_response
+      @message = "Oops! Please make sure all fields are valid!"
     end
-    
+
+    serve_json_response
     return
   end
 
@@ -118,9 +121,11 @@ class AdminController < ApplicationController
 
   # post to save css file of current theme
   def save_css
-    render :text => 'bad' and return unless request.post?
+    server_json_response and return unless request.post?
     @user.update_css(params['widget_css'])
-    serve_json_response('good','CSS Updated')
+    @status  = "good"
+    @message = "CSS Updated."
+    serve_json_response
     return
   end
     
@@ -136,7 +141,9 @@ class AdminController < ApplicationController
       testimonial.position = position
       testimonial.save
     end
-    serve_json_response('good', 'Positions Saved!')
+    @status  = "good"
+    @message = "Positions Saved!"
+    serve_json_response
     return    
   end
   
