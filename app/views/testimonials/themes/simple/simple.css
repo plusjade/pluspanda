@@ -1,151 +1,474 @@
-/*simple.css*/
-#pluspanda-testimonials html, #pluspanda-testimonials body, #pluspanda-testimonials div, #pluspanda-testimonials span, #pluspanda-testimonials applet, #pluspanda-testimonials object, #pluspanda-testimonials iframe, #pluspanda-testimonials h1, #pluspanda-testimonials h2, #pluspanda-testimonials h3, #pluspanda-testimonials h4, #pluspanda-testimonials h5, #pluspanda-testimonials h6, #pluspanda-testimonials p, #pluspanda-testimonials blockquote, #pluspanda-testimonials pre, #pluspanda-testimonials a, #pluspanda-testimonials abbr, #pluspanda-testimonials acronym, #pluspanda-testimonials address, #pluspanda-testimonials big, #pluspanda-testimonials cite, #pluspanda-testimonials code, #pluspanda-testimonials del, #pluspanda-testimonials dfn, #pluspanda-testimonials em, #pluspanda-testimonials font, #pluspanda-testimonials img, #pluspanda-testimonials ins, #pluspanda-testimonials kbd, #pluspanda-testimonials q, #pluspanda-testimonials s, #pluspanda-testimonials samp, #pluspanda-testimonials small, #pluspanda-testimonials strike, #pluspanda-testimonials strong, #pluspanda-testimonials sub, #pluspanda-testimonials sup, #pluspanda-testimonials tt, #pluspanda-testimonials var, #pluspanda-testimonials dl, #pluspanda-testimonials dt, #pluspanda-testimonials dd, #pluspanda-testimonials ol, #pluspanda-testimonials ul, #pluspanda-testimonials li, #pluspanda-testimonials fieldset, #pluspanda-testimonials form, #pluspanda-testimonials label, #pluspanda-testimonials legend, #pluspanda-testimonials table, #pluspanda-testimonials caption, #pluspanda-testimonials tbody, #pluspanda-testimonials tfoot, #pluspanda-testimonials thead, #pluspanda-testimonials tr, #pluspanda-testimonials th, #pluspanda-testimonials td{ 
-margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline;
+/* simple.css */
+
+/* reset styles */
+#pluspanda-testimonials div, #pluspanda-testimonials span, #pluspanda-testimonials iframe, #pluspanda-testimonials h1, #pluspanda-testimonials h2, #pluspanda-testimonials h3, #pluspanda-testimonials h4, #pluspanda-testimonials h5, #pluspanda-testimonials h6, #pluspanda-testimonials p, #pluspanda-testimonials blockquote, #pluspanda-testimonials pre, #pluspanda-testimonials a, #pluspanda-testimonials abbr, #pluspanda-testimonials acronym, #pluspanda-testimonials address, #pluspanda-testimonials big, #pluspanda-testimonials cite, #pluspanda-testimonials code, #pluspanda-testimonials del, #pluspanda-testimonials dfn, #pluspanda-testimonials em, #pluspanda-testimonials font, #pluspanda-testimonials img, #pluspanda-testimonials ins, #pluspanda-testimonials kbd, #pluspanda-testimonials q, #pluspanda-testimonials s, #pluspanda-testimonials samp, #pluspanda-testimonials small, #pluspanda-testimonials strike, #pluspanda-testimonials strong, #pluspanda-testimonials sub, #pluspanda-testimonials sup, #pluspanda-testimonials tt, #pluspanda-testimonials var, #pluspanda-testimonials dl, #pluspanda-testimonials dt, #pluspanda-testimonials dd, #pluspanda-testimonials ol, #pluspanda-testimonials ul, #pluspanda-testimonials li, #pluspanda-testimonials fieldset, #pluspanda-testimonials form, #pluspanda-testimonials label, #pluspanda-testimonials legend, #pluspanda-testimonials table, #pluspanda-testimonials caption, #pluspanda-testimonials tbody, #pluspanda-testimonials tfoot, #pluspanda-testimonials thead, #pluspanda-testimonials tr, #pluspanda-testimonials th, #pluspanda-testimonials td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
 }
-:focus { outline: 0; }
-#pluspanda-testimonials ol, #pluspanda-testimonials ul { list-style: none; }
-#pluspanda-testimonials table { border-collapse: separate;border-spacing: 0; }
-#pluspanda-testimonials caption, #pluspanda-testimonials th, #pluspanda-testimonials td { text-align: left;font-weight: normal; }
-#pluspanda-testimonials blockquote:before, #pluspanda-testimonials blockquote:after,
-#pluspanda-testimonials q:before, #pluspanda-testimonials q:after { content: ""; }
-#pluspanda-testimonials blockquote, #pluspanda-testimonials q { quotes: "" ""; }
 
-/* GENERAL LAYOUT  */
-#pluspanda-testimonials { height: 100%; min-width: 400px; background: transparent; color: #555; font-size: 12px; font-family: Arial, sans-serif; }
+:focus {
+  outline: 0;
+}
 
-#pluspanda-testimonials { margin:auto; }
-  #pluspanda-testimonials .panda-header { border-bottom: 1px solid #d4d4d4; clear: both; display: inline-block; padding-bottom: 9px; margin-bottom: 15px; height: 57px; width: 100%; }
-    #pluspanda-testimonials .title { position: relative; margin-bottom: 10px; height: 35px; }
-      #pluspanda-testimonials .title h2 { color: #222; float: left; font-size: 1em; font-weight: bold; }
-        #pluspanda-testimonials .title .lft { background: url(/images/themes/list/panda_title_lft.png) no-repeat; left:0; position:absolute; top:0; width:5px; height: 35px; }
-        #pluspanda-testimonials .title .mdl { background: url(/images/themes/list/panda_title_mdl.png) repeat-x; padding: 12px 0 12px 10px; left:5px; position:absolute; top:0; right: 5px; height: 11px; }
-        #pluspanda-testimonials .title .rgt { background: url(/images/themes/list/panda_title_rgt.png) no-repeat; position:absolute; top:0; right: 0px; width:5px; height: 35px; }
-          #pluspanda-testimonials .title .switcher { display: inline-block; float: right; margin-top: -7px; }
-            #pluspanda-testimonials .title .switcher li{ display: block; float: left; height: 25px; width: 38px; }
-              #pluspanda-testimonials .title .switcher a{ background: url(/images/themes/list/toggle_view_sprite.png) no-repeat 0 0; display: block; float: left; text-indent: -9999px; height: 25px; width: 38px; }
-              #pluspanda-testimonials .title .switcher .grid a{ background-position: 0 0; }
-                #pluspanda-testimonials .title .switcher .grid a:hover{ background-position: 0 -25px; }
-                #pluspanda-testimonials .title .switcher .grid a.current{ background-position: 0 -50px; }
-              #pluspanda-testimonials .title .switcher .list a{ background-position: -37px 0; }
-                #pluspanda-testimonials .title .switcher .list a:hover{ background-position: -37px -25px; }
-                #pluspanda-testimonials .title .switcher .list a.current{ background-position: -37px -50px; }
-    #pluspanda-testimonials .panda-tags { float: left; font-size: 0.9em; padding: 0 15px; }
-        #pluspanda-testimonials .panda-tags span { color: #666; float: left; margin-right: 10px; }
-        #pluspanda-testimonials .panda-tags ul { float: left;}
-          #pluspanda-testimonials .panda-tags li{ float: left; display: inline; margin-right: 5px;}
-            #pluspanda-testimonials .panda-tags a{ color: #004b91; text-decoration: underline; }
-              #pluspanda-testimonials .panda-tags a:hover{ text-decoration: none; }
-    #pluspanda-testimonials .panda-avg-rating { float: right; padding-right: 15px; position: relative; }
-      #pluspanda-testimonials .panda-avg-rating .panda-rating-stars, #pluspanda-testimonials .t-rating .panda-rating-stars { 
-                                                                background: url(/images/themes/list/stars_sprite.png) no-repeat 0 0; 
-                                                                display: inline-block; 
-                                                                float: left; 
-                                                                margin-top: -3px; 
-                                                                margin-left: 5px; 
-                                                                padding: 0; 
-                                                                text-indent: -9999px; 
-                                                                height: 17px; 
-                                                                width: 89px; 
-                                                              }
-        #pluspanda-testimonials .panda-rating-stars.s1 { background-position: 0 -68px; }
-        #pluspanda-testimonials .panda-rating-stars.s2 { background-position: 0 -51px; }
-        #pluspanda-testimonials .panda-rating-stars.s3 { background-position: 0 -34px; }
-        #pluspanda-testimonials .panda-rating-stars.s4 { background-position: 0 -17px; }
-        #pluspanda-testimonials .panda-rating-stars.s5 { background-position: 0 0px; }
-      #pluspanda-testimonials .panda-avg-rating span { cursor: default; float: left; font-size: 0.9em; color: #999; margin-top: -4px; padding: 4px 0; }
-        #pluspanda-testimonials .panda-avg-rating span b{ color: #444; }
-  #pluspanda-testimonials .panda-container { padding: 0 15px; }
-  
-    #pluspanda-testimonials .panda-container .image { background: url(/images/themes/list/panda_image_bg.png) no-repeat; margin-bottom: 5px; height: 148px; padding: 6px 5px 10px 5px; width: 148px; }
-      #pluspanda-testimonials .panda-container .image img {   }
-  #pluspanda-testimonials .show-more { 
-                    background: url(/images/themes/list/show_more_bg.png) no-repeat; 
-                    clear: both; 
-                    color: #333; 
-                    display: block; 
-                    float: left; 
-                    font-size: 1em; 
-                    padding: 8px 12px; 
-                    text-decoration: none; 
-                    text-shadow: 1px 2px 2px #FFF; 
-                    height: 10px; 
-                    width: 61px; 
-                  }
-  #pluspanda-testimonials .loader { background: url(/images/themes/list/loader.gif) no-repeat center; color: #333; display: block; float: left; font-size: 1em; text-indent: -9999px; padding: 4px 12px; height: 16px; width: 16px; }
-  
-  
-  #pluspanda-testimonials .grid { }
-    #pluspanda-testimonials .grid .t-single { float: left; margin-right: 35px; margin-bottom: 20px; position: relative; }
-    #pluspanda-testimonials .grid .t-single.last { margin-right: 0; }
-      #pluspanda-testimonials .grid .t-rating { display: inline-block; height: 17px; width: 89px; z-index: 1; }
-        #pluspanda-testimonials .grid .t-rating .panda-rating-stars { margin: 0; }
-      #pluspanda-testimonials .grid .t-details-meta { margin-top: 3px; overflow: hidden; width: 158px; z-index: 50; }
-        #pluspanda-testimonials .grid .t-details-meta  span, #pluspanda-testimonials .grid .t-details-meta a { float: left; display: inline-block; margin-bottom: 5px; }
-        #pluspanda-testimonials .grid .t-details-meta .t-name { color: #222; font-weight: bold; width: 100%; }
-        #pluspanda-testimonials .grid .t-details-meta .t-position { color: #888; font-size: 0.9em; }
-        #pluspanda-testimonials .grid .t-details-meta .t-website { color: #004b91; font-size: 0.9em; text-decoration: none; }
-          #pluspanda-testimonials .grid .t-details-meta .t-website:hover { text-decoration: underline; }
-  
-  #pluspanda-testimonials .dropdown { background-color: #fff; 
-                     border: 1px solid #e0e0e0;
-                     border-bottom: 1px solid #cecece;
-                     -moz-box-shadow: -1px 3px 5px #d4d4d4;
-                     -webkit-box-shadow: -1px 3px 5px #d4d4d4;
-                     color: #777777;
-                     -moz-border-radius: 4px;
-                     -webkit-border-radius: 4px;
-                     display: inline-block;
-                     padding: 15px; 
-                     position: absolute;
-                     left: -60px;
-                     top: 165px;
-                     width: 255px;
-                     z-index: 100;
-                   }
-                   
-    #pluspanda-testimonials .dropdown .arrow { background: url(/images/themes/list/dropbox_arrow_top.png) no-repeat; display: block; position: absolute; top: -15px; left: 125px; height: 15px; width: 27px; }
-    #pluspanda-testimonials  .p1 { background: url(/images/themes/list/quote.png) no-repeat; display: inline-block; float: left; margin-right: 8px; margin-top: -4px; height: 31px; width: 40px; }
-    #pluspanda-testimonials  .p2 { background: url(/images/themes/list/quote_small.png) no-repeat; display: inline-block; float: right; margin-top: -20px; height: 22px; width: 29px; }
-    #pluspanda-testimonials .dropdown p { font-style: italic; line-height: 1.4em; margin-bottom: 10px; }
-    #pluspanda-testimonials .dropdown .name { color: #1d7fdb; clear: both; float: right; font-size: 0.9em; font-style: italic; margin-top: 5px; }
-
-    #pluspanda-testimonials .panda-avg-rating .dropdown { left: -70px; top: 28px; width: 100%; }
-      #pluspanda-testimonials .panda-avg-rating .dropdown .arrow { left: 80px; top: -15px; margin: 0; }
-      #pluspanda-testimonials .panda-avg-rating .dropdown h2 { color: #333; font-weight: bold; text-align: center; margin-bottom: 10px; width: 150px; }
-      #pluspanda-testimonials .panda-avg-rating .overview { float: left; }
-        #pluspanda-testimonials .panda-avg-rating  li { float: left; margin-bottom: 4px; width: 100%; }
-          #pluspanda-testimonials .panda-avg-rating .overview li .total{ cursor: auto; float: right; margin-top: -1px; text-align: right; }
-          #pluspanda-testimonials .panda-avg-rating .overview .panda-rating-stars { float: left; margin: 0; margin-right: 5px; }
-          #pluspanda-testimonials .panda-avg-rating .overview .total { color: #777; margin: 0; }
-      #pluspanda-testimonials .panda-avg-rating .overview hr { border: medium none; border-bottom: 1px solid #c7c7c7; display: inline; float: left; height: 1px; width: 100%; }
-      #pluspanda-testimonials .panda-avg-rating .overview .result li { margin: 0; }
-        #pluspanda-testimonials .panda-avg-rating .overview .result .total { color: #145694; font-weight: bold; }
-      
-      
-  #pluspanda-testimonials .list {overflow:auto; }
-    #pluspanda-testimonials .list .t-single {margin:0 auto 20px auto;}
-      #pluspanda-testimonials .panda-container.list .content { 
-                                  background: #fafafa url(/images/themes/list/quote_big.png) no-repeat top right; 
-                                  border: 1px solid #d5d5d5; 
-                                  -moz-border-radius: 4px; 
-                                  -webkit-border-radius: 4px; 
-                                  -moz-border-radius-topleft: 0px; 
-                                  -webkit-border-top-left-radius: 0px; 
-                                  margin-top: 2px auto 0 auto;
-                                  padding: 15px; 
-                                  padding-bottom: 20px; 
-                                  position: relative; 
-                                 
-                                }
-        #pluspanda-testimonials .panda-container.list .content .arrow { background: url(/images/themes/list/arrow_list.png) no-repeat; position: absolute; left: -11px; top: -1px; height: 14px; width: 11px; }
-        #pluspanda-testimonials .panda-container .content p { color: #777; line-height: 1.4em; }
-        #pluspanda-testimonials .panda-container .content .head { border-bottom: 1px solid #d8d8d8; margin-bottom: 15px; overflow: hidden; padding-bottom: 3px; }
-      #pluspanda-testimonials .list .t-rating { display: inline-block; float: left; margin-right: 10px; height: 17px; width: 89px; z-index: 1; }
-        #pluspanda-testimonials .list .t-rating .panda-rating-stars { margin: 0; }
-      #pluspanda-testimonials .list .t-details-meta { margin-top: 3px; overflow: hidden; }
-        #pluspanda-testimonials .list .t-details-meta  span, #pluspanda-testimonials .list .t-details-meta a { float: left; margin-bottom: 5px; }
-        #pluspanda-testimonials .list .t-details-meta .t-name { color: #222; font-weight: bold; margin-right: 3px; }
-        #pluspanda-testimonials .list .t-details-meta .t-position { color: #888; font-size: 0.9em; margin-right: 3px; padding-top: 1px; }
-        #pluspanda-testimonials .list .t-details-meta .t-website { color: #004b91; font-size: 0.9em; text-decoration: none; padding-top: 1px; }
-          #pluspanda-testimonials .list .t-details-meta .t-website:hover { text-decoration: underline; }
-    
+#pluspanda-testimonials {
+  height: 100%;
+  min-width: 400px;
+  background: transparent;
+  color: #555555;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  margin: auto;
+}
+#pluspanda-testimonials ol, #pluspanda-testimonials ul {
+  list-style: none;
+}
+#pluspanda-testimonials table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+#pluspanda-testimonials caption, #pluspanda-testimonials th, #pluspanda-testimonials td {
+  text-align: left;
+  font-weight: normal;
+}
+#pluspanda-testimonials blockquote:before, #pluspanda-testimonials blockquote:after {
+  content: "";
+}
+#pluspanda-testimonials q:before, #pluspanda-testimonials q:after {
+  content: "";
+}
+#pluspanda-testimonials blockquote, #pluspanda-testimonials q {
+  quotes: "" "";
+}
+#pluspanda-testimonials .panda-header {
+  border-bottom: 1px solid #d4d4d4;
+  clear: both;
+  display: inline-block;
+  padding-bottom: 9px;
+  margin-bottom: 15px;
+  height: 57px;
+  width: 100%;
+}
+#pluspanda-testimonials .title {
+  position: relative;
+  margin-bottom: 10px;
+  height: 35px;
+}
+#pluspanda-testimonials .title h2 {
+  color: #222222;
+  float: left;
+  font-size: 1em;
+  font-weight: bold;
+}
+#pluspanda-testimonials .title .lft {
+  background: url(/images/themes/list/panda_title_lft.png) no-repeat;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 5px;
+  height: 35px;
+}
+#pluspanda-testimonials .title .mdl {
+  background: url(/images/themes/list/panda_title_mdl.png) repeat-x;
+  padding: 12px 0 12px 10px;
+  left: 5px;
+  position: absolute;
+  top: 0;
+  right: 5px;
+  height: 11px;
+}
+#pluspanda-testimonials .title .rgt {
+  background: url(/images/themes/list/panda_title_rgt.png) no-repeat;
+  position: absolute;
+  top: 0;
+  right: 0px;
+  width: 5px;
+  height: 35px;
+}
+#pluspanda-testimonials .title .switcher {
+  display: inline-block;
+  float: right;
+  margin-top: -7px;
+}
+#pluspanda-testimonials .title .switcher li {
+  display: block;
+  float: left;
+  height: 25px;
+  width: 38px;
+}
+#pluspanda-testimonials .title .switcher a {
+  background: url(/images/themes/list/toggle_view_sprite.png) no-repeat 0 0;
+  display: block;
+  float: left;
+  text-indent: -9999px;
+  height: 25px;
+  width: 38px;
+}
+#pluspanda-testimonials .title .switcher .grid a {
+  background-position: 0 0;
+}
+#pluspanda-testimonials .title .switcher .grid a:hover {
+  background-position: 0 -25px;
+}
+#pluspanda-testimonials .title .switcher .grid a.current {
+  background-position: 0 -50px;
+}
+#pluspanda-testimonials .title .switcher .list a {
+  background-position: -37px 0;
+}
+#pluspanda-testimonials .title .switcher .list a:hover {
+  background-position: -37px -25px;
+}
+#pluspanda-testimonials .title .switcher .list a.current {
+  background-position: -37px -50px;
+}
+#pluspanda-testimonials .panda-tags {
+  float: left;
+  font-size: 0.9em;
+  padding: 0 15px;
+}
+#pluspanda-testimonials .panda-tags span {
+  color: #666666;
+  float: left;
+  margin-right: 10px;
+}
+#pluspanda-testimonials .panda-tags ul {
+  float: left;
+}
+#pluspanda-testimonials .panda-tags li {
+  float: left;
+  display: inline;
+  margin-right: 5px;
+}
+#pluspanda-testimonials .panda-tags a {
+  color: #004b91;
+  text-decoration: underline;
+}
+#pluspanda-testimonials .panda-tags a:hover {
+  text-decoration: none;
+}
+#pluspanda-testimonials .panda-avg-rating {
+  float: right;
+  padding-right: 15px;
+  position: relative;
+}
+#pluspanda-testimonials .panda-avg-rating .panda-rating-stars {
+  background: url(/images/themes/list/stars_sprite.png) no-repeat 0 0;
+  display: inline-block;
+  float: left;
+  margin-top: -3px;
+  margin-left: 5px;
+  padding: 0;
+  text-indent: -9999px;
+  height: 17px;
+  width: 89px;
+}
+#pluspanda-testimonials .t-rating .panda-rating-stars {
+  background: url(/images/themes/list/stars_sprite.png) no-repeat 0 0;
+  display: inline-block;
+  float: left;
+  margin-top: -3px;
+  margin-left: 5px;
+  padding: 0;
+  text-indent: -9999px;
+  height: 17px;
+  width: 89px;
+}
+#pluspanda-testimonials .panda-rating-stars.s1 {
+  background-position: 0 -68px;
+}
+#pluspanda-testimonials .panda-rating-stars.s2 {
+  background-position: 0 -51px;
+}
+#pluspanda-testimonials .panda-rating-stars.s3 {
+  background-position: 0 -34px;
+}
+#pluspanda-testimonials .panda-rating-stars.s4 {
+  background-position: 0 -17px;
+}
+#pluspanda-testimonials .panda-rating-stars.s5 {
+  background-position: 0 0px;
+}
+#pluspanda-testimonials .panda-avg-rating span {
+  cursor: default;
+  float: left;
+  font-size: 0.9em;
+  color: #999999;
+  margin-top: -4px;
+  padding: 4px 0;
+}
+#pluspanda-testimonials .panda-avg-rating span b {
+  color: #444444;
+}
+#pluspanda-testimonials .panda-container {
+  padding: 0 15px;
+}
+#pluspanda-testimonials .panda-container .image {
+  background: url(/images/themes/list/panda_image_bg.png) no-repeat;
+  margin-bottom: 5px;
+  height: 148px;
+  padding: 6px 5px 10px 5px;
+  width: 148px;
+}
+#pluspanda-testimonials .show-more {
+  background: url(/images/themes/list/show_more_bg.png) no-repeat;
+  clear: both;
+  color: #333333;
+  display: block;
+  float: left;
+  font-size: 1em;
+  padding: 8px 12px;
+  text-decoration: none;
+  text-shadow: 1px 2px 2px white;
+  height: 10px;
+  width: 61px;
+}
+#pluspanda-testimonials .loader {
+  background: url(/images/themes/list/loader.gif) no-repeat center;
+  color: #333333;
+  display: block;
+  float: left;
+  font-size: 1em;
+  text-indent: -9999px;
+  padding: 4px 12px;
+  height: 16px;
+  width: 16px;
+}
+#pluspanda-testimonials .grid .t-single {
+  float: left;
+  margin-right: 35px;
+  margin-bottom: 20px;
+  position: relative;
+}
+#pluspanda-testimonials .grid .t-single.last {
+  margin-right: 0;
+}
+#pluspanda-testimonials .grid .t-rating {
+  display: inline-block;
+  height: 17px;
+  width: 89px;
+  z-index: 1;
+}
+#pluspanda-testimonials .grid .t-rating .panda-rating-stars {
+  margin: 0;
+}
+#pluspanda-testimonials .grid .t-details-meta {
+  margin-top: 3px;
+  overflow: hidden;
+  width: 158px;
+  z-index: 50;
+}
+#pluspanda-testimonials .grid .t-details-meta span, #pluspanda-testimonials .grid .t-details-meta a {
+  float: left;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+#pluspanda-testimonials .grid .t-details-meta .t-name {
+  color: #222222;
+  font-weight: bold;
+  width: 100%;
+}
+#pluspanda-testimonials .grid .t-details-meta .t-position {
+  color: #888888;
+  font-size: 0.9em;
+}
+#pluspanda-testimonials .grid .t-details-meta .t-website {
+  color: #004b91;
+  font-size: 0.9em;
+  text-decoration: none;
+}
+#pluspanda-testimonials .grid .t-details-meta .t-website:hover {
+  text-decoration: underline;
+}
+#pluspanda-testimonials .dropdown {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-bottom: 1px solid #cecece;
+  -moz-box-shadow: -1px 3px 5px #d4d4d4;
+  -webkit-box-shadow: -1px 3px 5px #d4d4d4;
+  color: #777777;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  display: inline-block;
+  padding: 15px;
+  position: absolute;
+  left: -60px;
+  top: 165px;
+  width: 255px;
+  z-index: 100;
+}
+#pluspanda-testimonials .dropdown .arrow {
+  background: url(/images/themes/list/dropbox_arrow_top.png) no-repeat;
+  display: block;
+  position: absolute;
+  top: -15px;
+  left: 125px;
+  height: 15px;
+  width: 27px;
+}
+#pluspanda-testimonials.p1 {
+  background: url(/images/themes/list/quote.png) no-repeat;
+  display: inline-block;
+  float: left;
+  margin-right: 8px;
+  margin-top: -4px;
+  height: 31px;
+  width: 40px;
+}
+#pluspanda-testimonials.p2 {
+  background: url(/images/themes/list/quote_small.png) no-repeat;
+  display: inline-block;
+  float: right;
+  margin-top: -20px;
+  height: 22px;
+  width: 29px;
+}
+#pluspanda-testimonials .dropdown p {
+  font-style: italic;
+  line-height: 1.4em;
+  margin-bottom: 10px;
+}
+#pluspanda-testimonials .dropdown .name {
+  color: #1d7fdb;
+  clear: both;
+  float: right;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 5px;
+}
+#pluspanda-testimonials .panda-avg-rating .dropdown {
+  left: -70px;
+  top: 28px;
+  width: 100%;
+}
+#pluspanda-testimonials .panda-avg-rating .dropdown .arrow {
+  left: 80px;
+  top: -15px;
+  margin: 0;
+}
+#pluspanda-testimonials .panda-avg-rating .dropdown h2 {
+  color: #333333;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+  width: 150px;
+}
+#pluspanda-testimonials .panda-avg-rating .overview {
+  float: left;
+}
+#pluspanda-testimonials .panda-avg-rating li {
+  float: left;
+  margin-bottom: 4px;
+  width: 100%;
+}
+#pluspanda-testimonials .panda-avg-rating .overview li .total {
+  cursor: auto;
+  float: right;
+  margin-top: -1px;
+  text-align: right;
+}
+#pluspanda-testimonials .panda-avg-rating .overview .panda-rating-stars {
+  float: left;
+  margin: 0;
+  margin-right: 5px;
+}
+#pluspanda-testimonials .panda-avg-rating .overview .total {
+  color: #777777;
+  margin: 0;
+}
+#pluspanda-testimonials .panda-avg-rating .overview hr {
+  border: medium none;
+  border-bottom: 1px solid #c7c7c7;
+  display: inline;
+  float: left;
+  height: 1px;
+  width: 100%;
+}
+#pluspanda-testimonials .panda-avg-rating .overview .result li {
+  margin: 0;
+}
+#pluspanda-testimonials .panda-avg-rating .overview .result .total {
+  color: #145694;
+  font-weight: bold;
+}
+#pluspanda-testimonials .list {
+  overflow: hidden;
+}
+#pluspanda-testimonials .list .t-single {
+  margin: 0 auto 20px auto;
+}
+#pluspanda-testimonials .panda-container.list .content {
+  background: #fafafa url(/images/themes/list/quote_big.png) no-repeat top right;
+  border: 1px solid #d5d5d5;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius-topleft: 0px;
+  -webkit-border-top-left-radius: 0px;
+  margin-top: 2px auto 0 auto;
+  padding: 15px;
+  padding-bottom: 20px;
+  position: relative;
+}
+#pluspanda-testimonials .panda-container.list .content .arrow {
+  background: url(/images/themes/list/arrow_list.png) no-repeat;
+  position: absolute;
+  left: -11px;
+  top: -1px;
+  height: 14px;
+  width: 11px;
+}
+#pluspanda-testimonials .panda-container .content p {
+  color: #777777;
+  line-height: 1.4em;
+}
+#pluspanda-testimonials .panda-container .content .head {
+  border-bottom: 1px solid #d8d8d8;
+  margin-bottom: 15px;
+  overflow: hidden;
+  padding-bottom: 3px;
+}
+#pluspanda-testimonials .list .t-rating {
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+  height: 17px;
+  width: 89px;
+  z-index: 1;
+}
+#pluspanda-testimonials .list .t-rating .panda-rating-stars {
+  margin: 0;
+}
+#pluspanda-testimonials .list .t-details-meta {
+  margin-top: 3px;
+  overflow: hidden;
+}
+#pluspanda-testimonials .list .t-details-meta span, #pluspanda-testimonials .list .t-details-meta a {
+  float: left;
+  margin-bottom: 5px;
+}
+#pluspanda-testimonials .list .t-details-meta .t-name {
+  color: #222222;
+  font-weight: bold;
+  margin-right: 3px;
+}
+#pluspanda-testimonials .list .t-details-meta .t-position {
+  color: #888888;
+  font-size: 0.9em;
+  margin-right: 3px;
+  padding-top: 1px;
+}
+#pluspanda-testimonials .list .t-details-meta .t-website {
+  color: #004b91;
+  font-size: 0.9em;
+  text-decoration: none;
+  padding-top: 1px;
+}
+#pluspanda-testimonials .list .t-details-meta .t-website:hover {
+  text-decoration: underline;
+}

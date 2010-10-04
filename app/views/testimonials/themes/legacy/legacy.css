@@ -1,177 +1,199 @@
-/*legacy.css*/﻿
-  #plusPandaYes div, #plusPandaYes span, #plusPandaYes h1, #plusPandaYes h2, #plusPandaYes h3, #plusPandaYes h4, #plusPandaYes h5, #plusPandaYes h6, #plusPandaYes p, #plusPandaYes blockquote, #plusPandaYes pre, #plusPandaYes a, #plusPandaYes abbr, #plusPandaYes acronym, #plusPandaYes address, #plusPandaYes big, #plusPandaYes cite, #plusPandaYes code, #plusPandaYes del, #plusPandaYes dfn, #plusPandaYes em, #plusPandaYes font, #plusPandaYes img, #plusPandaYes ins, #plusPandaYes kbd, #plusPandaYes q, #plusPandaYes s, #plusPandaYes samp, #plusPandaYes small, #plusPandaYes strike, #plusPandaYes strong, #plusPandaYes sub, #plusPandaYes sup, #plusPandaYes tt, #plusPandaYes var, #plusPandaYes b, #plusPandaYes u, #plusPandaYes i, #plusPandaYes center, #plusPandaYes dl, #plusPandaYes dt, #plusPandaYes dd, #plusPandaYes ol, #plusPandaYes ul, #plusPandaYes li, #plusPandaYes fieldset, #plusPandaYes form, #plusPandaYes label, #plusPandaYes legend, #plusPandaYes table, #plusPandaYes caption, #plusPandaYes tbody, #plusPandaYes tfoot, #plusPandaYes thead, #plusPandaYes tr, #plusPandaYes th, #plusPandaYes td {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    font-size: 100%;
-    vertical-align: baseline;
-    background: transparent;
-    font-family: "Gill Sans MT",verdana,sans-serif;
-    color: #333;
-    font-weight: normal; }
-  #plusPandaYes button {
-    border: 0;
-    background: #3399ff;
-    color: #fff;
-    padding: 2px; }
-    #plusPandaYes button:hover {
-      background: #09C61A;
-      color: #fff;
-      cursor: cursor;
-      cursor: pointer; }
-
-  #plusPandaYes div.panda-tags {
-    clear: both;
-    }
-  #plusPandaYes div.panda-tags span{
-    display:block;
-    width:210px;
-    margin-left:25px;
-    padding:10px 10px 5px 10px;
-    background: #eee;
-      -moz-border-radius-topleft: 7px;
-      -moz-border-radius-topright: 7px;
-      -webkit-border-top-left-radius: 7px;
-      -webkit-border-top-right-radius: 7px;    
-  }
-    #plusPandaYes div.panda-tags ul{
-      list-style:none;
-      padding: 12px 10px;
-      background: #555;
-      text-align:center;
-      -moz-border-radius: 7px;
-      -moz-border-radius: 7px;
-      -webkit-border-radius: 7px;
-      -webkit-border-radius: 7px;
-    }
-    #plusPandaYes div.panda-tags li{
-      display:inline;
-    }
-    #plusPandaYes div.panda-tags li a{
-      padding: 12px 10px;
-      color:#fff;
-      text-decoration:none;
-    }
-    #plusPandaYes div.panda-tags li a:hover,
-    #plusPandaYes div.panda-tags li a.active{
-      color:#333;
-      text-decoration:underline;
-      background:#ffff99;
-    }
- #plusPandaYes a.show-more{
-    display:block;
-    clear:both;
-    float:right;
-    padding:6px 10px;
-    background:#333;
-    color:#fff;
-    font-size:12px;
-    text-decoration:none;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-  } 
-  #plusPandaYes a.show-more:hover{
-    background:green;
-    color:#fff;
-  }
-        
-
-
-  #plusPandaYes .panda-testimonials-list {
-    padding: 20px;
-    text-align: left; }
-  #plusPandaYes .t-wrapper {
-    clear: both;
-    overflow: auto;
-    margin-bottom: 20px;
-    }
-  #plusPandaYes .t-details {
-    width:24%;
-    float:left;
-    font-size:11px;
-  }
-  #plusPandaYes .t-details-meta{
-    min-width:125px;
-    width:75%;
-    margin:auto;
-  
-  }
-  #plusPandaYes .t-details .image{
-    width:125px;
-    height:125px;
-    margin:auto;
-    margin-bottom:7px;
-    background:#eee;
-    border:3px solid #ccc
-  }
-  #plusPandaYes .t-content {
-    width:74%;
-    float:right;
-    overflow:auto;
-  }  
-  #plusPandaYes .t-rating {
-    float: right;
-    width: 95px;
-    height: 22px;
-    background: #fff url('/images/common/widget/sm-rating.png') no-repeat 0 0;
-    text-align: center; }
-    #plusPandaYes .t-rating._1 {
-      background-position: 0px 0px; }
-    #plusPandaYes .t-rating._2 {
-      background-position: 0px -28px; }
-    #plusPandaYes .t-rating._3 {
-      background-position: 0px -56px; }
-    #plusPandaYes .t-rating._4 {
-      background-position: 0px -85px; }
-    #plusPandaYes .t-rating._5 {
-      background-position: 0px -112px; }
-  #plusPandaYes .t-name {
-  
-    }
-    #plusPandaYes .t-name span {
-      font-weight: bold;
-      font-style: italic; }
-  #plusPandaYes .t-tag {
-    float: left; }
-    #plusPandaYes .t-tag span {
-      font-style: italic; }
-  #plusPandaYes .t-body {
-    clear: both;
-    padding: 10px;
-    background: #E6F5FC;
-    margin: 2px 0;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px; }
-  #plusPandaYes .t-date {
-    float: right; }
-    #plusPandaYes .t-date abbr {
-      font-family: verdana; }
-  #plusPandaYes ul.panda-testimonials-sorters {
-    clear: both;
-    list-style: none;
-    padding: 5px 0;
-    margin-top: 10px;
-    border-bottom: 2px solid #E6F5FC; }
-    #plusPandaYes ul.panda-testimonials-sorters li {
-      display: inline;
-      margin: 0 5px; }
-      #plusPandaYes ul.panda-testimonials-sorters li a {
-        padding: 5px 10px;
-        color: blue; }
-        #plusPandaYes ul.panda-testimonials-sorters li a:hover, #plusPandaYes ul.panda-testimonials-sorters li a.selected {
-          outline: none;
-          background: #ffff99; }
-
-
-  #plusPandaYes div.ajax_loading {
-    width: 100%;
-    height: 90px;
-    background: transparent url('/images/common/load.gif') no-repeat 50% 50%;
-    text-align: center; }
-  #plusPandaYes .panda-powered{
-    padding:8px;
-    text-align:right;
-    background:#ffff99;
-    font-size:11px;
-  }
+/* legacy.css */
+#plusPandaYes span, #plusPandaYes h1, #plusPandaYes h2, #plusPandaYes h3, #plusPandaYes h4, #plusPandaYes h5, #plusPandaYes h6, #plusPandaYes p, #plusPandaYes blockquote, #plusPandaYes pre, #plusPandaYes a, #plusPandaYes abbr, #plusPandaYes acronym, #plusPandaYes address, #plusPandaYes big, #plusPandaYes cite, #plusPandaYes code, #plusPandaYes del, #plusPandaYes dfn, #plusPandaYes em, #plusPandaYes font, #plusPandaYes img, #plusPandaYes ins, #plusPandaYes kbd, #plusPandaYes q, #plusPandaYes s, #plusPandaYes samp, #plusPandaYes small, #plusPandaYes strike, #plusPandaYes strong, #plusPandaYes sub, #plusPandaYes sup, #plusPandaYes tt, #plusPandaYes var, #plusPandaYes b, #plusPandaYes u, #plusPandaYes i, #plusPandaYes center, #plusPandaYes dl, #plusPandaYes dt, #plusPandaYes dd, #plusPandaYes ol, #plusPandaYes ul, #plusPandaYes li, #plusPandaYes fieldset, #plusPandaYes form, #plusPandaYes label, #plusPandaYes legend, #plusPandaYes table, #plusPandaYes caption, #plusPandaYes tbody, #plusPandaYes tfoot, #plusPandaYes thead, #plusPandaYes tr, #plusPandaYes th, #plusPandaYes td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  font-family: "Gill Sans MT", verdana, sans-serif;
+  color: #333333;
+  font-weight: normal;
+}
+#plusPandaYes div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  font-family: "Gill Sans MT", verdana, sans-serif;
+  color: #333333;
+  font-weight: normal;
+}
+#plusPandaYes button {
+  border: 0;
+  background: #3399ff;
+  color: white;
+  padding: 2px;
+}
+#plusPandaYes button:hover {
+  background: #09c61a;
+  color: white;
+  cursor: cursor;
+  cursor: pointer;
+}
+#plusPandaYes div.panda-tags {
+  clear: both;
+}
+#plusPandaYes div.panda-tags span {
+  display: block;
+  width: 210px;
+  margin-left: 25px;
+  padding: 10px 10px 5px 10px;
+  background: #eeeeee;
+  -moz-border-radius-topleft: 7px;
+  -moz-border-radius-topright: 7px;
+  -webkit-border-top-left-radius: 7px;
+  -webkit-border-top-right-radius: 7px;
+}
+#plusPandaYes div.panda-tags ul {
+  list-style: none;
+  padding: 12px 10px;
+  background: #555555;
+  text-align: center;
+  -moz-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -webkit-border-radius: 7px;
+}
+#plusPandaYes div.panda-tags li {
+  display: inline;
+}
+#plusPandaYes div.panda-tags li a {
+  padding: 12px 10px;
+  color: white;
+  text-decoration: none;
+}
+#plusPandaYes div.panda-tags li a:hover, #plusPandaYes div.panda-tags li a.active {
+  color: #333333;
+  text-decoration: underline;
+  background: #ffff99;
+}
+#plusPandaYes a.show-more {
+  display: block;
+  clear: both;
+  float: right;
+  padding: 6px 10px;
+  background: #333333;
+  color: white;
+  font-size: 12px;
+  text-decoration: none;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+#plusPandaYes a.show-more:hover {
+  background: green;
+  color: white;
+}
+#plusPandaYes .panda-testimonials-list {
+  padding: 20px;
+  text-align: left;
+}
+#plusPandaYes .t-wrapper {
+  clear: both;
+  overflow: auto;
+  margin-bottom: 20px;
+}
+#plusPandaYes .t-details {
+  width: 24%;
+  float: left;
+  font-size: 11px;
+}
+#plusPandaYes .t-details-meta {
+  min-width: 125px;
+  width: 75%;
+  margin: auto;
+}
+#plusPandaYes .t-details .image {
+  width: 125px;
+  height: 125px;
+  margin: auto;
+  margin-bottom: 7px;
+  background: #eeeeee;
+  border: 3px solid #cccccc;
+}
+#plusPandaYes .t-content {
+  width: 74%;
+  float: right;
+  overflow: auto;
+}
+#plusPandaYes .t-rating {
+  float: right;
+  width: 95px;
+  height: 22px;
+  background: white url("/images/common/widget/sm-rating.png") no-repeat 0 0;
+  text-align: center;
+}
+#plusPandaYes .t-rating._1 {
+  background-position: 0px 0px;
+}
+#plusPandaYes .t-rating._2 {
+  background-position: 0px -28px;
+}
+#plusPandaYes .t-rating._3 {
+  background-position: 0px -56px;
+}
+#plusPandaYes .t-rating._4 {
+  background-position: 0px -85px;
+}
+#plusPandaYes .t-rating._5 {
+  background-position: 0px -112px;
+}
+#plusPandaYes .t-name span {
+  font-weight: bold;
+  font-style: italic;
+}
+#plusPandaYes .t-tag {
+  float: left;
+}
+#plusPandaYes .t-tag span {
+  font-style: italic;
+}
+#plusPandaYes .t-body {
+  clear: both;
+  padding: 10px;
+  background: #e6f5fc;
+  margin: 2px 0;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+#plusPandaYes .t-date {
+  float: right;
+}
+#plusPandaYes .t-date abbr {
+  font-family: verdana;
+}
+#plusPandaYes ul.panda-testimonials-sorters {
+  clear: both;
+  list-style: none;
+  padding: 5px 0;
+  margin-top: 10px;
+  border-bottom: 2px solid #e6f5fc;
+}
+#plusPandaYes ul.panda-testimonials-sorters li {
+  display: inline;
+  margin: 0 5px;
+}
+#plusPandaYes ul.panda-testimonials-sorters li a {
+  padding: 5px 10px;
+  color: blue;
+}
+#plusPandaYes ul.panda-testimonials-sorters li a:hover, #plusPandaYes ul.panda-testimonials-sorters li a.selected {
+  outline: none;
+  background: #ffff99;
+}
+#plusPandaYes div.ajax_loading {
+  width: 100%;
+  height: 90px;
+  background: transparent url("/images/common/load.gif") no-repeat 50% 50%;
+  text-align: center;
+}
+#plusPandaYes .panda-powered {
+  padding: 8px;
+  text-align: right;
+  background: #ffff99;
+  font-size: 11px;
+}
