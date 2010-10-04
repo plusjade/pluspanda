@@ -91,15 +91,11 @@
   </div>
 <% end %>
 </div>
-
-<%
-  page = request.url.split('/').last
-  page = (page == "admin") ? "widget" : page
-%>
   <script type="text/javascript">
     $(function(){
       $settingsForm = $("#settings_form form");
-      window.onload = admin.loadPage('<%= page %>');
+      var page = window.location.hash ? window.location.hash.substring(1) : 'widget';
+      window.onload = admin.loadPage(page);
     })
   </script>
 

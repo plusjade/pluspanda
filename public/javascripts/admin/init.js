@@ -1,11 +1,6 @@
 /*
  * admin (controller) = interfaces with server to carry out actions.
  * event handlers (view)= determine which admin call to invoke. Update the view.
- 
- *  the admin object should provide an api for carrying out actions between client and server.
- *    UI updates should be handled elsewhere if possible.
- *  UI events should determine which admin call to invoke based on event.
-      Also they should carry out UI updates and DOM manipulations.
  */
 var loading = '<div class="loading">Loading...</div>';
 var widgetCss;

@@ -9,7 +9,8 @@ Pluspanda::Application.routes.draw do
     get :widget, :on => :collection
   end
   
-  # admin backend  
+  # admin backend 
+  match "admin"                   => "admin#index" 
   match 'admin/widget'            => 'admin#widget'
   match 'admin/manage'            => 'admin#manage'
   match 'admin/testimonials'      => 'admin#testimonials'

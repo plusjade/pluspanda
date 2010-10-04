@@ -1,17 +1,40 @@
 class AdminController < ApplicationController
   
-  layout proc{ |c| c.request.xhr? ? false : "admin" }
+  layout proc { |c| c.request.xhr? ? false : "admin"}
   before_filter :require_user, :setup_user
   
-  def widget
+  # this should be the only interface to the admin.
+  def index
 
+  end
+
+  def widget
+    serve_json_response and return unless request.xhr?
+    render :template => "admin/widget", :layout => false
   end
   
   def manage
-
+    serve_json_response and return unless request.xhr?
+    render :template => "admin/manage", :layout => false
+  end
+  
+  def install  
+    serve_json_response and return unless request.xhr?
+    render :template => "admin/install", :layout => false
   end
   
   
+  def collect
+    serve_json_response and return unless request.xhr?
+    render :template => "admin/collect", :layout => false
+  end
+  
+
+  def staging
+    render :template => "admin/staging", :layout => "staging"
+  end
+  
+      
   def testimonials
     
     case params[:filter]
@@ -76,22 +99,7 @@ class AdminController < ApplicationController
     serve_json_response
     return   
   end 
-  
-  
-  def install  
-
-  end
-  
-  
-  def collect
-
-  end 
- 
-  
-  def staging
-    render :template => "admin/staging", :layout => "staging"
-  end
-  
+    
    
   # PUT to save tconfig settings
   def settings
@@ -158,7 +166,8 @@ class AdminController < ApplicationController
   private 
   
   def setup_user
+    puts params.to_yaml
     @user = current_user
   end
-
+  
 end
