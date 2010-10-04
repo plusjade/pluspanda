@@ -1,6 +1,6 @@
 
 <ul class="grandchild_nav"> 
-  <li class="widget"><a href="#main" class="reload active" rel="tab-widget" id="widget-tab-link">Widget Preview</a></li> 
+  <li class="widget"><a href="#main" class="active" rel="tab-widget" id="widget-tab-link">Widget Preview</a></li> 
   <li class="show-css css"><a href="#css" rel="tab-css">Edit Widget CSS</a></li> 
   <li class="tags"><a href="/admin/tags" rel="tab-tags">Set Categories</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
@@ -10,7 +10,7 @@
 
   <div id="tab-widget" class="tab-content">
     <div id="data-description">
-      This is your testimonials widget in action. <%= link_to "Edit your display settings", "#settings_form", { :class => "fb-div", :rel => "#settings_form" } %>
+      This is your testimonials widget in action. <%= link_to "Edit your display settings", "#", { :class => "js-show-settings", :rel => "#settings_form" } %>
       to update your widget.
     </div>
     <div id="widget-wrapper">&#160;</div>

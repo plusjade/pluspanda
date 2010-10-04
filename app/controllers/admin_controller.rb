@@ -3,7 +3,7 @@ class AdminController < ApplicationController
   layout proc{ |c| c.request.xhr? ? false : "admin" }
   before_filter :require_user, :setup_user
   
-  def index
+  def widget
 
   end
   
@@ -99,8 +99,9 @@ class AdminController < ApplicationController
     
     if @user.tconfig.update_attributes(params[:tconfig])
       @user.update_settings(self)
-      @status  = "good"
-      @message = "Settings updated"
+      @status   = "good"
+      @message  = "Settings updated"
+      @resource = @user.tconfig
     elsif !@user.tconfig.valid?
       @message = "Oops! Please make sure all fields are valid!"
     end

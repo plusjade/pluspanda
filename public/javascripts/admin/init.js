@@ -1,15 +1,21 @@
-$(function(){
-  var loading = '<div class="loading">Loading...</div>';
-  var $iframe = $('<iframe width="100%" height="800px">Iframe not Supported</iframe>');
-  var formCallback = false;
-  var widgetCss;
-  
 /*
- * delegations
- *************
+ * admin (controller) = interfaces with server to carry out actions.
+ * event handlers (view)= determine which admin call to invoke. Update the view.
+ 
+ *  the admin object should provide an api for carrying out actions between client and server.
+ *    UI updates should be handled elsewhere if possible.
+ *  UI events should determine which admin call to invoke based on event.
+      Also they should carry out UI updates and DOM manipulations.
  */
+var loading = '<div class="loading">Loading...</div>';
+var widgetCss;
+var $iframe = $('<iframe width="100%" height="800px">Iframe not Supported</iframe>');
+
+$(function(){
+
+/* delegate UI click events  */
   $('body').click($.delegate({
-   // delegate facebox links
+
     'a[rel*=facebox]' :function(e){
       $.facebox(function(){ 
         $.get(e.target.href, function(data) { $.facebox(data) })
@@ -22,49 +28,43 @@ $(function(){
       $('div.share-data input').val(e.target.href);
       return false;
     },
+    
+    
    // primary page links
     '#parent_nav li a' : function(e){
-      $('#main-wrapper').html(loading);
       $('#parent_nav li a').removeClass('active');
-      $(e.target).addClass("active");    
-      $.get(e.target.href, function(data){
-        $('#main-wrapper').html(data);
-        $(document).trigger('page.init', $(e.target).attr('rel'));
-      });
+      $(e.target).addClass("active");   
+      var page = $(e.target).attr('rel'); 
+      
+      admin.loadPage(page);
       return false;
     },
    
    // secondary navigation tabs
     'ul.grandchild_nav li a' : function(e){
       var $target = $(e.target);
-      var rel = $target.attr('rel');
+      var tab     = $target.attr('rel');
       $('div.tab-content').hide();
       $('ul.grandchild_nav li a').removeClass('active');
       $target.addClass('active');
-      $('#'+ rel).show();
+      $('#'+ tab).show();
       
-      if($target.hasClass('reload')){
-          if('tab-widget' == rel)
-            $('#widget-wrapper').html($iframe.clone().attr('src', '/admin/staging#panda.admin'));
-          else if('tab-collect' == rel)
-            $('#collector-form-view').html($iframe.clone().attr('src', $('#collector-form-url').val()));
-      }
-      
-      if($target.hasClass('manage')){
+      if('tab-widget' == tab)
+        admin.loadWidgetPreview();
+      else if('tab-collect' == tab)
+        admin.loadFormPreview();
+        
+      if(admin.thisPage === 'manage'){
         $("#data-description").html($target.attr('title'));
-        $.get(e.target.href, function(data){
-          var filter = $target.html().toLowerCase();
-          $("#with-selected li.right").hide();
-          if (filter == 'new'){
-            $("#with-selected li.new-testimonial").show();
-          }
-          if (filter == 'published'){
-            $("#with-selected li.save-positions").show();
-          }          
-          $('#t-data').removeClass().addClass(filter).html(data);
-          $('abbr.timeago').timeago();
-        });
+        var filter = $target.html().toLowerCase();
+        admin.loadTestimonials(filter);
       }
+      return false;
+    },
+
+    '#with-selected li a.select' : function(e){
+      toggle = ($(e.target).hasClass('all')) ? true : false; 
+      $(".checkboxes input").attr('checked', toggle);
       return false;
     },
 
@@ -73,65 +73,68 @@ $(function(){
       var ids = []
       $(".checkboxes input:checked").each(function(){
         ids.push($(this).val());
-      });
-      if (ids.length == 0) {
-        $(document).trigger('responding', {'status':"bad", "msg":'Nothing selected.'});
-        return false;
+      })
+      if (ids.length === 0) {
+        admin.respond({"msg":'Nothing selected.'});
+      } else {
+        var action = $(e.target).html().toLowerCase();
+        var filter = $('ul.grandchild_nav li a.active').html().toLowerCase();
+        admin.batchUpdate(ids, action, filter);
       }
-      $(document).trigger('submitting');
-      $.get(e.target.href, $.param( {'id[]': ids}, true), function(rsp){
-        $(document).trigger('responding', rsp);
-        $('ul.grandchild_nav li a.active').click();
-      });      
       return false;
     },
     
-    
-    '#with-selected li a.select' : function(e){
-      toggle = ($(e.target).hasClass('all')) ? true : false; 
-      $(".checkboxes input").attr('checked', toggle);
-      return false;
-    },
       
    // save testimonial positions 
     '#with-selected a.save-positions' : function(e){
       var order = $("table.t-data").sortable("serialize");
-      if(!order){alert("No items to sort");return false;}
-      $(document).trigger('submittinging');
-      $.get('/admin/save_positions', order, function(rsp){
-        $(document).trigger('responding', rsp);
-        if(rsp.status = 'good'){
-          $.facebox({div : "#settings_form"});
-        }
-      });    
+      if(order){
+        admin.savePositions(order);
+      } else {
+        admin.respond({"msg":'No items to sort'});
+      }
       return false;
     },
-   // delete a resource
-    'a.delete' :function(e) {
-      $.ajax({
-        type: 'DELETE',
-        dataType:'json',
-        url: e.target.href,
-        beforeSend: function(){
-          if(!confirm('Sure you want to delete?')) return false;
-          $(document).trigger('submitting');
-        },
-        success: function(rsp){
-          $(document).trigger('responding', rsp);
-          $(e.target).parent().parent().remove();
-        }
-      })
-      return false;     
+    
+    '.js-show-settings' : function(e){
+      admin.loadSettingsForm();
+      return false;
     }
-  }));
+    
+    /* TODO: add soft deleting via trashcan functionality. */
+  }))
+    
+}); // end
 
-/*
- * top navigation page callbacks
- *******************************
- */
-  // index page
-  $(document).bind('page.index', function(){
-    console.log('index page');
+
+
+var admin = {
+  pages   : {'widget':'', 'manage':'', 'collect':'', 'install':''},
+  filters : {'new':'', 'published':'', 'hidden':''},
+  thisPage : false,
+  settingsStore : {},
+
+  loadPage : function (page){
+    if(page in admin.pages ) {
+      $('#main-wrapper').html(loading);
+      $("#parent_nav li."+ page + " a").addClass('active');
+      admin.thisPage = page;
+      window.location.hash = page;    
+
+      $.get("/admin/" + page, function(view){
+        $('#main-wrapper').html(view);
+        
+        if(page in admin) admin[page]();
+        $(document).trigger('ajaxify.form');
+      })
+    }
+  },
+    
+  
+/* Init setup invividual pages */
+  
+  // widget page
+  widget : function(){
     widgetCss = CodeMirror.fromTextArea('widget_css', {
       width: "800px",
       height: "700px",
@@ -156,18 +159,19 @@ $(function(){
     });
     
     $('#load-stock-css').click(function(){
-      $(document).trigger('submitting');
+      admin.submitting();
       $.get('/admin/theme_stock_css', {rand: Math.random()}, function(data){
         widgetCss.setCode(data);
-        $(document).trigger('responding', {status:'good', msg:'Stock CSS Loaded!'});
+        admin.respond({status:'good', msg:'Stock CSS Loaded!'});
       });
     })        
+    
+    $('ul.grandchild_nav li a:first').click();
+  },
 
-  });
-
-       
- // manage page
-  $(document).bind('page.manage', function(){
+  
+  // setup manage page
+  manage : function(){
     $("table.t-data").tablesorter({
       headers:{
         0:{sorter:false},
@@ -177,115 +181,181 @@ $(function(){
         11:{sorter:false}
       }
     }); 
+    
+    // TODO: make this declare only once and for published filter only
     $('table.t-data').sortable({
       items:'tr',
       handle:'td.move',
       axis: 'y',
       helper: 'clone'
     });
-    $('abbr.timeago').timeago();  
-  });
   
-    
-/*
- * form callbacks (can be called from any form through rel="" tag)
- ****************
- */  
-
- // tconfig settings callback
- $(document).bind('form.settings', function(){
-   // TODO: update the form values
-   
-   if($("#widget_css").length > 0)
-     $.get('/admin/theme_css', {rand: Math.random()}, function(data){
-         widgetCss.setCode(data);
-     })
-   // update the widget
-   if ($("#widget-tab-link").length > 0)
-     $("#widget-tab-link").click();
- })
-
-/*
- * base callbacks
- ****************
- */
-  $(document).bind('page.init', function(e, page){ 
+    //admin.loadTestimonials('new');
     $('ul.grandchild_nav li a:first').click();
-    $(document).trigger('ajaxify.form');
-    window.location.hash = page;
-    $(document).trigger('page.' + page);
-  });
-            
-  // facebox reveal callback  
-  $(document).bind('reveal.facebox', function(){
-    $(document).trigger('ajaxify.form');
-  });
-
-  // facebox close callback
-  $(document).bind('close.facebox', function() {
-    //$('body').removeClass('disable_body').removeAttr('scroll');
-  });
+  },
   
-  // show the submit ajax loading graphic.
-  $(document).bind('submitting', function(){
-    $('#status-bar div.responding.active').remove();
-    $('#submitting').show();
-  });
+  collect : function(){
+     $('ul.grandchild_nav li a:first').click();
+  },
+  
+  
+/* testimonial interactions */
 
-  // show the response (always json)
-  $(document).bind('responding', function(e, rsp){
+  savePositions : function(order){
+    admin.submitting();    
+    $.get('/admin/save_positions', order, function(rsp){
+      admin.respond(rsp);
+      if(rsp.status = 'good'){
+        admin.loadSettingsForm();
+      }
+    })
+  },
+
+  /*
+   * ids (array) : testimonials to update.
+   * action (string) : what action to carry out.
+   * filter (string) : optionally reloads these testimonials into the DOM
+   */
+  batchUpdate : function(ids, action, filter){
+    admin.submitting();
+    $.get('/admin/update?do=' + action, $.param( {'id[]': ids}, true), function(rsp){
+      admin.respond(rsp);
+      if (filter)
+        admin.loadTestimonials(filter);
+    })
+  },
+
+
+/* load data and views into the DOM */
+
+  // pretty much only for manage page atm.
+  loadTestimonials : function(filter){
+    if(filter in admin.filters ) {
+      $.get('/admin/testimonials?filter=' + filter, function(data){
+        $("#with-selected li.right").hide();
+        if (filter === 'new'){
+          $("#with-selected li.new-testimonial").show();
+        }
+        if (filter === 'published'){
+          $("#with-selected li.save-positions").show();
+        }          
+      
+        $('#t-data').removeClass().addClass(filter).html(data);
+        $('abbr.timeago').timeago();
+      })
+    }    
+  },
+    
+  loadWidgetPreview : function(){
+    $('#widget-wrapper')
+     .html($iframe.clone()
+     .attr('src', '/admin/staging#panda.admin'))
+  },
+  
+  loadFormPreview : function(){
+    $('#collector-form-view')
+      .html($iframe.clone()
+      .attr('src', $('#collector-form-url').val()))
+  },
+  
+  loadSettingsForm : function(){
+    var $data = $('<div>');
+    $settingsForm.clone().show().appendTo($data);
+    $.facebox($data);  
+  },
+  
+  
+/* resource updating callbacks */
+  
+  settingsSave : function(rsp){
+    admin.settingsStore = rsp.tconfig;
+    
+    if(admin.thisPage === 'widget'){
+      admin.loadWidgetPreview();
+      $.get('/admin/theme_css', {rand: Math.random()}, function(data){
+          widgetCss.setCode(data);
+      })      
+    }
+  },
+  
+  testimonialSave : function(rsp){
+    if (admin.thisPage !== 'manage') return;
+    
+    if(rsp.testimonial.image){
+      $('#testimonial-image-wrapper').html('<img src="' + rsp.testimonial.image + '" />');
+    }
+
+    $.get(rsp.testimonial.path, function(data){
+      switch(rsp.testimonial.type){
+        case 'new':
+          $('#facebox form').clearForm();
+          $('#t-data').prepend(data);
+          break;
+        case 'existing':
+          $('#tstml_' + rsp.testimonial.id).replaceWith(data);
+          break;
+      }
+      $('abbr.timeago').timeago();  
+    })
+  
+  },
+ 
+ 
+/* UI responses */
+  
+  submitting: function(){
+    $('#status-bar div.responding.active').remove();
+    $('#submitting').show();    
+  },
+
+  respond : function(rsp){
     var status = (undefined == rsp.status) ? 'bad' : rsp.status;
     var msg = (undefined == rsp.msg) ? 'There was a problem!' : rsp.msg;
     $('#submitting').hide();
     $('div.responding.active').remove();
     $('div.responding').hide().clone().addClass('active ' + status).html(msg).show().insertAfter('div.responding');
     setTimeout('$("div.responding.active").fadeOut(4000)', 1900);  
-  }); 
-     
- // ajaxify the forms
-  $(document).bind('ajaxify.form', function(){
-    $('form').ajaxForm({
-      dataType : 'json',      
-      beforeSubmit: function(fields, form){
-        if($(form).hasClass('js-multipart-form')){
-          console.log('js-multipart-form exists');
-          $(form).append('<input type="hidden" name="is_ajax" value="true" />'); 
-        }
-        //if(! $("input", form[0]).jade_validate() ) return false;
-        $('button', form[0]).attr('disabled','disabled').removeClass('positive');
-        $(document).trigger('submitting');
-        formCallback = $(form).attr('rel');
-      },
-      success: function(rsp) {
-        // TODO. Modulate this out man!
-        
-        if(undefined != rsp.resource){
-          if('created' == rsp.resource.action){
-            $('#facebox form').clearForm();
-            $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
-              $('#t-data').prepend(data);
-              $('abbr.timeago').timeago();
-            });
-          }
-          else if('updated' == rsp.resource.action){
-            $.get('/' + rsp.resource.name + '/' + rsp.resource.id, function(data){
-              $('#tstml_' + rsp.resource.id).replaceWith(data);
-              $('abbr.timeago').timeago();
-            });        
-          }
-          if ('testimonials' == rsp.resource.name && undefined != rsp.resource.image){
-            $('#testimonial-image-wrapper').html('<img src="' + rsp.resource.image + '" />');
-          }
-        }
-               
-        $(document).trigger('responding', rsp);
-        $('form button').removeAttr('disabled').addClass('positive');
-        if(formCallback) {
-          $(document).trigger(formCallback);
-        }
-      }
-    })
-  })
-      
-}); // end
+  }
+  
+}
 
+// facebox reveal callback  
+$(document).bind('reveal.facebox', function(){
+  /* well this was the only way that seemed to work... but it sucks ... fix it later */
+  $("select.tconfig_theme").val(admin.settingsStore.theme);
+  $(".tconfig_per_page").val(admin.settingsStore.per_page);
+  $("select.tconfig_sort").val(admin.settingsStore.sort);
+
+  $(document).trigger('ajaxify.form');
+});
+
+// facebox close callback
+$(document).bind('close.facebox', function() {
+  //$('.content', '#facebox').empty();
+});
+
+   
+// ajaxify the forms
+$(document).bind('ajaxify.form', function(){
+  $('form').ajaxForm({
+    dataType : 'json',      
+    beforeSubmit: function(fields, form){
+      if($(form).hasClass('js-multipart-form')){
+        $(form).append('<input type="hidden" name="is_ajax" value="true" />'); 
+      }
+      admin.submitting();
+      $('button', form[0]).attr('disabled','disabled').removeClass('positive');
+    },
+    success: function(rsp) {
+      console.log(rsp);
+      admin.respond(rsp);     
+
+      if (rsp.tconfig)
+        admin.settingsSave(rsp);
+      else if (rsp.testimonial)
+        admin.testimonialSave(rsp);
+
+      $('form button').removeAttr('disabled').addClass('positive');
+    }
+  })
+})

@@ -53,28 +53,30 @@ class ApplicationController < ActionController::Base
     end
 
     def serve_json_response
+      rsp = {}
       @status  ||= 'bad'
       @message ||= 'Oops! Please try again!'
-      response = {'status' => @status, 'msg' => @message }
       
       # hack: newly created resources will be "frozen" as a way to identify them.
       if @resource
-        response['resource'] = {
-          'action' => @resource.frozen? ? 'created' : 'updated',
-          'name'   => @resource.class.to_s.pluralize.downcase,
-          'id'     => @resource.id
-        }
-        if !@resource.avatar_file_name.empty?
-          response['resource']['image'] = @resource.avatar.url(:sm)
-        end
-      end
+        name = @resource.class.to_s.downcase
+        h = @resource.attributes
+        h["type"]  = @resource.frozen? ? 'new' : 'existing'
+        h["image"] = @resource.avatar.url(:sm) if @resource.respond_to?(:avatar) && @resource.avatar?
+        h["path"]  = self.send(name + "_path", @resource) if self.respond_to?(name + "_path")
+        
+        rsp[name] = h
+      end  
       
+      rsp["status"] = @status
+      rsp["msg"]    = @message
+            
       # remember this param should be added with js.
       if params["is_ajax"]
         # respond to ajaxForm in hidden iframe (not xhr but still js)
-        render :text => "<textarea>#{response.to_json}</textarea>"
+        render :text => "<textarea>#{rsp.to_json}</textarea>"
       else
-        render :json => response
+        render :json => rsp
       end
     end
     
@@ -86,4 +88,9 @@ class ApplicationController < ActionController::Base
     def admin_frontpage
       new_account_url
     end
+    
+    def admin_path
+      admin_widget_path
+    end
+    
 end
