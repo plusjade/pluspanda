@@ -88,9 +88,5 @@ class ApplicationController < ActionController::Base
     def admin_frontpage
       new_account_url
     end
-    
-    def admin_path
-      admin_widget_path
-    end
-    
+        
 end
