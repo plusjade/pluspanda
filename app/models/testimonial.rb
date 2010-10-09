@@ -49,18 +49,29 @@ class Testimonial < ActiveRecord::Base
     testimonial = {
       :id               => self.id,
       :rating           => self.rating,
+      :company          => self.company,
       :position         => self.position,
       :name             => self.name,
-      :company          => self.company,
       :location         => self.location,
       :created_at       => self.created_at,
-      :avatar_file_name => self.avatar_file_name,
+      :image_src        => self.avatar? ? absolute_url + self.avatar.url(:sm) : false,
+      :image_stock      => image_stock,
       :tag_id           => self.tag_id,
       :body             => self.body,
       :url              => self.url,
       :c_position       => self.c_position
     }
     testimonial   
+  end
+  
+  
+  def absolute_url
+    ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
+  end
+    
+  
+  def image_stock
+     absolute_url + '/images/stock.png'
   end
   
 end
