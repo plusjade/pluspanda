@@ -16,18 +16,21 @@ class TestimonialsController < ApplicationController
       format.json { render :json => @testimonials }
       format.js  do
         total = get_testimonials(true)
-
-        # pass paging data
-        page_vars = ''
+        
+        update_data = {}
+        update_data["total"] = total
+        
         offset = ( @active_page*@user.tconfig.per_page ) - @user.tconfig.per_page
         if total > offset + @user.tconfig.per_page
-          next_page = @active_page + 1
-          page_vars = "'#{next_page}', '#{@active_tag}', '#{@active_sort}'"
+          update_data["nextPageUrl"]  = root_url + "testimonials.js?apikey=" + @user.apikey + '&tag=' + @active_tag + '&sort=' + @active_sort + '&page=' + (@active_page + 1).to_s
+          update_data["nextPage"]     = @active_page + 1
+          update_data["tag"]          = @active_tag
+          update_data["sort"]         = @active_sort
         end
 
         #@response.headers["Cache-Control"] = 'no-cache, must-revalidate'
         #@response.headers["Expires"] = 'Mon, 26 Jul 1997 05:00:00 GMT'
-        render :js => "panda.display(#{@testimonials.to_json});panda.showMore(#{page_vars});"
+        render :js => "panda.display(#{@testimonials.to_json});panda.update(#{update_data.to_json});"
       end
     end
     

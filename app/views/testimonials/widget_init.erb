@@ -18,11 +18,11 @@ var panda = {
   
   poll: function (){
     panda.pollTry = panda.pollTry+1;
-    if (panda.pollTry > 15) { 
+    if (panda.pollTry > 25) { 
       var container = document.getElementById('plusPandaYes');
       container.innerHTML = 'pluspanda error! Could not load jquery';
     } else if (typeof jQuery == 'undefined') {  
-      setTimeout("panda.poll()", 100);
+      setTimeout("panda.poll()", 150);
     } else {
       panda.setup();
     }
@@ -30,10 +30,10 @@ var panda = {
 
   setup: function(){ 
     jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}
-    jQuery('head').append('<link type="text/css" id="pandaTheme" href="' + pandaAssetUrl + '/' + pandaTheme + '.css' + (panda.admin?('?r='+ Math.random()):'') + '" media="screen" rel="stylesheet" />');
+    var cssUrl = pandaSettings.cssUrl + ( panda.admin ? ('?r=' + Math.random()) : '' );
+    jQuery('head').append('<link type="text/css" id="' + pandaSettings.theme + ' " href="' + cssUrl + '" media="screen" rel="stylesheet" />');
     panda.$container = jQuery('#plusPandaYes');
 
-    /* attach event triggers. */
     jQuery('body').click(jQuery.delegate({
       'a.show-more' : function(e){  
         var is_sort = e.target.href.indexOf('#');    
@@ -61,7 +61,7 @@ var panda = {
 
   /* build the initial interface. */
   build: function () {
-    panda.$container.html(pandaStructure);
+    panda.$container.html(pandaSettings.structure);
 
     // ajaxify tag list.  
     jQuery('div.panda-tags ul a').click(function(e){
@@ -78,7 +78,7 @@ var panda = {
     // init getting the data.
     jQuery('div.panda-tags ul a:first').click();
     // track
-    //jQuery.get('<%= url_for("track") %>',{key:pandaApikey,url:parent.location.href});
+    //jQuery.get('<%= url_for("track") %>',{key:pandaSettings.apikey,url:parent.location.href});
   },
   
   /* get the testimonials as json. */
@@ -86,8 +86,8 @@ var panda = {
     jQuery('div.panda-container').append(panda.loading);
     jQuery.ajax({ 
         type:'GET', 
-        url: '<%= root_url %>testimonials.js', 
-        data:"apikey="+pandaApikey+"&tag="+tag+"&sort="+sort+"&page="+page, 
+        url: '<%= root_url %>/testimonials.js', 
+        data:"apikey="+pandaSettings.apikey+"&tag="+tag+"&sort="+sort+"&page="+page, 
         dataType:'jsonp'
     }); 
   },
@@ -106,16 +106,17 @@ var panda = {
       this.alt     = (0 == (i+1) % 2) ? 'even' : 'odd';
       /*fixme tag functionality not added yet. */
       this.tag_name = (this.tag_name)? this.tag_name : '';
-      content  += pandaItemHtml(this);
+      content  += pandaSettings.itemHtml(this);
     });
     jQuery('div.panda-container .ajax_loading', panda.$container).replaceWith(content);
     panda.clean();
   },
 
-  /* callback to display the pagination html. */
-  showMore: function (nextPage, tag, sort){
-    if(!nextPage) return false;
-    var link = '<a href="<%= root_url %>testimonials.js?apikey='+pandaApikey+'&tag='+tag+'&sort='+sort+'&page='+ nextPage +'" class="show-more">Show More</a>';
+  /* callback to update display with pagination, counts, etc */
+  update: function (data){
+    $("#panda-total-testimonials").html(data.total);
+    if(!data.nextPage) return;
+    var link = '<a href="' + data.nextPageUrl + '" class="show-more">Show More</a>';
     jQuery('div.panda-container').append(link);
   },
 
