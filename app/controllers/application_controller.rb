@@ -88,5 +88,8 @@ class ApplicationController < ActionController::Base
     def admin_frontpage
       new_account_url
     end
-        
+    
+    def root_url
+      ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
+    end
 end

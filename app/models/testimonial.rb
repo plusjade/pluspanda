@@ -54,7 +54,7 @@ class Testimonial < ActiveRecord::Base
       :name             => self.name,
       :location         => self.location,
       :created_at       => self.created_at,
-      :image_src        => self.avatar? ? absolute_url + self.avatar.url(:sm) : false,
+      :image_src        => self.avatar? ? root_url + self.avatar.url(:sm) : false,
       :image_stock      => image_stock,
       :tag_id           => self.tag_id,
       :body             => self.body,
@@ -65,13 +65,13 @@ class Testimonial < ActiveRecord::Base
   end
   
   
-  def absolute_url
+  def root_url
     ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
   end
     
   
   def image_stock
-     absolute_url + '/images/stock.png'
+     root_url + '/images/stock.png'
   end
   
 end

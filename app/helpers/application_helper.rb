@@ -5,15 +5,11 @@ module ApplicationHelper
   end
   
   def widget_script_url
-    return "#{root_url}testimonials/widget.js?apikey=#{@user.apikey}"
+    return "#{root_url}/testimonials/widget.js?apikey=#{@user.apikey}"
   end
 
   def root_url
-    if ::Rails.env == 'production'
-      return "http://api.pluspanda.com/"
-    else
-      return "http://localhost:3000/"
-    end
+    ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
   end
   
 end
