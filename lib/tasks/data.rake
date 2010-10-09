@@ -15,6 +15,11 @@ namespace :data do
         puts "removed: " +  settings
       end
     end
-        
+    
+    puts "\nClearing widget.js cache..."
+    widget = Rails.root.join('tmp','cache','widget.js')
+    if FileUtils.rm(widget)
+      puts "removed: " + widget
+    end    
   end
 end
