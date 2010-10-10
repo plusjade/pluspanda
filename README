@@ -1,1 +1,30 @@
 Hello =D
+
+javascipt widget run through:
+-----------------------------
+assert panda.init called? 
+in panda.init  
+  assert jquery exists?
+    on false
+      append google cdn
+      assert jquery exists via polling
+      polling expecting jquery true
+    on true 
+      assert setup called?
+      in setup
+        assert append css link
+        assert store updated panda container
+        assert delegate events on container
+        assert getTstmls called?
+        in getTstmls
+          assert jsonp ajax call is made 
+          assert jsonp callback triggers:
+            panda.display
+            in panda.display
+              assert content string is created.
+              asset content string is added to the DOM
+          
+            panda.update
+            in panda.update
+              assert total count is updated
+              assert pagination is updated

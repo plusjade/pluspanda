@@ -6,45 +6,46 @@ var panda = {
   debug: false,
   
   init: function () {
-    if (window.location.hash == '#panda.admin') panda.admin = true;
-    if (window.location.hash == '#panda.debug') panda.debug = true;
-    if (typeof jQuery == 'undefined') {  
+    if (window.location.hash === '#panda.admin') panda.admin = true;
+    if (window.location.hash === '#panda.debug') panda.debug = true;
+    if (panda.debug){console.log("init called, expecting jQuery, then setup()")}
+    if (typeof jQuery === 'undefined') { 
+      if(panda.debug){console.log('no jQuery, expecting google cdn and poll(), then setup()')} 
       var script = document.createElement("script");
       script.type = "text/javascript";
       script.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js";    
       document.body.appendChild(script);
-      panda.poll();
-      return;
+      panda.poll()
+    } else {
+      panda.setup()
     }
-    panda.setup();
   },
   
   poll: function (){
     panda.pollTry = panda.pollTry+1;
-    if (panda.debug){console.log("polling, try:" + panda.pollTry)}
+    if (panda.debug){console.log("polling, expecting jQuery. Try#:" + panda.pollTry)}
+    
     if (panda.pollTry > 25) { 
       var container = document.getElementById('plusPandaYes');
       container.innerHTML = 'pluspanda error! Could not load jquery';
-    } else if (typeof jQuery == 'undefined') {  
+    } else if (typeof jQuery === 'undefined') {  
       setTimeout("panda.poll()", 150);
     } else {
-      panda.setup();
+      panda.setup()
     }
   }, 
 
   setup: function(){ 
-    if(panda.debug){console.log("setup: ")}
-    jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}
+    if(panda.debug){console.log("setup called, expecting css, $container, delegation, then getTstmls()")}
     var cssUrl = pandaSettings.cssUrl + ( panda.admin ? ('?r=' + Math.random()) : '' );
     jQuery('head').append('<link type="text/css" id="' + pandaSettings.theme + ' " href="' + cssUrl + '" media="screen" rel="stylesheet" />');
-    panda.$container = jQuery('#plusPandaYes');
+    panda.$container = jQuery('#plusPandaYes').html(pandaSettings.structure);
 
-    jQuery('body').click(jQuery.delegate({
+    jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}    
+    panda.$container.click(jQuery.delegate({
       'a.show-more' : function(e){  
         var is_sort = e.target.href.indexOf('#');    
-        var parent = (-1 == is_sort)
-          ? 'a.show-more'
-          : '.panda-testimonials-sorters a';
+        var parent = (-1 == is_sort) ? 'a.show-more' : '.panda-testimonials-sorters a';
         var spltr = (-1 == is_sort) ? '?' : '#';
 
         // get GET params from links TOD0: optimize this?
@@ -57,39 +58,27 @@ var panda = {
         jQuery(e.target).remove();
         panda.getTstmls(params.tag, params.sort, params.page);
         return false;
-      }
-    }));
-    panda.$container.html(panda.loading);
-    panda.build();
+      },
+
+      'div.panda-tags ul a' : function(e){
+        var tag = e.target.hash.substring(1);
+        jQuery('div.panda-tags ul a').removeClass('active');
+        jQuery(this).addClass('active');
+
+        jQuery('div.panda-container').empty();
+        panda.getTstmls(tag,'newest',1);
+        return false;  
+      }     
+    }))
+    if(panda.debug){console.log(cssUrl);console.log(panda.$container)}
+    panda.getTstmls('all','newest',1);
+    /*jQuery.get('<%= url_for("track") %>',{key:pandaSettings.apikey,url:parent.location.href}); */
   },
 
 
-  /* build the initial interface. */
-  build: function () {
-    if (panda.debug){console.log("build: ")}
-    panda.$container.html(pandaSettings.structure);
-
-    // ajaxify tag list.  
-    jQuery('div.panda-tags ul a').click(function(e){
-      var tag = e.target.hash.substring(1);
-      // highlight the tag link
-      jQuery('div.panda-tags ul a').removeClass('active');
-      jQuery(this).addClass('active');
-
-      // load the testimonials based on selection.
-      jQuery('div.panda-container').empty();
-      panda.getTstmls(tag,'newest',1);
-      return false;  
-    });
-    // init getting the data.
-    jQuery('div.panda-tags ul a:first').click();
-    // track
-    //jQuery.get('<%= url_for("track") %>',{key:pandaSettings.apikey,url:parent.location.href});
-  },
-  
   /* get the testimonials as json. */
   getTstmls: function (tag, sort, page){
-    if (panda.debug){console.log("getTstmls: " + tag + '/' + sort + '/' + page)}
+    if (panda.debug){console.log("getTstmls called(" + tag + '/' + sort + '/' + page+ ')');console.log('expecting callbacks: display(), update()')}
     jQuery('div.panda-container').append(panda.loading);
     jQuery.ajax({ 
         type:'GET', 
@@ -98,13 +87,14 @@ var panda = {
         dataType:'jsonp'
     }); 
   },
-
-
-  // --------- jsonp callbacks ------------  
-
+  
+  clean: function (){
+    jQuery('head script[src^="<%= root_url %>"]').remove();
+  },  
+  
   /* callback to format and inject testimonials data. */
   display: function (tstmls){
-    if (panda.debug){console.log("display: " + tstmls)}
+    if (panda.debug){console.log("display called, expecting updated content.");console.log(tstmls)}
     var content = '';
     var date = new Date();
     jQuery(tstmls).each(function(i){
@@ -112,26 +102,21 @@ var panda = {
       if (this.image_src === false) this.image_src = this.image_stock;
       this.url     = (0 == this.url.length) ? '' : 'http://' + this.url;
       this.alt     = (0 == (i+1) % 2) ? 'even' : 'odd';
-      /*fixme tag functionality not added yet. */
       this.tag_name = (this.tag_name)? this.tag_name : '';
       content  += pandaSettings.itemHtml(this);
     });
     jQuery('div.panda-container .ajax_loading', panda.$container).replaceWith(content);
-    panda.clean();
+    if(panda.debug){console.log(content)}
+    panda.clean()
   },
 
   /* callback to update display with pagination, counts, etc */
   update: function (data){
-    if (panda.debug){console.log("update: " + data)}
-    $("#panda-total-testimonials").html(data.total);
+    if (panda.debug){console.log("update called, expecting total count and pagination updated.");console.log(data);}
+    jQuery("#panda-total-testimonials").html(data.total);
     if(!data.nextPage) return false;
     var link = '<a href="' + data.nextPageUrl + '" class="show-more">Show More</a>';
     jQuery('div.panda-container').append(link);
-  },
-
-  /* cleanup our jsonp scripts after execution. */
-  clean: function (){
-    jQuery('head script[src^="<%= root_url %>"]').remove();
   }
 }
 window.onload = panda.init();
