@@ -2,9 +2,12 @@ var panda = {
   $container : null,
   loading: '<div class="ajax_loading">Loading...</div>',
   pollTry: 0,
+  admin : false,
+  debug: false,
   
   init: function () {
     if (window.location.hash == '#panda.admin') panda.admin = true;
+    if (window.location.hash == '#panda.debug') panda.debug = true;
     if (typeof jQuery == 'undefined') {  
       var script = document.createElement("script");
       script.type = "text/javascript";
@@ -18,6 +21,7 @@ var panda = {
   
   poll: function (){
     panda.pollTry = panda.pollTry+1;
+    if (panda.debug){console.log("polling, try:" + panda.pollTry)}
     if (panda.pollTry > 25) { 
       var container = document.getElementById('plusPandaYes');
       container.innerHTML = 'pluspanda error! Could not load jquery';
@@ -29,6 +33,7 @@ var panda = {
   }, 
 
   setup: function(){ 
+    if(panda.debug){console.log("setup: ")}
     jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}
     var cssUrl = pandaSettings.cssUrl + ( panda.admin ? ('?r=' + Math.random()) : '' );
     jQuery('head').append('<link type="text/css" id="' + pandaSettings.theme + ' " href="' + cssUrl + '" media="screen" rel="stylesheet" />');
@@ -61,6 +66,7 @@ var panda = {
 
   /* build the initial interface. */
   build: function () {
+    if (panda.debug){console.log("build: ")}
     panda.$container.html(pandaSettings.structure);
 
     // ajaxify tag list.  
@@ -83,6 +89,7 @@ var panda = {
   
   /* get the testimonials as json. */
   getTstmls: function (tag, sort, page){
+    if (panda.debug){console.log("getTstmls: " + tag + '/' + sort + '/' + page)}
     jQuery('div.panda-container').append(panda.loading);
     jQuery.ajax({ 
         type:'GET', 
@@ -97,6 +104,7 @@ var panda = {
 
   /* callback to format and inject testimonials data. */
   display: function (tstmls){
+    if (panda.debug){console.log("display: " + tstmls)}
     var content = '';
     var date = new Date();
     jQuery(tstmls).each(function(i){
@@ -114,8 +122,9 @@ var panda = {
 
   /* callback to update display with pagination, counts, etc */
   update: function (data){
+    if (panda.debug){console.log("update: " + data)}
     $("#panda-total-testimonials").html(data.total);
-    if(!data.nextPage) return;
+    if(!data.nextPage) return false;
     var link = '<a href="' + data.nextPageUrl + '" class="show-more">Show More</a>';
     jQuery('div.panda-container').append(link);
   },
