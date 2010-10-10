@@ -22,7 +22,7 @@ class TestimonialsController < ApplicationController
         
         offset = ( @active_page*@user.tconfig.per_page ) - @user.tconfig.per_page
         if total > offset + @user.tconfig.per_page
-          update_data["nextPageUrl"]  = root_url + "testimonials.js?apikey=" + @user.apikey + '&tag=' + @active_tag + '&sort=' + @active_sort + '&page=' + (@active_page + 1).to_s
+          update_data["nextPageUrl"]  = root_url + "/testimonials.js?apikey=" + @user.apikey + '&tag=' + @active_tag + '&sort=' + @active_sort + '&page=' + (@active_page + 1).to_s
           update_data["nextPage"]     = @active_page + 1
           update_data["tag"]          = @active_tag
           update_data["sort"]         = @active_sort
@@ -39,7 +39,7 @@ class TestimonialsController < ApplicationController
 
   def widget 
     @user.update_settings(self) unless @user.has_settings?   
-    render :js => @user.settings + render_cache
+    render :js => @user.settings + render_widget_js
   end
   
   
@@ -219,165 +219,163 @@ class TestimonialsController < ApplicationController
 
   private
 
-###############################
-
-  def ensure_valid_user
-    # also ensure api calls are prioritized
-    if current_user && params['apikey'].nil?
-      @user = current_user
-      return
-    end 
+    def ensure_valid_user
+      # also ensure api calls are prioritized
+      if current_user && params['apikey'].nil?
+        @user = current_user
+        return
+      end 
     
-    @user = User.first(:conditions => {:apikey => params['apikey']})
-    if @user.nil?
-      @message = "error! invalid apikey"
-      respond_to do |format|
-        format.html { render :text => @message }
-        format.json { serve_json_response }
-        format.js   { render :js   => "alert(#{@message});" }
-      end
-      return
-    end
-
-    @user[:is_via_api] = true
-  end
-  
-    
-  def ready_testimonial_filters_and_sorters
-    @active_tag   = (params['tag'].nil?)  ? 'all'    : params['tag']
-    @active_sort  = (params['sort'].nil?) ? 'newest' : params['sort'].downcase
-    @active_page  = (params['page'].nil? ) ? 1       : params['page'].to_i 
-    
-    @tags  = Tag.where({:user_id => @user.id })
-  end
-
-
-  def is_able_to_publish
-    return true if current_user && !@user[:is_via_api]
-    params[:testimonial].delete('publish')
-    params[:testimonial].delete('lock')
-        
-    return can_publish_existing if @testimonial
-    return can_publish_new
-  end
-  
-  # verify a testimonial is editable
-  def can_publish_existing
-    return true unless @testimonial.lock
-    
-    @message = "This testimonial is locked!"
-    respond_to do |format|
-      format.html do
-        flash[:notice] = "This testimonial is locked!"
-        redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
-      end
-      format.json { serve_json_response }
-      format.js   { render :js => "alert(#{@message});" }
-    end    
-    return false
-  end 
-  
-  # verify this user can create a testimonial
-  def can_publish_new
-    access_key = @user.tconfig.form["require_key"]
-    
-    email = (params[:testimonial][:email].nil?) ? '' : params[:testimonial][:email].strip
-    
-    if !access_key.empty? && access_key != params[:access_key]
-      flash[:notice] = "Invalid Access Key!"
-    elsif params[:testimonial][:name].nil? || params[:testimonial][:name].strip.empty?
-      flash[:notice] = "Please enter your full name."
-    elsif @user.tconfig.form["email"] && (email.empty? || email.index('@') == nil)
-      flash[:notice] = "Please enter a valid email address."
-    else
-      return true
-    end
-    
-    @testimonial = Testimonial.new(params[:testimonial])  
-    render :action => "new"
-    return false  
-  end
-  
-  
-  # get the testimonials
-  # based on defined filters, sorters, and limits.
-  # filters: page, publish, tag, rating, date.
-  # sorters: created
-  def get_testimonials(get_count=false)  
-    params = {
-      'user_id' => @user.id,
-      'page'    => @active_page,
-      'tag'     => @active_tag,
-      'publish' => 'yes',
-      'rating'  => '',
-      'range'   => '',
-      'sort'    => @user.tconfig.sort,
-      'created' => @active_sort,
-      'updated' => '',
-      'limit'   => @user.tconfig.per_page
-    }
-    where  = {}
-
-    # filter by publish
-    where['publish'] = ('yes' == params['publish']) ? 1 : 0
-      
-    # filter by tag
-    if params['tag'] == 'all'
-      where['user_id'] = params['user_id']
-    else
-      where['tag_id'] = params['tag'].to_i
-    end
-        
-    # filter by rating
-    #if(is_numeric($params['rating']))
-    #  where['rating'] = $params['rating'];
-    
-    return Testimonial.where(where).count if get_count
-
-    #--sorters--
-    sort = "created_at DESC"
-    case(params['sort'])
-      when 'created'
-        case(params['created'])
-          when 'newest'
-            sort = "created_at DESC"
-          when 'oldest'
-            sort = "created_at ASC"
+      @user = User.first(:conditions => {:apikey => params['apikey']})
+      if @user.nil?
+        @message = "error! invalid apikey"
+        respond_to do |format|
+          format.html { render :text => @message }
+          format.json { serve_json_response }
+          format.js   { render :js   => "alert(#{@message});" }
         end
-      when 'name'
-        sort = "name ASC"
-      when 'company'
-        sort = "company ASC"
-      when 'position'
-        sort = "position ASC"
-     end 
-       
-    # determine the offset and limits.
-    offset = (params['page']*params['limit']) - params['limit']
+        return
+      end
 
-    return Testimonial.where(where).order(sort).limit(params['limit']).offset(offset)
-   end 
-
-######################################
-# cache rendering and updating
-######################################
-
-  def render_cache
-    @path = File.join('tmp/cache', "widget.js")
-    update_cache if !File.exist?(@path)
-    f = File.open(@path) 
-    return f.read
-  end
-   
+      @user[:is_via_api] = true
+    end
   
-  # regenerate a fresh widget javascript file for the system.
-  def update_cache
-    Dir.mkdir 'tmp/cache' if !File.directory?('tmp/cache')
     
-    f = File.new(@path, "w+")
-    f.write(render_to_string(:template => "testimonials/widget_init", :layout =>false))
-    f.rewind
-  end  
+    def ready_testimonial_filters_and_sorters
+      @active_tag   = (params['tag'].nil?)  ? 'all'    : params['tag']
+      @active_sort  = (params['sort'].nil?) ? 'newest' : params['sort'].downcase
+      @active_page  = (params['page'].nil? ) ? 1       : params['page'].to_i 
+    
+      @tags  = Tag.where({:user_id => @user.id })
+    end
+
+
+    def is_able_to_publish
+      return true if current_user && !@user[:is_via_api]
+      params[:testimonial].delete('publish')
+      params[:testimonial].delete('lock')
+        
+      return can_publish_existing if @testimonial
+      return can_publish_new
+    end
   
+    # verify a testimonial is editable
+    def can_publish_existing
+      return true unless @testimonial.lock
+    
+      @message = "This testimonial is locked!"
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "This testimonial is locked!"
+          redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
+        end
+        format.json { serve_json_response }
+        format.js   { render :js => "alert(#{@message});" }
+      end    
+      return false
+    end 
+  
+    # verify this user can create a testimonial
+    def can_publish_new
+      access_key = @user.tconfig.form["require_key"]
+    
+      email = (params[:testimonial][:email].nil?) ? '' : params[:testimonial][:email].strip
+    
+      if !access_key.empty? && access_key != params[:access_key]
+        flash[:notice] = "Invalid Access Key!"
+      elsif params[:testimonial][:name].nil? || params[:testimonial][:name].strip.empty?
+        flash[:notice] = "Please enter your full name."
+      elsif @user.tconfig.form["email"] && (email.empty? || email.index('@') == nil)
+        flash[:notice] = "Please enter a valid email address."
+      else
+        return true
+      end
+    
+      @testimonial = Testimonial.new(params[:testimonial])  
+      render :action => "new"
+      return false  
+    end
+  
+  
+    # get the testimonials
+    # based on defined filters, sorters, and limits.
+    # filters: page, publish, tag, rating, date.
+    # sorters: created
+    def get_testimonials(get_count=false)  
+      params = {
+        'user_id' => @user.id,
+        'page'    => @active_page,
+        'tag'     => @active_tag,
+        'publish' => 'yes',
+        'rating'  => '',
+        'range'   => '',
+        'sort'    => @user.tconfig.sort,
+        'created' => @active_sort,
+        'updated' => '',
+        'limit'   => @user.tconfig.per_page
+      }
+      where  = {}
+
+      # filter by publish
+      where['publish'] = ('yes' == params['publish']) ? 1 : 0
+      
+      # filter by tag
+      if params['tag'] == 'all'
+        where['user_id'] = params['user_id']
+      else
+        where['tag_id'] = params['tag'].to_i
+      end
+        
+      # filter by rating
+      #if(is_numeric($params['rating']))
+      #  where['rating'] = $params['rating'];
+    
+      return Testimonial.where(where).count if get_count
+
+      #--sorters--
+      sort = "created_at DESC"
+      case(params['sort'])
+        when 'created'
+          case(params['created'])
+            when 'newest'
+              sort = "created_at DESC"
+            when 'oldest'
+              sort = "created_at ASC"
+          end
+        when 'name'
+          sort = "name ASC"
+        when 'company'
+          sort = "company ASC"
+        when 'position'
+          sort = "position ASC"
+       end 
+       
+      # determine the offset and limits.
+      offset = (params['page']*params['limit']) - params['limit']
+
+      return Testimonial.where(where).order(sort).limit(params['limit']).offset(offset)
+     end 
+
+
+    def render_widget_js
+      @path = File.join('public','javascripts','widget',"widget.js")
+      if File.exist?(@path)
+        File.open(@path).read 
+      else
+        ";document.getElementById('plusPandaYes').innerHTML = 'pluspanda could not load widget.js';"
+      end
+    end
+   
+=begin   
+    # no longer using...
+    # regenerate a fresh widget javascript file for the system.
+    def update_cache
+      Dir.mkdir 'tmp/cache' if !File.directory?('tmp/cache')
+    
+      f = File.new(@path, "w+")
+      f.write(render_to_string(:template => "testimonials/widget_init", :layout =>false))
+      f.rewind
+    end  
+=end  
   
 end

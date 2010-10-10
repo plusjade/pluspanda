@@ -1,6 +1,6 @@
-var panda = {   
-  $container : null,
+var panda = {
   loading: '<div class="ajax_loading">Loading...</div>',
+  $container : null,
   pollTry: 0,
   admin : false,
   debug: false,
@@ -72,7 +72,7 @@ var panda = {
     }))
     if(panda.debug){console.log(cssUrl);console.log(panda.$container)}
     panda.getTstmls('all','newest',1);
-    /*jQuery.get('<%= url_for("track") %>',{key:pandaSettings.apikey,url:parent.location.href}); */
+    /*track: jQuery.get('blah',{key:pandaSettings.apikey,url:parent.location.href}); */
   },
 
 
@@ -82,14 +82,14 @@ var panda = {
     jQuery('div.panda-container').append(panda.loading);
     jQuery.ajax({ 
         type:'GET', 
-        url: '<%= root_url %>/testimonials.js', 
+        url: pandaSettings.apiUrl + '/testimonials.js', 
         data:"apikey="+pandaSettings.apikey+"&tag="+tag+"&sort="+sort+"&page="+page, 
         dataType:'jsonp'
     }); 
   },
   
   clean: function (){
-    jQuery('head script[src^="<%= root_url %>"]').remove();
+    jQuery('head script[src^="' + pandaSettings.apiUrl + '"]').remove();
   },  
   
   /* callback to format and inject testimonials data. */
@@ -120,4 +120,3 @@ var panda = {
   }
 }
 window.onload = panda.init();
-/*<%= Time.new %>*/

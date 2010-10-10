@@ -1,7 +1,8 @@
 /*<%= Time.new %>*/
 var pandaSettings = {
-  theme : '<%= @user.tconfig.theme %>',
+  apiUrl : '<%= root_url %>',
   apikey : '<%= @user.apikey %>',
+  theme : '<%= @user.tconfig.theme %>',
   cssUrl : '<%= "#{root_url}/system/data/#{@user.apikey}/#{@user.tconfig.theme}.css" %>',
   structure : '<%= panda_structure %>',
   itemHtml : function(item){
