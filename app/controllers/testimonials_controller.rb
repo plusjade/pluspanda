@@ -11,23 +11,31 @@ class TestimonialsController < ApplicationController
       @testimonials.push(t.sanitize_for_api)                    
     end
     
+    total = get_testimonials(true)
+    
+    update_data = {
+      "total"   => total,
+      "average" => @user.testimonials.average(:rating).to_f,
+    }
+    
+    offset = ( @active_page*@user.tconfig.per_page ) - @user.tconfig.per_page
+    if total > offset + @user.tconfig.per_page
+      update_data["nextPageUrl"]  = root_url + testimonials_path + ".js?apikey=" + @user.apikey + '&tag=' + @active_tag + '&sort=' + @active_sort + '&page=' + (@active_page + 1).to_s
+      update_data["nextPage"]     = @active_page + 1
+      update_data["tag"]          = @active_tag
+      update_data["sort"]         = @active_sort
+    end
+        
     respond_to do |format|
       format.html { render :text => 'a standalone version maybe?'}
-      format.json { render :json => @testimonials }
+      format.json { 
+        h = {
+          :update_data  => update_data,
+          :testimonials => @testimonials
+        }
+        render :json => h
+      }
       format.js  do
-        total = get_testimonials(true)
-        
-        update_data = {}
-        update_data["total"] = total
-        
-        offset = ( @active_page*@user.tconfig.per_page ) - @user.tconfig.per_page
-        if total > offset + @user.tconfig.per_page
-          update_data["nextPageUrl"]  = root_url + testimonials_path + ".js?apikey=" + @user.apikey + '&tag=' + @active_tag + '&sort=' + @active_sort + '&page=' + (@active_page + 1).to_s
-          update_data["nextPage"]     = @active_page + 1
-          update_data["tag"]          = @active_tag
-          update_data["sort"]         = @active_sort
-        end
-
         #@response.headers["Cache-Control"] = 'no-cache, must-revalidate'
         #@response.headers["Expires"] = 'Mon, 26 Jul 1997 05:00:00 GMT'
         render :js => "panda.display(#{@testimonials.to_json});panda.update(#{update_data.to_json});"
@@ -38,7 +46,7 @@ class TestimonialsController < ApplicationController
 
 
   def widget 
-    @user.update_settings(self) unless @user.has_settings?   
+    @user.update_settings unless @user.has_settings?   
     render :js => @user.settings + render_widget_js
   end
   
