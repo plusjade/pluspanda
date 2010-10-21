@@ -18,4 +18,16 @@ namespace :data do
     end
 
   end
+  
+  desc "Regen user setting.js files."
+  task :regen_settings => :environment do
+    puts "Starting..."
+    x = 0
+    User.all.each do |user|
+      user.update_settings
+      x += 1
+    end
+    puts "Finished!"
+    puts x.to_s + " users"
+  end
 end
