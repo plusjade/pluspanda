@@ -202,27 +202,6 @@ class TestimonialsController < ApplicationController
     return
   end
 
-  
-  def destroy
-    require_user #apikey users cannot delete testimonials
-    @testimonial = Testimonial.find_by_id(
-      params[:id], 
-      :conditions => { :user_id => current_user.id }
-    )
-    if @testimonial.nil?
-      @message  = "Invalid testimonial."
-    elsif @testimonial.destroy
-      @status   = "good"
-      @message  = "Testiminial deleted!"
-    else
-      @message  = "There was a problem deleting the testimonial."
-    end
-    
-    serve_json_response
-    return
-  end
-
-
 
   private
 
