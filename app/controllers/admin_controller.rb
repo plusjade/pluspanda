@@ -107,7 +107,7 @@ class AdminController < ApplicationController
     serve_json_response and return unless request.put?
     
     if @user.tconfig.update_attributes(params[:tconfig])
-      @user.update_settings(self)
+      @user.update_settings
       @status   = "good"
       @message  = "Settings updated"
       @resource = @user.tconfig

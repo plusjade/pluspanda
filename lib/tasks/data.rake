@@ -24,6 +24,7 @@ namespace :data do
     puts "Starting..."
     x = 0
     User.all.each do |user|
+      next if user.tconfig.theme.nil? || user.tconfig.theme.empty?
       user.update_settings
       x += 1
     end
