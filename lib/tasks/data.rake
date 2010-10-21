@@ -24,7 +24,8 @@ namespace :data do
     puts "Starting..."
     x = 0
     User.all.each do |user|
-      next if user.tconfig.theme.nil? || user.tconfig.theme.empty?
+      next if user.tconfig.nil?
+      next unless ['list','simple','legacy'].include?(user.tconfig.theme)
       user.update_settings
       x += 1
     end
