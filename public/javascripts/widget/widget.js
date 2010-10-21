@@ -19,6 +19,7 @@ var panda = {
     } else {
       panda.setup()
     }
+    /*track: jQuery.get('blah',{key:pandaSettings.apikey,url:parent.location.href}); */
   },
   
   poll: function (){
@@ -72,7 +73,6 @@ var panda = {
     }))
     if(panda.debug){console.log(cssUrl);console.log(panda.$container)}
     panda.getTstmls('all','newest',1);
-    /*track: jQuery.get('blah',{key:pandaSettings.apikey,url:parent.location.href}); */
   },
 
 
@@ -82,7 +82,7 @@ var panda = {
     jQuery('div.panda-container').append(panda.loading);
     jQuery.ajax({ 
         type:'GET', 
-        url: pandaSettings.apiUrl + '/testimonials.js', 
+        url: pandaSettings.apiUrl + '/' + pandaSettings.apiVrsn + '/testimonials.js', 
         data:"apikey="+pandaSettings.apikey+"&tag="+tag+"&sort="+sort+"&page="+page, 
         dataType:'jsonp'
     }); 

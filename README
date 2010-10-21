@@ -8,7 +8,7 @@ Current producton api routes:
 
   Get testimonials
   --
-    GET: http://api.pluspanda.com/testimonials.[:format]?apikey=abcd
+    GET: http://api.pluspanda.com/v1/testimonials.[:format]?apikey=abcd
     
       Required query string params
         valid apikey  
@@ -22,13 +22,13 @@ Current producton api routes:
         json, js (jsonp callbacks)    
     
       Live Example call:
-       http://api.pluspanda.com/testimonials.json?apikey=nbE6zpH&sort=newest&page=1
-       http://api.pluspanda.com/testimonials.js?apikey=nbE6zpH&sort=newest&page=2
+       http://api.pluspanda.com/v1/testimonials.json?apikey=nbE6zpH&sort=newest&page=1
+       http://api.pluspanda.com/v1/testimonials.js?apikey=nbE6zpH&sort=newest&page=2
 
 
   Load widget javascript environment
   --
-    GET: http://api.pluspanda.com/testimonials/widget.js?apikey=abcd
+    GET: http://api.pluspanda.com/v1/testimonials/widget.js?apikey=abcd
 
       Required query string params
         valid apikey
@@ -41,22 +41,22 @@ Current producton api routes:
         Which pluspanda will render your testimonials in.  
           
       Live Example Call:
-        http://api.pluspanda.com/testimonials/widget.js?apikey=nbE6zpH
+        http://api.pluspanda.com/v1/testimonials/widget.js?apikey=nbE6zpH
       
       
   Add a new testimonial (web page)
   -- 
-    GET: http://api.pluspanda.com/testimonials/new?apikey=577ed4ada1f60e44
+    GET: http://api.pluspanda.com/v1/testimonials/new?apikey=577ed4ada1f60e44
 
       Required query string params
         valid apikey
 
       Live example Call:
-        http://api.pluspanda.com/testimonials/new?apikey=nbE6zpH
+        http://api.pluspanda.com/v1/testimonials/new?apikey=nbE6zpH
 
   Add a new testimonial
   --
-    POST: http://api.pluspanda.com/testimonials?apikey=577ed4ada1f60e44
+    POST: http://api.pluspanda.com/v1/testimonials?apikey=577ed4ada1f60e44
 
       Required query string params
         valid apikey
@@ -81,15 +81,15 @@ Current producton api routes:
 
   Edit an existing testimonial (web page)
   --  
-    GET: http://api.plusanda.com/testimonials/70/edit?apikey=577ed4ada1f60e44
+    GET: http://api.pluspanda.com/v1/testimonials/70/edit?apikey=577ed4ada1f60e44
       renders a full webpage.
       
     Live Example Call:
-      http://api.pluspanda.com/testimonials/2/edit?apikey=nbE6zpH
+      http://api.pluspanda.com/v1/testimonials/2/edit?apikey=nbE6zpH
       
   Edit an existing testimonial.
   --    
-    POST: http://api.plusanda.com/testimonials/70/edit?apikey=577ed4ada1f60e44
+    POST: http://api.pluspanda.com/v1/testimonials/70/edit?apikey=577ed4ada1f60e44
       Returns the full webpage with edit status.
       Todo: verify return a json status string.
       

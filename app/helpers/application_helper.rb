@@ -1,11 +1,15 @@
 module ApplicationHelper
 
+  def api_version_number
+    "v1"
+  end
+  
   def embed_code(apikey)
     return "<script type=\"text/javascript\" src=\"#{widget_script_url}\" charset=\"utf-8\"></script>"
   end
   
   def widget_script_url
-    return "#{root_url}/testimonials/widget.js?apikey=#{@user.apikey}"
+    return "#{root_url+widget_testimonials_path}.js?apikey=#{@user.apikey}"
   end
 
   def root_url

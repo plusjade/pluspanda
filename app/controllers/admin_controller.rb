@@ -34,7 +34,7 @@ class AdminController < ApplicationController
     render :template => "admin/staging", :layout => "staging"
   end
   
-      
+  # GET    
   def testimonials
     
     case params[:filter]
@@ -62,6 +62,7 @@ class AdminController < ApplicationController
      
   end
   
+  # GET
   def update
     puts params[:id]
     unless ['publish', 'hide', 'lock', 'unlock', 'delete'].include?(params[:do])
@@ -128,7 +129,7 @@ class AdminController < ApplicationController
   end
 
 
-  # post to save css file of current theme
+  # POST to save css file of current theme
   def save_css
     server_json_response and return unless request.post?
     @user.update_css(params['widget_css'])
@@ -138,7 +139,7 @@ class AdminController < ApplicationController
     return
   end
     
-  
+  # GET
   def save_positions
     serve_json_response and return if params['tstml'].nil? or !params['tstml'].is_a?(Array) 
     
@@ -165,9 +166,9 @@ class AdminController < ApplicationController
     
   private 
   
-  def setup_user
-    puts params.to_yaml
-    @user = current_user
-  end
+    def setup_user
+      puts params.to_yaml
+      @user = current_user
+    end
   
 end

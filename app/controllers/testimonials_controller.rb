@@ -22,7 +22,7 @@ class TestimonialsController < ApplicationController
         
         offset = ( @active_page*@user.tconfig.per_page ) - @user.tconfig.per_page
         if total > offset + @user.tconfig.per_page
-          update_data["nextPageUrl"]  = root_url + "/testimonials.js?apikey=" + @user.apikey + '&tag=' + @active_tag + '&sort=' + @active_sort + '&page=' + (@active_page + 1).to_s
+          update_data["nextPageUrl"]  = root_url + testimonials_path + ".js?apikey=" + @user.apikey + '&tag=' + @active_tag + '&sort=' + @active_sort + '&page=' + (@active_page + 1).to_s
           update_data["nextPage"]     = @active_page + 1
           update_data["tag"]          = @active_tag
           update_data["sort"]         = @active_sort
