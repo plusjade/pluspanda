@@ -124,8 +124,62 @@ class User < ActiveRecord::Base
   def has_settings?
     File.exist?(settings_file_path)
   end
-    
 
+    
+  # get the testimonials
+  # based on defined filters, sorters, and limits.
+  # filters: page, publish, tag, rating, date.
+  # sorters: created
+  def get_testimonials(opts={})
+    where  = {}
+    opts[:get_count]  ||= false
+    opts[:publish]    ||= 'yes'
+    opts[:rating]     ||= ''
+    opts[:range]      ||= ''
+    opts[:sort]       ||= self.tconfig.sort
+    opts[:updated]    ||= ''
+    opts[:limit]      ||= self.tconfig.per_page
+    opts[:tag]        ||= 'all'
+
+    # filter by publish
+    where[:publish] = ('yes' == opts[:publish]) ? true : false
+
+    return self.testimonials.where(where).count if opts[:get_count]
+    
+    # filter by tag
+    unless opts[:tag] == 'all'
+      where[:tag_id] = opts[:tag].to_i
+    end
+      
+    # filter by rating
+    #if(is_numeric($params['rating']))
+    #  where['rating'] = $params['rating'];
+  
+    #--sorters--
+    sort = "created_at DESC"
+    case(opts[:sort])
+      when 'created'
+        case(opts[:created])
+          when 'newest'
+            sort = "created_at DESC"
+          when 'oldest'
+            sort = "created_at ASC"
+        end
+      when 'name'
+        sort = "name ASC"
+      when 'company'
+        sort = "company ASC"
+      when 'position'
+        sort = "position ASC"
+     end 
+     
+    # determine the offset and limits.
+    offset = (opts[:page]*opts[:limit]) - opts[:limit]
+
+    return self.testimonials.where(where).order(sort).limit(opts[:limit]).offset(offset)
+   end
+   
+   
 # path helpers
 ################
 

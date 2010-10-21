@@ -4,20 +4,20 @@ class TestimonialsController < ApplicationController
   before_filter :ensure_valid_user
   before_filter :ready_testimonial_filters_and_sorters, :only => [:index, :widget]
   
-  # get the user's testimonials object with applicable filters/sorters (paging)
   def index
-    @testimonials = []
-    get_testimonials.each do |t|
-      @testimonials.push(t.sanitize_for_api)                    
-    end
+    @testimonials = @user.get_testimonials(
+      :page     => @active_page, 
+      :tag      => @active_tag,
+      :created  => @active_sort
+    )
+    @testimonials.map! { |t| t.sanitize_for_api }
     
-    total = get_testimonials(true)
-    
+    total = @user.get_testimonials(:get_count => true)
     update_data = {
       "total"   => total,
       "average" => @user.testimonials.average(:rating).to_f,
     }
-    
+
     offset = ( @active_page*@user.tconfig.per_page ) - @user.tconfig.per_page
     if total > offset + @user.tconfig.per_page
       update_data["nextPageUrl"]  = root_url + testimonials_path + ".js?apikey=" + @user.apikey + '&tag=' + @active_tag + '&sort=' + @active_sort + '&page=' + (@active_page + 1).to_s
@@ -51,7 +51,6 @@ class TestimonialsController < ApplicationController
   end
   
   
-  # represent a single testimonial ? this isn't in use at the moment.
   def show
     @testimonial = Testimonial.find_by_id(params[:id])
     @testimonial = (current_user) ? @testimonial : @testimonial.sanitize_for_api
@@ -304,66 +303,6 @@ class TestimonialsController < ApplicationController
       return false  
     end
   
-  
-    # get the testimonials
-    # based on defined filters, sorters, and limits.
-    # filters: page, publish, tag, rating, date.
-    # sorters: created
-    def get_testimonials(get_count=false)  
-      params = {
-        'user_id' => @user.id,
-        'page'    => @active_page,
-        'tag'     => @active_tag,
-        'publish' => 'yes',
-        'rating'  => '',
-        'range'   => '',
-        'sort'    => @user.tconfig.sort,
-        'created' => @active_sort,
-        'updated' => '',
-        'limit'   => @user.tconfig.per_page
-      }
-      where  = {}
-
-      # filter by publish
-      where['publish'] = ('yes' == params['publish']) ? 1 : 0
-      
-      # filter by tag
-      if params['tag'] == 'all'
-        where['user_id'] = params['user_id']
-      else
-        where['tag_id'] = params['tag'].to_i
-      end
-        
-      # filter by rating
-      #if(is_numeric($params['rating']))
-      #  where['rating'] = $params['rating'];
-    
-      return Testimonial.where(where).count if get_count
-
-      #--sorters--
-      sort = "created_at DESC"
-      case(params['sort'])
-        when 'created'
-          case(params['created'])
-            when 'newest'
-              sort = "created_at DESC"
-            when 'oldest'
-              sort = "created_at ASC"
-          end
-        when 'name'
-          sort = "name ASC"
-        when 'company'
-          sort = "company ASC"
-        when 'position'
-          sort = "position ASC"
-       end 
-       
-      # determine the offset and limits.
-      offset = (params['page']*params['limit']) - params['limit']
-
-      return Testimonial.where(where).order(sort).limit(params['limit']).offset(offset)
-     end 
-
 
     def render_widget_js
       @path = File.join('public','javascripts','widget',"widget.js")
