@@ -80,8 +80,8 @@ class User < ActiveRecord::Base
   end
   
       
-  def update_settings(context)
-    
+  def update_settings
+    context = ApplicationController.new
     if !File.exists?(theme_css_path) && File.exists?(theme_stock_css_path)
       FileUtils.cp(theme_stock_css_path, theme_css_path)
     end
@@ -104,6 +104,7 @@ class User < ActiveRecord::Base
                           :template => "testimonials/widget_settings",
                           :layout   => false,
                           :locals   => {
+                            :user             => self,
                             :panda_structure  => panda_structure,
                             :item_html        => item_html  
                           }

@@ -2,9 +2,9 @@
 var pandaSettings = {
   apiUrl : '<%= root_url %>',
   apiVrsn : '<%= api_version_number %>',
-  apikey : '<%= @user.apikey %>',
-  theme : '<%= @user.tconfig.theme %>',
-  cssUrl : '<%= "#{root_url}/system/data/#{@user.apikey}/#{@user.tconfig.theme}.css" %>',
+  apikey : '<%= user.apikey %>',
+  theme : '<%= user.tconfig.theme %>',
+  cssUrl : '<%= "#{root_url}/system/data/#{user.apikey}/#{user.tconfig.theme}.css" %>',
   structure : '<%= panda_structure %>',
   itemHtml : function(item){
     return '<%= item_html %>'
