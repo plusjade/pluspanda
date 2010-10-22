@@ -34,4 +34,14 @@ Pluspanda::Application.routes.draw do
   resource :account, :controller => "users"
   resource :session, :controller => "user_sessions"
 
+  # log
+  match "/log/:apikey", :to => proc {|env|
+    params  = env["action_dispatch.request.path_parameters"]
+    log     = Rails.root.join('log', 'widget.log')
+    line    = "#{params[:apikey]}, #{env["QUERY_STRING"]} \n"
+    File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
+    [204, {}, []]
+  }
+
+    
 end
