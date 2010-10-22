@@ -34,6 +34,9 @@ Pluspanda::Application.routes.draw do
   resource :account, :controller => "users"
   resource :session, :controller => "user_sessions"
 
+  # dashboard
+  match "/pinky" => "pinky#index"
+  
   # log
   match "/log/:apikey", :to => proc {|env|
     params  = env["action_dispatch.request.path_parameters"]

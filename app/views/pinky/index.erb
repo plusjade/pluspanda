@@ -1,0 +1,45 @@
+<style type="text/css">
+  table {width:50%; margin-bottom:15px;}
+  th {backround:#ccc;}
+  th, td {padding:3px; border:1px solid #eee;}
+</style>
+
+
+<h2>Unique urls</h2>
+Unique Urls: <%= @unique_urls.length %>
+<br/>Unique Users: <%= @unique_users %>
+
+<table>
+  <tr>
+    <th>Url</th>
+  </tr>
+  <% @unique_urls.each do |log| %>
+    <tr>
+      <td><%= log.url %></td>
+    </tr>
+  <% end %>  
+</table>
+
+<h2>Widget Logs</h2>
+<table>
+  <tr>
+    <th>user</th>
+    <th>url</th>
+    <th>date</th>
+  </tr>
+<% @logs.each do |log| %>
+  <tr>
+    <td><%= log.user_id %></td>
+    <td><%= log.url %></td>
+    <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 %>"><%= log.created_at %></abbr></td>
+  </tr>
+<% end %>
+</table>
+
+
+
+<script type="text/javascript">
+$(function(){
+  $('abbr.timeago').timeago();
+})
+</script>

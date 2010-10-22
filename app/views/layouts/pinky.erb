@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>PlusPanda SUPA admin Panel</title>
+
+  <%= stylesheet_link_tag "shared/reset", "shared/buttons", 'shared/facebox', 'shared/jcrop', 'testimonials/edit', 'admin/global', 'admin/pages', :cache => "bundle" %>
+  
+<% if ::Rails.env == 'production' %>
+  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
+<% else %>  
+  <%= javascript_include_tag 'shared/jquery' %>
+<% end %>  
+  <%= javascript_include_tag 'shared/jquery.ui', 'facebox/facebox', 'shared/addon', 'shared/jquery.tablesorter.min', "codemirror/codemirror", "admin/init", :cache => "bundle" %>
+</head>
+
+<body>
+<div id="wrapper">
+  <%= yield %>
+</div>
+  <script type="text/javascript">
+
+  </script>
+
+<% if ::Rails.env == 'production' %>
+    
+<% end %>
+</body>
+</html>
+
+
