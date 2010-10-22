@@ -14,3 +14,5 @@ ActionMailer::Base.smtp_settings = {
   :password => sendgrid['password']
 }
 ActionMailer::Base.default :content_type => "text/html"
+
+Mime::Type.register "text/html", :iframe

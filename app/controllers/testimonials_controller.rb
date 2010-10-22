@@ -3,7 +3,7 @@ class TestimonialsController < ApplicationController
   layout proc{ |c| c.request.xhr? ? false : "testimonials" }
   before_filter :ensure_valid_user
   before_filter :ready_testimonial_filters_and_sorters, :only => [:index, :widget]
-  
+
   def index
     @testimonials = @user.get_testimonials(
       :page     => @active_page, 
@@ -27,7 +27,7 @@ class TestimonialsController < ApplicationController
     end
         
     respond_to do |format|
-      format.html { render :text => 'a standalone version maybe?'}
+      format.any(:html, :iframe) { render :text => 'a standalone version maybe?'}
       format.json { 
         render :json => {
           :update_data  => update_data,
@@ -49,28 +49,29 @@ class TestimonialsController < ApplicationController
     render :js => @user.settings + render_widget_js
   end
   
-  
+  # currently used to populate the rows in admin only.
   def show
     @testimonial = Testimonial.find_by_id(params[:id])
     @testimonial = (current_user) ? @testimonial : @testimonial.sanitize_for_api
-    
-    if @testimonial.nil?
+
+    if @testimonial
+      render @testimonial
+    elsif @testimonial.nil?
       @message = "Invalid testimonial."
       respond_to do |format|
-        format.html { render :text => @message }
+        format.any(:html, :iframe) { render :text => @message }
         format.json { render :json => serve_json_response }
         format.js   { render :js   => "alert('#{@message}');" }
       end 
-      return     
     elsif params['apikey']
       respond_to do |format|
-        format.html { render :text => "todo: a public better singular html view..." }
+        format.any(:html, :iframe) { render :text => "todo: a public better singular html view..." }
         format.json { render :json => @testimonial }
         format.js   { render :js   => "pandaDisplayTstml(#{@testimonial.to_json});" }
       end
-      return
     end   
-     
+
+    return
   end
 
 
@@ -81,6 +82,18 @@ class TestimonialsController < ApplicationController
       :email => params[:email],
       :meta  => params[:meta]
     })
+
+    # params[:apikey] prioritizes an apikey call over a logged in user
+    # collector form iframe loads as public api so we want to emulate accurately.
+    respond_to do |format|
+      format.any(:html, :iframe) do
+        if !params[:apikey] && current_user
+          render 'editor'
+        else 
+          render 'gatekeeper'
+        end
+      end
+    end
   end
 
 
@@ -91,7 +104,7 @@ class TestimonialsController < ApplicationController
     @testimonial = @user.testimonials.new(params[:testimonial])
     
     if @testimonial.save
-      UserMailer.new_testimonial(@user, @testimonial).deliver if @user[:is_via_api]
+      #UserMailer.new_testimonial(@user, @testimonial).deliver if @user[:is_via_api]
       @testimonial.freeze
       @status   = "good"
       @message  = "Testimonial created!"
@@ -101,7 +114,7 @@ class TestimonialsController < ApplicationController
         serve_json_response
       else
         respond_to do |format|
-          format.html do
+          format.any(:html, :iframe) do
             flash[:notice] = @message
             redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
           end
@@ -114,14 +127,14 @@ class TestimonialsController < ApplicationController
       if !@testimonial.valid?
         @message  = "Please make sure all fields are valid!"
         respond_to do |format|
-          format.html { flash[:notice] = @message }
+          format.any(:html, :iframe) { flash[:notice] = @message }
           format.json { serve_json_response and return }
           format.js   { render :js   => "alert('#{@message}');" and return}
         end
       else
         @message = "Oops! An unknown error occured. Please try again." 
         respond_to do |format|
-          format.html { flash[:notice] = @message }
+          format.any(:html, :iframe) { flash[:notice] = @message }
           format.json { serve_json_response and return }
           format.js   { render :js   => "alert('#{@message}');" and return}
         end         
@@ -135,9 +148,19 @@ class TestimonialsController < ApplicationController
 
   def edit
     @testimonial = @user.testimonials.find_by_id(params[:id])
-    if @testimonial.nil?
+    if @testimonial
       respond_to do |format|
-        format.html { render :text => "error! invalid testimonial" }
+        format.any(:html, :iframe) do
+          if @user[:is_via_api]
+            render "editor.public"
+          else
+            render "editor.admin"
+          end
+        end
+      end        
+    else
+      respond_to do |format|
+        format.any(:html, :iframe) { render :text => "error! invalid testimonial" }
         format.json { render :json => {:status => "bad", :msg => "invalid testimonial"} }
         format.js   { render :js   => "alert('error! invalid testimonial');" }
       end
@@ -160,7 +183,7 @@ class TestimonialsController < ApplicationController
         serve_json_response
       else
         respond_to do |format|
-          format.html do 
+          format.any(:html,:iframe) do 
             flash[:notice] = @message
             redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
           end
@@ -172,13 +195,13 @@ class TestimonialsController < ApplicationController
       if @testimonial.valid?
         @message = "Oops! Please make sure all fields are valid!"
         respond_to do |format|
-          format.html { flash[:notice] = @message }
+          format.any(:html, :iframe) { flash[:notice] = @message }
           format.json { json_response and return}
           format.js   { render :js   => "alert('something cool');" and return }
         end
       else
         respond_to do |format|
-          format.html { flash[:notice] = "Oops! An unknown error occured. Please try again." }
+          format.any(:html, :iframe) { flash[:notice] = "Oops! An unknown error occured. Please try again." }
           format.json { json_response and return}
           format.js   { render :js   => "alert('something cool');" and return }
         end        
@@ -206,7 +229,7 @@ class TestimonialsController < ApplicationController
       if @user.nil?
         @message = "error! invalid apikey"
         respond_to do |format|
-          format.html { render :text => @message }
+          format.any(:html, :iframe) { render :text => @message }
           format.json { serve_json_response }
           format.js   { render :js   => "alert(#{@message});" }
         end
@@ -241,7 +264,7 @@ class TestimonialsController < ApplicationController
     
       @message = "This testimonial is locked!"
       respond_to do |format|
-        format.html do
+        format.any(:html, :iframe) do
           flash[:notice] = "This testimonial is locked!"
           redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
         end
@@ -266,10 +289,9 @@ class TestimonialsController < ApplicationController
       else
         return true
       end
-    
-      @testimonial = Testimonial.new(params[:testimonial])  
-      render :action => "new"
-      return false  
+
+      redirect_to :back
+      return false
     end
   
 

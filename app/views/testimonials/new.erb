@@ -1,9 +1,0 @@
-<% 
-# params[:apikey] prioritizes an apikey call over a logged in user
-# collector form iframe loads as public api so we want to emulate accurately.
-%>
-<% if !params[:apikey] && current_user %>
-  <%= render 'editor.form' %>
-<% else %>
-  <%= render 'new.gatekeeper' %>
-<% end %>

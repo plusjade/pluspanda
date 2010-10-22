@@ -44,6 +44,13 @@ class Testimonial < ActiveRecord::Base
     self.avatar.instance_write(:file_name, "#{ActiveSupport::SecureRandom.hex(4)}#{ext}")
   end
   
+  def image_source
+    if self.avatar_file_name.nil? || self.avatar_file_name.empty?
+      "/images/stock.png"
+    else
+      self.avatar.url(:sm) 
+    end
+  end
 
   def sanitize_for_api
     testimonial = {

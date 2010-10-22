@@ -1,25 +1,8 @@
-<%
-image_source  = @testimonial.avatar_file_name.nil? || @testimonial.avatar_file_name.empty? ? "/images/stock.png" : @testimonial.avatar.url(:sm) 
-%>
 
-<% if !current_user && @testimonial.lock %>
-  <div class="notice"><h1>This Testimonial is locked!</h1></div>
-<% end %>
-
-<% if flash[:notice] %>
-  <div class="notice"><h1><%= flash[:notice] %></h1></div>
-<% end %>
-    
 <div id="editor-wrapper">
 
-<% form_for @testimonial, :html => { :multipart => true, :class => "js-multipart-form" } do |f| %>
-  <%= hidden_field_tag(:apikey, params[:apikey]) if params['apikey'] %>
+<%= form_for @testimonial, :html => { :multipart => true, :class => "js-multipart-form" } do |f| %>
   
-<% if !current_user %>
-  <div class="panda-image">
-    Testimonial
-  </div>
-<% end %>   
   <div class="t-view">
     <div id="t-view-inner">
       
@@ -63,31 +46,32 @@ image_source  = @testimonial.avatar_file_name.nil? || @testimonial.avatar_file_n
         Upload new headshot or logo
         <%= f.file_field :avatar, :style => "width:180px" %>
         <div id="testimonial-image-wrapper" class="image" rel="<%= @testimonial.avatar.url(:sm) %>">
-           <%= image_tag image_source %>
+           <%= image_tag @testimonial.image_source %>
         </div>
         
+        <!--
         <fieldset>
           <label>Select Category</label>
           (tag list)
         </fieldset>
-
+        -->
+        
         <fieldset>
-          <%= @testimonial.created_at %>
+          <label>Created on:</label>
+          <%= @testimonial.created_at.strftime("%c") %>
         </fieldset>
                 
-        <% if current_user %>
-          <div id="admin-extra">
-            Lock Testimonial? 
-            <%= f.check_box :lock %>
-            <%= f.label(:lock, "(yes)", :style => "display:inline;") %>          
-            <div class="t-publish">
-              Publish? 
-              <%= f.check_box :publish %>
-              <%= f.label(:publish, "(yes)", :style => "display:inline;") %>              
-            </div>
+        <div id="admin-extra">
+          Lock Testimonial? 
+          <%= f.check_box :lock %>
+          <%= f.label(:lock, "(yes)", :style => "display:inline;") %>          
+          <div class="t-publish">
+            Publish? 
+            <%= f.check_box :publish %>
+            <%= f.label(:publish, "(yes)", :style => "display:inline;") %>              
           </div>
-        <% end %>
-        
+        </div>
+      
         <div class="round-box-tabs buttons">
           <button class="submit-button positive" type="submit">Save Changes</button>
         </div>

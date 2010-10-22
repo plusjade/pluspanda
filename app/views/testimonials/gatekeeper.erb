@@ -3,15 +3,17 @@
   <%=raw @user.tconfig.message %>
 </div>
 
-<% if flash[:notice] %>
-  <div class="notice"><h1><%= flash[:notice] %></h1></div>
-<% end %>
-
-<div id="public-top">Thank You For Your Time!</div>
+<div id="public-top">
+  <% if flash[:notice] %>
+    <%= flash[:notice] %>
+  <% else %>  
+    Thank You For Your Time!
+  <% end %>  
+</div>
 <%= form_for @testimonial do |f| %>
   <%= hidden_field_tag(:apikey, params[:apikey]) if params['apikey'] %>
   
-<% if !@user.tconfig.form["require_key"].empty? %>
+<% unless @user.tconfig.form["require_key"].empty? %>
   <fieldset>
     <label>Access Key <span class="req_star">*</span></label>
     <%= text_field_tag :access_key, params[:access_key], :rel => "text_req" %>
@@ -19,7 +21,7 @@
 <% end %>
 
   <fieldset class="panda-name "> 
-	  <label>Full Name <span class="jade_required_star">*</span></label> 
+	  <label>Full Name <span class="req_star">*</span></label> 
 	  <%= f.text_field :name, :rel => "text_req" %>
   </fieldset>
   
@@ -30,7 +32,7 @@
   </fieldset>	
 <% end %>
 
-<% if !@user.tconfig.form["meta"].empty? %>
+<% unless @user.tconfig.form["meta"].empty? %>
   <fieldset class="panda-meta "> 
 	  <label>Order #</label>
 	  <%= f.text_field :meta, :rel => "text_req" %>
@@ -38,7 +40,7 @@
 <% end %>		
 		
   <fieldset class="buttons">
-    <button type="submit" class="positive">Build Your Testimonial!</button>
+    <button type="submit" class="positive">Add Your Testimonial</button>
   </fieldset>
 <% end %>
 

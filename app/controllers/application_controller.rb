@@ -92,4 +92,11 @@ class ApplicationController < ActionController::Base
     def root_url
       ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
     end
+    
+    def default_url_options(options = nil)
+      options ||= {}
+      options[:format] = :iframe if request.format == :iframe
+      options
+    end    
 end
+
