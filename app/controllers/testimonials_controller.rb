@@ -29,11 +29,10 @@ class TestimonialsController < ApplicationController
     respond_to do |format|
       format.html { render :text => 'a standalone version maybe?'}
       format.json { 
-        h = {
+        render :json => {
           :update_data  => update_data,
           :testimonials => @testimonials
         }
-        render :json => h
       }
       format.js  do
         #@response.headers["Cache-Control"] = 'no-cache, must-revalidate'
@@ -89,8 +88,7 @@ class TestimonialsController < ApplicationController
   def create
     return unless is_able_to_publish
 
-    @testimonial = Testimonial.new(params[:testimonial])
-    @testimonial.user_id = @user.id  
+    @testimonial = @user.testimonials.new(params[:testimonial])
     
     if @testimonial.save
       UserMailer.new_testimonial(@user, @testimonial).deliver if @user[:is_via_api]
@@ -136,10 +134,7 @@ class TestimonialsController < ApplicationController
 
 
   def edit
-    @testimonial = Testimonial.find_by_id(
-      params[:id], 
-      :conditions => { :user_id => @user.id }
-    )
+    @testimonial = @user.testimonials.find_by_id(params[:id])
     if @testimonial.nil?
       respond_to do |format|
         format.html { render :text => "error! invalid testimonial" }
@@ -152,10 +147,7 @@ class TestimonialsController < ApplicationController
 
 
   def update
-    @testimonial = Testimonial.find_by_id(
-      params[:id], 
-      :conditions => { :user_id => @user.id }
-    )
+    @testimonial = @user.testimonials.find_by_id(params[:id])
     render :text => "invalid testimonial" and return if @testimonial.nil?
     return unless is_able_to_publish
     
@@ -191,10 +183,8 @@ class TestimonialsController < ApplicationController
           format.js   { render :js   => "alert('something cool');" and return }
         end        
       end  
-      @testimonial = Testimonial.find_by_id(
-        params[:id], 
-        :conditions => { :user_id => @user.id }
-      )
+      
+      @testimonial = @user.testimonials.find_by_id(params[:id])
       render :text   => "invalid testimonial" and return if @testimonial.nil?
       render :action => "edit"
     end
@@ -212,7 +202,7 @@ class TestimonialsController < ApplicationController
         return
       end 
     
-      @user = User.first(:conditions => {:apikey => params['apikey']})
+      @user = User.find_by_apikey(params['apikey'])
       if @user.nil?
         @message = "error! invalid apikey"
         respond_to do |format|
@@ -284,24 +274,13 @@ class TestimonialsController < ApplicationController
   
 
     def render_widget_js
-      @path = File.join('public','javascripts','widget',"widget.js")
-      if File.exist?(@path)
-        File.open(@path).read 
+      path = File.join('public','javascripts','widget',"widget.js")
+      if File.exist?(path)
+        File.open(path).read 
       else
         ";document.getElementById('plusPandaYes').innerHTML = 'pluspanda could not load widget.js';"
       end
     end
-   
-=begin   
-    # no longer using...
-    # regenerate a fresh widget javascript file for the system.
-    def update_cache
-      Dir.mkdir 'tmp/cache' if !File.directory?('tmp/cache')
-    
-      f = File.new(@path, "w+")
-      f.write(render_to_string(:template => "testimonials/widget_init", :layout =>false))
-      f.rewind
-    end  
-=end  
+  
   
 end

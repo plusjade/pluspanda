@@ -36,65 +36,50 @@ class AdminController < ApplicationController
   
   # GET    
   def testimonials
+    order = "created_at DESC"
     
     case params[:filter]
     when "published"
-      order = (@user.tconfig.sort == 'position') ? "position ASC" : "created_at DESC"
-      @testimonials = Testimonial.where({
-        :user_id => current_user.id,
-        :publish => true
-      }).order(order)
+      where = {:publish => true}
+      order = "position ASC" if @user.tconfig.sort == 'position'
     when "hidden"
-      @testimonials = Testimonial.where({
-        :user_id => current_user.id,
-        :publish => false
-      }).order("created_at DESC")
+      where = {:publish => false}
     else
-      # default to new
-      @testimonials = Testimonial.where({
-        :user_id => current_user.id,
-        :created_at => (Time.now - 2.day)..Time.now
-      }).order("created_at DESC")      
+      where = { :created_at => (Time.now - 2.day)..Time.now }
     end
-    
-    render @testimonials
+
+    render @user.testimonials.where(where).order(order)
     return
      
   end
   
   # GET
   def update
-    puts params[:id]
     unless ['publish', 'hide', 'lock', 'unlock', 'delete'].include?(params[:do])
       @message = "Nothing Changed."
       serve_json_response
       return
-    end 
-    
-    count = 0
-    params[:id].each do |id|
-      t = Testimonial.find_by_id(id.to_i, :conditions => { :user_id => @user.id } )
-      next if t.nil?
-      puts t.id
-      case params[:do]
-      when "publish"  
-        t.publish = true
-      when "hide"
-        t.publish = false
-      when "lock"
-        t.lock = true
-      when "unlock"
-        t.lock = false
-      when "tag"
-        t.tag = params[:tag].to_i
-      when "delete"
-        # psuedo delete this
-        # t.detete = true
-      end
-            
-      (count = (count + 1)) if t.save
     end
-    
+     
+    ids = params[:id].map! { |id| id.to_i }
+
+    case params[:do]
+    when "publish"
+      updates = {:publish => true}
+    when "hide"
+      updates = {:publish => false}
+    when "lock"
+      updates = {:lock => true}
+    when "unlock"
+      updates = {:lock => false}
+    when "tag"
+      updates = {:tag => params[:tag].to_i}
+    when "delete"
+      # psuedo delete this
+      # t.detete = true
+    end
+    count = @user.testimonials.update_all(updates, :id => ids)
+
     @status  = "good"
     @message = "#{count} Testimonials updated"
     serve_json_response
@@ -102,7 +87,8 @@ class AdminController < ApplicationController
   end 
     
    
-  # PUT to save tconfig settings
+  # PUT 
+  # Save tconfig settings
   def settings
     serve_json_response and return unless request.put?
     
@@ -129,9 +115,9 @@ class AdminController < ApplicationController
   end
 
 
-  # POST to save css file of current theme
+  # POST 
+  # Save current theme's css file
   def save_css
-    server_json_response and return unless request.post?
     @user.update_css(params['widget_css'])
     @status  = "good"
     @message = "CSS Updated."
@@ -139,18 +125,23 @@ class AdminController < ApplicationController
     return
   end
     
+    
   # GET
   def save_positions
-    serve_json_response and return if params['tstml'].nil? or !params['tstml'].is_a?(Array) 
-    
-    params['tstml'].each_with_index do |id, position|
-      testimonial = Testimonial.find(
-        id, 
-        :conditions => { :user_id => current_user.id }
-      )
-      testimonial.position = position
-      testimonial.save
+    if params['tstml'].nil? or !params['tstml'].is_a?(Array) 
+      serve_json_response
+      return
     end
+    
+    t_hash  = {}
+    ids     = params['tstml'].map! { |id| id.to_i }
+    @user.testimonials.find(ids).map { |t| t_hash[t.id.to_s] = t }
+    ids.each_with_index do |id, position|
+      t = t_hash[id.to_s]
+      t.position = position
+      t.save
+    end
+    
     @status  = "good"
     @message = "Positions Saved!"
     serve_json_response
@@ -167,7 +158,6 @@ class AdminController < ApplicationController
   private 
   
     def setup_user
-      puts params.to_yaml
       @user = current_user
     end
   
