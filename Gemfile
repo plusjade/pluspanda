@@ -6,6 +6,8 @@ gem "sanitize"
 gem "paperclip"
 gem "mysql"
 
+gem "fastercsv"
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
