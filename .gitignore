@@ -5,6 +5,7 @@ tmp/**/*
 
 config/database.yml
 config/sendgrid.yml
+config/pinky.yml
 config/deploy.rb
 public/system/*
 
