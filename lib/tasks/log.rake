@@ -1,4 +1,22 @@
 
+desc "Update all sass stylesheets to production css"
+task :sassify => :environment do 
+  puts "starting..."
+  layouts_path      = Rails.root.join('app','views','layouts')
+  stylesheets_path  = Rails.root.join('public','stylesheets')
+
+  Dir.foreach(layouts_path) do |file|
+    next unless file =~ /.sass/
+    puts file
+    sass_path = File.join(layouts_path, file)
+    css_path  = File.join(stylesheets_path, file.gsub!('.sass','.css'))
+    
+    puts `sass #{sass_path} #{css_path} --style compact`
+  end
+
+end
+
+
 desc "Dump Widget logs to Mysql"
 task :dump_widget_logs => :environment do 
   puts "Starting..."

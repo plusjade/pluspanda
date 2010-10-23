@@ -1,0 +1,109 @@
+@import "shared/reset.sass"
+@import "../admin/global.sass" 
+@import "shared/facebox.sass"
+@import "../testimonials/editor.admin.sass"
+
+
+// pages
+
+// admin/index 
+
+#widget-wrapper
+
+// admin/manage 
+
+#data-description
+  text-align: center
+  margin-bottom: 15px
+  color: #777
+
+#with-selected
+  list-style: none
+  margin: 0
+  margin-bottom: 10px
+  padding: 0
+  li
+    display: inline
+    margin-right: 10px
+    &.right
+      float: right
+
+.share-data
+  width: 600px
+  height: 300px
+  text-align: center
+  input
+    width: 500px
+    font-size: 1.2em
+    padding: 5px
+
+table.t-data
+  margin: 0
+  padding: 0
+  margin-bottom: 20px
+  tr
+    td
+      border-bottom: 1px dashed #ccc
+      background: #fff
+    &.off td
+      background: #eee
+      color: #777
+  thead tr th, tfoot tr th
+    background-color: #333
+    padding: 4px 4px 4px 6px
+    border-right: 1px solid #fff
+  thead tr .header
+    background-image: url('/images/admin/bg.gif')
+    background-repeat: no-repeat
+    background-position: center right
+    cursor: pointer
+  tbody
+    td
+      padding: 4px 4px 4px 6px
+      vertical-align: top
+      border-right: 1px dashed #ccc
+    tr.odd td
+      background-color: #F0F0F6
+  thead tr
+    .headerSortUp
+      background-image: url('/images/admin/asc.gif')
+    .headerSortDown
+      background-image: url('/images/admin/desc.gif')
+      background-color: #555
+    .headerSortUp
+      background-color: #555
+
+// tables
+
+td
+  &.move img
+    width: 18px
+    height: 18px
+    margin-top: 2px
+    cursor: move
+  &.edit
+    text-align: center
+
+// td.publish, td.lock {text-align:center;}
+
+// admin/install 
+
+.install-page
+  div
+    padding: 5px
+    margin-bottom: 5px
+    font-size: 0.9em
+  .info
+    margin-bottom: 10px
+    background: #ffffcc
+  textarea
+    width: 100%
+    height: 100px
+    margin-bottom: 10px
+
+// survey questions (not using)
+
+.questions-wrapper p
+  margin: 5px
+  padding: 5px
+  background: #eee

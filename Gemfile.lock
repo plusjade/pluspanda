@@ -36,6 +36,7 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     fastercsv (1.5.3)
+    haml (3.0.18)
     i18n (0.4.1)
     mail (2.2.6.1)
       activesupport (>= 2.3.6)
@@ -80,6 +81,7 @@ PLATFORMS
 DEPENDENCIES
   authlogic
   fastercsv
+  haml
   mysql
   nokogiri
   paperclip
