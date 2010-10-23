@@ -1,0 +1,114 @@
+=corners($which, $rad)
+  -moz-border-radius: $rad
+  -webkit-border-radius: $rad
+  border-radius: $rad
+  @if $which == bottom
+    -moz-border-radius-topleft: 0
+    -webkit-border-top-left-radius: 0
+    border-top-left-radius: 0
+    -moz-border-radius-topright: 0
+    -webkit-border-top-right-radius: 0
+    border-top-right-radius: 0
+  @else if $which == top
+    -moz-border-radius-bottomleft: 0
+    -webkit-border-bottom-left-radius: 0
+    border-bottom-left-radius: 0
+    -moz-border-radius-bottomright: 0
+    -webkit-border-bottom-right-radius: 0
+    border-bottom-right-radius: 0
+
+
+
+=corner($y, $x, $rad) 
+  -moz-border-radius-#$y+$x: $rad
+  -webkit-border-#$y-#$x-radius: $rad
+  border-#$y-#$x-radius: $rad
+
+
+=inset_text($color) 
+  +inset_text_colors(lighten($color, 10%), darken($color, 10%))
+
+
+=inset_text_colors($color1, $color2) 
+  $setting: 0 1px 0 $color1, 0 -1px 0 $color2
+  -moz-text-shadow: $setting
+  -webkit-text-shadow: $setting
+  text-shadow: $setting
+
+
+=outset_text($color) 
+  +inset_text_colors(darken($color, 10%), lighten($color, 10%))
+
+
+=shadow_string($outset, $inset) 
+  $setting: $outset
+  $alt_setting: $outset
+  @if ($outset == none) 
+    $setting: $inset
+    $alt_setting: none
+  @else if ($inset != none) 
+    $setting: $outset, $inset
+  
+  -moz-box-shadow: $alt_setting
+  -webkit-box-shadow: $alt_setting
+  box-shadow: $setting
+
+
+=gradient($dist, $color) 
+  +shadow_string(none, inset 0 $dist $dist 0-$dist $color)
+
+
+=shadows($dist, $color, $dist2, $color2) 
+  +shadow_string(0 0 $dist $color, inset 0 0 $dist2 $color2)
+
+
+=sub_header($color)
+  background: $color
+  +shadows(0, #000, 18px, darken($color, 15%))
+  +corners(top, $corner_radius)
+  border: 1px solid darken($color, 20%)
+
+
+=button_color ($color) 
+  +mini_button_color($color)
+  +shadows(4px, #999, 10px, darken($color, 10%))
+  @if (lighten($color, 20%) == #FFFFFF) 
+    border: 1px solid #FFF
+  @else 
+    border: 1px solid darken($color, 5%)
+  
+
+=mini_button_color ($color) 
+  background-color: $color
+  +inset_text ($color)
+  +highlight ($color)
+  @if (lighten($color, 20%) == #FFFFFF) 
+    /*border: 1px solid #FFF*/
+    color: #666
+  @else 
+    /*border: 1px solid darken($color, 5%)*/
+    color: #FFF
+  
+
+=highlight($color) 
+  outline: none
+  &::-moz-focus-inner
+    border: 0 
+  &:hover, &:focus
+    cursor: pointer
+    @if lighten($color, 7%) != #FFF 
+      background-color: lighten($color, 7%)
+    @else 
+      background-color: darken($color, 7%)
+    
+
+=highlight_text($color) 
+  outline: none
+  color: $color
+  &:hover, &:focus 
+    @if lighten($color, 7%) != #FFF 
+      color: lighten($color, 7%)
+    @else 
+      color: darken($color, 7%)
+    
+  

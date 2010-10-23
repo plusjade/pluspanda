@@ -190,16 +190,16 @@ fieldset span.error_msg { display: block; color: red; }
 * html #facebox_overlay { position: absolute; height: expression("document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px'"); }
 
 #editor-wrapper fieldset { margin-bottom: 7px; }
-#editor-wrapper .panda-image { clear: both; text-align: center; padding: 7px 15px; background: #555555; color: white; -moz-border-radius-topleft: 10px; -moz-border-radius-topright: 10px; -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; }
+#editor-wrapper .panda-image { clear: both; text-align: center; padding: 7px 15px; background: #555555; color: white; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; border-bottom-left-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; border-bottom-right-radius: 0; }
 #editor-wrapper .panda-image input { color: white; }
-#editor-wrapper .t-view { clear: both; overflow: auto; padding: 20px; background: #f7f7f7; -moz-border-radius-bottomleft: 10px; -moz-border-radius-bottomright: 10px; -webkit-border-bottom-left-radius: 10px; -webkit-border-bottom-right-radius: 10px; margin-bottom: 15px; border-right: 2px solid #dddddd; border-bottom: 2px solid #dddddd; }
+#editor-wrapper .t-view { clear: both; overflow: auto; padding: 20px; background: #f7f7f7; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; -moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0; border-top-left-radius: 0; -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0; border-top-right-radius: 0; margin-bottom: 15px; border-right: 2px solid #dddddd; border-bottom: 2px solid #dddddd; }
 #editor-wrapper .t-view #t-view-inner { width: 725px; margin: auto; }
 #editor-wrapper .t-details { width: 190px; float: right; font-size: 11px; }
 #editor-wrapper .t-details .image { width: 125px; height: 125px; margin-bottom: 7px; background: #eeeeee; border: 5px solid #cccccc; }
 #editor-wrapper .t-content { width: 510px; float: left; overflow: hidden; }
 #editor-wrapper .t-rating-wrapper { margin-bottom: 5px; overflow: auto; }
 #editor-wrapper .rating-fallback { width: 100%; }
-#editor-wrapper .t-body { clear: both; padding: 10px; background: #e6f5fc; margin: 2px 0; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+#editor-wrapper .t-body { clear: both; padding: 10px; background: #e6f5fc; margin: 2px 0; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
 #editor-wrapper .t-body textarea { width: 99%; height: 200px; }
 #editor-wrapper .t-details label { display: block; margin-bottom: 5px; }
 #editor-wrapper .t-content label { display: inline-block !important; width: 150px; font-weight: bold; margin: 0; padding: 0; }
@@ -209,7 +209,7 @@ fieldset span.error_msg { display: block; color: red; }
 #editor-wrapper .t-position input { width: 80px; font-style: italic; }
 #editor-wrapper .t-company input { width: 110px; }
 #editor-wrapper .t-url { display: block; }
-#editor-wrapper #panda-star-rating { float: right; width: 160px; height: 33px; margin-bottom: 10px; background: white url("/static/images/common/widget/rating-select.png") no-repeat 0 0; border: 1px solid #eeeeee; -webkit-border-radius: 5px; -moz-border-radius: 5px; }
+#editor-wrapper #panda-star-rating { float: right; width: 160px; height: 33px; margin-bottom: 10px; background: white url("/static/images/common/widget/rating-select.png") no-repeat 0 0; border: 1px solid #eeeeee; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
 #editor-wrapper #panda-star-rating._1 { background-position: 0px -48px; }
 #editor-wrapper #panda-star-rating._2 { background-position: 0px -95px; }
 #editor-wrapper #panda-star-rating._3 { background-position: 0px -142px; }

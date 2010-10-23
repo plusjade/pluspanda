@@ -10,10 +10,7 @@
     padding: 7px 15px
     background: #555
     color: #fff
-    -moz-border-radius-topleft: 10px
-    -moz-border-radius-topright: 10px
-    -webkit-border-top-left-radius: 10px
-    -webkit-border-top-right-radius: 10px
+    +corners(top, 10px)
     input
       color: #fff
   .t-view
@@ -21,10 +18,7 @@
     overflow: auto
     padding: 20px
     background: #f7f7f7
-    -moz-border-radius-bottomleft: 10px
-    -moz-border-radius-bottomright: 10px
-    -webkit-border-bottom-left-radius: 10px
-    -webkit-border-bottom-right-radius: 10px
+    +corners(all, 10px)
     margin-bottom: 15px
     border-right: 2px solid #ddd
     border-bottom: 2px solid #ddd
@@ -56,8 +50,7 @@
     padding: 10px
     background: #E6F5FC
     margin: 2px 0
-    -moz-border-radius: 5px
-    -webkit-border-radius: 5px
+    +corners(all, 5px)
     textarea
       width: 99%
       height: 200px
@@ -99,8 +92,7 @@
     margin-bottom: 10px
     background: white url('/static/images/common/widget/rating-select.png') no-repeat 0 0
     border: 1px solid #eee
-    -webkit-border-radius: 5px
-    -moz-border-radius: 5px
+    +corners(all, 5px)
     &._1
       background-position: 0px -48px
     &._2

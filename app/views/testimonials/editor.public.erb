@@ -4,7 +4,7 @@
 <%= form_for @testimonial, :html => { :multipart => true, :class => "js-multipart-form" } do |f| %>
   <%= hidden_field_tag(:apikey, params[:apikey]) if params['apikey'] %>
   
-  <div class="panda-image">
+  <div id="status">
     <% if @testimonial.lock %>
       This Testimonial is locked!
     <% elsif flash[:notice] %>
@@ -14,74 +14,77 @@
     <% end %>
   </div>
   <div class="t-view">
-    <div id="t-view-inner">
+    <div id="t-view-inner" style="overflow:hidden; margin-bottom:10px">
       
       <div class="t-content">    
-        <div class="rating-fallback">
-          Select a rating  <%= f.select(:rating, [['5 stars',5],['4 stars',4],['3 stars',3],['2 stars',2],['1 star',1]])%>
-        </div>
 
         <div class="t-body">
-          <%= f.text_area :body %>
+          <%= f.text_area :body, :style => "height:180px;" %>
         </div>
-         
-        <fieldset>
-          <label>Full Name</label>
-          <%= f.text_field :name %>
-        </fieldset>
-        
-        <fieldset>
-          <label>Company</label>
-          <%= f.text_field :company %>
-         </fieldset>
-
-        <fieldset>
-          <label>Role at Company</label>
-          <%= f.text_field :c_position %>
-        </fieldset>
-                
-        <fieldset>       
-          <label>Location</label>
-          <%= f.text_field :location %>
-        </fieldset>
-        
-        <fieldset>        
-          <label>Website</label>
-          <%= f.text_field :url %>
-        </fieldset> 
-               
       </div>
 
       <div class="t-details">
+        <div class="rating-fallback">
+          Select a rating  <%= f.select(:rating, [['5 stars',5],['4 stars',4],['3 stars',3],['2 stars',2],['1 star',1]])%>
+        </div>
+        <br/>        
         Upload new headshot or logo
         <%= f.file_field :avatar, :style => "width:180px" %>
         <div id="testimonial-image-wrapper" class="image" rel="<%= @testimonial.avatar.url(:sm) %>">
            <%= image_tag @testimonial.image_source %>
         </div>
-        
-        <!--
-        <fieldset>
-          <label>Select Category</label>
-          (tag list)
-        </fieldset>
-        -->
-        
-        <fieldset>
-          <label>Created on:</label>
-          <%= @testimonial.created_at.strftime("%c") %>
-        </fieldset>
-
-        
-        <div class="round-box-tabs buttons">
-          <button class="submit-button positive" type="submit">Save Changes</button>
-        </div>
       </div>
             
     </div>
+    
+    <table id="data">
+      <tr>
+        <td>
+          <%= f.text_field :name %> <label>Full Name</label>
+        </td>
+        <td>
+          <%= f.text_field :company %> <label>Company</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= f.text_field :location %> <label>Location</label>
+        </td>
+        <td>   
+          <%= f.text_field :c_position %> <label>Role at Company</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= f.text_field :url %> <label>Website</label>
+        </td>
+        <td>
+          <input type="text" size="30" value="<%= @testimonial.created_at.strftime("%c") %>" DISABLED />
+           <label>Date Created</label>
+        </td>
+      </tr>
+    </table>
+    <div class="buttons">
+      <button class="submit-button positive" type="submit" style="width:200px;margin:auto">Save Changes</button>
+    </div>
   </div>
-
 <% end %>
 </div>
 
-
+<style type="text/css">
+  #status{
+    position:absolute;
+    top:0;
+    text-align:center;
+    background:#333;
+    color:#fff;
+    width:300px;
+    margin:auto
+  }
+  #data{
+    clear:both;
+    margin-bottom:10px;
+  }
+  #data td {width: 400px; padding-bottom:3px;}
+</style>
 

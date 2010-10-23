@@ -3,12 +3,25 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>PlusPanda Feedback Engine</title>
-  <%= stylesheet_link_tag "testimonials" %>
+  <%= stylesheet_link_tag "testimonials.iframe" %>
 
   <style type="text/css">
     #iframe-wrapper{
-      width:800px;
-      border:1px solid red;
+      width:750px;
+      height:390px;
+    }
+    #gatekeeper-iframe{
+      margin-top: 50px;
+      width: 450px !important
+    }
+    #gatekeeper-iframe form {
+      padding: 10px;
+      background: #f7f7f7;
+    }
+    button {
+      padding:10px;
+      display:block;
+      margin:auto;
     }
   </style>
 </head>
