@@ -10,6 +10,7 @@ class UserSessionsController < ApplicationController
     redirect_to admin_path if current_user
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
+      @user_session.record.update_attributes(:last_login_at => Time.now)
       redirect_to admin_path
     else
       # try to login at the old site teehee
