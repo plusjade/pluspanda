@@ -3,41 +3,41 @@
 Unique Urls: <%= @unique_urls.length %>
 <br/>Unique Users: <%= @unique_users %>
 
-<table>
-  <tr>
-    <th>user</th>
-    <th>Url</th>
-  </tr>
+<table class="data">
+  <thead>
+    <tr>
+      <th>user</th>
+      <th>Url</th>
+    </tr>
+  </thead>
+  <tbody>
   <% @unique_urls.each_pair do |key, value| %>
     <tr>
       <td><%= User.find(key).email %></td>
       <td><%= link_to value, value, :target => "_blank" %></td>
     </tr>
-  <% end %>  
+  <% end %>
+  </tbody>  
 </table>
 
 <h2>Widget Logs</h2>
 Total: <b><%= @logs_count %></b>
 <br/>Displaying 50 most recent.
-<table>
-  <tr>
-    <th>user</th>
-    <th>url</th>
-    <th>date</th>
-  </tr>
-<% @logs.each do |log| %>
-  <tr>
-    <td><%= log.user_id %></td>
-    <td><%= log.url %></td>
-    <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 %>"><%= log.created_at %></abbr></td>
-  </tr>
-<% end %>
+<table class="data">
+  <thead>
+    <tr>
+      <th>user</th>
+      <th>url</th>
+      <th>date</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @logs.each do |log| %>
+    <tr>
+      <td><%= log.user_id %></td>
+      <td><%= log.url %></td>
+      <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 %>"><%= log.created_at %></abbr></td>
+    </tr>
+  <% end %>
+  </tbody>
 </table>
-
-
-
-<script type="text/javascript">
-$(function(){
-  $('abbr.timeago').timeago();
-})
-</script>
