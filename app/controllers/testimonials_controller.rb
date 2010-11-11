@@ -88,7 +88,7 @@ class TestimonialsController < ApplicationController
     respond_to do |format|
       format.any(:html, :iframe) do
         if !params[:apikey] && current_user
-          render 'editor'
+          render 'editor.admin'
         else 
           render 'gatekeeper'
         end
@@ -176,7 +176,7 @@ class TestimonialsController < ApplicationController
     
     if @testimonial.update_attributes(params[:testimonial])
       @status   = "good"
-      @message  = "Testiminial Updated!"
+      @message  = "Testimonial Updated!"
       @resource = @testimonial
 
       if params["is_ajax"]
