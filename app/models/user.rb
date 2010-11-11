@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   acts_as_authentic
   has_many :testimonials, :dependent => :destroy
+  has_many :widget_logs, :dependent => :destroy
   has_one :tconfig, :dependent => :destroy
   
   validates_uniqueness_of :email

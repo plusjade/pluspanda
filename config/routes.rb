@@ -35,7 +35,10 @@ Pluspanda::Application.routes.draw do
   resource :session, :controller => "user_sessions"
 
   # dashboard
-  match "/pinky" => "pinky#index"
+  scope "/pinky", :controller => "pinky" do
+    get "()" ,:action => "index"
+    get "users"
+  end
   
   # log
   match "/log/:apikey", :to => proc {|env|

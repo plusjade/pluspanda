@@ -49,18 +49,6 @@
            <%= image_tag @testimonial.image_source %>
         </div>
         
-        <!--
-        <fieldset>
-          <label>Select Category</label>
-          (tag list)
-        </fieldset>
-        -->
-        
-        <fieldset>
-          <label>Created on:</label>
-          <%= @testimonial.created_at.strftime("%c") %>
-        </fieldset>
-                
         <div id="admin-extra">
           Lock Testimonial? 
           <%= f.check_box :lock %>

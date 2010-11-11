@@ -1,0 +1,15 @@
+
+Total users: <b><%= @users_count %></b>
+<table>
+  <tr>
+    <th>email</th>
+    <th>login count</th>
+  </tr>  
+  
+  <% @users.each do |user| %>
+  <tr>
+    <td><%= user.email%></td>
+    <td><%= user.login_count %></td>
+  </tr>
+  <% end %>
+</table>  

@@ -10,6 +10,17 @@
   <%= javascript_include_tag 'shared/jquery' %>
 <% end %>  
   <%= javascript_include_tag 'shared/jquery.ui', 'facebox/facebox', 'shared/addon', 'shared/jquery.tablesorter.min', "codemirror/codemirror", "admin/init", :cache => "bundle" %>
+
+<style type="text/css">
+  html, body {font-family: verdana; font-size:12px;}
+  #wrapper{
+    width:800px;
+    margin:auto;
+  }
+  table {width:50%; margin-bottom:15px;}
+  th {background:#222; color:#FFF;}
+  th, td {padding:5px; border:1px solid #eee;}  
+</style>
 </head>
 
 <body>
