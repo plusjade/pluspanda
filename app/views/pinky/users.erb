@@ -1,5 +1,6 @@
 
 Total users: <b><%= @users_count %></b>
+<br/>Newest Users:
 <table class="data">
   <thead>
     <tr>
@@ -9,7 +10,7 @@ Total users: <b><%= @users_count %></b>
     </tr>  
   </thead>
   <tbody>
-  <% @users.each do |user| %>
+  <% @users_newest.each do |user| %>
     <tr>
       <td><%= user.email%></td>
       <td><%= user.login_count %></td>
@@ -18,3 +19,23 @@ Total users: <b><%= @users_count %></b>
   <% end %>
   </tbody>
 </table>  
+
+<br/>Most active Users:
+<table class="data">
+  <thead>
+    <tr>
+      <th>email</th>
+      <th>login count</th>
+      <th>last login</th>
+    </tr>  
+  </thead>
+  <tbody>
+  <% @users_active.each do |user| %>
+    <tr>
+      <td><%= user.email%></td>
+      <td><%= user.login_count %></td>
+      <td><abbr class="timeago" title="<%= Time.parse("#{user.last_login_at}").iso8601 %>"><%= user.last_login_at %></abbr></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -10,8 +10,11 @@ class PinkyController < ApplicationController
     logs = WidgetLog.select("DISTINCT(url), user_id")
     
     @unique_urls = {}
-    logs.map { |log| @unique_urls[log.user_id] = log.url.match(/https*:\/\/[^\/\?]+/i)[0] if log.user_id}
-    puts @unique_urls.to_yaml
+    logs.map do |log| 
+      if log.user_id && log.url && log.url =~ /https*:\/\/[^\/\?]+/i
+        @unique_urls[log.user_id] = log.url.match(/https*:\/\/[^\/\?]+/i)[0]
+      end 
+    end
     #@unique_urls.uniq!
     
     
@@ -19,7 +22,8 @@ class PinkyController < ApplicationController
   
   def users
     @users_count = User.count
-    @users = User.limit(25)
+    @users_newest = User.limit(50).order("id DESC")
+    @users_active = User.limit(50).order("login_count DESC")
     
   end
   
