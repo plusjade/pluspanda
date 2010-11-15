@@ -1,43 +1,45 @@
+Total logs: <%= @logs_count %>
 
-<h2>Unique urls</h2>
-Unique Urls: <%= @unique_urls.length %>
-<br/>Unique Users: <%= @unique_users %>
-
+<h2>50 Top Widgets</h2>
 <table class="data">
   <thead>
     <tr>
       <th>user</th>
       <th>Url</th>
+      <th>#</th>
+      <th>date</th>
     </tr>
   </thead>
   <tbody>
-  <% @unique_urls.each_pair do |key, value| %>
+  <% @logs_top.each do |log| %>
     <tr>
-      <td><%= User.find(key).email %></td>
-      <td><%= link_to value, value, :target => "_blank" %></td>
+      <td><%= User.find(log.user_id).email %></td>
+      <td><%= link_to log.url, log.url, :target => "_blank" %></td>
+      <td><%= log.impressions %></td>
+       <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 %>"><%= log.created_at %></abbr></td>
     </tr>
   <% end %>
   </tbody>  
 </table>
 
-<h2>Widget Logs</h2>
-Total: <b><%= @logs_count %></b>
-<br/>Displaying 50 most recent.
+<h2>50 Newest Widgets</h2>
 <table class="data">
   <thead>
     <tr>
       <th>user</th>
-      <th>url</th>
+      <th>Url</th>
+      <th>#</th>
       <th>date</th>
     </tr>
   </thead>
   <tbody>
-  <% @logs.each do |log| %>
+  <% @logs_new.each do |log| %>
     <tr>
-      <td><%= log.user_id %></td>
-      <td><%= log.url %></td>
-      <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 %>"><%= log.created_at %></abbr></td>
+      <td><%= User.find(log.user_id).email %></td>
+      <td><%= link_to log.url, log.url, :target => "_blank" %></td>
+      <td><%= log.impressions %></td>
+       <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 %>"><%= log.created_at %></abbr></td>
     </tr>
   <% end %>
-  </tbody>
+  </tbody>  
 </table>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101022092608) do
+ActiveRecord::Schema.define(:version => 20101114232726) do
 
   create_table "tags", :force => true do |t|
     t.integer  "user_id"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20101022092608) do
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "impressions", :default => 0
   end
 
 end

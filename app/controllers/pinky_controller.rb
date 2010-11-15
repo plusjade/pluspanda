@@ -4,20 +4,9 @@ class PinkyController < ApplicationController
   
   def index
     
-    @logs = WidgetLog.order("id DESC").limit(50)
-    @logs_count = WidgetLog.count
-    @unique_users = WidgetLog.count("DISTINCT(user_id)")
-    logs = WidgetLog.select("DISTINCT(url), user_id")
-    
-    @unique_urls = {}
-    logs.map do |log| 
-      if log.user_id && log.url && log.url =~ /https*:\/\/[^\/\?]+/i
-        @unique_urls[log.user_id] = log.url.match(/https*:\/\/[^\/\?]+/i)[0]
-      end 
-    end
-    #@unique_urls.uniq!
-    
-    
+    @logs_top = WidgetLog.order("impressions DESC").limit(50)
+    @logs_new = WidgetLog.order("id DESC").limit(50)
+    @logs_count = WidgetLog.count  
   end
   
   def users

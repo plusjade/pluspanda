@@ -28,6 +28,33 @@ def sass_to_css(sass_path, css_path)
   puts `sass #{sass_path} #{css_path} `
 end
   
+desc "update loggging strategy"
+task :update_logs => :environment do 
+  puts "Starting..."
+  
+  counts = {}
+  urls = {}
+  WidgetLog.all.each do |row|
+    if counts[row.user_id]
+      counts[row.user_id] += 1
+    else
+      counts[row.user_id] = 1
+    end
+    urls[row.user_id] = row.url
+    
+    row.destroy
+  end
+  
+  counts.each_pair do |k,v|
+    log = WidgetLog.new
+    log.user_id = k
+    log.impressions = v
+    log.url = urls[k]
+    log.save
+  end
+  
+end
+
   
 desc "Dump Widget logs to Mysql"
 task :dump_widget_logs => :environment do 
@@ -35,20 +62,37 @@ task :dump_widget_logs => :environment do
   log_file = Rails.root.join('log', 'widget.log')
   break unless File.exist?(log_file)
 
+  counts = {}
+  urls = {}
   FasterCSV.foreach(log_file) do |row|
     apikey  = row[0]
     url     = row[1]
     date    = row[2]
-    user    = User.find_by_apikey(apikey)
+
+    if counts[apikey]
+      counts[apikey] += 1
+    else
+      counts[apikey] = 1
+    end
+    
+    urls[apikey] = url
+  end
+
+  counts.each_pair do |k,v|
+    user    = User.find_by_apikey(k)
     next if user.nil?
     
-    log = WidgetLog.new
-    log.user_id     = user.id
-    log.url         = url
-    log.created_at  = date
+    log = WidgetLog.find_by_user_id(user.id)
+    if log.nil?
+      log = WidgetLog.new
+      log.user_id = user.id
+    end
+    log.impressions += v
+    log.url = urls[k]
     log.save
   end
   
+      
   File.open(log_file, 'w+') { |f| f.write('') }
   puts "Done!"
 end
