@@ -104,7 +104,7 @@ class TestimonialsController < ApplicationController
     @testimonial = @user.testimonials.new(params[:testimonial])
     
     if @testimonial.save
-      #UserMailer.new_testimonial(@user, @testimonial).deliver if @user[:is_via_api]
+      UserMailer.new_testimonial(@user, @testimonial).deliver if @user[:is_via_api]
       @testimonial.freeze
       @status   = "good"
       @message  = "Testimonial created!"
