@@ -13,20 +13,28 @@ Pluspanda::Application.routes.draw do
   end
   
   # admin
-  namespace :admin do
+  scope "/admin", :controller => :admin, :as => :admin do
     get '/', :action => "index"
     get :widget
     get :manage
-    get :testimonials
-    get :update
     get :install
     get :collect
-    put :settings
-    post :save_css
-    get :theme_css
-    get :theme_stock_css
-    get :save_positions
     get :staging
+    
+    scope "/testimonials", :as => :testimonials do
+      get "()"                  ,:action => :testimonials
+      get "/update"             ,:action => :update   
+      get "/save_positions"     ,:action => :save_positions
+    end
+    
+    scope "/theme", :controller => :theme, :as => :theme_css do
+      get "/css"        ,:action => :css
+      post "/css"       ,:action => :update_css
+      get "/css/stock"  ,:action => :stock_css
+    end
+    
+    put :settings
+    
     get :logout
   end 
   

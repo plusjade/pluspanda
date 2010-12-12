@@ -2,6 +2,7 @@ class AdminController < ApplicationController
   
   layout proc { |c| c.request.xhr? ? false : "admin"}
   before_filter :require_user, :setup_user
+  before_filter :ensure_xhr, :only => [:widget, :manage, :install, :collect]
   
   # this should be the only interface to the admin.
   def index
@@ -9,23 +10,19 @@ class AdminController < ApplicationController
   end
 
   def widget
-    serve_json_response and return unless request.xhr?
     render :template => "admin/widget", :layout => false
   end
   
   def manage
-    serve_json_response and return unless request.xhr?
     render :template => "admin/manage", :layout => false
   end
   
   def install  
-    serve_json_response and return unless request.xhr?
     render :template => "admin/install", :layout => false
   end
   
   
   def collect
-    serve_json_response and return unless request.xhr?
     render :template => "admin/collect", :layout => false
   end
   
@@ -33,6 +30,27 @@ class AdminController < ApplicationController
   def staging
     render :template => "admin/staging", :layout => "staging"
   end
+
+  # PUT 
+  # Save tconfig settings
+  def settings
+    serve_json_response and return unless request.put?
+    
+    if @user.tconfig.update_attributes(params[:tconfig])
+      @user.update_settings
+      @status   = "good"
+      @message  = "Settings updated"
+      @resource = @user.tconfig
+    elsif !@user.tconfig.valid?
+      @message = "Oops! Please make sure all fields are valid!"
+    end
+
+    serve_json_response
+    return
+  end
+  
+    
+#### testimonial stuff ####
   
   # GET    
   def testimonials
@@ -54,6 +72,7 @@ class AdminController < ApplicationController
   end
   
   # GET
+  # admin/testimonials/update
   def update
     unless ['publish', 'hide', 'lock', 'unlock', 'delete'].include?(params[:do])
       @message = "Nothing Changed."
@@ -86,47 +105,8 @@ class AdminController < ApplicationController
     return   
   end 
     
-   
-  # PUT 
-  # Save tconfig settings
-  def settings
-    serve_json_response and return unless request.put?
-    
-    if @user.tconfig.update_attributes(params[:tconfig])
-      @user.update_settings
-      @status   = "good"
-      @message  = "Settings updated"
-      @resource = @user.tconfig
-    elsif !@user.tconfig.valid?
-      @message = "Oops! Please make sure all fields are valid!"
-    end
-
-    serve_json_response
-    return
-  end
-
-  def theme_css
-    render :text => @user.theme_css
-  end
-  
-  
-  def theme_stock_css
-    render :text => @user.theme_stock_css
-  end
-
-
-  # POST 
-  # Save current theme's css file
-  def save_css
-    @user.update_css(params['widget_css'])
-    @status  = "good"
-    @message = "CSS Updated."
-    serve_json_response
-    return
-  end
-    
-    
   # GET
+  # admin/testimonials/save_positions
   def save_positions
     if params['tstml'].nil? or !params['tstml'].is_a?(Array) 
       serve_json_response
@@ -148,6 +128,8 @@ class AdminController < ApplicationController
     return    
   end
   
+#### end testimonial stuff ####
+         
   
   def logout
     current_user_session.destroy
@@ -157,8 +139,7 @@ class AdminController < ApplicationController
     
   private 
   
-    def setup_user
-      @user = current_user
+    def ensure_xhr
+      serve_json_response and return unless request.xhr?
     end
-  
 end

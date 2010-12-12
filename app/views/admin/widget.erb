@@ -20,7 +20,7 @@
     <div id="data-description">
       This is the complete CSS used to style your widget. View your CSS changes in the <b>Widget Preview Tab</b>.
     </div>  
-    <%= form_tag('/admin/save_css', :method => "post", :id => 'css-form' ) do %>
+    <%= form_tag('/admin/theme/css', :method => :post, :id => 'css-form' ) do %>
       <div class="round-box-top">
         Customize CSS.
       </div>
@@ -28,7 +28,7 @@
         <div class="round-box-tabs buttons">
           <button type="submit" class="positive">Save CSS</button>
         </div>  
-        <a href="#" id="load-stock-css">regenerate stock CSS</a>  
+        <a href="/admin/theme/css/stock" id="load-stock-css">regenerate stock CSS</a>  
         <textarea id="widget_css" name="widget_css" style="width:95%; height:600px"><%= @user.theme_css %></textarea>
       </div>
     <% end %>

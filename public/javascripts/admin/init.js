@@ -155,10 +155,11 @@ var admin = {
     
     $('#load-stock-css').click(function(){
       admin.submitting();
-      $.get('/admin/theme_stock_css', {rand: Math.random()}, function(data){
+      $.get(this.href, {rand: Math.random()}, function(data){
         widgetCss.setCode(data);
         admin.respond({status:'good', msg:'Stock CSS Loaded!'});
       });
+      return false;
     })        
     
     $('ul.grandchild_nav li a:first').click();
@@ -198,7 +199,7 @@ var admin = {
 
   savePositions : function(order){
     admin.submitting();    
-    $.get('/admin/save_positions', order, function(rsp){
+    $.get('/admin/testimonials/save_positions', order, function(rsp){
       admin.respond(rsp);
       if(rsp.status = 'good'){
         admin.loadSettingsForm();
@@ -213,7 +214,7 @@ var admin = {
    */
   batchUpdate : function(ids, action, filter){
     admin.submitting();
-    $.get('/admin/update?do=' + action, $.param( {'id[]': ids}, true), function(rsp){
+    $.get('/admin/testimonials/update?do=' + action, $.param( {'id[]': ids}, true), function(rsp){
       admin.respond(rsp);
       if (filter)
         admin.loadTestimonials(filter);
@@ -342,7 +343,6 @@ $(document).bind('ajaxify.form', function(){
       $('button', form[0]).attr('disabled','disabled').removeClass('positive');
     },
     success: function(rsp) {
-      console.log(rsp);
       admin.respond(rsp);     
 
       if (rsp.tconfig)
