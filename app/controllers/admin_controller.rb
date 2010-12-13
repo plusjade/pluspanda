@@ -56,12 +56,14 @@ class AdminController < ApplicationController
     
     case params[:filter]
     when "published"
-      where = {:publish => true}
+      where = {:publish => true, :trash => false}
       order = "position ASC" if @user.tconfig.sort == 'position'
     when "hidden"
-      where = {:publish => false}
+      where = {:publish => false, :trash => false}
+    when "trash"
+      where = {:trash => true}
     else
-      where = { :created_at => (Time.now - 2.day)..Time.now }
+      where = { :created_at => (Time.now - 2.day)..Time.now, :trash => false }
     end
 
     render @user.testimonials.where(where).order(order)
@@ -72,8 +74,8 @@ class AdminController < ApplicationController
   # GET
   # admin/testimonials/update
   def update
-    unless ['publish', 'hide', 'lock', 'unlock', 'delete'].include?(params[:do])
-      @message = "Nothing Changed."
+    unless ['publish', 'hide', 'lock', 'unlock', 'trash', 'untrash'].include?(params[:do])
+      @message = "Invalid action."
       serve_json_response
       return
     end
@@ -91,14 +93,15 @@ class AdminController < ApplicationController
       updates = {:lock => false}
     when "tag"
       updates = {:tag => params[:tag].to_i}
-    when "delete"
-      # psuedo delete this
-      # t.detete = true
+    when "trash"
+      updates = {:trash => true}
+    when "untrash"
+      updates = {:trash => false}  
     end
     count = @user.testimonials.update_all(updates, :id => ids)
 
     @status  = "good"
-    @message = "#{count} Testimonials updated"
+    @message = "#{count} Testimonials update with: #{params[:do]}"
     serve_json_response
     return   
   end 

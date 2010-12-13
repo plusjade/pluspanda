@@ -105,7 +105,7 @@ $(function(){
 
 var admin = {
   pages   : {'widget':'', 'manage':'', 'collect':'', 'install':''},
-  filters : {'new':'', 'published':'', 'hidden':''},
+  filters : {'new':'', 'published':'', 'hidden':'', 'trash': ''},
   thisPage : false,
   settingsStore : {},
 
@@ -235,7 +235,9 @@ var admin = {
         if (filter === 'published'){
           $("#with-selected li.save-positions").show();
         }          
-      
+        if (filter === 'trash'){
+          $("#with-selected li.untrash").show();
+        }      
         $('#t-data').removeClass().addClass(filter).html(data);
         $('abbr.timeago').timeago();
       })

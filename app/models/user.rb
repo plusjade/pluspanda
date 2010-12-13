@@ -132,7 +132,7 @@ class User < ActiveRecord::Base
   # filters: page, publish, tag, rating, date.
   # sorters: created
   def get_testimonials(opts={})
-    where  = {}
+    where  = {:trash => false}
     opts[:get_count]  ||= false
     opts[:publish]    ||= 'yes'
     opts[:rating]     ||= ''

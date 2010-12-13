@@ -24,9 +24,9 @@
                admin_testimonials GET    /admin/testimonials(/)(.:format)             {:controller=>"admin", :action=>"testimonials"}
         admin_testimonials_update GET    /admin/testimonials/update(.:format)         {:controller=>"admin", :action=>"update"}
 admin_testimonials_save_positions GET    /admin/testimonials/save_positions(.:format) {:controller=>"admin", :action=>"save_positions"}
-                   admin_save_css POST   /admin/save_css(.:format)                    {:controller=>"admin", :action=>"save_css"}
-                  admin_theme_css GET    /admin/theme_css(.:format)                   {:controller=>"admin", :action=>"theme_css"}
-            admin_theme_stock_css GET    /admin/theme_stock_css(.:format)             {:controller=>"admin", :action=>"theme_stock_css"}
+              admin_theme_css_css GET    /admin/theme/css(.:format)                   {:controller=>"theme", :action=>"css"}
+              admin_theme_css_css POST   /admin/theme/css(.:format)                   {:controller=>"theme", :action=>"update_css"}
+        admin_theme_css_css_stock GET    /admin/theme/css/stock(.:format)             {:controller=>"theme", :action=>"stock_css"}
                    admin_settings PUT    /admin/settings(.:format)                    {:controller=>"admin", :action=>"settings"}
                      admin_logout GET    /admin/logout(.:format)                      {:controller=>"admin", :action=>"logout"}
                           account POST   /account(.:format)                           {:controller=>"users", :action=>"create"}
@@ -43,4 +43,4 @@ admin_testimonials_save_positions GET    /admin/testimonials/save_positions(.:fo
                           session DELETE /session(.:format)                           {:controller=>"user_sessions", :action=>"destroy"}
                                   GET    /pinky(/)(.:format)                          {:controller=>"pinky", :action=>"index"}
                             users GET    /pinky/users(.:format)                       {:controller=>"pinky", :action=>"users"}
-                                         /log/:apikey(.:format)                       {:to=>#<Proc:0x00000001052503b8@/Users/jade/Dropbox/www/pluspanda/config/routes.rb:50>}
+                                         /log/:apikey(.:format)                       {:to=>#<Proc:0x0000000105263800@/Users/jade/Dropbox/www/pluspanda/config/routes.rb:52>}
