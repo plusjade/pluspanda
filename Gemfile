@@ -37,3 +37,14 @@ gem "authlogic"
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+
+group :test, :development do
+  gem 'factory_girl'
+  gem 'ruby-debug'
+  gem "rspec-rails", "2.0.1"
+  gem "webrat", "0.7.1"
+  gem "chronic", "0.2.3"
+  gem "metric_fu", "2.0.1"
+#, :git => "https://github.com/jscruggs/metric_fu.git"
+end

@@ -34,8 +34,6 @@ class AdminController < ApplicationController
   # PUT 
   # Save tconfig settings
   def settings
-    serve_json_response and return unless request.put?
-    
     if @user.tconfig.update_attributes(params[:tconfig])
       @user.update_settings
       @status   = "good"
