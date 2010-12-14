@@ -52,9 +52,17 @@
   clear: both;
   display: inline-block;
   padding-bottom: 9px;
-  margin-bottom: 15px;
   height: 57px;
   width: 100%;
+}
+#pluspanda-testimonials .add-link {
+  clear:both;
+  margin-bottom: 15px;
+  padding:5px;
+  text-align:right;
+}
+#pluspanda-testimonials .add-link a {  
+  color: #004b91;
 }
 #pluspanda-testimonials .title {
   position: relative;

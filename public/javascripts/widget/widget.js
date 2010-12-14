@@ -73,9 +73,13 @@ var panda = {
     if(panda.debug){console.log(cssUrl);console.log(panda.$container)}
     panda.getTstmls('all','newest',1)
     
-    //var $iframe = $('<iframe width="750px" height="390px" frameborder="0" scrolling="no">Iframe not Supported</iframe>');
-    //$iframe.attr('src',  pandaSettings.apiUrl + '/' + pandaSettings.apiVrsn + '/testimonials/new.iframe?apikey='+pandaSettings.apikey)  
-    //panda.$container.after($iframe)
+    var $iframe = $('<iframe width="750px" height="390px" frameborder="0" scrolling="no">Iframe not Supported</iframe>');
+    $iframe.attr('src',  pandaSettings.apiUrl + '/' + pandaSettings.apiVrsn + '/testimonials/new.iframe?apikey='+pandaSettings.apikey)
+    panda.$container.find(".add-link a").click(function(){
+        jQuery.facebox($iframe);
+        return false;
+      })
+
     if(!panda.admin)jQuery.get(pandaSettings.apiUrl+'/log/'+pandaSettings.apikey+"?"+parent.location.href)
   },
 
