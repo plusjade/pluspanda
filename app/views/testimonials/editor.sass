@@ -19,9 +19,8 @@
     padding: 20px
     background: #f7f7f7
     +corners(all, 10px)
+    +shadows(3px, #ccc, -3px, #eee)
     margin-bottom: 15px
-    border-right: 2px solid #ddd
-    border-bottom: 2px solid #ddd
     #t-view-inner
       width: 725px
       margin: auto
@@ -117,7 +116,25 @@
     font-size: 1.1em
     font-weight: bold
 
-
+  #data
+    clear: both
+    margin-bottom: 10px
+    td
+      width: 400px
+      padding-bottom: 3px 
+    
+// admin view
+// ***********************
+#admin-table
+  width: 100%
+  td
+    text-align: center
+    &.t-publish
+      border: 1px solid #ffff99
+      background: #ffffcc
+      font-weight: bold
+            
+                
 // crop stuff
 // ***********************
 
@@ -140,16 +157,4 @@
   border: 2px solid #ddd
   overflow: hidden
 
-// admin view
-// ***********************
 
-#admin-extra
-  margin-top: 10px
-
-.t-publish
-  width: 170px
-  padding: 5px 8px
-  margin: 5px 0
-  border: 1px solid #ffff99
-  background: #ffffcc
-  font-weight: bold

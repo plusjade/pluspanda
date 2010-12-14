@@ -1,18 +1,18 @@
 
+<div id="status">
+  <% if @testimonial.lock %>
+    This Testimonial is locked!
+  <% elsif flash[:notice] %>
+    <%= flash[:notice] %>
+  <% else %>
+    Editing testimonial
+  <% end %>
+</div>
+
 <div id="editor-wrapper">
 
 <%= form_for @testimonial, :html => { :multipart => true, :class => "js-multipart-form" } do |f| %>
   <%= hidden_field_tag(:apikey, params[:apikey]) if params['apikey'] %>
-  
-  <div id="status">
-    <% if @testimonial.lock %>
-      This Testimonial is locked!
-    <% elsif flash[:notice] %>
-      <%= flash[:notice] %>
-    <% else %>
-      Testimonial
-    <% end %>
-  </div>
   <div class="t-view">
     <div id="t-view-inner" style="overflow:hidden; margin-bottom:10px">
       
@@ -71,20 +71,4 @@
 <% end %>
 </div>
 
-<style type="text/css">
-  #status{
-    position:absolute;
-    top:0;
-    text-align:center;
-    background:#333;
-    color:#fff;
-    width:300px;
-    margin:auto
-  }
-  #data{
-    clear:both;
-    margin-bottom:10px;
-  }
-  #data td {width: 400px; padding-bottom:3px;}
-</style>
 
