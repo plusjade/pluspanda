@@ -24,5 +24,17 @@ class Tconfig < ActiveRecord::Base
       self.form = self.form.inject({}) { |h,(k,v)| h[k] = v.strip ; h }
     end
   end
-      
+  
+  def self.themes
+    ['list','simple','legacy']
+  end    
+  
+  def self.sorters
+    {
+      'Creation Date' => 'created',
+      'Custom Positions' => 'position'
+    }
+  end
+  
+  
 end
