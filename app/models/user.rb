@@ -96,14 +96,14 @@ class User < ActiveRecord::Base
       tokens = Testimonial.api_attributes
     
     testimonial = "#{theme_path}/testimonial.html"
-    item_html = ""
+    testimonial_html = ""
     if File.exist?(testimonial)
-      item_html = File.open(testimonial, "r").read.gsub(/[\n\r\t]/,'')
-      item_html = item_html.gsub(token_reg) { |tkn|
+      testimonial_html = File.open(testimonial, "r").read.gsub(/[\n\r\t]/,'')
+      testimonial_html = testimonial_html.gsub(token_reg) { |tkn|
         tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
       }
     end
-    puts item_html
+    puts testimonial_html
     
     tag_list = context.render_to_string(
       :partial  => "testimonials/tag_list",
@@ -121,23 +121,23 @@ class User < ActiveRecord::Base
       }
     
     wrapper = "#{theme_path}/wrapper.html"
-    panda_structure = ""
+    wrapper_html = ""
     if File.exist?(wrapper)
-      panda_structure = File.open(wrapper, "r").read.gsub(/[\n\r\t]/,'')
-      panda_structure = panda_structure.gsub(token_reg) { |tkn|
+      wrapper_html = File.open(wrapper, "r").read.gsub(/[\n\r\t]/,'')
+      wrapper_html = wrapper_html.gsub(token_reg) { |tkn|
         wrapper_tokens.has_key?($1.to_sym) ? wrapper_tokens[$1.to_sym] : tkn
       }
     end
-    puts panda_structure    
+    puts wrapper_html    
 
 
     settings = context.render_to_string(
       :template => "testimonials/widget_settings",
       :layout   => false,
       :locals   => {
-        :user             => self,
-        :panda_structure  => panda_structure,
-        :item_html        => item_html  
+        :user               => self,
+        :wrapper_html       => wrapper_html,
+        :testimonial_html   => testimonial_html  
       }
     )
     

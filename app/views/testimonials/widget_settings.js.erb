@@ -2,12 +2,12 @@
 var pandaSettings = {
   apiUrl : '<%= root_url %>',
   apiVrsn : '<%= api_version_number %>',
-  apikey : '<%= user.apikey %>',
-  theme : '<%= user.tconfig.theme %>',
+  apikey : '<%= user.apikey %>'
+}
+var pandaThemeConfig = {
   cssUrl : '<%= "#{root_url}/system/data/#{user.apikey}/#{user.tconfig.theme}.css" %>',
-  structure : '<%= raw panda_structure %>',
-  itemHtml : function(item){
-    return '<%= raw item_html %>';
+  wrapperHTML : '<%= raw wrapper_html %>',
+  testimonialHTML : function(item){
+    return '<%= raw testimonial_html %>';
   }
 }
-

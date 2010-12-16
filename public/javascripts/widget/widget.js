@@ -37,9 +37,9 @@ var panda = {
 
   setup: function(){ 
     if(panda.debug){console.log("setup called, expecting css, $container, delegation, then getTstmls()")}
-    var cssUrl = pandaSettings.cssUrl + ( panda.admin ? ('?r=' + Math.random()) : '' );
-    jQuery('head').append('<link type="text/css" id="' + pandaSettings.theme + ' " href="' + cssUrl + '" media="screen" rel="stylesheet" />');
-    panda.$container = jQuery('#plusPandaYes').html(pandaSettings.structure);
+    var cssUrl = pandaThemeConfig.cssUrl + ( panda.admin ? ('?r=' + Math.random()) : '' );
+    jQuery('head').append('<link type="text/css" href="' + cssUrl + '" media="screen" rel="stylesheet" />');
+    panda.$container = jQuery('#plusPandaYes').html(pandaThemeConfig.wrapperHTML);
 
     jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}    
     panda.$container.click(jQuery.delegate({
@@ -74,7 +74,7 @@ var panda = {
     panda.getTstmls('all','newest',1)
     
     var $iframe = $('<iframe width="750px" height="390px" frameborder="0" scrolling="no">Iframe not Supported</iframe>');
-    $iframe.attr('src',  pandaSettings.apiUrl + '/' + pandaSettings.apiVrsn + '/testimonials/new.iframe?apikey='+pandaSettings.apikey)
+    $iframe.attr('src',  pandaSettings.apiUrl + '/' + pandaSettings.apiVrsn + '/testimonials/new.iframe?apikey='+pandaSettings.apikey);
     panda.$container.find(".add-link a").click(function(){
         jQuery.facebox($iframe);
         return false;
@@ -111,7 +111,7 @@ var panda = {
       this.url     = (0 == this.url.length) ? '' : 'http://' + this.url;
       this.alt     = (0 == (i+1) % 2) ? 'even' : 'odd';
       this.tag_name = (this.tag_name)? this.tag_name : '';
-      content  += pandaSettings.itemHtml(this);
+      content  += pandaThemeConfig.testimonialHTML(this);
     });
     jQuery('div.panda-container .ajax_loading', panda.$container).replaceWith(content);
     if(panda.debug){console.log(content)}
