@@ -52,22 +52,38 @@ class Testimonial < ActiveRecord::Base
     end
   end
 
+  def self.api_attributes
+    testimonial = [
+      :id,
+      :rating,
+      :company,
+      :position,
+      :name,
+      :location,
+      :created_at,
+      :tag_id,
+      :body,
+      :url,
+      :c_position,
+      :image_src,
+      :image_stock      
+    ]    
+  end
+  
+  
   def sanitize_for_api
-    testimonial = {
-      :id               => self.id,
-      :rating           => self.rating,
-      :company          => self.company,
-      :position         => self.position,
-      :name             => self.name,
-      :location         => self.location,
-      :created_at       => self.created_at,
-      :image_src        => self.avatar? ? root_url + self.avatar.url(:sm) : false,
-      :image_stock      => image_stock,
-      :tag_id           => self.tag_id,
-      :body             => self.body,
-      :url              => self.url,
-      :c_position       => self.c_position
-    }
+    testimonial = {}
+  
+    Testimonial.api_attributes.each do |a|
+      if a == :image_src
+        testimonial[a] = self.avatar? ? root_url + self.avatar.url(:sm) : false
+      elsif a == :image_stock
+        testimonial[a] = image_stock
+      else
+        testimonial[a] = self.send a
+      end
+    end
+    
     testimonial   
   end
   

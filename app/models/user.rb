@@ -86,30 +86,60 @@ class User < ActiveRecord::Base
     if !File.exists?(theme_css_path) && File.exists?(theme_stock_css_path)
       FileUtils.cp(theme_stock_css_path, theme_css_path)
     end
-      
-    tag_list          = context.render_to_string(
-                          :template => "testimonials/tag_list",
-                          :layout   => false,
-                          :locals   => { :tags => Tag.where({:user_id => self.id }) }
-                        ).gsub!(/[\n\r\t]/,'')
-    panda_structure   = context.render_to_string(
-                          :template => "testimonials/themes/#{self.tconfig.theme}/wrapper",
-                          :layout   => false,
-                          :locals   => { :tag_list => tag_list }
-                        ).gsub!(/[\n\r\t]/,'')
-    item_html         = context.render_to_string(
-                          :template => "testimonials/themes/#{self.tconfig.theme}/item",
-                          :layout => false
-                          ).gsub!(/[\n\r\t]/,'')    
-    settings          = context.render_to_string(
-                          :template => "testimonials/widget_settings",
-                          :layout   => false,
-                          :locals   => {
-                            :user             => self,
-                            :panda_structure  => panda_structure,
-                            :item_html        => item_html  
-                          }
-                        )
+    
+    theme_path = Rails.root.join("public/themes/#{self.tconfig.theme}")
+    #matches {{blah_token}}
+    token_reg = /\{{2}(\w+)\}{2}/i
+        
+    # item HTML
+      # accessible public api testimonial attributes
+      tokens = Testimonial.api_attributes
+    
+    testimonial = "#{theme_path}/testimonial.html"
+    item_html = ""
+    if File.exist?(testimonial)
+      item_html = File.open(testimonial, "r").read.gsub(/[\n\r\t]/,'')
+      item_html = item_html.gsub(token_reg) { |tkn|
+        tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
+      }
+    end
+    puts item_html
+    
+    tag_list = context.render_to_string(
+      :partial  => "testimonials/tag_list",
+      :locals   => { :tags => Tag.where({:user_id => self.id }) }
+    ).gsub(/[\n\r\t]/,'')    
+    
+    
+    # Main wrapper structure
+      #wrapper tokens
+      wrapper_tokens = {
+        :tag_list       => tag_list,
+        :count          => "||COUNTER||",
+        :testimonials   => "||TESTIMONIALS||",
+        :add_link       => "||FORM LINK||"
+      }
+    
+    wrapper = "#{theme_path}/wrapper.html"
+    panda_structure = ""
+    if File.exist?(wrapper)
+      panda_structure = File.open(wrapper, "r").read.gsub(/[\n\r\t]/,'')
+      panda_structure = panda_structure.gsub(token_reg) { |tkn|
+        wrapper_tokens.has_key?($1.to_sym) ? wrapper_tokens[$1.to_sym] : tkn
+      }
+    end
+    puts panda_structure    
+
+
+    settings = context.render_to_string(
+      :template => "testimonials/widget_settings",
+      :layout   => false,
+      :locals   => {
+        :user             => self,
+        :panda_structure  => panda_structure,
+        :item_html        => item_html  
+      }
+    )
     
     f = File.new(settings_file_path, "w+")
     f.write(settings)

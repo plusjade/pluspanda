@@ -5,9 +5,9 @@ var pandaSettings = {
   apikey : '<%= user.apikey %>',
   theme : '<%= user.tconfig.theme %>',
   cssUrl : '<%= "#{root_url}/system/data/#{user.apikey}/#{user.tconfig.theme}.css" %>',
-  structure : '<%= panda_structure %>',
+  structure : '<%= raw panda_structure %>',
   itemHtml : function(item){
-    return '<%= item_html %>'
+    return '<%= raw item_html %>';
   }
 }
 

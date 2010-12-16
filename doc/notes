@@ -1,3 +1,23 @@
+a theme contains:
+  wrapper html
+  item html
+  css
+  
+  
+themes
+wrapper_html | wrapper_html_edit | item_html_edit | item_html | css | modal_css
+
+
+
+themes
+  type | production | staging | sample | stock
+  
+  wrapper
+  item
+  css
+  modal
+
+
 
 apikey key can be passed via GET ?apikey=
 or as a POST parameter?

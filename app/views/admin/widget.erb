@@ -1,8 +1,13 @@
 
+<div style="border:1px dashed #333;">
+  Installed Theme: <strong><%= @user.tconfig.theme %></strong>
+    <%= link_to "Select a new theme", "#" %>
+</div>
+
 <ul class="grandchild_nav"> 
   <li class="widget"><a href="#main" class="active" rel="tab-widget" id="widget-tab-link">Widget Preview</a></li> 
-  <li class="show-css css"><a href="#css" rel="tab-css">Edit Widget CSS</a></li> 
-  <li class="tags"><a href="/admin/tags" rel="tab-tags">Set Categories</a></li> 
+  <li class="show-css css"><a href="#css" rel="tab-html">Widget HTML</a></li> 
+  <li class="show-css css"><a href="#css" rel="tab-css">Widget CSS</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
@@ -34,11 +39,6 @@
     <% end %>
   </div>
 
-  <div id="tab-tags" class="tab-content">
-    <div id="data-description">
-      Category tags are temporarily offline. Sorry =/
-    </div>    
-  </div>  
   
   <div id="tab-help" class="tab-content">
       <h3>Widget Preview</h3>

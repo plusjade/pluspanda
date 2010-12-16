@@ -7,16 +7,21 @@
         <h2>Testimonials</h2>
         <ul class="switcher">
           <li class="grid"><a href="#grid">G-View</a></li>
-          <li class="list"><a href="#list" class="current">L-View</a></li>
+          <li class="list current"><a href="#list">L-View</a></li>
         </ul>
       </div>
       <div class="rgt"></div>
     </div>
     <div class="panda-tags">
       <span>Show Testimonials from: </span>
-       <%= tag_list %>
+      {{tag_list}}
     </div>
-  </div>
+    <div class="panda-avg-rating">
+      <span>Total: <b id="panda-total-testimonials">&#160</b></span>
+      <!-- <span id="panda-avg-rating-display" class="panda-rating-stars s4">****</span> -->
+    </div>
 
+  </div>
+  <div class="add-link"><a href="#">Add your testimonial</a></div>
   <div class="panda-container list"></div>
 </div>
