@@ -4,12 +4,14 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>PlusPanda SUPA admin Panel</title>
   
-<% if ::Rails.env == 'production' %>
-  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
-<% else %>  
-  <%= javascript_include_tag 'shared/jquery' %>
-<% end %>  
-  <%= javascript_include_tag 'shared/jquery.ui', 'facebox/facebox', 'shared/addon', 'shared/jquery.tablesorter.min', "codemirror/codemirror", "admin/init", :cache => "bundle" %>
+  <% if ::Rails.env == 'production' %>
+    <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
+    <%= javascript_include_tag "bundle" %>  
+  <% else %>  
+    <%= javascript_include_tag 'jquery/jquery' %>
+    <%= javascript_include_tag bundled_javascripts %>
+  <% end %>
+
 
 <style type="text/css">
   html, body {font-family: verdana; font-size:12px;}

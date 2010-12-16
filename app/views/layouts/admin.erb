@@ -6,13 +6,6 @@
 
   <style type="text/css">img, div { behavior: url(iepngfix.htc) }</style> 
   <%= stylesheet_link_tag "admin" %>
-  
-<% if ::Rails.env == 'production' %>
-  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
-<% else %>  
-  <%= javascript_include_tag 'shared/jquery' %>
-<% end %>  
-  <%= javascript_include_tag 'shared/jquery.ui', 'facebox/facebox', 'shared/addon', 'shared/jquery.tablesorter.min', "codemirror/codemirror", "admin/init", :cache => "bundle" %>
 </head>
 
 <body>
@@ -93,6 +86,21 @@
   </div>
 <% end %>
 </div>
+
+
+  <%= javascript_include_tag ::Rails.env == 'production' ? "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" : 'jquery/jquery' %>
+  <script type="text/javascript">
+    var loading = '<div class="loading">Loading...</div>';
+    var widgetCss;
+    var $iframe = $('<iframe width="100%" height="800px">Iframe not Supported</iframe>');
+  </script>
+  
+  <%= javascript_include_tag "codemirror/codemirror" %>
+  
+  <!-- bundle -->
+  <%= javascript_include_tag ::Rails.env == 'production' ? "bundle" : bundled_javascripts %>  
+  <!-- end bundle -->
+  
   <script type="text/javascript">
     $(function(){
       $settingsForm = $("#settings_form form");
