@@ -52,17 +52,12 @@ class User < ActiveRecord::Base
     #matches {{blah_token}}
     token_reg = /\{{2}(\w+)\}{2}/i
         
-    # item HTML
-      # accessible public api testimonial attributes
-      tokens = Testimonial.api_attributes
-    
-    #
+    # accessible public api testimonial attributes
+    tokens = Testimonial.api_attributes
     testimonial_html = self.get_attribute("testimonial.html").staged.gsub(/[\n\r\t]/,'')
     testimonial_html = testimonial_html.gsub(token_reg) { |tkn|
       tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
     }
-    puts testimonial_html
-    
     
     tag_list = context.render_to_string(
       :partial  => "testimonials/tag_list",
@@ -70,21 +65,16 @@ class User < ActiveRecord::Base
     ).gsub(/[\n\r\t]/,'')    
     
     
-    # Main wrapper structure
-      #wrapper tokens
-      wrapper_tokens = {
-        :tag_list       => tag_list,
-        :count          => "||COUNTER||",
-        :testimonials   => "||TESTIMONIALS||",
-        :add_link       => "||FORM LINK||"
-      }
-    
+    wrapper_tokens = {
+      :tag_list       => tag_list,
+      :count          => "||COUNTER||",
+      :testimonials   => "||TESTIMONIALS||",
+      :add_link       => "||FORM LINK||"
+    }
     wrapper_html = self.get_attribute("wrapper.html").staged.gsub(/[\n\r\t]/,'')
     wrapper_html = wrapper_html.gsub(token_reg) { |tkn|
       wrapper_tokens.has_key?($1.to_sym) ? wrapper_tokens[$1.to_sym] : tkn
     }
-    puts wrapper_html    
-
 
     settings = context.render_to_string(
       :partial => "testimonials/theme_config",

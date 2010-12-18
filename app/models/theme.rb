@@ -10,11 +10,9 @@ class Theme < ActiveRecord::Base
   # we get these from the associated theme dir. 
   # note the data should already be verified and sanitized.
   def populate_attributes
-    puts "i am loading attributes"
     attributes = ThemeAttribute.names
     theme_path = Rails.root.join("public/themes/#{Theme.names[self.name]}")
     
-    puts theme_path
     if File.exist?(theme_path)
       Dir.new(theme_path).each do |file|
         next if file.index('.') == 0
