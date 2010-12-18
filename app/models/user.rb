@@ -58,13 +58,22 @@ class User < ActiveRecord::Base
   end
 
 
+  def get_staged_attribute(attribute)
+    self.theme_staged.theme_attributes.find_by_name(ThemeAttribute.names.index(attribute))
+  end
+  
+  
   def theme_staged
-    self.themes.where(:staged => true).limit(1)
+    self.themes.find_by_staged(true)
   end
 
   def theme_published
-    self.themes.where(:published => true).limit(1)
+    self.themes.find_by_published(true)
   end
+  
+  
+  
+  
   
   def settings
     return 'error! no settings file!' unless has_settings?
@@ -144,30 +153,7 @@ class User < ActiveRecord::Base
     f.rewind
   end
   
-    
-  def update_css(content)
-    File.new(theme_css_path, "w+").write(content)
-    File.new(publish_css_path, "w+").write(content)
-  end
-  
 
-  def theme_css
-    if File.exists?(theme_css_path)
-      return File.open(theme_css_path).read
-    else
-      return '/* Your css file does not exist! */'
-    end
-  end 
-  
-
-  def theme_stock_css
-    if File.exists?(theme_stock_css_path)
-      return File.open(theme_stock_css_path).read  
-    else
-      return "/* no available css for theme: #{self.tconfig.theme}*/"
-    end
-  end
-  
 
     
   # get the testimonials
@@ -222,6 +208,8 @@ class User < ActiveRecord::Base
 
     return self.testimonials.where(where).order(sort).limit(opts[:limit]).offset(offset)
    end
+   
+   
    
    
 # path helpers

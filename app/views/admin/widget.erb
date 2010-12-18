@@ -33,8 +33,9 @@
         <div class="round-box-tabs buttons">
           <button type="submit" class="positive">Save CSS</button>
         </div>  
-        <a href="/admin/theme/css/stock" id="load-stock-css">regenerate stock CSS</a>  
-        <textarea id="widget_css" name="widget_css" style="width:95%; height:600px"><%= @user.theme_css %></textarea>
+        <a href="/admin/theme/css/stock" id="load-stock-css">Load Original CSS</a>  
+          | <a href="/admin/theme/css" id="reload-css">Reload Current CSS</a>  
+        <textarea id="widget_css" name="widget_css" style="width:95%; height:600px"><%= @user.get_staged_attribute("style.css").staged %></textarea>
       </div>
     <% end %>
   </div>

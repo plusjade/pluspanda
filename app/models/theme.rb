@@ -58,15 +58,6 @@ class Theme < ActiveRecord::Base
     ]
   end
   
-
-  def self.published
-    
-  end
-  
-  
-  def self.staged
-    
-  end
   
   
 end

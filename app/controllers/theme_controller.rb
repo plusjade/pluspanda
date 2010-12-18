@@ -18,25 +18,33 @@ class ThemeController < ApplicationController
 
 
   def stock_css
-    render :text => @user.theme_stock_css
+    
+    css = @user.get_staged_attribute("style.css")
+    render :text => css.original
   end
     
   def css
-    render :text => @user.theme_css
+    css = @user.get_staged_attribute("style.css")
+    render :text => css.staged
   end
   
   # POST 
-  # Save current theme's css file
   def update_css
-    @user.update_css(params['widget_css'])
-    @status  = "good"
-    @message = "CSS Updated."
+    css = @user.get_staged_attribute("style.css")
+    
+    if css.update_attributes(:staged => params['widget_css'])
+      @status  = "good"
+      @message = "CSS Updated."
+    else
+      @message = "There was a problem saving the css"
+    end
+    
     serve_json_response
     return
   end
     
 
-  def update_and_publish_css
+  def publish
     
   end  
 

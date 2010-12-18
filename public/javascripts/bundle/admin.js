@@ -52,11 +52,11 @@
       $('#widget_css').val(widgetCss.getCode());
     });
     
-    $('#load-stock-css').click(function(){
+    $('#load-stock-css, #reload-css').click(function(){
       admin.submitting();
       $.get(this.href, {rand: Math.random()}, function(data){
         widgetCss.setCode(data);
-        admin.respond({status:'good', msg:'Stock CSS Loaded!'});
+        admin.respond({status:'good', msg:'CSS Loaded!'});
       });
       return false;
     })        

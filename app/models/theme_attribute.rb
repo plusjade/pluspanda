@@ -4,7 +4,7 @@ class ThemeAttribute < ActiveRecord::Base
 =begin
   @user.theme.theme_attributes
 
-    id| theme_id | type | published | staged | original
+    id| theme_id | name | published | staged | original
 =end
   
   
@@ -16,6 +16,5 @@ class ThemeAttribute < ActiveRecord::Base
       "modal.css"
     ]
   end
-
 
 end
