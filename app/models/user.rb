@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   def create_dependencies
     self.create_tconfig
     self.seed_testimonials
-    #seed_theme
+    self.themes.create(:name => 0, :staged => true)
   end
 
 
@@ -36,7 +36,14 @@ class User < ActiveRecord::Base
   
   
   def theme_staged
-    self.themes.find_by_staged(true)
+    theme = self.themes.find_by_staged(true)
+    unless theme
+      theme = self.themes.first
+      theme.staged = true
+      theme.save
+    end
+    
+    theme
   end
   
   def publish_theme
