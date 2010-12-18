@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   def create_dependencies
     self.create_tconfig
     self.seed_testimonials
+    #seed_theme
   end
 
 

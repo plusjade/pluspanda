@@ -1,37 +1,62 @@
 
 <div style="border:1px dashed #333;">
-  Installed Theme: <strong><%= @user.tconfig.theme %></strong>
-    <%= link_to "Select a new theme", "#" %>
+    <%= form_for @user.tconfig, :url => '/admin/settings', :html => { :id => nil, :rel => "form.settings" } do |f| %>  
+      <fieldset>  
+        <label>Testimonials per page:</label>
+        #<%= f.text_field(:per_page, :id => nil, :class => "tconfig_per_page" ) %>
+      </fieldset>
+
+      <fieldset>
+        <label>Order Testimonials by:</label>  
+         <%= f.select(:sort, Tconfig.sorters, {}, :id => nil, :class => "tconfig_sort" ) %>
+          <span>(you can order testimonials in the <b>Manage Testimonials</b> section)</span>
+      </fieldset>
+      
+        <button type="submit" class="positive">Update Settings</button>
+    <% end %>
+
+    <b>My installed themes:</b>
+    <% @user.themes.each do |theme| %>
+      <%= Theme.names[theme.name] %>, 
+    <% end %>
+        
 </div>
 
 <ul class="grandchild_nav"> 
-  <li class="widget"><a href="#main" class="active" rel="tab-widget" id="widget-tab-link">Widget Preview</a></li> 
-  <li class="show-html html"><a href="#css" rel="tab-html">Widget HTML</a></li> 
-  <li class="show-css css"><a href="#css" rel="tab-css">Widget CSS</a></li> 
+  <li class="widget"><a href="#main" class="active" rel="tab-widget" id="widget-tab-link">Published View</a></li> 
+  <li class="widget"><a href="#preview" rel="tab-preview" id="">Staged View</a></li> 
+  <li class="show-html html"><a href="#css" rel="tab-html">Edit Staged HTML</a></li> 
+  <li class="show-css css"><a href="#css" rel="tab-css">Edit Staged CSS</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
 <div class="primary-content">
-  <a href="/admin/theme/publish" id="theme-publish">Publish</a>
-  
+
   <div id="tab-widget" class="tab-content">
     <div id="data-description">
-      This is your testimonials widget in action. <%= link_to "Edit your display settings", "#", { :class => "js-show-settings", :rel => "#settings_form" } %>
-      to update your widget.
+      This is how your testimonials widget looks in published mode.
     </div>
     <div id="widget-wrapper">&#160;</div>
   </div>
 
+  <div id="tab-preview" class="tab-content">
+    <div id="data-description">
+      This widget displays all the code customizations you currently have saved.
+      <br/>You'll need to <b>Publish</b> your changes once you are happy with this preview.
+    </div>
+    <div id="widget-wrapper">&#160;</div>
+  </div>
+  
   <div id="tab-html" class="tab-content">
     <div id="data-description">
-      This is the complete HTML used to style your widget. View your HTML changes in the <b>Widget Preview Tab</b>.
+      This is the complete HTML used to style your widget. View your HTML changes in the <b>Staged View Tab</b>.
     </div>  
     <textarea id="blah" name="blah" style="width:95%; height:600px"><%= @user.get_attribute("wrapper.html").staged %></textarea>
   </div>
   
   <div id="tab-css" class="tab-content">
     <div id="data-description">
-      This is the complete CSS used to style your widget. View your CSS changes in the <b>Widget Preview Tab</b>.
+      This is the complete CSS used to style your widget. View your CSS changes in the <b>Staged View Tab</b>.
     </div>  
     <%= form_tag('/admin/theme/style-css', :method => :post, :id => 'css-form' ) do %>
       <div class="round-box-top">
@@ -42,7 +67,7 @@
           <button type="submit" class="positive">Save CSS</button>
         </div>  
         <a href="/admin/theme/style-css/original" id="load-stock-css">Load Original CSS</a>  
-          | <a href="/admin/theme/style-css" id="reload-css">Reload Current CSS</a>  
+          | <a href="/admin/theme/style-css" id="reload-css">Refresh Staged CSS</a>  
         <textarea id="widget_css" name="data" style="width:95%; height:600px"><%= @user.get_attribute("style.css").staged %></textarea>
       </div>
     <% end %>

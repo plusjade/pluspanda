@@ -40,6 +40,13 @@ class Theme < ActiveRecord::Base
       "custom"
     ]
   end
+
+  def self.names_for_select
+    names = []
+    self.names.each_with_index {|k,v| names.push([ k, v ]) }
+    names
+  end  
+  
   
 =begin
  theme

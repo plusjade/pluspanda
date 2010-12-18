@@ -1,0 +1,6 @@
+
+
+<%= form_for Theme.new, :url => "/admin/theme" do |f| %>
+  <%= f.select(:name, Theme.names_for_select) %>
+  <button type="submit">Submit</button>
+<% end %>

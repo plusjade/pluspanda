@@ -2,18 +2,48 @@ class ThemeController < ApplicationController
   
   layout proc { |c| c.request.xhr? ? false : "admin"}
   before_filter :require_user, :setup_user
-  before_filter :ensure_attribute, :except => [:publish]
+  before_filter :ensure_attribute, :except => [:new, :create, :publish]
 
 
+  def new
+    render :template => "theme/new", :layout => false
+  end
+  
+  
+  # install a new theme.
+  def create
+    name = params[:theme][:name]
+    
+    if @user.themes.count >= 5
+      @message = "Your account only allows 5 themes."
+    elsif @user.themes.find_by_name(name)
+      @message = "This theme is already installed."
+    else
+      if @user.themes.create(params[:theme])
+        @status = "good"
+        @message = "Theme successfully installed."
+      else
+        @message = "There was a problem installing this theme."
+      end
+    end
+      
+    serve_json_response
+  end
+
+
+  # get original copy of staged attribute
   def original
       render :text => @attribute.original
   end
 
+
+  # get staged copy of staged attribute
   def staged
     render :text => @attribute.staged    
   end
 
-  # POST
+
+  # update staged copy of staged attribute.
   def update
     if @attribute.update_attributes(:staged => params['data'])
       @status  = "good"
@@ -23,10 +53,10 @@ class ThemeController < ApplicationController
     end
     
     serve_json_response
-    return    
   end
 
 
+  # parse staged attributes and generate file caches to serve in production.
   def publish
     @user.publish_theme
     render :text => "ok published"
