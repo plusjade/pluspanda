@@ -1,6 +1,5 @@
 <h1>Login</h1>
-
-<% form_for :user_session, @user_session, :url => session_path do |f| %>
+<%= form_for @user_session, :as => :user_session, :url => session_path do |f| %>
 <% if flash[:notice] %>
   <div class="notice"><%= flash[:notice] %></div>
 <% end%>

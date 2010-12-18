@@ -7,7 +7,7 @@
 
 <div style="float:right;">
   <h1>Register</h1>
-  <% form_for @user, :url => account_path do |f| %>
+  <%= form_for @user, :url => account_path do |f| %>
   <% if flash[:warning] %>
     <div class="notice"><%= flash[:warning] %></div>
   <% end%>
