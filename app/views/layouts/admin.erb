@@ -44,35 +44,8 @@
   
 </div>
 
-
-<div id="settings_form" style="display:none">
-<%= form_for @user.tconfig, :url => '/admin/settings', :html => { :id => nil, :rel => "form.settings" } do |f| %>  
-  <h3 style="text-align:center"> Widget Settings </h3>
-  <div class="round-box-body">
-    <fieldset>
-      <label>Which Theme?</label> 
-      <%= f.select(:theme, Tconfig.themes, {}, :id => nil, :class => "tconfig_theme" ) %>
-    </fieldset>
-    
-    <fieldset>  
-      <label>Testimonials per page:</label>
-      #<%= f.text_field(:per_page, :id => nil, :class => "tconfig_per_page" ) %>
-    </fieldset>
-    
-    <fieldset>
-      <label>Order Testimonials by:</label>  
-      <%= f.select(:sort, Tconfig.sorters, {}, :id => nil, :class => "tconfig_sort" ) %>
-    </fieldset>
-    
-    <div style="display:block; margin:10px 0;font-size:0.9em">Define custom order positions by arranging testimonials in the <b>Manage Testimonials</b> section.</div>
-    <div class="round-box-tabs buttons" class="float:left;">
-      <button type="submit" class="positive">Update Settings</button>
-    </div> 
-  </div>
-<% end %>
-</div>
-
-
+  <%# Start javascripts below this line %>
+  <%# -------------------------------- %>
   <%= javascript_include_tag ::Rails.env == 'production' ? "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" : 'jquery/jquery' %>
   <script type="text/javascript">
     var loading = '<div class="loading">Loading...</div>';
