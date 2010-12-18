@@ -4,8 +4,9 @@ var pandaSettings = {
   apiVrsn : '<%= api_version_number %>',
   apikey : '<%= user.apikey %>'
 }
+
 var pandaThemeConfig = {
-  cssUrl : '<%= "#{root_url}/system/data/#{user.apikey}/#{user.tconfig.theme}.css" %>',
+  cssUrl : '<%= "#{root_url}/system/data/#{user.apikey}/publish.css" %>',
   wrapperHTML : '<%= raw wrapper_html %>',
   testimonialHTML : function(item){
     return '<%= raw testimonial_html %>';

@@ -35,7 +35,6 @@ class AdminController < ApplicationController
   # Save tconfig settings
   def settings
     if @user.tconfig.update_attributes(params[:tconfig])
-      @user.update_settings
       @status   = "good"
       @message  = "Settings updated"
       @resource = @user.tconfig

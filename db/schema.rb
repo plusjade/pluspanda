@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101213032133) do
+ActiveRecord::Schema.define(:version => 20101218024205) do
 
   create_table "tags", :force => true do |t|
     t.integer  "user_id"
@@ -53,6 +53,25 @@ ActiveRecord::Schema.define(:version => 20101213032133) do
     t.datetime "updated_at"
     t.string   "avatar_file_name", :default => "",    :null => false
     t.boolean  "trash",            :default => false
+  end
+
+  create_table "theme_attributes", :force => true do |t|
+    t.integer  "theme_id"
+    t.integer  "name",       :limit => 8
+    t.text     "published"
+    t.text     "staged"
+    t.text     "original"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "themes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "name",       :limit => 8
+    t.boolean  "staged",                  :default => false
+    t.boolean  "published",               :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

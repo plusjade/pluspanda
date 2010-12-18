@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   acts_as_authentic
   has_many :testimonials, :dependent => :destroy
   has_many :widget_logs, :dependent => :destroy
+  has_many :themes, :dependent => :destroy   
   has_one :tconfig, :dependent => :destroy
   
   validates_uniqueness_of :email
@@ -57,29 +58,26 @@ class User < ActiveRecord::Base
   end
 
 
+  def theme_staged
+    self.themes.where(:staged => true).limit(1)
+  end
+
+  def theme_published
+    self.themes.where(:published => true).limit(1)
+  end
+  
   def settings
     return 'error! no settings file!' unless has_settings?
     return File.open(settings_file_path).read
   end
   
-  
-  def theme_css
-    if File.exists?(theme_css_path)
-      return File.open(theme_css_path).read
-    else
-      return '/* Your css file does not exist! */'
-    end
-  end 
-  
-
-  def theme_stock_css
-    if File.exists?(theme_stock_css_path)
-      return File.open(theme_stock_css_path).read  
-    else
-      return "/* no available css for theme: #{self.tconfig.theme}*/"
-    end
+  def has_settings?
+    File.exist?(settings_file_path)
   end
   
+  
+
+ 
       
   def update_settings
     context = ApplicationController.new
@@ -149,12 +147,27 @@ class User < ActiveRecord::Base
     
   def update_css(content)
     File.new(theme_css_path, "w+").write(content)
+    File.new(publish_css_path, "w+").write(content)
   end
   
 
-  def has_settings?
-    File.exist?(settings_file_path)
+  def theme_css
+    if File.exists?(theme_css_path)
+      return File.open(theme_css_path).read
+    else
+      return '/* Your css file does not exist! */'
+    end
+  end 
+  
+
+  def theme_stock_css
+    if File.exists?(theme_stock_css_path)
+      return File.open(theme_stock_css_path).read  
+    else
+      return "/* no available css for theme: #{self.tconfig.theme}*/"
+    end
   end
+  
 
     
   # get the testimonials
@@ -218,14 +231,19 @@ class User < ActiveRecord::Base
     return data_path('settings.js')
   end 
 
-  
+  # the current theme's staging css
   def theme_css_path 
     return data_path("#{self.tconfig.theme}.css")
   end
 
-
+  # the published css. This is NOT theme specific.
+  def publish_css_path 
+    return data_path("publish.css")
+  end
+  
+  # the current theme's stock css
   def theme_stock_css_path 
-    return Rails.root.join('app','views','testimonials','themes',self.tconfig.theme, "#{self.tconfig.theme}.css")
+    return Rails.root.join('public','themes',self.tconfig.theme, "#{self.tconfig.theme}.css")
   end  
 
   
