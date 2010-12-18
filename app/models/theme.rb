@@ -3,30 +3,13 @@ class Theme < ActiveRecord::Base
   belongs_to :user
   has_many :theme_attributes, :dependent => :destroy
       
-  after_create :load_attributes
-=begin
- theme
-  id | theme | staged | published
-  
-  ** a theme can be both staged and published.
+  after_create :populate_attributes
 
-  basic users can work with 2 themes at a time.
-  installing a new theme creates a new theme row.
-  the new theme row populates the theme_attributes
-  loading a theme in admin flags it as staged.
-  publishing a theme flags it as published
   
-
-  the staging environment will dynamically serve the staged theme.
-  publishing a theme will save/parse and cache the results to:
-    -data/apikey/published.blah
-
-=end
-  
-  # here we load up the associated attributes.
+  # here we populate the associated attributes.
   # we get these from the associated theme dir. 
   # note the data should already be verified and sanitized.
-  def load_attributes
+  def populate_attributes
     puts "i am loading attributes"
     attributes = ThemeAttribute.names
     theme_path = Rails.root.join("public/themes/#{Theme.names[self.name]}")
@@ -48,7 +31,7 @@ class Theme < ActiveRecord::Base
     
   end
   
-  
+
   def self.names
     [
       "list",
@@ -58,6 +41,23 @@ class Theme < ActiveRecord::Base
     ]
   end
   
-  
+=begin
+ theme
+  id | theme | staged | published
+
+  ** a theme can be both staged and published.
+
+  basic users can work with 2 themes at a time.
+  installing a new theme creates a new theme row.
+  the new theme row populates the theme_attributes
+  loading a theme in admin flags it as staged.
+  publishing a theme flags it as published
+
+
+  the staging environment will dynamically serve the staged theme.
+  publishing a theme will save/parse and cache the results to:
+    -data/apikey/published.blah
+
+=end  
   
 end

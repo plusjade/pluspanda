@@ -6,7 +6,7 @@ var pandaSettings = {
 }
 
 var pandaThemeConfig = {
-  cssUrl : '<%= "#{root_url}/system/data/#{user.apikey}/publish.css" %>',
+  cssUrl : '<%= "#{root_url}/#{user.stylesheet_url}" %>',
   wrapperHTML : '<%= raw wrapper_html %>',
   testimonialHTML : function(item){
     return '<%= raw testimonial_html %>';

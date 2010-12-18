@@ -1,13 +1,7 @@
 class ThemeAttribute < ActiveRecord::Base
 
   belongs_to :theme
-=begin
-  @user.theme.theme_attributes
 
-    id| theme_id | name | published | staged | original
-=end
-  
-  
   def self.names
     [
       "wrapper.html",
@@ -17,4 +11,10 @@ class ThemeAttribute < ActiveRecord::Base
     ]
   end
 
+=begin
+  @user.theme.theme_attributes
+
+    id| theme_id | name | published | staged | original
+=end
+  
 end

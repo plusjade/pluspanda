@@ -32,7 +32,7 @@ class AdminController < ApplicationController
   end
 
   # PUT 
-  # Save tconfig settings
+  # Save tconfig settings #note rename to user.settings
   def settings
     if @user.tconfig.update_attributes(params[:tconfig])
       @status   = "good"

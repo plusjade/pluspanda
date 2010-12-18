@@ -1,4 +1,7 @@
+require 'app/models/seed.rb'
+
 class User < ActiveRecord::Base
+  include Seed
   acts_as_authentic
   has_many :testimonials, :dependent => :destroy
   has_many :widget_logs, :dependent => :destroy
@@ -10,6 +13,9 @@ class User < ActiveRecord::Base
   before_create :generate_defaults
   after_create  :create_dependencies
   
+  Theme_config_filename = "theme_config.js"
+  Stylesheet_filename = "style.css"
+  
   
   def generate_defaults 
     self.apikey = ActiveSupport::SecureRandom.hex(8)
@@ -17,48 +23,13 @@ class User < ActiveRecord::Base
   
   
   def create_dependencies
-    @tconfig = self.build_tconfig
-    @tconfig.save
-
-    @testimonial = Testimonial.new
-    @testimonial.user_id    = self.id
-    @testimonial.name       = 'Stephanie Lo'
-    @testimonial.company    = 'World United'
-    @testimonial.c_position = 'Founder'
-    @testimonial.url        = 'worldunited.com'
-    @testimonial.location   = 'Berkeley, CA'
-    @testimonial.rating     = 5
-    @testimonial.body       = 'The interface is simple and directed. I have a super busy schedule and did not want to waste any time learning yet another website. Pluspanda values my time. Thanks!' 
-    @testimonial.publish    = 1
-    @testimonial.save
-      
-    @testimonial = Testimonial.new
-    @testimonial.user_id    = self.id
-    @testimonial.name       = 'John Doe'
-    @testimonial.company    = 'Super Company!'
-    @testimonial.c_position = 'President'
-    @testimonial.url        = 'supercompany.com'
-    @testimonial.location   = 'Atlanta, Georgia'
-    @testimonial.rating     = 5
-    @testimonial.body       = 'This is a sample testimonial for all to see.'  
-    @testimonial.publish    = 1
-    @testimonial.save
-    
-    @testimonial = Testimonial.new
-    @testimonial.user_id    = self.id
-    @testimonial.name       = 'Jane Smith'
-    @testimonial.company    = 'Widgets R Us'
-    @testimonial.c_position = 'Sales Manager'
-    @testimonial.url        = 'widgetsrus.com'
-    @testimonial.location   = 'Los Angeles, CA'
-    @testimonial.rating     = 5
-    @testimonial.body       = 'Pluspanda makes our testimonials look great! Our widget sales our up 200% Thanks Pluspanda!'  
-    @testimonial.publish    = 1
-    @testimonial.save
+    self.create_tconfig
+    self.seed_testimonials
   end
 
 
-  def get_staged_attribute(attribute)
+  # we always get the staged theme-attributes
+  def get_attribute(attribute)
     self.theme_staged.theme_attributes.find_by_name(ThemeAttribute.names.index(attribute))
   end
   
@@ -66,35 +37,10 @@ class User < ActiveRecord::Base
   def theme_staged
     self.themes.find_by_staged(true)
   end
-
-  def theme_published
-    self.themes.find_by_published(true)
-  end
   
-  
-  
-  
-  
-  def settings
-    return 'error! no settings file!' unless has_settings?
-    return File.open(settings_file_path).read
-  end
-  
-  def has_settings?
-    File.exist?(settings_file_path)
-  end
-  
-  
-
- 
-      
-  def update_settings
+  def publish_theme
     context = ApplicationController.new
-    if !File.exists?(theme_css_path) && File.exists?(theme_stock_css_path)
-      FileUtils.cp(theme_stock_css_path, theme_css_path)
-    end
-    
-    theme_path = Rails.root.join("public/themes/#{self.tconfig.theme}")
+
     #matches {{blah_token}}
     token_reg = /\{{2}(\w+)\}{2}/i
         
@@ -102,15 +48,13 @@ class User < ActiveRecord::Base
       # accessible public api testimonial attributes
       tokens = Testimonial.api_attributes
     
-    testimonial = "#{theme_path}/testimonial.html"
-    testimonial_html = ""
-    if File.exist?(testimonial)
-      testimonial_html = File.open(testimonial, "r").read.gsub(/[\n\r\t]/,'')
-      testimonial_html = testimonial_html.gsub(token_reg) { |tkn|
-        tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
-      }
-    end
+    #
+    testimonial_html = self.get_attribute("testimonial.html").staged.gsub(/[\n\r\t]/,'')
+    testimonial_html = testimonial_html.gsub(token_reg) { |tkn|
+      tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
+    }
     puts testimonial_html
+    
     
     tag_list = context.render_to_string(
       :partial  => "testimonials/tag_list",
@@ -127,20 +71,15 @@ class User < ActiveRecord::Base
         :add_link       => "||FORM LINK||"
       }
     
-    wrapper = "#{theme_path}/wrapper.html"
-    wrapper_html = ""
-    if File.exist?(wrapper)
-      wrapper_html = File.open(wrapper, "r").read.gsub(/[\n\r\t]/,'')
-      wrapper_html = wrapper_html.gsub(token_reg) { |tkn|
-        wrapper_tokens.has_key?($1.to_sym) ? wrapper_tokens[$1.to_sym] : tkn
-      }
-    end
+    wrapper_html = self.get_attribute("wrapper.html").staged.gsub(/[\n\r\t]/,'')
+    wrapper_html = wrapper_html.gsub(token_reg) { |tkn|
+      wrapper_tokens.has_key?($1.to_sym) ? wrapper_tokens[$1.to_sym] : tkn
+    }
     puts wrapper_html    
 
 
     settings = context.render_to_string(
-      :template => "testimonials/widget_settings",
-      :layout   => false,
+      :partial => "testimonials/theme_config",
       :locals   => {
         :user               => self,
         :wrapper_html       => wrapper_html,
@@ -148,14 +87,21 @@ class User < ActiveRecord::Base
       }
     )
     
-    f = File.new(settings_file_path, "w+")
+    # html
+    f = File.new(theme_config_path, "w+")
     f.write(settings)
     f.rewind
+    
+    #css
+    style = self.get_attribute("style.css").staged
+    f = File.new(stylesheet_path, "w+")
+    f.write(style)
+    f.rewind    
   end
   
-
-
     
+  
+
   # get the testimonials
   # based on defined filters, sorters, and limits.
   # filters: page, publish, tag, rating, date.
@@ -210,36 +156,38 @@ class User < ActiveRecord::Base
    end
    
    
-   
-   
+ 
+     
 # path helpers
 ################
 
-  def settings_file_path
-    return data_path('settings.js')
-  end 
-
-  # the current theme's staging css
-  def theme_css_path 
-    return data_path("#{self.tconfig.theme}.css")
+  # the published stylesheet is NOT theme specific.
+  def stylesheet_url
+    "system/data/#{self.apikey}/#{Stylesheet_filename}"
   end
 
-  # the published css. This is NOT theme specific.
-  def publish_css_path 
-    return data_path("publish.css")
+  def stylesheet_path 
+    return data_path(Stylesheet_filename)
   end
   
-  # the current theme's stock css
-  def theme_stock_css_path 
-    return Rails.root.join('public','themes',self.tconfig.theme, "#{self.tconfig.theme}.css")
-  end  
+    
+  def theme_config
+    has_theme_config? ? File.open(theme_config_path).read : "#{Theme_config_filename} not found!"
+  end
+
+  def has_theme_config?
+    File.exist?(theme_config_path)
+  end
+
+  def theme_config_path
+    return data_path(Theme_config_filename)
+  end 
 
   
   def data_path(path=nil)
     return (path.nil?) ? File.join(ensure_path) : File.join(ensure_path, path)
   end
    
-      
   def ensure_path
     path = Rails.root.join('public','system', 'data', self.apikey)
     FileUtils.mkdir_p(path) if !File.directory?(path)

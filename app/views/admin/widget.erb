@@ -6,13 +6,14 @@
 
 <ul class="grandchild_nav"> 
   <li class="widget"><a href="#main" class="active" rel="tab-widget" id="widget-tab-link">Widget Preview</a></li> 
-  <li class="show-css css"><a href="#css" rel="tab-html">Widget HTML</a></li> 
+  <li class="show-html html"><a href="#css" rel="tab-html">Widget HTML</a></li> 
   <li class="show-css css"><a href="#css" rel="tab-css">Widget CSS</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
 <div class="primary-content">
-
+  <a href="/admin/theme/publish" id="theme-publish">Publish</a>
+  
   <div id="tab-widget" class="tab-content">
     <div id="data-description">
       This is your testimonials widget in action. <%= link_to "Edit your display settings", "#", { :class => "js-show-settings", :rel => "#settings_form" } %>
@@ -21,11 +22,18 @@
     <div id="widget-wrapper">&#160;</div>
   </div>
 
+  <div id="tab-html" class="tab-content">
+    <div id="data-description">
+      This is the complete HTML used to style your widget. View your HTML changes in the <b>Widget Preview Tab</b>.
+    </div>  
+    <textarea id="blah" name="blah" style="width:95%; height:600px"><%= @user.get_attribute("wrapper.html").staged %></textarea>
+  </div>
+  
   <div id="tab-css" class="tab-content">
     <div id="data-description">
       This is the complete CSS used to style your widget. View your CSS changes in the <b>Widget Preview Tab</b>.
     </div>  
-    <%= form_tag('/admin/theme/css', :method => :post, :id => 'css-form' ) do %>
+    <%= form_tag('/admin/theme/style-css', :method => :post, :id => 'css-form' ) do %>
       <div class="round-box-top">
         Customize CSS.
       </div>
@@ -33,9 +41,9 @@
         <div class="round-box-tabs buttons">
           <button type="submit" class="positive">Save CSS</button>
         </div>  
-        <a href="/admin/theme/css/stock" id="load-stock-css">Load Original CSS</a>  
-          | <a href="/admin/theme/css" id="reload-css">Reload Current CSS</a>  
-        <textarea id="widget_css" name="widget_css" style="width:95%; height:600px"><%= @user.get_staged_attribute("style.css").staged %></textarea>
+        <a href="/admin/theme/style-css/original" id="load-stock-css">Load Original CSS</a>  
+          | <a href="/admin/theme/style-css" id="reload-css">Reload Current CSS</a>  
+        <textarea id="widget_css" name="data" style="width:95%; height:600px"><%= @user.get_attribute("style.css").staged %></textarea>
       </div>
     <% end %>
   </div>

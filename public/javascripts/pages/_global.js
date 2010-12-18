@@ -91,7 +91,9 @@ $(function(){
       admin.loadSettingsForm();
       return false;
     }
-    
+
+
+        
     /* TODO: add soft deleting via trashcan functionality. */
   }))
     
