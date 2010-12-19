@@ -2,28 +2,28 @@ class AdminController < ApplicationController
   
   layout proc { |c| c.request.xhr? ? false : "admin"}
   before_filter :require_user, :setup_user
-  before_filter :ensure_xhr, :only => [:widget, :manage, :install, :collect]
   
-  # this should be the only interface to the admin.
+  # this is so we are always loading admin pages through sammy.js
+  before_filter :as_admin_page, :only => [:widget, :manage, :install, :collect]
+  
   def index
 
   end
 
   def widget
-    render :template => "admin/widget", :layout => false
+
   end
   
   def manage
-    render :template => "admin/manage", :layout => false
+
   end
   
   def install  
-    render :template => "admin/install", :layout => false
+
   end
   
-  
   def collect
-    render :template => "admin/collect", :layout => false
+
   end
   
 
@@ -139,7 +139,14 @@ class AdminController < ApplicationController
     
   private 
   
-    def ensure_xhr
-      serve_json_response and return unless request.xhr?
+    def as_admin_page
+      if request.xhr?
+        render :template => "admin/#{params[:action]}", :layout => false
+      else  
+        # set the hash to a sammy route
+        redirect_to "/admin#/#{params[:action]}"
+      end
     end
+
+
 end
