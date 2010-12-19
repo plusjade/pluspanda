@@ -1446,8 +1446,12 @@ $(document).bind('ajaxify.form', function(){
     console.log("collect callback");
     
     $("#sub-tabs li a").click(function(){
-      console.log("testychu");
       adminNavigation.subTab($(this));
+      
+      var tab = $(this).attr("href").substring(1);
+      if (tab === "form"){
+        adminWidget.loadFormPreview();
+      }
       return false;
     });
     
@@ -1512,7 +1516,12 @@ var sammyApp = $.sammy(function() {
     })
   });
     
-    
+  this.get('#/theme', function() {
+    $.get("/admin/theme", function(view){
+      $('#main-wrapper').html(view);
+      if(typeof adminPages[page] === "function") adminPages[page]();
+    })
+  });    
     
   this.after(function(){
     console.log("after hook called");
@@ -1543,21 +1552,23 @@ var sammyApp = $.sammy(function() {
 
 
 ;var adminWidget = {
+  $iframe : $('<iframe width="100%" height="800px">Iframe not Supported</iframe>'),
+  
   loadWidgetPublished : function(){
     $('#widget-published-wrapper')
-     .html($iframe.clone()
+     .html(adminWidget.$iframe.clone()
      .attr('src', '/admin/published#panda.admin'))
   },
 
   loadWidgetStaged : function(){
     $('#widget-staged-wrapper')
-     .html($iframe.clone()
+     .html(adminWidget.$iframe.clone()
      .attr('src', '/admin/staged#panda.admin'))
   },
     
   loadFormPreview : function(){
     $('#collector-form-view')
-      .html($iframe.clone()
+      .html(adminWidget.$iframe.clone()
       .attr('src', $('#collector-form-url').val()))
   }
   

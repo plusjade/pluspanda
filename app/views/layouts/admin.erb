@@ -14,7 +14,7 @@
     <a href="/admin"><img src="/images/admin/panda.png" /></a>
     
     <ul>
-      <li><a href="/themes" rel="facebox">Theme Gallery</a></li>
+      <li><a href="#/theme">Theme Gallery</a></li>
       <li><a href="/account" rel="facebox">Account</a></li>
       <li><%= link_to "Logout", admin_logout_path %></li>
     </ul>
@@ -51,7 +51,6 @@
     var loading = '<div class="loading">Loading...</div>';
     var widgetCss;
     var widgetHtml;
-    var $iframe = $('<iframe width="100%" height="800px">Iframe not Supported</iframe>');
   </script>
   
   <%= javascript_include_tag "codemirror/codemirror" %>

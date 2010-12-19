@@ -181,8 +181,12 @@
     console.log("collect callback");
     
     $("#sub-tabs li a").click(function(){
-      console.log("testychu");
       adminNavigation.subTab($(this));
+      
+      var tab = $(this).attr("href").substring(1);
+      if (tab === "form"){
+        adminWidget.loadFormPreview();
+      }
       return false;
     });
     

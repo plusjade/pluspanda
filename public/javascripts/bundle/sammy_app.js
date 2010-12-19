@@ -40,7 +40,12 @@ var sammyApp = $.sammy(function() {
     })
   });
     
-    
+  this.get('#/theme', function() {
+    $.get("/admin/theme", function(view){
+      $('#main-wrapper').html(view);
+      if(typeof adminPages[page] === "function") adminPages[page]();
+    })
+  });    
     
   this.after(function(){
     console.log("after hook called");

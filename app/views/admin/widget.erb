@@ -1,18 +1,23 @@
 
 <div style="border:1px dashed #333;">
     <%= form_for @user.tconfig, :url => '/admin/settings', :html => { :id => nil, :rel => "form.settings" } do |f| %>  
-      <fieldset>  
+      <table>
+      <td>  
         <label>Testimonials per page:</label>
-        #<%= f.text_field(:per_page, :id => nil, :class => "tconfig_per_page" ) %>
-      </fieldset>
+        #<%= f.text_field(:per_page, :id => nil, :class => "tconfig_per_page", :maxlength => 3, :style => "width:30px" ) %>
+      </td>
 
-      <fieldset>
+      <td>
         <label>Order Testimonials by:</label>  
          <%= f.select(:sort, Tconfig.sorters, {}, :id => nil, :class => "tconfig_sort" ) %>
           <span>(you can order testimonials in the <b>Manage Testimonials</b> section)</span>
-      </fieldset>
+      </td>
       
+      <td>
         <button type="submit" class="positive">Update Settings</button>
+      </td>
+
+    </table>
     <% end %>
 
     <b>My installed themes:</b>
@@ -23,11 +28,11 @@
 </div>
 
 <ul id="sub-tabs" class="grandchild_nav"> 
-  <li class="published"><a href="#published" class="active" rel="tab-widget" id="widget-tab-link">Published View</a></li> 
-  <li class="staged"><a href="#staged" rel="tab-preview" id="">Staged View</a></li> 
-  <li class="staged-html"><a href="#html" rel="tab-html">Edit Staged HTML</a></li> 
-  <li class="staged-css"><a href="#css" rel="tab-css">Edit Staged CSS</a></li> 
-  <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
+  <li><a href="#published" class="active" rel="tab-widget">Published View</a></li> 
+  <li><a href="#staged" rel="tab-preview">Staged View</a></li> 
+  <li><a href="#html" rel="tab-html">Edit Staged HTML</a></li> 
+  <li><a href="#css" rel="tab-css">Edit Staged CSS</a></li> 
+  <li><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
 <div class="primary-content">

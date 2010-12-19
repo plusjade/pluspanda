@@ -2,8 +2,12 @@ class ThemeController < ApplicationController
   
   layout proc { |c| c.request.xhr? ? false : "admin"}
   before_filter :require_user, :setup_user
-  before_filter :ensure_attribute, :except => [:new, :create, :publish]
+  before_filter :ensure_attribute, :only => [:original, :staged, :update]
 
+  # theme gallery?
+  def index
+    render :template => "theme/index", :layout => false
+  end
 
   def new
     render :template => "theme/new", :layout => false

@@ -28,14 +28,20 @@ Pluspanda::Application.routes.draw do
       get "/save_positions"     ,:action => :save_positions
     end
 
-    get "/theme/new"      => "theme#new"
-    post "/theme"         => "theme#create"
-    get "/theme/publish"  => "theme#publish"
-    scope "/theme/:attribute", :controller => :theme, :as => :theme do
-      get "()"          ,:action => :staged
-      post "()"         ,:action => :update
-      get "/original"   ,:action => :original
+    scope "/theme", :controller => :theme, :as => :theme do
+      get "()"        ,:action => :index
+      post "()"       ,:action => :create
+      get "/new"      ,:action => :new
+      get "/publish"  ,:action => :publsih
+      
+      scope "/:attribute" do
+        get "()"          ,:action => :staged
+        post "()"         ,:action => :update
+        get "/original"   ,:action => :original
+      end
+    
     end
+
     
     put :settings
     
