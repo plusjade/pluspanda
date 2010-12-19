@@ -69,16 +69,34 @@
       return false;
     })
     
+    $("#theme-publish").click(function(){
+      showStatus.submitting();
+      $.get(this.href, function(rsp){
+        showStatus.respond(rsp);
+      })
+      return false;
+    });
     
     // subtabs
     $("#sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
+
+      var tab = $(this).attr("href").substring(1);
+      switch(tab){
+        case "published":
+          adminWidget.loadWidgetPublished();
+          break;
+        case "staged":
+          adminWidget.loadWidgetStaged();
+          break;
+      }
+      
       return false;
     });
     
     
     // init
-    adminWidget.loadWidgetPreview();
+    adminWidget.loadWidgetPublished();
     adminNavigation.initSubs();
     $(document).trigger('ajaxify.form');
   },

@@ -47,6 +47,20 @@ class User < ActiveRecord::Base
   end
   
   def publish_theme
+    # html
+    f = File.new(theme_config_path, "w+")
+    f.write(generate_theme_config)
+    f.rewind
+    
+    #css
+    style = self.get_attribute("style.css").staged
+    f = File.new(stylesheet_path, "w+")
+    f.write(style)
+    f.rewind    
+  end
+  
+    
+  def generate_theme_config
     context = ApplicationController.new
 
     #matches {{blah_token}}
@@ -76,7 +90,7 @@ class User < ActiveRecord::Base
       wrapper_tokens.has_key?($1.to_sym) ? wrapper_tokens[$1.to_sym] : tkn
     }
 
-    settings = context.render_to_string(
+    theme_config = context.render_to_string(
       :partial => "testimonials/theme_config",
       :locals   => {
         :user               => self,
@@ -85,20 +99,8 @@ class User < ActiveRecord::Base
       }
     )
     
-    # html
-    f = File.new(theme_config_path, "w+")
-    f.write(settings)
-    f.rewind
-    
-    #css
-    style = self.get_attribute("style.css").staged
-    f = File.new(stylesheet_path, "w+")
-    f.write(style)
-    f.rewind    
+    theme_config     
   end
-  
-    
-  
 
   # get the testimonials
   # based on defined filters, sorters, and limits.

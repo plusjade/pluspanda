@@ -19,7 +19,8 @@ Pluspanda::Application.routes.draw do
     get :manage
     get :install
     get :collect
-    get :staging
+    get :staged
+    get :published
     
     scope "/testimonials", :as => :testimonials do
       get "()"                  ,:action => :testimonials

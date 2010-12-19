@@ -1229,10 +1229,11 @@ $(document).bind('ajaxify.form', function(){
     success: function(rsp) {
       showStatus.respond(rsp);     
 
-      if (rsp.tconfig)
-        admin.settingsSave(rsp);
+      if (rsp.tconfig){
+        
+      }
       else if (rsp.testimonial)
-        admin.testimonialSave(rsp);
+        adminTestimonials.testimonialSave(rsp);
 
       $('form button').removeAttr('disabled').addClass('positive');
       return false;
@@ -1333,16 +1334,34 @@ $(document).bind('ajaxify.form', function(){
       return false;
     })
     
+    $("#theme-publish").click(function(){
+      showStatus.submitting();
+      $.get(this.href, function(rsp){
+        showStatus.respond(rsp);
+      })
+      return false;
+    });
     
     // subtabs
     $("#sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
+
+      var tab = $(this).attr("href").substring(1);
+      switch(tab){
+        case "published":
+          adminWidget.loadWidgetPublished();
+          break;
+        case "staged":
+          adminWidget.loadWidgetStaged();
+          break;
+      }
+      
       return false;
     });
     
     
     // init
-    adminWidget.loadWidgetPreview();
+    adminWidget.loadWidgetPublished();
     adminNavigation.initSubs();
     $(document).trigger('ajaxify.form');
   },
@@ -1524,23 +1543,23 @@ var sammyApp = $.sammy(function() {
 
 
 ;var adminWidget = {
-  loadWidgetPreview : function(){
-    $('#widget-wrapper')
+  loadWidgetPublished : function(){
+    $('#widget-published-wrapper')
      .html($iframe.clone()
-     .attr('src', '/admin/staging#panda.admin'))
+     .attr('src', '/admin/published#panda.admin'))
   },
-  
+
+  loadWidgetStaged : function(){
+    $('#widget-staged-wrapper')
+     .html($iframe.clone()
+     .attr('src', '/admin/staged#panda.admin'))
+  },
+    
   loadFormPreview : function(){
     $('#collector-form-view')
       .html($iframe.clone()
       .attr('src', $('#collector-form-url').val()))
-  },
-  
-  loadSettingsForm : function(){
-    var $data = $('<div>');
-    $settingsForm.clone().show().appendTo($data);
-    $.facebox($data);  
-  }  
+  }
   
 }
 

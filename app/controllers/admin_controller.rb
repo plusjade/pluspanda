@@ -27,10 +27,19 @@ class AdminController < ApplicationController
   end
   
 
-  def staging
-    render :template => "admin/staging", :layout => "staging"
+  def staged
+    @css = @user.get_attribute("style.css").staged
+    
+    @theme_config = "blah"
+    
+    
+    render :template => "admin/staged", :layout => "staged"
   end
 
+  def published
+    render :template => "admin/published", :layout => "published"
+  end
+  
   # PUT 
   # Save tconfig settings #note rename to user.settings
   def settings

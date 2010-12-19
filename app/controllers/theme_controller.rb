@@ -59,7 +59,10 @@ class ThemeController < ApplicationController
   # parse staged attributes and generate file caches to serve in production.
   def publish
     @user.publish_theme
-    render :text => "ok published"
+    @status = "good"
+    @message = "Successfully published changes."
+
+    serve_json_response
   end  
 
 

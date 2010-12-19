@@ -24,10 +24,11 @@ $(document).bind('ajaxify.form', function(){
     success: function(rsp) {
       showStatus.respond(rsp);     
 
-      if (rsp.tconfig)
-        admin.settingsSave(rsp);
+      if (rsp.tconfig){
+        
+      }
       else if (rsp.testimonial)
-        admin.testimonialSave(rsp);
+        adminTestimonials.testimonialSave(rsp);
 
       $('form button').removeAttr('disabled').addClass('positive');
       return false;
