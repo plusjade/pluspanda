@@ -1183,8 +1183,6 @@ jQuery.effects||(function(d){d.effects={version:"1.7.2",save:function(g,h){for(v
   },
     
   testimonialSave : function(rsp){
-    if (admin.thisPage !== 'manage') return;
-    
     if(rsp.testimonial.image){
       $('#testimonial-image-wrapper').html('<img src="' + rsp.testimonial.image + '" />');
     }
@@ -1202,21 +1200,7 @@ jQuery.effects||(function(d){d.effects={version:"1.7.2",save:function(g,h){for(v
       $('abbr.timeago').timeago();  
     })
   
-  },
-  
-  
-  settingsSave : function(rsp){
-    admin.settingsStore = rsp.tconfig;
-    
-    if(admin.thisPage === 'widget'){
-      admin.loadWidgetPreview();
-      $.get('/admin/theme_css', {rand: Math.random()}, function(data){
-          widgetCss.setCode(data);
-      })      
-    }
   }
-  
-  
 
 }
 
@@ -1251,8 +1235,10 @@ $(document).bind('ajaxify.form', function(){
         admin.testimonialSave(rsp);
 
       $('form button').removeAttr('disabled').addClass('positive');
+      return false;
     }
   })
+  return false;
 })
 /* UI  tab highlighting */
 ; var adminNavigation = {
@@ -1302,12 +1288,34 @@ $(document).bind('ajaxify.form', function(){
       }    
     });
 
-   // overload save button for saving css
+    widgetHtml = CodeMirror.fromTextArea('widget_html', {
+      width: "800px",
+      height: "700px",
+      parserfile: "parsexml.js",
+      stylesheet: "/stylesheets/codemirror/xmlcolors.css?3453",
+      path: "/javascripts/codemirror/",
+      continuousScanning: 500,
+      lineNumbers: true,
+      textWrapping: false,
+      saveFunction: function(){
+        $('#widget_html').val(widgetHtml.getCode());
+        $('#wrapper-form').submit();
+      },
+      initCallback: function(editor){
+        //editor.setCode('some value');    
+      }    
+    });
+    
+   // overload save button for saving data
     $('#css-form button').click(function(){
       $('#widget_css').val(widgetCss.getCode());
     });
-
-    $('#load-stock-css, #reload-css').click(function(){
+    $('#wrapper-form button').click(function(){
+      $('#widget_html').val(widgetHtml.getCode());
+    });
+    
+    
+    $('#load-stock-css, #refresh-css').click(function(){
       showStatus.submitting();
       $.get(this.href, {rand: Math.random()}, function(data){
         widgetCss.setCode(data);
@@ -1316,6 +1324,16 @@ $(document).bind('ajaxify.form', function(){
       return false;
     })        
 
+    $('#load-stock-html, #refresh-html').click(function(){
+      showStatus.submitting();
+      $.get(this.href, {rand: Math.random()}, function(data){
+        widgetHtml.setCode(data);
+        showStatus.respond({status:'good', msg:'HTML Loaded!'});
+      });
+      return false;
+    })
+    
+    
     // subtabs
     $("#sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));

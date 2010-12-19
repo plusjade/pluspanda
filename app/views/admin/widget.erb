@@ -25,8 +25,8 @@
 <ul id="sub-tabs" class="grandchild_nav"> 
   <li class="published"><a href="#main" class="active" rel="tab-widget" id="widget-tab-link">Published View</a></li> 
   <li class="staged"><a href="#preview" rel="tab-preview" id="">Staged View</a></li> 
-  <li class="staged-html show-html html"><a href="#css" rel="tab-html">Edit Staged HTML</a></li> 
-  <li class="staged-css show-css css"><a href="#css" rel="tab-css">Edit Staged CSS</a></li> 
+  <li class="staged-html"><a href="#css" rel="tab-html">Edit Staged HTML</a></li> 
+  <li class="staged-css"><a href="#css" rel="tab-css">Edit Staged CSS</a></li> 
   <li class="help"><a href="#help" rel="tab-help">(help)</a></li> 
 </ul> 
 
@@ -51,7 +51,21 @@
     <div id="data-description">
       This is the complete HTML used to style your widget. View your HTML changes in the <b>Staged View Tab</b>.
     </div>  
-    <textarea id="blah" name="blah" style="width:95%; height:600px"><%= @user.get_attribute("wrapper.html").staged %></textarea>
+    
+    <%= form_tag('/admin/theme/wrapper-html', :method => :post, :id => 'wrapper-form' ) do %>
+      <div class="round-box-top">
+        Customize Wrapper HTML.
+      </div>
+      <div class="round-box-body">
+        <div class="round-box-tabs buttons">
+          <button type="submit" class="positive">Save HTML</button>
+        </div>
+        <a href="/admin/theme/wrapper-html" id="refresh-html">Refresh Staged HTML</a>
+         | <a href="/admin/theme/wrapper-html/original" id="load-stock-html">Load Original HTML</a>  
+        <textarea id="widget_html" name="data" style="width:95%; height:600px"><%= @user.get_attribute("wrapper.html").staged %></textarea>
+      </div>
+    <% end %>
+      
   </div>
   
   <div id="tab-css" class="tab-content">
@@ -66,8 +80,8 @@
         <div class="round-box-tabs buttons">
           <button type="submit" class="positive">Save CSS</button>
         </div>  
-        <a href="/admin/theme/style-css/original" id="load-stock-css">Load Original CSS</a>  
-          | <a href="/admin/theme/style-css" id="reload-css">Refresh Staged CSS</a>  
+        <a href="/admin/theme/style-css" id="refresh-css">Refresh Staged CSS</a>
+         | <a href="/admin/theme/style-css/original" id="load-stock-css">Load Original CSS</a>  
         <textarea id="widget_css" name="data" style="width:95%; height:600px"><%= @user.get_attribute("style.css").staged %></textarea>
       </div>
     <% end %>
@@ -75,46 +89,46 @@
 
   
   <div id="tab-help" class="tab-content">
-      <h3>Widget Preview</h3>
+    <h3>Widget Preview</h3>
+    <div class="indent">
+      <p>
+        The widget preview is... a preview of your widget!
+        You real life widget, installed just as you would install it.
+      </p>
+      <p>
+        Remember only testimonials marked <b>published</b> will display in the widget.
+      </p>
+      
+      <h4>Editing Your Widget Design is easy.</h4>
       <div class="indent">
-        <p>
-          The widget preview is... a preview of your widget!
-          You real life widget, installed just as you would install it.
-        </p>
-        <p>
-          Remember only testimonials marked <b>published</b> will display in the widget.
-        </p>
-        
-        <h4>Editing Your Widget Design is easy.</h4>
-        <div class="indent">
-          <b>Choosing a theme</b> determines which layout your widget will use.
-          Set the <b>number of testimonials</b> you wish to display per each "page".
-          <b>Order testimonials by</b> allows you to set the sort order. Default is by creation date.
-          Choose custom order and then define the order by moving testimonials up and down in the <b>Manage Testimonials</b> tab.
-        
-          <br/><br/>
-          Saving your changes will automatically update the widget view to reflect your changes.
-        </div>
+        <b>Choosing a theme</b> determines which layout your widget will use.
+        Set the <b>number of testimonials</b> you wish to display per each "page".
+        <b>Order testimonials by</b> allows you to set the sort order. Default is by creation date.
+        Choose custom order and then define the order by moving testimonials up and down in the <b>Manage Testimonials</b> tab.
+      
+        <br/><br/>
+        Saving your changes will automatically update the widget view to reflect your changes.
       </div>
-        
-      <h3>Edit Widget CSS</h3>
-      <div class="indent">
-        Clicking on the "edit css" tab will reveal the css editor.
-        <br/>
-        <ul>
-          <li>
-            <b>Load Stock CSS</b> will load the stock css as originally designed by pluspanda.
-          </li>
-          <li>
-            <b>Toggle HTML view</b> will show the current HTML structure along with CSS attributes.
-          </li>
-        </ul>
-      </div>
+    </div>
+      
+    <h3>Edit Widget CSS</h3>
+    <div class="indent">
+      Clicking on the "edit css" tab will reveal the css editor.
+      <br/>
+      <ul>
+        <li>
+          <b>Load Stock CSS</b> will load the stock css as originally designed by pluspanda.
+        </li>
+        <li>
+          <b>Toggle HTML view</b> will show the current HTML structure along with CSS attributes.
+        </li>
+      </ul>
+    </div>
 
-      <h3>Set Categories</h3>
-      <div class="indent">
-        Category tags are temporary offline =\.
-      </div>        
+    <h3>Set Categories</h3>
+    <div class="indent">
+      Category tags are temporary offline =\.
+    </div>        
   </div>
 
 </div>

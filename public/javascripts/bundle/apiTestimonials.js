@@ -49,8 +49,6 @@
   },
     
   testimonialSave : function(rsp){
-    if (admin.thisPage !== 'manage') return;
-    
     if(rsp.testimonial.image){
       $('#testimonial-image-wrapper').html('<img src="' + rsp.testimonial.image + '" />');
     }
@@ -68,20 +66,6 @@
       $('abbr.timeago').timeago();  
     })
   
-  },
-  
-  
-  settingsSave : function(rsp){
-    admin.settingsStore = rsp.tconfig;
-    
-    if(admin.thisPage === 'widget'){
-      admin.loadWidgetPreview();
-      $.get('/admin/theme_css', {rand: Math.random()}, function(data){
-          widgetCss.setCode(data);
-      })      
-    }
   }
-  
-  
 
 }

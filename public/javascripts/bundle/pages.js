@@ -24,12 +24,34 @@
       }    
     });
 
-   // overload save button for saving css
+    widgetHtml = CodeMirror.fromTextArea('widget_html', {
+      width: "800px",
+      height: "700px",
+      parserfile: "parsexml.js",
+      stylesheet: "/stylesheets/codemirror/xmlcolors.css?3453",
+      path: "/javascripts/codemirror/",
+      continuousScanning: 500,
+      lineNumbers: true,
+      textWrapping: false,
+      saveFunction: function(){
+        $('#widget_html').val(widgetHtml.getCode());
+        $('#wrapper-form').submit();
+      },
+      initCallback: function(editor){
+        //editor.setCode('some value');    
+      }    
+    });
+    
+   // overload save button for saving data
     $('#css-form button').click(function(){
       $('#widget_css').val(widgetCss.getCode());
     });
-
-    $('#load-stock-css, #reload-css').click(function(){
+    $('#wrapper-form button').click(function(){
+      $('#widget_html').val(widgetHtml.getCode());
+    });
+    
+    
+    $('#load-stock-css, #refresh-css').click(function(){
       showStatus.submitting();
       $.get(this.href, {rand: Math.random()}, function(data){
         widgetCss.setCode(data);
@@ -38,6 +60,16 @@
       return false;
     })        
 
+    $('#load-stock-html, #refresh-html').click(function(){
+      showStatus.submitting();
+      $.get(this.href, {rand: Math.random()}, function(data){
+        widgetHtml.setCode(data);
+        showStatus.respond({status:'good', msg:'HTML Loaded!'});
+      });
+      return false;
+    })
+    
+    
     // subtabs
     $("#sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));

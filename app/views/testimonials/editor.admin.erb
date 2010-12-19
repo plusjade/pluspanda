@@ -48,7 +48,7 @@
             <%= f.text_field :url %> <label>Website</label>
           </td>
           <td>
-            <input type="text" size="30" value="<%= @testimonial.created_at.strftime("%c") %>" DISABLED />
+            <input type="text" size="30" value="<%= @testimonial.created_at.strftime("%c") if @testimonial.created_at %>" DISABLED />
              <label>Date Created</label>
           </td>
         </tr>

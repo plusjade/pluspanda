@@ -30,6 +30,8 @@ $(document).bind('ajaxify.form', function(){
         admin.testimonialSave(rsp);
 
       $('form button').removeAttr('disabled').addClass('positive');
+      return false;
     }
   })
+  return false;
 })
