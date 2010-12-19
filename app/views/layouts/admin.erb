@@ -30,10 +30,10 @@
   </div>  
      
   <ul id="parent_nav"> 
-    <li class="widget"><a href="/admin" rel="widget">1. Build Widget</a></li> 
-    <li class="manage"><a href="/admin/manage" rel="manage">2. Manage Testimonials</a></li> 
-    <li class="collect"><a href="/admin/collect" rel="collect">3. Collect Testimonials</a></li> 
-    <li class="install"><a href="/admin/install" rel="install">4. Install On Your Site</a></li> 
+    <li class="widget"><a href="#/widget">1. Build Widget</a></li> 
+    <li class="manage"><a href="#/manage">2. Manage Testimonials</a></li> 
+    <li class="collect"><a href="#/collect">3. Collect Testimonials</a></li> 
+    <li class="install"><a href="#/install">4. Install On Your Site</a></li> 
   </ul>  
 
   <div id="main-wrapper">
@@ -61,9 +61,8 @@
   
   <script type="text/javascript">
     $(function(){
-      $settingsForm = $("#settings_form form");
-      var page = window.location.hash ? window.location.hash.substring(1) : 'widget';
-      window.onload = admin.loadPage(page);
+      if (window.location.hash == "") window.location.hash = "#/widget";
+      sammyApp.run();
     })
   </script>
 
