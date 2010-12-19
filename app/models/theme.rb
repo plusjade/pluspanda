@@ -5,13 +5,16 @@ class Theme < ActiveRecord::Base
       
   after_create :populate_attributes
 
+  # matches {{blah_token}}
+  Token_regex = /\{{2}(\w+)\}{2}/i
   
+    
   # here we populate the associated attributes.
   # we get these from the associated theme dir. 
   # note the data should already be verified and sanitized.
   def populate_attributes
     attributes = ThemeAttribute.names
-    theme_path = Rails.root.join("public/themes/#{Theme.names[self.name]}")
+    theme_path = "#{path_to_theme_directory}/#{Theme.names[self.name]}"
     
     if File.exist?(theme_path)
       Dir.new(theme_path).each do |file|
@@ -29,7 +32,11 @@ class Theme < ActiveRecord::Base
     
   end
   
-
+  def path_to_theme_directory
+    Rails.root.join("public/themes")
+  end 
+  
+  
   def self.names
     [
       "list",
@@ -45,7 +52,53 @@ class Theme < ActiveRecord::Base
     names
   end  
   
+
+  def self.parse_testimonial(data, tokens)
+    data.gsub(/[\n\r\t]/,'').gsub(Token_regex) { |tkn|
+      tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
+    }
+  end
   
+  def self.parse_wrapper(data, tokens)
+    data.gsub(/[\n\r\t]/,'').gsub(Token_regex) { |tkn|
+      tokens.has_key?($1.to_sym) ? tokens[$1.to_sym] : tkn
+    }
+  end
+  
+  def self.render_theme_config(opts)
+    context = ApplicationController.new
+    opts[:user]         ||= nil
+    opts[:wrapper]      ||= ""
+    opts[:testimonial]  ||= ""
+    
+    # parse wrapper.html
+    tag_list = context.render_to_string(
+      :partial  => "testimonials/tag_list",
+      :locals   => { :tags => Tag.where({:user_id => self.id }) }
+    ).gsub(/[\n\r\t]/,'')    
+    wrapper_tokens = {
+      :tag_list       => tag_list,
+      :count          => "||COUNTER||",
+      :testimonials   => "||TESTIMONIALS||",
+      :add_link       => "||FORM LINK||"
+    }
+    wrapper = Theme.parse_wrapper(opts[:wrapper], wrapper_tokens)
+    
+    # parse testimonial.html
+    tokens = Testimonial.api_attributes
+    testimonial = Theme.parse_testimonial(opts[:testimonial], tokens)
+
+
+    context.render_to_string(
+      :partial => "testimonials/theme_config",
+      :locals  => {
+        :user               => opts[:user],
+        :wrapper_html       => wrapper,
+        :testimonial_html   => testimonial
+      }
+    )
+  end
+ 
 =begin
  theme
   id | theme | staged | published

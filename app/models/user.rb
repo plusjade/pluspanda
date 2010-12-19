@@ -59,49 +59,16 @@ class User < ActiveRecord::Base
     f.rewind    
   end
   
-    
+  
   def generate_theme_config
-    context = ApplicationController.new
-
-    #matches {{blah_token}}
-    token_reg = /\{{2}(\w+)\}{2}/i
-        
-    # accessible public api testimonial attributes
-    tokens = Testimonial.api_attributes
-    testimonial_html = self.get_attribute("testimonial.html").staged.gsub(/[\n\r\t]/,'')
-    testimonial_html = testimonial_html.gsub(token_reg) { |tkn|
-      tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
-    }
-    
-    tag_list = context.render_to_string(
-      :partial  => "testimonials/tag_list",
-      :locals   => { :tags => Tag.where({:user_id => self.id }) }
-    ).gsub(/[\n\r\t]/,'')    
-    
-    
-    wrapper_tokens = {
-      :tag_list       => tag_list,
-      :count          => "||COUNTER||",
-      :testimonials   => "||TESTIMONIALS||",
-      :add_link       => "||FORM LINK||"
-    }
-    wrapper_html = self.get_attribute("wrapper.html").staged.gsub(/[\n\r\t]/,'')
-    wrapper_html = wrapper_html.gsub(token_reg) { |tkn|
-      wrapper_tokens.has_key?($1.to_sym) ? wrapper_tokens[$1.to_sym] : tkn
-    }
-
-    theme_config = context.render_to_string(
-      :partial => "testimonials/theme_config",
-      :locals   => {
-        :user               => self,
-        :wrapper_html       => wrapper_html,
-        :testimonial_html   => testimonial_html  
-      }
-    )
-    
-    theme_config     
+    Theme.render_theme_config({
+      :user         => self,
+      :wrapper      => self.get_attribute("wrapper.html").staged,
+      :testimonial  => self.get_attribute("testimonial.html").staged
+    })    
   end
 
+  
   # get the testimonials
   # based on defined filters, sorters, and limits.
   # filters: page, publish, tag, rating, date.
