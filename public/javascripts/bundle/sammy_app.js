@@ -40,11 +40,12 @@ var sammyApp = $.sammy(function() {
     })
   });
     
+    
+    
   this.after(function(){
     console.log("after hook called");
     adminNavigation.mainTab(page);
   })
-  
-  
+
 });
 

@@ -1222,11 +1222,6 @@ jQuery.effects||(function(d){d.effects={version:"1.7.2",save:function(g,h){for(v
 
 // facebox reveal callback  
 $(document).bind('reveal.facebox', function(){
-  /* well this was the only way that seemed to work... but it sucks ... fix it later */
-  $("select.tconfig_theme").val(admin.settingsStore.theme);
-  $(".tconfig_per_page").val(admin.settingsStore.per_page);
-  $("select.tconfig_sort").val(admin.settingsStore.sort);
-
   $(document).trigger('ajaxify.form');
 });
 
@@ -1282,7 +1277,7 @@ $(document).bind('ajaxify.form', function(){
   
 }
 /* 
- * page callbacks
+ * page initilization callbacks
  */ 
 ;var adminPages = {
 
@@ -1331,6 +1326,7 @@ $(document).bind('ajaxify.form', function(){
     // init
     adminWidget.loadWidgetPreview();
     adminNavigation.initSubs();
+    $(document).trigger('ajaxify.form');
   },
 
 
@@ -1383,8 +1379,8 @@ $(document).bind('ajaxify.form', function(){
         showStatus.respond({"msg":'Nothing selected.'});
       } else {
         var action = $(this).html().toLowerCase();
-        var filter = $('ul.grandchild_nav li a.active').html().toLowerCase();
-        admin.batchUpdate(ids, action, filter);
+        var filter = $('#sub-tabs li a.active').html().toLowerCase();
+        adminTestimonials.batchUpdate(ids, action, filter);
       }
       return false;
     });
@@ -1406,6 +1402,7 @@ $(document).bind('ajaxify.form', function(){
     // initialize
     adminTestimonials.loadTestimonials("new");
     adminNavigation.initSubs();
+    $(document).trigger('ajaxify.form');
   },
 
   collect : function(){
@@ -1420,6 +1417,7 @@ $(document).bind('ajaxify.form', function(){
     // init
     adminWidget.loadFormPreview();
     adminNavigation.initSubs();
+    $(document).trigger('ajaxify.form');
   },
   
   install : function(){
@@ -1477,12 +1475,13 @@ var sammyApp = $.sammy(function() {
     })
   });
     
+    
+    
   this.after(function(){
     console.log("after hook called");
     adminNavigation.mainTab(page);
   })
-  
-  
+
 });
 
 
@@ -1531,8 +1530,9 @@ var sammyApp = $.sammy(function() {
 $(function(){
   
   $("a[rel*=facebox]").live("click", function(){
+    var url = this.href
     $.facebox(function(){ 
-      $.get(this.href, function(data) { $.facebox(data) })
+      $.get(url, function(data) { $.facebox(data) })
     })
     return false;    
   });

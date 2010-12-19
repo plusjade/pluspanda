@@ -3,8 +3,9 @@
 $(function(){
   
   $("a[rel*=facebox]").live("click", function(){
+    var url = this.href
     $.facebox(function(){ 
-      $.get(this.href, function(data) { $.facebox(data) })
+      $.get(url, function(data) { $.facebox(data) })
     })
     return false;    
   });

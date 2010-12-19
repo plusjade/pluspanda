@@ -1,11 +1,6 @@
 
 // facebox reveal callback  
 $(document).bind('reveal.facebox', function(){
-  /* well this was the only way that seemed to work... but it sucks ... fix it later */
-  $("select.tconfig_theme").val(admin.settingsStore.theme);
-  $(".tconfig_per_page").val(admin.settingsStore.per_page);
-  $("select.tconfig_sort").val(admin.settingsStore.sort);
-
   $(document).trigger('ajaxify.form');
 });
 

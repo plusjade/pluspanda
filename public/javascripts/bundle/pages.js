@@ -1,5 +1,5 @@
 /* 
- * page callbacks
+ * page initilization callbacks
  */ 
 ;var adminPages = {
 
@@ -48,6 +48,7 @@
     // init
     adminWidget.loadWidgetPreview();
     adminNavigation.initSubs();
+    $(document).trigger('ajaxify.form');
   },
 
 
@@ -100,8 +101,8 @@
         showStatus.respond({"msg":'Nothing selected.'});
       } else {
         var action = $(this).html().toLowerCase();
-        var filter = $('ul.grandchild_nav li a.active').html().toLowerCase();
-        admin.batchUpdate(ids, action, filter);
+        var filter = $('#sub-tabs li a.active').html().toLowerCase();
+        adminTestimonials.batchUpdate(ids, action, filter);
       }
       return false;
     });
@@ -123,6 +124,7 @@
     // initialize
     adminTestimonials.loadTestimonials("new");
     adminNavigation.initSubs();
+    $(document).trigger('ajaxify.form');
   },
 
   collect : function(){
@@ -137,6 +139,7 @@
     // init
     adminWidget.loadFormPreview();
     adminNavigation.initSubs();
+    $(document).trigger('ajaxify.form');
   },
   
   install : function(){
