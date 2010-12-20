@@ -7,20 +7,20 @@ class Theme < ActiveRecord::Base
 
   # matches {{blah_token}}
   Token_regex = /\{{2}(\w+)\}{2}/i
-  
+  Themes_path = Rails.root.join("public/themes")
     
   # here we populate the associated attributes.
   # we get these from the associated theme dir. 
   # note the data should already be verified and sanitized.
   def populate_attributes
     attributes = ThemeAttribute.names
-    theme_path = "#{path_to_theme_directory}/#{Theme.names[self.name]}"
+    theme_path = File.join(Themes_path, Theme.names[self.name])
     
     if File.exist?(theme_path)
       Dir.new(theme_path).each do |file|
         next if file.index('.') == 0
         if attributes.include?(file)
-          contents =  File.new("#{theme_path}/#{file}").read
+          contents =  File.new(File.join(theme_path, file)).read
           self.theme_attributes.create(
             :name     => attributes.index(file), 
             :staged   => contents,
@@ -32,11 +32,18 @@ class Theme < ActiveRecord::Base
     
   end
   
-  def path_to_theme_directory
-    Rails.root.join("public/themes")
-  end 
   
+  def self.render_theme_attribute(theme, attribute)
+    attributes = ThemeAttribute.names
+    path = File.join(Themes_path, theme, attribute)
+
+    if attributes.include?(attribute) && File.exist?(path)
+      File.new(path).read
+    end
+
+  end
   
+
   def self.names
     [
       "list",
@@ -74,7 +81,7 @@ class Theme < ActiveRecord::Base
     # parse wrapper.html
     tag_list = context.render_to_string(
       :partial  => "testimonials/tag_list",
-      :locals   => { :tags => Tag.where({:user_id => self.id }) }
+      :locals   => { :tags => Tag.where({:user_id => opts[:user].id }) }
     ).gsub(/[\n\r\t]/,'')    
     wrapper_tokens = {
       :tag_list       => tag_list,

@@ -1,1 +1,20 @@
-Theme gallery
+<h2>Theme gallery</h2>
+
+<ul id="gallery-links">
+<% @themes.each do |theme| %>
+  <li><%= link_to theme, "/admin/theme/gallery/#{theme}" %></li>
+<% end %>
+</ul>
+<script type="text/javascipt">
+  <%= @theme_config %>
+</script>
+
+<style type="text/css">
+  #gallery-links{
+    list-style:none;
+  }
+  #gallery-links li{
+   display:inline; 
+   margin-right:5px;
+  }
+</style>

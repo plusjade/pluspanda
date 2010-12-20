@@ -32,7 +32,8 @@ Pluspanda::Application.routes.draw do
       get "()"        ,:action => :index
       post "()"       ,:action => :create
       get "/new"      ,:action => :new
-      get "/publish"  ,:action => :publsih
+      get "/publish"  ,:action => :publish
+      get "/gallery/:theme"  ,:action => :show
       
       scope "/:attribute" do
         get "()"          ,:action => :staged

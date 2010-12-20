@@ -6,9 +6,24 @@ class ThemeController < ApplicationController
 
   # theme gallery?
   def index
+    @themes  = Theme.names
+
     render :template => "theme/index", :layout => false
   end
 
+  def show
+    raise ActiveRecord::NotFound unless Theme.names.include?(params[:theme])
+
+    @theme_config = Theme.render_theme_config(
+      :user         => @user,
+      :wrapper      => Theme.render_theme_attribute(params[:theme], "wrapper.html"),
+      :testimonial  => Theme.render_theme_attribute(params[:theme], "testimonial.html")
+    )   
+
+    render :template => "theme/show", :layout => "staged"
+  end
+  
+  
   def new
     render :template => "theme/new", :layout => false
   end
