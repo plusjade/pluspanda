@@ -9,13 +9,13 @@ describe ThemeController do
   describe "when no user is authenticated" do
 
     it "stock_css should redirect to login screen" do
-      get :stock_css
+      get :original, :attribute => "wrapper-html"
       
       response.should redirect_to new_account_path
     end
        
     it "css should redirect to login screen" do
-      get :css
+      get :staged, :attribute => "wrapper-html"
       
       response.should redirect_to new_account_path
     end
@@ -37,7 +37,7 @@ describe ThemeController do
     
     it "should upate css" do
 
-      get :update_css, :widget_css => "some css stuff"
+      post :update, :attribute => "wrapper-html", :data => "some css stuff"
 
       response.should be_success
     end

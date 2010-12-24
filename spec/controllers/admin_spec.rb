@@ -43,7 +43,7 @@ describe AdminController do
     end
     
     it "staging should redirect to login screen" do
-      get :staging
+      get :staged
       
       response.should redirect_to new_account_path
     end
