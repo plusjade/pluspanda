@@ -8,6 +8,7 @@ class Theme < ActiveRecord::Base
   # matches {{blah_token}}
   Token_regex = /\{{2}(\w+)\}{2}/i
   Themes_path = Rails.root.join("public/themes")
+  Themes_url  = "themes"
     
   # here we populate the associated attributes.
   # we get these from the associated theme dir. 
@@ -75,9 +76,11 @@ class Theme < ActiveRecord::Base
   def self.render_theme_config(opts)
     context = ApplicationController.new
     opts[:user]         ||= nil
+    opts[:stylesheet]   ||= ""
     opts[:wrapper]      ||= ""
     opts[:testimonial]  ||= ""
     
+    puts opts.to_yaml
     # parse wrapper.html
     tag_list = context.render_to_string(
       :partial  => "testimonials/tag_list",
@@ -99,7 +102,8 @@ class Theme < ActiveRecord::Base
     context.render_to_string(
       :partial => "testimonials/theme_config",
       :locals  => {
-        :user               => opts[:user],
+        :apikey             => opts[:user].apikey,
+        :stylesheet         => opts[:stylesheet],
         :wrapper_html       => wrapper,
         :testimonial_html   => testimonial
       }

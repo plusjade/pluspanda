@@ -63,6 +63,7 @@ class User < ActiveRecord::Base
   def generate_theme_config
     Theme.render_theme_config({
       :user         => self,
+      :stylesheet   => self.stylesheet_url,
       :wrapper      => self.get_attribute("wrapper.html").staged,
       :testimonial  => self.get_attribute("testimonial.html").staged
     })    
@@ -130,7 +131,7 @@ class User < ActiveRecord::Base
 
   # the published stylesheet is NOT theme specific.
   def stylesheet_url
-    "system/data/#{self.apikey}/#{Stylesheet_filename}"
+    "#{root_url}/system/data/#{self.apikey}/#{Stylesheet_filename}"
   end
 
   def stylesheet_path 
@@ -161,5 +162,8 @@ class User < ActiveRecord::Base
     return path
   end
   
-    
+  def root_url
+    ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
+  end
+      
 end

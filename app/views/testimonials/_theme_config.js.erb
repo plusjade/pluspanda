@@ -2,11 +2,11 @@
 var pandaSettings = {
   apiUrl : '<%= root_url %>',
   apiVrsn : '<%= api_version_number %>',
-  apikey : '<%= user.apikey %>'
+  apikey : '<%= apikey %>'
 }
 
 var pandaThemeConfig = {
-  cssUrl : '<%= "#{root_url}/#{user.stylesheet_url}" %>',
+  cssUrl : '<%= stylesheet %>',
   wrapperHTML : '<%= raw wrapper_html %>',
   testimonialHTML : function(item){
     return '<%= raw testimonial_html %>';

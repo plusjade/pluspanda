@@ -16,10 +16,11 @@ class ThemeController < ApplicationController
 
     @theme_config = Theme.render_theme_config(
       :user         => @user,
+      :stylesheet   => "#{root_url}/#{Theme::Themes_url}/#{params[:theme]}/style.css",
       :wrapper      => Theme.render_theme_attribute(params[:theme], "wrapper.html"),
       :testimonial  => Theme.render_theme_attribute(params[:theme], "testimonial.html")
     )   
-
+    
     render :template => "theme/show", :layout => "staged"
   end
   
