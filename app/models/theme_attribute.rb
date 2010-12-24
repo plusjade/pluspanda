@@ -11,10 +11,4 @@ class ThemeAttribute < ActiveRecord::Base
     ]
   end
 
-=begin
-  @user.theme.theme_attributes
-
-    id| theme_id | name | published | staged | original
-=end
-  
 end

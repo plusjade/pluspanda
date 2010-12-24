@@ -2,14 +2,23 @@ class Theme < ActiveRecord::Base
 
   belongs_to :user
   has_many :theme_attributes, :dependent => :destroy
-      
   after_create :populate_attributes
 
   # matches {{blah_token}}
   Token_regex = /\{{2}(\w+)\}{2}/i
   Themes_path = Rails.root.join("public/themes")
   Themes_url  = "themes"
-    
+
+  def self.names
+    [
+      "list",
+      "simple",
+      "legacy",
+      "custom"
+    ]
+  end
+  
+      
   # here we populate the associated attributes.
   # we get these from the associated theme dir. 
   # note the data should already be verified and sanitized.
@@ -44,23 +53,6 @@ class Theme < ActiveRecord::Base
 
   end
   
-
-  def self.names
-    [
-      "list",
-      "simple",
-      "legacy",
-      "custom"
-    ]
-  end
-
-  def self.names_for_select
-    names = []
-    self.names.each_with_index {|k,v| names.push([ k, v ]) }
-    names
-  end  
-  
-
   def self.parse_testimonial(data, tokens)
     data.gsub(/[\n\r\t]/,'').gsub(Token_regex) { |tkn|
       tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
@@ -98,7 +90,6 @@ class Theme < ActiveRecord::Base
     tokens = Testimonial.api_attributes
     testimonial = Theme.parse_testimonial(opts[:testimonial], tokens)
 
-
     context.render_to_string(
       :partial => "testimonials/theme_config",
       :locals  => {
@@ -109,24 +100,12 @@ class Theme < ActiveRecord::Base
       }
     )
   end
- 
-=begin
- theme
-  id | theme | staged | published
 
-  ** a theme can be both staged and published.
-
-  basic users can work with 2 themes at a time.
-  installing a new theme creates a new theme row.
-  the new theme row populates the theme_attributes
-  loading a theme in admin flags it as staged.
-  publishing a theme flags it as published
-
-
-  the staging environment will dynamically serve the staged theme.
-  publishing a theme will save/parse and cache the results to:
-    -data/apikey/published.blah
-
-=end  
-  
+  def self.names_for_select
+    names = []
+    self.names.each_with_index {|k,v| names.push([ k, v ]) }
+    names
+  end
+   
+     
 end

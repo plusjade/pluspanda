@@ -4,13 +4,14 @@ class ThemeController < ApplicationController
   before_filter :require_user, :setup_user
   before_filter :ensure_attribute, :only => [:original, :staged, :update]
 
-  # theme gallery?
+  # theme gallery
   def index
     @themes  = Theme.names
 
     render :template => "theme/index", :layout => false
   end
 
+  # theme gallery theme
   def show
     raise ActiveRecord::NotFound unless Theme.names.include?(params[:theme])
 
@@ -93,22 +94,6 @@ class ThemeController < ApplicationController
       a = params[:attribute] ? params[:attribute].gsub("-",".") : nil
       raise ActiveRecord::NotFound unless ThemeAttribute.names.include?(a)
       @attribute = @user.get_attribute(a)
-      
     end
-    
-
-=begin
-  theme has 2 parts
-  HTML template
-    served via api
-      /theme/
-       returns { :wrapper => "", :testimonial => "" }
-       should we serve a static representation?
-  CSS
-    served statically
-      static url to a published.css
-      updated as per the admin with appended timestamp querystring
-=end
-    
-    
+        
 end
