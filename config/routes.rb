@@ -33,6 +33,7 @@ Pluspanda::Application.routes.draw do
       post "()"       ,:action => :create
       get "/publish"  ,:action => :publish
       get "/gallery/:theme"  ,:action => :show
+      get "/:theme_id/stage"  ,:action => :set_staged
       
       scope "/:attribute" do
         get "()"          ,:action => :staged

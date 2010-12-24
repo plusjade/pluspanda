@@ -48,6 +48,16 @@ class ThemeController < ApplicationController
     serve_json_response
   end
 
+  def set_staged
+    theme = @user.themes.find(params[:theme_id])
+    
+    @user.themes.update_all(:staged => false)
+    theme.staged = true
+    theme.save
+    @status = "good"
+    @message = "#{Theme.names[theme.name]} is now staged."
+    serve_json_response
+  end
 
   # get original copy of staged attribute
   def original

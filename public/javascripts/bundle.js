@@ -1359,6 +1359,14 @@ $(document).bind('ajaxify.form', function(){
       return false;
     });
     
+    $("#installed-themes").find("a").click(function(){
+      showStatus.submitting();
+      $.get(this.href, function(rsp){
+        showStatus.respond(rsp);
+        sammyApp.refresh();
+      })
+      return false;
+    });
     
     // init
     adminWidget.loadWidgetPublished();

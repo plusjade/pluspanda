@@ -20,11 +20,18 @@
     </table>
     <% end %>
 
-    <b>My installed themes:</b>
+    
+    <ul id="installed-themes">
+      <li><b>My installed themes:</b></li>
     <% @user.themes.each do |theme| %>
-      <%= Theme.names[theme.name] %>, 
+      <% if theme.staged == true %>
+        <li class="theme"><%= link_to Theme.names[theme.name], "/admin/theme/#{theme.id}/stage", :class => "active" %></li>
+      <% else %>
+        <li class="theme"><%= link_to Theme.names[theme.name], "/admin/theme/#{theme.id}/stage" %></li>
+      <% end %>
     <% end %>
-        
+      <li style="font-size:12px">(install more themes in the <a href="#/theme">Theme Gallery</a>)</li>
+    </ul>
 </div>
 
 <ul id="sub-tabs" class="grandchild_nav"> 
@@ -137,3 +144,23 @@
   </div>
 
 </div>
+
+<style type="text/css">
+  #installed-themes{
+    list-style:none;
+    padding:5px;
+  }
+  #installed-themes li {
+    margin-right:10px;
+    display:inline;
+  }
+  #installed-themes li.theme a {
+    padding:3px 5px;
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+  }
+  #installed-themes li.theme a.active, #installed-themes li.theme a:hover {
+    background:orange;
+  }
+</style>

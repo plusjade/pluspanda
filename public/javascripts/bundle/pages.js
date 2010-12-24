@@ -94,6 +94,14 @@
       return false;
     });
     
+    $("#installed-themes li.theme").find("a").click(function(){
+      showStatus.submitting();
+      $.get(this.href, function(rsp){
+        showStatus.respond(rsp);
+        sammyApp.refresh();
+      })
+      return false;
+    });
     
     // init
     adminWidget.loadWidgetPublished();
