@@ -1471,7 +1471,14 @@ $(document).bind('ajaxify.form', function(){
     });
 
     adminNavigation.initSubs();    
-  }
+  },
+  
+  theme : function(){
+    $("#gallery-links").find("a").click(function(){
+      adminWidget.loadThemePreview(this.href);
+      return false;
+    });
+  },
 
 }
 var sammyApp = $.sammy(function() {
@@ -1570,7 +1577,13 @@ var sammyApp = $.sammy(function() {
     $('#collector-form-view')
       .html(adminWidget.$iframe.clone()
       .attr('src', $('#collector-form-url').val()))
-  }
+  },
+
+  loadThemePreview : function(url){
+    $('#theme-gallery')
+      .html(adminWidget.$iframe.clone()
+      .attr('src', url))
+  }  
   
 }
 

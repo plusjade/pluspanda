@@ -5,13 +5,16 @@
   <li><%= link_to theme, "/admin/theme/gallery/#{theme}" %></li>
 <% end %>
 </ul>
-<script type="text/javascipt">
-  <%= @theme_config %>
-</script>
+
+<div id="theme-gallery">
+
+</div>
+
 
 <style type="text/css">
   #gallery-links{
     list-style:none;
+    margin-bottom:10px;
   }
   #gallery-links li{
    display:inline; 

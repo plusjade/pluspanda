@@ -206,6 +206,13 @@
     });
 
     adminNavigation.initSubs();    
-  }
+  },
+  
+  theme : function(){
+    $("#gallery-links").find("a").click(function(){
+      adminWidget.loadThemePreview(this.href);
+      return false;
+    });
+  },
 
 }

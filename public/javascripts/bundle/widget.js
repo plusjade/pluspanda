@@ -18,6 +18,12 @@
     $('#collector-form-view')
       .html(adminWidget.$iframe.clone()
       .attr('src', $('#collector-form-url').val()))
-  }
+  },
+
+  loadThemePreview : function(url){
+    $('#theme-gallery')
+      .html(adminWidget.$iframe.clone()
+      .attr('src', url))
+  }  
   
 }
