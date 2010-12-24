@@ -38,7 +38,7 @@ var panda = {
   setup: function(){ 
     if(panda.debug){console.log("setup called, expecting css, $container, delegation, then getTstmls()")}
     var cssUrl = pandaThemeConfig.cssUrl + ( panda.admin ? ('?r=' + Math.random()) : '' );
-    jQuery('head').append('<link type="text/css" href="' + cssUrl + '" media="screen" rel="stylesheet" />');
+    if(pandaThemeConfig.cssUrl.length > 0) jQuery('head').append('<link type="text/css" href="' + cssUrl + '" media="screen" rel="stylesheet" />');
     panda.$container = jQuery('#plusPandaYes').html(pandaThemeConfig.wrapperHTML);
 
     jQuery.delegate = function(rules) {return function(e) { var target = jQuery(e.target); for (var selector in rules) if (target.is(selector)) return rules[selector].apply(this, jQuery.makeArray(arguments));}}    
