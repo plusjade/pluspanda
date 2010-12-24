@@ -26,20 +26,17 @@ class ThemeController < ApplicationController
   end
   
   
-  def new
-    render :template => "theme/new", :layout => false
-  end
-  
-  
-  # install a new theme.
+  # install and stage a new theme.
   def create
-    name = params[:theme][:name]
+    params[:theme][:staged] = true
     
     if @user.themes.count >= 5
       @message = "Your account only allows 5 themes."
-    elsif @user.themes.find_by_name(name)
+    elsif @user.themes.find_by_name(params[:theme][:name])
       @message = "This theme is already installed."
     else
+      @user.themes.update_all(:staged => false)
+      
       if @user.themes.create(params[:theme])
         @status = "good"
         @message = "Theme successfully installed."

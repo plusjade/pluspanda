@@ -1465,7 +1465,6 @@ $(document).bind('ajaxify.form', function(){
     console.log("install callback");
     
     $("#sub-tabs li a").click(function(){
-      console.log("testychu");
       adminNavigation.subTab($(this));
       return false;
     });
@@ -1476,8 +1475,16 @@ $(document).bind('ajaxify.form', function(){
   theme : function(){
     $("#gallery-links").find("a").click(function(){
       adminWidget.loadThemePreview(this.href);
+      var theme_id = $(this).attr("rel");
+      $("#theme_name").val(theme_id);
+      $("#new_theme").show();
+      
+      $("#gallery-links").find("a").removeClass("active");
+      $(this).addClass("active");
+      
       return false;
     });
+    $(document).trigger('ajaxify.form');
   },
 
 }
@@ -1597,7 +1604,12 @@ $(function(){
     })
     return false;    
   });
-
+  
+  $("a[rel*=fb-div]").live("click", function(){
+    $.facebox({div : this.href});
+    return false;    
+  });
+  
   // facebox share panel 
   $("a.fb-div").live("click", function(){
     $.facebox({ div: $(this).attr('rel') });

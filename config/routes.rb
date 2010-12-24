@@ -31,7 +31,6 @@ Pluspanda::Application.routes.draw do
     scope "/theme", :controller => :theme, :as => :theme do
       get "()"        ,:action => :index
       post "()"       ,:action => :create
-      get "/new"      ,:action => :new
       get "/publish"  ,:action => :publish
       get "/gallery/:theme"  ,:action => :show
       

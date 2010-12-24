@@ -106,6 +106,5 @@ class Theme < ActiveRecord::Base
     self.names.each_with_index {|k,v| names.push([ k, v ]) }
     names
   end
-   
      
 end

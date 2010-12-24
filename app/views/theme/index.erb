@@ -1,14 +1,17 @@
 <h2>Theme gallery</h2>
 
 <ul id="gallery-links">
-<% @themes.each do |theme| %>
-  <li><%= link_to theme, "/admin/theme/gallery/#{theme}" %></li>
+<% @themes.each_with_index do |theme, i| %>
+  <li><%= link_to theme, "/admin/theme/gallery/#{theme}", :rel => i %></li>
 <% end %>
 </ul>
 
-<div id="theme-gallery">
+<%= form_for Theme.new, :url => "/admin/theme", :html => {:style => "display:none"} do |f| %>
+  <%= f.hidden_field :name, :readonly => "readonly" %>
+  <button type="submit">Install and Stage This Theme!</button>
+<% end %>  
 
-</div>
+<div id="theme-gallery">&#160;</div>
 
 
 <style type="text/css">
@@ -19,5 +22,17 @@
   #gallery-links li{
    display:inline; 
    margin-right:5px;
+  }
+  #gallery-links li a.active, #gallery-links li a:hover {
+    font-weight:bold;
+    color:green;
+  }
+  
+  #new_theme {
+    margin-bottom:10px;
+  }
+  #new_theme button {
+    font-size:14px;
+    font-weight:bold;
   }
 </style>

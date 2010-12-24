@@ -9,7 +9,12 @@ $(function(){
     })
     return false;    
   });
-
+  
+  $("a[rel*=fb-div]").live("click", function(){
+    $.facebox({div : this.href});
+    return false;    
+  });
+  
   // facebox share panel 
   $("a.fb-div").live("click", function(){
     $.facebox({ div: $(this).attr('rel') });

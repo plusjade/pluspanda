@@ -200,7 +200,6 @@
     console.log("install callback");
     
     $("#sub-tabs li a").click(function(){
-      console.log("testychu");
       adminNavigation.subTab($(this));
       return false;
     });
@@ -211,8 +210,16 @@
   theme : function(){
     $("#gallery-links").find("a").click(function(){
       adminWidget.loadThemePreview(this.href);
+      var theme_id = $(this).attr("rel");
+      $("#theme_name").val(theme_id);
+      $("#new_theme").show();
+      
+      $("#gallery-links").find("a").removeClass("active");
+      $(this).addClass("active");
+      
       return false;
     });
+    $(document).trigger('ajaxify.form');
   },
 
 }
