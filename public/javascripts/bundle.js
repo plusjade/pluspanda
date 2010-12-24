@@ -1241,6 +1241,12 @@ $(document).bind('ajaxify.form', function(){
   })
   return false;
 })
+/* initialize our codemirror editors */
+;var editor = {
+  wrapper : "",
+  testimonial : "",
+  css : ""  
+}
 /* UI  tab highlighting */
 ; var adminNavigation = {
 
@@ -1264,32 +1270,14 @@ $(document).bind('ajaxify.form', function(){
   
 }
 /* 
- * page initilization callbacks
+ * page initilization callbacks. Called after sammy loads page.
  */ 
 ;var adminPages = {
 
   widget : function(){
     console.log("widget page callback invoked");
     
-    widgetCss = CodeMirror.fromTextArea('widget_css', {
-      width: "800px",
-      height: "700px",
-      parserfile: "parsecss.js",
-      stylesheet: "/stylesheets/codemirror/csscolors.css?3453",
-      path: "/javascripts/codemirror/",
-      continuousScanning: 500,
-      lineNumbers: true,
-      textWrapping: false,
-      saveFunction: function(){
-        $('#widget_css').val(widgetCss.getCode());
-        $('#css-form').submit();
-      },
-      initCallback: function(editor){
-        //editor.setCode('some value');    
-      }    
-    });
-
-    widgetHtml = CodeMirror.fromTextArea('widget_html', {
+    editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
       width: "800px",
       height: "700px",
       parserfile: "parsexml.js",
@@ -1299,40 +1287,88 @@ $(document).bind('ajaxify.form', function(){
       lineNumbers: true,
       textWrapping: false,
       saveFunction: function(){
-        $('#widget_html').val(widgetHtml.getCode());
+        $('#editor_wrapper').val(editor.wrapper.getCode());
         $('#wrapper-form').submit();
       },
       initCallback: function(editor){
         //editor.setCode('some value');    
       }    
     });
-    
-   // overload save button for saving data
-    $('#css-form button').click(function(){
-      $('#widget_css').val(widgetCss.getCode());
-    });
-    $('#wrapper-form button').click(function(){
-      $('#widget_html').val(widgetHtml.getCode());
-    });
-    
-    
-    $('#load-stock-css, #refresh-css').click(function(){
-      showStatus.submitting();
-      $.get(this.href, {rand: Math.random()}, function(data){
-        widgetCss.setCode(data);
-        showStatus.respond({status:'good', msg:'CSS Loaded!'});
-      });
-      return false;
-    })        
 
-    $('#load-stock-html, #refresh-html').click(function(){
+    editor.testimonial = CodeMirror.fromTextArea('editor_testimonial', {
+      width: "800px",
+      height: "700px",
+      parserfile: "parsexml.js",
+      stylesheet: "/stylesheets/codemirror/xmlcolors.css?3453",
+      path: "/javascripts/codemirror/",
+      continuousScanning: 500,
+      lineNumbers: true,
+      textWrapping: false,
+      saveFunction: function(){
+        $('#editor_testimonial').val(editor.testimonial.getCode());
+        $('#testimonial-form').submit();
+      },
+      initCallback: function(editor){
+        //editor.setCode('some value');    
+      }    
+    });
+
+    editor.css = CodeMirror.fromTextArea('editor_css', {
+      width: "800px",
+      height: "700px",
+      parserfile: "parsecss.js",
+      stylesheet: "/stylesheets/codemirror/csscolors.css?3453",
+      path: "/javascripts/codemirror/",
+      continuousScanning: 500,
+      lineNumbers: true,
+      textWrapping: false,
+      saveFunction: function(){
+        $('#editor_css').val(editor.css.getCode());
+        $('#css-form').submit();
+      },
+      initCallback: function(editor){
+        //editor.setCode('some value');    
+      }    
+    });
+          
+            
+   // overload save button for saving data
+    $('#wrapper-form button').click(function(){
+      $('#editor_wrapper').val(editor.wrapper.getCode());
+    });
+    $('#testimonial-form button').click(function(){
+      $('#editor_testimonial').val(editor.testimonial.getCode());
+    });
+    $('#css-form button').click(function(){
+      $('#editor_css').val(editor.css.getCode());
+    });
+       
+    // editor data-loading functions
+    $('#load-stock-wrapper, #refresh-wrapper').click(function(){
       showStatus.submitting();
       $.get(this.href, {rand: Math.random()}, function(data){
-        widgetHtml.setCode(data);
-        showStatus.respond({status:'good', msg:'HTML Loaded!'});
+        editor.wrapper.setCode(data);
+        showStatus.respond({status:'good', msg:'Wrapper HTML Loaded.'});
       });
       return false;
     })
+    $('#load-stock-testimonial, #refresh-testimonial').click(function(){
+      showStatus.submitting();
+      $.get(this.href, {rand: Math.random()}, function(data){
+        editor.testimonial.setCode(data);
+        showStatus.respond({status:'good', msg:'Testimonial HTML Loaded.'});
+      });
+      return false;
+    })
+    $('#load-stock-css, #refresh-css').click(function(){
+      showStatus.submitting();
+      $.get(this.href, {rand: Math.random()}, function(data){
+        editor.css.setCode(data);
+        showStatus.respond({status:'good', msg:'CSS Loaded.'});
+      });
+      return false;
+    })    
+        
     
     $("#theme-publish").click(function(){
       showStatus.submitting();
@@ -1359,7 +1395,7 @@ $(document).bind('ajaxify.form', function(){
       return false;
     });
     
-    $("#installed-themes").find("a").click(function(){
+    $("#installed-themes li.theme").find("a").click(function(){
       showStatus.submitting();
       $.get(this.href, function(rsp){
         showStatus.respond(rsp);
@@ -1493,7 +1529,7 @@ $(document).bind('ajaxify.form', function(){
       return false;
     });
     $(document).trigger('ajaxify.form');
-  },
+  }
 
 }
 var sammyApp = $.sammy(function() {
