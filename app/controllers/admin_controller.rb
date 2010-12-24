@@ -30,8 +30,7 @@ class AdminController < ApplicationController
   def staged
     @css = @user.get_attribute("style.css").staged
     
-    @theme_config = "blah"
-    
+    @theme_config = @user.generate_theme_config(true)
     
     render :template => "admin/staged", :layout => "staged"
   end

@@ -1,5 +1,5 @@
 
-<div style="border:1px dashed #333;">
+<div id="settings-panel">
     <%= form_for @user.tconfig, :url => '/admin/settings', :html => { :id => nil, :rel => "form.settings" } do |f| %>  
       <table>
       <td>  
@@ -20,18 +20,18 @@
     </table>
     <% end %>
 
-    
     <ul id="installed-themes">
-      <li><b>My installed themes:</b></li>
+      <li><b>Installed Themes:</b></li>
     <% @user.themes.each do |theme| %>
       <% if theme.staged == true %>
-        <li class="theme"><%= link_to Theme.names[theme.name], "/admin/theme/#{theme.id}/stage", :class => "active" %></li>
+        <li class="theme"><%= link_to Theme.names[theme.name], "/admin/theme/#{theme.id}/stage", :class => "active", :title => "Click to stage this theme for editing." %></li>
       <% else %>
-        <li class="theme"><%= link_to Theme.names[theme.name], "/admin/theme/#{theme.id}/stage" %></li>
+        <li class="theme"><%= link_to Theme.names[theme.name], "/admin/theme/#{theme.id}/stage", :title => "Click to stage this theme for editing." %></li>
       <% end %>
     <% end %>
       <li style="font-size:12px">(install more themes in the <a href="#/theme">Theme Gallery</a>)</li>
     </ul>
+    
 </div>
 
 <ul id="sub-tabs" class="grandchild_nav"> 
@@ -54,7 +54,7 @@
   <div id="tab-preview" class="tab-content">
     <div id="data-description">
       This widget displays all the code customizations you currently have saved.
-      <br/> Click <a href="/admin/theme/publish" id="theme-publish">Publish</a> to make these changes appear in published mode.
+      <br/><a href="/admin/theme/publish" id="theme-publish">Publish Changes</a> will officially update published mode.
     </div>
     <div id="widget-staged-wrapper">&#160;</div>
   </div>
@@ -146,6 +146,12 @@
 </div>
 
 <style type="text/css">
+  #settings-panel{
+  }
+  #settings-panel form, #settings-panel ul {
+    margin-bottom:7px;
+  }
+    
   #installed-themes{
     list-style:none;
     padding:5px;

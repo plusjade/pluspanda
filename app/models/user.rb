@@ -59,11 +59,11 @@ class User < ActiveRecord::Base
     f.rewind    
   end
   
-  
-  def generate_theme_config
+
+  def generate_theme_config(for_staging=false)
     Theme.render_theme_config({
       :user         => self,
-      :stylesheet   => self.stylesheet_url,
+      :stylesheet   => for_staging ? "" : self.stylesheet_url,
       :wrapper      => self.get_attribute("wrapper.html").staged,
       :testimonial  => self.get_attribute("testimonial.html").staged
     })    

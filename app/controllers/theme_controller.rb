@@ -55,7 +55,7 @@ class ThemeController < ApplicationController
     theme.staged = true
     theme.save
     @status = "good"
-    @message = "#{Theme.names[theme.name]} is now staged."
+    @message = "'#{Theme.names[theme.name]}' theme is now staged."
     serve_json_response
   end
 
