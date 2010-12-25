@@ -57,11 +57,9 @@ class Testimonial < ActiveRecord::Base
       :id,
       :rating,
       :company,
-      :position,
       :name,
       :location,
       :created_at,
-      :tag_id,
       :body,
       :url,
       :c_position,
@@ -75,10 +73,14 @@ class Testimonial < ActiveRecord::Base
     testimonial = {}
   
     Testimonial.api_attributes.each do |a|
-      if a == :image_src
+      case a
+      when :image_src
         testimonial[a] = self.avatar? ? root_url + self.avatar.url(:sm) : false
-      elsif a == :image_stock
+      when :image_stock
         testimonial[a] = image_stock
+      when :tag_name
+        # send the name from the id obviously.
+        testimonial[a] = self.tag_id
       else
         testimonial[a] = self.send a
       end
