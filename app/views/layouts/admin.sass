@@ -4,10 +4,76 @@
 @import "shared/facebox.sass"
 @import "../testimonials/editor.sass"
 
+// buttons
+button
+  cursor: pointer
+
+/* POSITIVE */
+button.positive, .buttons a.positive
+  color: #fff
+  background: #d1f0b9 url('/images/common/gradients.jpg') repeat-x 0px -205px
+  border: 1px solid #bde99c
+.buttons a.positive:hover, button.positive:hover, .buttons a.positive:active
+  background: orange url('/images/common/gradients.jpg') repeat-x 0px -250px
+  border: 1px solid orange
+
+/* NEGATIVE */
+.buttons a.negative, button.negative
+  background: #333 url('/images/common/gradients.jpg') repeat-x 0px -15px
+  border: 1px solid #000
+  color: #fff
+.buttons a.negative:hover, button.negative:hover
+  background-attachment: fixed 
+  background: #d52020 url(../images/gradients.jpg) repeat-x 0px -465px
+  border: 1px solid #cc0000
+  color: #fff
+.buttons a.negative:active
+  background-color: #d12f19
+  border: 1px solid #d12f19
+  color: #fff
 
 // pages
 
-// admin/index 
+// admin/widget
+
+#settings-panel 
+  form, ul 
+  margin-bottom: 7px
+
+  
+#installed-themes
+  list-style: none
+  padding: 5px
+  li
+    margin-right: 10px
+    display: inline
+    &.theme
+      a
+        padding: 3px 5px
+        border-radius: 5px
+        -webkit-border-radius: 5px
+        -moz-border-radius: 5px
+        &:hover, &.active
+          background: orange
+      
+div.editor-panel
+  width: 235px
+  float: right
+  button
+    float: left
+    margin: 0
+    margin-bottom: 10px
+    padding: 7px 10px !important
+    border: 1px solid #bde99c
+    font-weight: bold
+    font-size: 16px
+    -moz-border-radius: 7px
+    -webkit-border-radius: 7px
+    backround: green
+  ul
+    clear: both
+    li
+      margin-bottom: 9px
 
 
 // admin/manage 

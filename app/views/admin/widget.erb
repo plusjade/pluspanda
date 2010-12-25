@@ -34,7 +34,7 @@
     
 </div>
 
-<ul id="sub-tabs" class="grandchild_nav"> 
+<ul id="sub-tabs"> 
   <li><a href="#published" class="active" rel="tab-widget">Published View</a></li> 
   <li><a href="#staged" rel="tab-preview">Staged View</a></li> 
   <li><a href="#html" rel="tab-html">Edit Wrapper HTML</a></li> 
@@ -65,10 +65,10 @@
       This is the Wrapper HTML used to style your widget. View your HTML changes in the <b>Staged View Tab</b>.
     </div>  
     
-    <%= form_tag('/admin/theme/wrapper-html', :method => :post, :id => 'wrapper-form' ) do %>
-      <div class="round-box-tabs buttons">
+    <%= form_tag('/admin/theme/wrapper-html', :method => :post, :id => 'wrapper-form', :class => "editor-form" ) do %>
+      <div class="editor-panel buttons">
         <button type="submit" class="positive">Save HTML</button>
-        <ul style="clear:both">
+        <ul>
           <li><a href="/admin/theme/wrapper-html" id="refresh-wrapper">Refresh Staged HTML</a></li>
           <li><a href="/admin/theme/wrapper-html/original" id="load-stock-wrapper">Load Original HTML</a></li>
         </ul>
@@ -84,10 +84,10 @@
       This is the Testimonial HTML used to style each testimonial. View your HTML changes in the <b>Staged View Tab</b>.
     </div>  
     
-    <%= form_tag('/admin/theme/testimonial-html', :method => :post, :id => 'testimonial-form' ) do %>
-      <div class="round-box-tabs buttons">
+    <%= form_tag('/admin/theme/testimonial-html', :method => :post, :id => 'testimonial-form', :class => "editor-form" ) do %>
+      <div class="editor-panel buttons">
         <button type="submit" class="positive">Save HTML</button>
-        <ul style="clear:both">
+        <ul>
           <li><a href="/admin/theme/testimonial-html" id="refresh-testimonial">Refresh Staged HTML</a></li>
           <li><a href="/admin/theme/testimonial-html/original" id="load-stock-testimonial">Load Original HTML</a></li>
         </ul>
@@ -103,8 +103,8 @@
       This is the complete CSS used to style your widget. View your CSS changes in the <b>Staged View Tab</b>.
     </div>  
     
-    <%= form_tag('/admin/theme/style-css', :method => :post, :id => 'css-form' ) do %>
-      <div class="round-box-tabs buttons">
+    <%= form_tag('/admin/theme/style-css', :method => :post, :id => 'css-form', :class => "editor-form" ) do %>
+      <div class="editor-panel buttons">
         <button type="submit" class="positive">Save CSS</button>
         <ul>
           <li><a href="/admin/theme/style-css" id="refresh-css">Refresh Staged CSS</a></li>
@@ -161,29 +161,3 @@
   </div>
 
 </div>
-
-<style type="text/css">
-  #settings-panel{
-  }
-  #settings-panel form, #settings-panel ul {
-    margin-bottom:7px;
-  }
-    
-  #installed-themes{
-    list-style:none;
-    padding:5px;
-  }
-  #installed-themes li {
-    margin-right:10px;
-    display:inline;
-  }
-  #installed-themes li.theme a {
-    padding:3px 5px;
-    border-radius:5px;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-  }
-  #installed-themes li.theme a.active, #installed-themes li.theme a:hover {
-    background:orange;
-  }
-</style>

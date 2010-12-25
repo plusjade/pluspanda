@@ -249,49 +249,16 @@ ul#parent_nav {
       -webkit-box-shadow: 0px 2px 4px #cccccc;
       box-shadow: 0px 2px 4px #cccccc; }
 
-/* child navigation */
-div.child_nav {
-  min-width: 800px;
-  margin-bottom: 10px;
-  margin-left: 30px;
-  padding-bottom: 5px;
-  border-bottom: 2px solid #ffcccc;
-  overflow: hidden; }
-  div.child_nav p {
-    margin: 0;
-    padding: 9px 0; }
-  div.child_nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    padding: 9px 0; }
-    div.child_nav ul li {
-      display: inline; }
-      div.child_nav ul li a {
-        position: relative;
-        padding: 8px 12px;
-        margin-right: 5px;
-        color: #666666;
-        font-size: 14px;
-        text-decoration: none;
-        font-weight: bold;
-        -webkit-border-radius: 7px; }
-        div.child_nav ul li a:hover, div.child_nav ul li a.active {
-          color: black;
-          -moz-box-shadow: 0px 2px 4px #cccccc;
-          -webkit-box-shadow: 0px 2px 4px #cccccc;
-          box-shadow: 0px 2px 4px #cccccc; }
-
-/* grandchild top navigation */
-ul.grandchild_nav {
+/* sub-tabs navigation */
+ul#sub-tabs {
   min-width: 800px;
   margin-left: 50px;
   list-style: none;
   padding: 15px 0;
   border-bottom: 1px solid #66ccff; }
-  ul.grandchild_nav li {
+  ul#sub-tabs li {
     display: inline; }
-    ul.grandchild_nav li a {
+    ul#sub-tabs li a {
       position: relative;
       top: 5px;
       padding: 10px 17px;
@@ -305,7 +272,7 @@ ul.grandchild_nav {
       font-size: 13px;
       text-decoration: none;
       font-weight: bold; }
-      ul.grandchild_nav li a:hover, ul.grandchild_nav li a.active {
+      ul#sub-tabs li a:hover, ul#sub-tabs li a.active {
         padding: 11px 17px;
         background: white;
         border: 1px solid #66ccff;
@@ -326,25 +293,7 @@ ul.grandchild_nav {
   font-size: 10px;
   text-align: center; }
 
-#subnav {
-  display: none; }
-  #subnav ul {
-    text-align: right;
-    border: 1px solid red; }
-
 /* a bit of reusable element formatting */
-.round-box-tabs {
-  margin-top: 10px; }
-  .round-box-tabs button, .round-box-tabs a {
-    float: right;
-    padding: 7px 10px !important;
-    margin: 0;
-    border: 1px solid #bde99c;
-    font-weight: bold;
-    font-size: 16px;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px; }
-
 .round-box-top {
   clear: both;
   padding: 7px 15px;
@@ -530,51 +479,40 @@ fieldset span.error_msg {
   left: 0;
   z-index: 100;
   text-align: left; }
-  #facebox .b {
-    background: url(/images/facebox/b.png); }
-  #facebox .tl {
-    background: url(/images/facebox/fbx-border-sprite.png) 0 0; }
-  #facebox .tr {
-    background: url(/images/facebox/fbx-border-sprite.png) -10px 0; }
-  #facebox .bl {
-    background: url(/images/facebox/fbx-border-sprite.png) -20px 0; }
-  #facebox .br {
-    background: url(/images/facebox/fbx-border-sprite.png) -30px 0; }
-  #facebox .tl, #facebox .tr, #facebox .bl, #facebox .br {
-    height: 10px;
-    width: 10px;
-    overflow: hidden;
-    padding: 0; }
   #facebox .popup {
-    position: relative; }
-  #facebox table {
-    border-collapse: collapse;
-    /* ie 6 hack -- if the global table width is set to anything it could cause us issues */
-    -width: 0%; }
-  #facebox td {
-    border-bottom: 0;
-    padding: 0; }
-  #facebox .body {
-    padding: 10px;
-    background: white;
-    width: 600px; }
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.4); }
   #facebox .content {
-    overflow: hidden; }
+    display: table;
+    width: 370px;
+    background: white;
+    padding: 10px;
+    overflow: hidden;
+    -webkit-bottom-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px; }
+  #facebox .content > p:first-child {
+    margin-top: 0; }
+  #facebox .content > p:last-child {
+    margin-bottom: 0; }
+  #facebox .close {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 3px; }
   #facebox .loading {
-    text-align: center;
-    width: 370px; }
+    text-align: center; }
   #facebox .image {
     text-align: center; }
-  #facebox .footer {
-    border-bottom: 1px solid #dddddd;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-    text-align: center;
-    overflow: hidden; }
-    #facebox .footer a {
-      float: right; }
-    #facebox .footer img {
-      vertical-align: middle; }
+  #facebox img {
+    border: 0;
+    margin: 0; }
 
 #facebox_overlay {
   position: fixed;
@@ -589,10 +527,6 @@ fieldset span.error_msg {
 .facebox_overlayBG {
   background-color: black;
   z-index: 99; }
-
-* html #facebox_overlay {
-  position: absolute;
-  height: expression("document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px'"); }
 
 #editor-wrapper fieldset {
   margin-bottom: 7px; }
@@ -749,6 +683,72 @@ fieldset span.error_msg {
   height: 100px;
   border: 2px solid #dddddd;
   overflow: hidden; }
+
+button {
+  cursor: pointer; }
+
+/* POSITIVE */
+button.positive, .buttons a.positive {
+  color: white;
+  background: #d1f0b9 url("/images/common/gradients.jpg") repeat-x 0px -205px;
+  border: 1px solid #bde99c; }
+
+.buttons a.positive:hover, button.positive:hover, .buttons a.positive:active {
+  background: orange url("/images/common/gradients.jpg") repeat-x 0px -250px;
+  border: 1px solid orange; }
+
+/* NEGATIVE */
+.buttons a.negative, button.negative {
+  background: #333333 url("/images/common/gradients.jpg") repeat-x 0px -15px;
+  border: 1px solid black;
+  color: white; }
+
+.buttons a.negative:hover, button.negative:hover {
+  background-attachment: fixed;
+  background: #d52020 url(../images/gradients.jpg) repeat-x 0px -465px;
+  border: 1px solid #cc0000;
+  color: white; }
+
+.buttons a.negative:active {
+  background-color: #d12f19;
+  border: 1px solid #d12f19;
+  color: white; }
+
+#settings-panel {
+  margin-bottom: 7px; }
+
+#installed-themes {
+  list-style: none;
+  padding: 5px; }
+  #installed-themes li {
+    margin-right: 10px;
+    display: inline; }
+    #installed-themes li.theme a {
+      padding: 3px 5px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px; }
+      #installed-themes li.theme a:hover, #installed-themes li.theme a.active {
+        background: orange; }
+
+div.editor-panel {
+  width: 235px;
+  float: right; }
+  div.editor-panel button {
+    float: left;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 7px 10px !important;
+    border: 1px solid #bde99c;
+    font-weight: bold;
+    font-size: 16px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    backround: green; }
+  div.editor-panel ul {
+    clear: both; }
+    div.editor-panel ul li {
+      margin-bottom: 9px; }
 
 #data-description {
   text-align: center;

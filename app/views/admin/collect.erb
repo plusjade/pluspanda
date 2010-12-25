@@ -1,7 +1,7 @@
 <%
   collection_form_url = "#{root_url.chomp('/')}#{new_testimonial_path}?apikey=#{@user.apikey}"
 %>
-<ul id="sub-tabs" class="grandchild_nav">
+<ul id="sub-tabs">
   <li><a href="#form" class="active" rel="tab-collect">Form Preview</a></li>  
   <li><a href="#settings" rel="tab-settings">Form Settings</a></li> 
   <li><a href="#help" rel="tab-help">(help)</a></li> 
@@ -74,7 +74,7 @@
           </div>        
         </fieldset>
 
-        <div class="round-box-tabs buttons">
+        <div class="editor-panel buttons">
           <button type="submit" class="positive">Save Settings</button>
         </div>
       </div>
