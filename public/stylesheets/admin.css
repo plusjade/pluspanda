@@ -816,6 +816,14 @@ td.move img {
 td.edit {
   text-align: center; }
 
+#collector-form-url {
+  width: 650px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px;
+  border: 1px solid #eeeeee;
+  background: #ffff99; }
+
 .install-page div {
   padding: 5px;
   margin-bottom: 5px;
