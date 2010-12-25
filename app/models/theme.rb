@@ -54,13 +54,13 @@ class Theme < ActiveRecord::Base
   end
   
   def self.parse_testimonial(data, tokens)
-    data.gsub(/[\n\r\t]/,'').gsub(Token_regex) { |tkn|
+    data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
       tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
     }
   end
   
   def self.parse_wrapper(data, tokens)
-    data.gsub(/[\n\r\t]/,'').gsub(Token_regex) { |tkn|
+    data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
       tokens.has_key?($1.to_sym) ? tokens[$1.to_sym] : tkn
     }
   end
