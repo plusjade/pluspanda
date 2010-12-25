@@ -72,6 +72,13 @@
           <li><a href="/admin/theme/wrapper-html" id="refresh-wrapper">Refresh Staged HTML</a></li>
           <li><a href="/admin/theme/wrapper-html/original" id="load-stock-wrapper">Load Original HTML</a></li>
         </ul>
+        
+        <ul class="tokens">
+          <li><b>Wrapper Tokens</b></li>
+          <li><input type="text" value="{{testimonials}}" /></li>
+          <li><input type="text" value="{{tag_list}}" /></li>
+          <li><input type="text" value="{{count}}" /></li>
+        </ul> 
       </div>
       
       <textarea id="editor_wrapper" name="data" style="width:95%; height:600px"><%= @user.get_attribute("wrapper.html").staged %></textarea>
@@ -90,6 +97,12 @@
         <ul>
           <li><a href="/admin/theme/testimonial-html" id="refresh-testimonial">Refresh Staged HTML</a></li>
           <li><a href="/admin/theme/testimonial-html/original" id="load-stock-testimonial">Load Original HTML</a></li>
+        </ul>
+        <ul class="tokens">
+          <li><b>Testimonial Tokens</b></li>
+          <% Testimonial.api_attributes.each do |a| %>
+            <li><input type="text" value="{{<%= a %>}}" /></li>
+          <% end%>
         </ul>
       </div>
       

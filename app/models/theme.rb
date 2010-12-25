@@ -80,8 +80,8 @@ class Theme < ActiveRecord::Base
     ).gsub(/[\n\r\t]/,'')    
     wrapper_tokens = {
       :tag_list       => tag_list,
-      :count          => "||COUNTER||",
-      :testimonials   => "||TESTIMONIALS||",
+      :count          => '<span class="pandA-tCount_ness"></span>',
+      :testimonials   => '<span class="pandA-tWrapper_ness"></span>',
       :add_link       => "||FORM LINK||"
     }
     wrapper = Theme.parse_wrapper(opts[:wrapper], wrapper_tokens)

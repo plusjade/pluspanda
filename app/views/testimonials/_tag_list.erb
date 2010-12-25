@@ -1,15 +1,14 @@
 <% extra ||= false %>
-
-  <ul>
-    <li><a href="#all" class="active">Everyone</a></li>
-  <% if extra %>
-    <% extra.each do |val, text| %>
-        <li><a href="#<%= val %>"><%= text %></a></li>
-    <% end %>
-  <% end %>
   
-  <% for tag in tags do %>
-    <li><a href="#<%= tag.id %>"><%= tag.name %></a></li>
+<ul class="pandA-tTags_ness">
+  <li><a href="#all" class="active">Everyone</a></li>
+<% if extra %>
+  <% extra.each do |val, text| %>
+      <li><a href="#<%= val %>"><%= text %></a></li>
   <% end %>
-  </ul>
+<% end %>
 
+<% for tag in tags do %>
+  <li><a href="#<%= tag.id %>"><%= tag.name %></a></li>
+<% end %>
+</ul>

@@ -749,6 +749,14 @@ div.editor-panel {
     clear: both; }
     div.editor-panel ul li {
       margin-bottom: 9px; }
+    div.editor-panel ul.tokens input {
+      width: 100%;
+      padding: 6px 4px;
+      background: #ffffcc;
+      font-weight: bold;
+      font-size: 14px;
+      color: green;
+      border: 0; }
 
 #data-description {
   text-align: center;
