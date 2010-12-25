@@ -1,0 +1,12 @@
+h1,h2,h3,h4 {
+  margin-bottom:7px;
+}
+table {
+  margin-bottom:10px;
+}
+table td {
+  padding: 5px;
+  width: 300px;
+  border: 1px solid #ccc;
+  background: #FFF;
+}
