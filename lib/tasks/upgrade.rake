@@ -6,7 +6,10 @@ task :upgrade_themes => :environment do
   themes_path = Rails.root.join("public","themes")
   
   User.all.each do |user|
+    next if user.tconfig.nil?
     theme = user.tconfig.theme
+    next if theme.blank?
+    next if Theme.names.index(theme).nil?
 
     #create new theme row, mark as staged
     user.themes.create(:name => Theme.names.index(theme), :staged => true)
