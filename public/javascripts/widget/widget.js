@@ -111,7 +111,9 @@ var panda = {
       this.created_at = new Date(this.created_at).toDateString();
       this.image  = (false === this.image) ? this.image_stock : this.image; 
       this.image  = '<img src="'+ this.image +'" />';
-      this.url        = (0 === this.url.length) ? '' : 'http://' + this.url;
+      if(this.url.length > 0){
+        this.url    = '<a href="http://' + this.url + '" target="_blank">http://' + this.url + ' </a>';
+      }
       this.alt        = (0 === (i+1) % 2) ? 'even' : 'odd';
       this.tag_name   = (this.tag_name)? this.tag_name : '';
       content  += pandaThemeConfig.testimonialHTML(this);
