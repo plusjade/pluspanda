@@ -69,6 +69,11 @@ task :publish_themes => :environment do
   puts "publishing..."
   
   User.all.each do |user|
+    next if user.tconfig.nil?
+    theme = user.tconfig.theme
+    next if theme.blank?
+    next if Theme.names.index(theme).nil?
+    
     user.publish_theme
     puts "published " + user.apikey
   end
