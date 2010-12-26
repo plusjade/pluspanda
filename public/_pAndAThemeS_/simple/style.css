@@ -125,7 +125,15 @@
   #pluspanda-testimonials .panda-avg-rating {
     float: right;
     padding-right: 15px;
-    position: relative; }
+    position: relative;
+    cursor: default;
+    color: #999999;
+    font-size: 0.9em; }
+    #pluspanda-testimonials .panda-avg-rating span {
+      font-weight: bold;
+      color: #444444;
+      margin-top: -4px;
+      padding: 4px 0; }
     #pluspanda-testimonials .panda-avg-rating .panda-rating-stars {
       background: url(/_pAndAThemeS_/list/images/stars_sprite.png) no-repeat 0 0;
       display: inline-block;
@@ -156,15 +164,6 @@
     background-position: 0 -17px; }
   #pluspanda-testimonials .panda-rating-stars.s5 {
     background-position: 0 0px; }
-  #pluspanda-testimonials .panda-avg-rating span {
-    cursor: default;
-    float: left;
-    font-size: 0.9em;
-    color: #999999;
-    margin-top: -4px;
-    padding: 4px 0; }
-    #pluspanda-testimonials .panda-avg-rating span b {
-      color: #444444; }
   #pluspanda-testimonials .panda-container {
     padding: 0 15px; }
     #pluspanda-testimonials .panda-container .image {
