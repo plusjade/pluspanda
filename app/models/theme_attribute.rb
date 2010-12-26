@@ -11,7 +11,7 @@ class ThemeAttribute < ActiveRecord::Base
     :attributes => {
       :all  => ['id','class','title','rel','style'],
       'a'   => ['href'],
-      'img' => ['src','alt']
+      'img' => ['src','alt', 'height', 'width']
     }
   }
   
