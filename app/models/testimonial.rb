@@ -63,7 +63,7 @@ class Testimonial < ActiveRecord::Base
       :body,
       :url,
       :c_position,
-      :image_src,
+      :image,
       :image_stock      
     ]    
   end
@@ -74,7 +74,7 @@ class Testimonial < ActiveRecord::Base
   
     Testimonial.api_attributes.each do |a|
       case a
-      when :image_src
+      when :image
         testimonial[a] = self.avatar? ? root_url + self.avatar.url(:sm) : false
       when :image_stock
         testimonial[a] = image_stock

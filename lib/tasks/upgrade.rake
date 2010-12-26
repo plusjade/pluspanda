@@ -17,6 +17,12 @@ task :upgrade_themes => :environment do
     # update css with old filesystem css 
     css_path = Rails.root.join("public","system", "data", user.apikey, "#{theme}.css")
     old_css = File.exist?(css_path) ? File.new(css_path).read : "/*no file*/"
+    
+    # preserve old image formatting
+    if theme == "list"
+      old_css << "\n#pluspanda-testimonials div.image img { width:148px; height:148px;}\n"
+    end
+    
     css = user.get_attribute("style.css")
     css.update_attributes(:staged => old_css)
 
