@@ -73,7 +73,6 @@ class Theme < ActiveRecord::Base
     opts[:wrapper]      ||= ""
     opts[:testimonial]  ||= ""
     
-    puts opts.to_yaml
     # parse wrapper.html
     tag_list = context.render_to_string(
       :partial  => "testimonials/tag_list",
