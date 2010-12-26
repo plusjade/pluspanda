@@ -107,7 +107,7 @@ var panda = {
     var content = '';
     jQuery(tstmls).each(function(i){
       this.created_at = new Date(this.created_at).toDateString();
-      this.image_src  = (false === this.image_source) ? this.image_stock : this.image_src; 
+      this.image_src  = (false === this.image_src) ? this.image_stock : this.image_src; 
       this.url        = (0 === this.url.length) ? '' : 'http://' + this.url;
       this.alt        = (0 === (i+1) % 2) ? 'even' : 'odd';
       this.tag_name   = (this.tag_name)? this.tag_name : '';
