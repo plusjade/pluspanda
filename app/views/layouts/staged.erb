@@ -9,7 +9,7 @@
   <%= stylesheet_link_tag "staging" %>
   
   <% if Rails::env == "development" %>
-    <%= javascript_include_tag "jquery/jquery", "facebox/facebox_widget" %>
+    <%= javascript_include_tag "jquery/jquery" %>
   <% else %>
     <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
   <% end %>
