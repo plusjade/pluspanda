@@ -485,27 +485,35 @@ fieldset span.error_msg {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    -webkit-box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 18px rgba(0, 0, 0, 0.4); }
+    -webkit-box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+    -moz-box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.9); }
   #facebox .content {
     display: table;
     width: 370px;
-    background: white;
     padding: 10px;
-    overflow: hidden;
-    -webkit-bottom-border-radius: 4px;
+    background: white;
+    -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px; }
-  #facebox .content > p:first-child {
-    margin-top: 0; }
-  #facebox .content > p:last-child {
-    margin-bottom: 0; }
+    #facebox .content > p:first-child {
+      margin-top: 0; }
+    #facebox .content > p:last-child {
+      margin-bottom: 0; }
   #facebox .close {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    padding: 3px; }
+    top: 5px;
+    right: 5px;
+    padding: 2px;
+    background: transparent;
+    text-decoration: none;
+    color: #333333;
+    font-weight: bold;
+    font-size: 12px; }
+    #facebox .close img {
+      opacity: 0.3; }
+    #facebox .close:hover {
+      color: red; }
   #facebox .loading {
     text-align: center; }
   #facebox .image {

@@ -27,8 +27,9 @@
 admin_testimonials_save_positions GET    /admin/testimonials/save_positions(.:format) {:controller=>"admin", :action=>"save_positions"}
                       admin_theme GET    /admin/theme(/)(.:format)                    {:controller=>"theme", :action=>"index"}
                       admin_theme POST   /admin/theme(/)(.:format)                    {:controller=>"theme", :action=>"create"}
-                  admin_theme_new GET    /admin/theme/new(.:format)                   {:controller=>"theme", :action=>"new"}
-              admin_theme_publish GET    /admin/theme/publish(.:format)               {:controller=>"theme", :action=>"publsih"}
+              admin_theme_publish GET    /admin/theme/publish(.:format)               {:controller=>"theme", :action=>"publish"}
+                      admin_theme GET    /admin/theme/gallery/:theme(.:format)        {:controller=>"theme", :action=>"show"}
+                      admin_theme GET    /admin/theme/:theme_id/stage(.:format)       {:controller=>"theme", :action=>"set_staged"}
                       admin_theme GET    /admin/theme/:attribute(/)(.:format)         {:controller=>"theme", :action=>"staged"}
                       admin_theme POST   /admin/theme/:attribute(/)(.:format)         {:controller=>"theme", :action=>"update"}
              admin_theme_original GET    /admin/theme/:attribute/original(.:format)   {:controller=>"theme", :action=>"original"}
@@ -48,4 +49,4 @@ admin_testimonials_save_positions GET    /admin/testimonials/save_positions(.:fo
                           session DELETE /session(.:format)                           {:controller=>"user_sessions", :action=>"destroy"}
                                   GET    /pinky(/)(.:format)                          {:controller=>"pinky", :action=>"index"}
                             users GET    /pinky/users(.:format)                       {:controller=>"pinky", :action=>"users"}
-                                         /log/:apikey(.:format)                       {:to=>#<Proc:0x0000000105ce3e10@/Users/jade/Dropbox/www/pluspanda/config/routes.rb:62>}
+                                         /log/:apikey(.:format)                       {:to=>#<Proc:0x00000001058d6ef8@/Users/jade/Dropbox/www/pluspanda/config/routes.rb:63>}
