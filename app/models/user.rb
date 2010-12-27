@@ -54,6 +54,11 @@ class User < ActiveRecord::Base
     
     #css
     style = self.get_attribute("style.css").staged
+    facebox_path = Rails.root.join("public","stylesheets","facebox.css")
+    if File.exist?(facebox_path)
+      style << "\n" << File.new(facebox_path).read
+    end
+    
     f = File.new(stylesheet_path, "w+")
     f.write(style)
     f.rewind    
