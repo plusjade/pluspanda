@@ -385,3 +385,14 @@
       padding-top: 1px; }
       #pluspanda-testimonials .list .t-details-meta .t-website:hover {
         text-decoration: underline; }
+
+/* add form link */
+#pluspanda-testimonials span.form-link {
+  float: right;
+  margin-right: 20px; }
+  #pluspanda-testimonials span.form-link a {
+    color: green;
+    font-weight: bold !important;
+    text-decoration: none; }
+    #pluspanda-testimonials span.form-link a:hover {
+      text-decoration: underline; }

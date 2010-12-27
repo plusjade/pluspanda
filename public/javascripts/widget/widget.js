@@ -4,6 +4,7 @@ var panda = {
   $testimonials : null,
   $iframe : null,
   $total : null,
+  fbUrl : 'javascripts/widget/facebox.js',
   pollTry: 0,
   admin : false,
   debug: false,
@@ -47,10 +48,7 @@ var panda = {
     panda.$testimonials = panda.$container.find('span.pandA-tWrapper_ness');
     panda.$totals = panda.$container.find("span.pandA-tCount_ness");
     panda.$tags = panda.$container.find("ul.pandA-tTags_ness");
-    /*
-    panda.$iframe = jQuery('<iframe width="750px" height="390px" frameborder="0" scrolling="no">Iframe not Supported</iframe>')
-      .attr('src',  pandaSettings.apiUrl + '/' + pandaSettings.apiVrsn + '/testimonials/new.iframe?apikey='+pandaSettings.apikey);
-    */
+
     panda.$container.find("a.show-more").live("click",function(){  
       var is_sort = this.href.indexOf('#');    
       var parent = (-1 == is_sort) ? 'a.show-more' : '.panda-testimonials-sorters a';
@@ -76,17 +74,21 @@ var panda = {
       panda.getTstmls(tag,'newest',1);
       return false;  
     });
-    /*     
-    panda.$container.find(".add-link a").click(function(){
-      jQuery.facebox(panda.$iframe);
-      return false;
-    });
-    */
+    
+    panda.initFacebox();
+
     if(panda.debug){console.log(cssUrl);console.log(panda.$container)}
     panda.getTstmls('all','newest',1)
     if(!panda.admin)jQuery.get(pandaSettings.apiUrl+'/log/'+pandaSettings.apikey+"?"+parent.location.href)
   },
 
+  initFacebox : function(){
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = pandaSettings.apiUrl + "/" + panda.fbUrl
+    document.body.appendChild(script);
+  },
+  
   /* get the testimonials as json. */
   getTstmls: function (tag, sort, page){
     if(panda.debug){console.log("getTstmls called(" + tag + '/' + sort + '/' + page+ ')');console.log('expecting callbacks: display(), update()')}

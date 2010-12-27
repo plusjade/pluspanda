@@ -4,8 +4,8 @@ class Theme < ActiveRecord::Base
   has_many :theme_attributes, :dependent => :destroy
   after_create :populate_attributes
 
-  # matches {{blah_token}}
-  Token_regex = /\{{2}(\w+)\}{2}/i
+  # matches {{blah_token}}, {{blah_token:param}}
+  Token_regex = /\{{2}(\w+):?([\w\s?!:"',\.]*)\}{2}/i
   Themes_path = Rails.root.join("public/_pAndAThemeS_")
   # this should only be used in gallery view for direct css
   Themes_url  = "_pAndAThemeS_"
@@ -62,7 +62,7 @@ class Theme < ActiveRecord::Base
   
   def self.parse_wrapper(data, tokens)
     data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
-      tokens.has_key?($1.to_sym) ? tokens[$1.to_sym] : tkn
+      tokens.has_key?($1.to_sym) ? tokens[$1.to_sym].gsub("{{param}}", $2) : tkn
     }
   end
   
@@ -82,7 +82,7 @@ class Theme < ActiveRecord::Base
       :tag_list       => tag_list,
       :count          => '<span class="pandA-tCount_ness"></span>',
       :testimonials   => '<span class="pandA-tWrapper_ness"></span>',
-      :add_link       => "||FORM LINK||"
+      :form_link      => '<a href="#" class="pandA-addForm_ness">{{param}}</a>'
     }
     wrapper = Theme.parse_wrapper(opts[:wrapper], wrapper_tokens)
     
