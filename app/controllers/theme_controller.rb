@@ -59,9 +59,12 @@ class ThemeController < ApplicationController
     serve_json_response
   end
 
-  # get original copy of staged attribute
+  # get original attributes from theme source.
   def original
-      render :text => @attribute.original
+    attribute = ThemeAttribute.names[@attribute.name]
+    path = File.join(Theme::Themes_path, Theme.names[@user.theme_staged.name], attribute)
+    data = File.exist?(path) ? File.new(path).read : "/*No data*/"
+    render :text => data
   end
 
 
