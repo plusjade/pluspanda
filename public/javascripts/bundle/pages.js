@@ -10,7 +10,7 @@
       width: "800px",
       height: "700px",
       parserfile: "parsexml.js",
-      stylesheet: "/stylesheets/codemirror/xmlcolors.css?3453",
+      stylesheet: "/stylesheets/codemirror/xmlcolors.css?1",
       path: "/javascripts/codemirror/",
       continuousScanning: 500,
       lineNumbers: true,

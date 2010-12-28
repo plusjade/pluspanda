@@ -1,8 +1,8 @@
 html {
   cursor: text;
-  background:#ccc;
+  background: url("/images/staged-bg.gif") repeat 0 0;
+  border:2px solid #e4e4e4 !important;
 }
-
 .editbox {
   margin: .4em;
   padding: 0;
