@@ -12,8 +12,8 @@ class Theme < ActiveRecord::Base
 
   def self.names
     [
-      "list",
-      "simple",
+      "bernd",
+      "bernd-simple",
       "legacy",
       "custom"
     ]
@@ -101,10 +101,5 @@ class Theme < ActiveRecord::Base
     )
   end
 
-  def self.names_for_select
-    names = []
-    self.names.each_with_index {|k,v| names.push([ k, v ]) }
-    names
-  end
-     
+
 end

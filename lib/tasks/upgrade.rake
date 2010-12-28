@@ -50,10 +50,7 @@ task :grep_css => :environment do
   puts ThemeAttribute.where(:name => name).count
   
   ThemeAttribute.where(:name => name).each do |a|
-    css = a.staged.gsub("/images/themes/list/", "/_pAndAThemeS_/list/images/")
-    css = css.gsub("/images/common/widget/", "/_pAndAThemeS_/legacy/images/")
-    css = css.gsub("/images/common/", "/_pAndAThemeS_/legacy/images/")
-
+    css = a.staged.gsub("/_pAndAThemeS_/list/images/","/_pAndAThemeS_/bernd/images/")
     a.staged = css
     if a.save
       puts "saved css successfully."
@@ -69,11 +66,6 @@ task :publish_themes => :environment do
   puts "publishing..."
   
   User.all.each do |user|
-    next if user.tconfig.nil?
-    theme = user.tconfig.theme
-    next if theme.blank?
-    next if Theme.names.index(theme).nil?
-    
     user.publish_theme
     puts "published " + user.apikey
   end
