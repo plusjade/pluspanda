@@ -1,11 +1,9 @@
 var sammyApp = $.sammy(function() {
 
-  this.debug = true;
+  this.debug = false;
   
   this.before(function(){
-    console.log("before hook called");
     $('#main-wrapper').html(loading);
-    console.log(this.path);
     
     // fix this later.
     page = this.path.substring(2);
@@ -48,8 +46,8 @@ var sammyApp = $.sammy(function() {
   });    
     
   this.after(function(){
-    console.log("after hook called");
     adminNavigation.mainTab(page);
+    mpmetrics.track("page: " + page);
   })
 
 });

@@ -1287,13 +1287,11 @@ $(document).bind('ajaxify.form', function(){
 ;var adminPages = {
 
   widget : function(){
-    console.log("widget page callback invoked");
-    
     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
       width: "800px",
       height: "700px",
       parserfile: "parsexml.js",
-      stylesheet: "/stylesheets/codemirror/xmlcolors.css?3453",
+      stylesheet: "/stylesheets/codemirror/xmlcolors.css?1",
       path: "/javascripts/codemirror/",
       continuousScanning: 500,
       lineNumbers: true,
@@ -1301,6 +1299,7 @@ $(document).bind('ajaxify.form', function(){
       saveFunction: function(){
         $('#editor_wrapper').val(editor.wrapper.getCode());
         $('#wrapper-form').submit();
+        mpmetrics.track("editor save:widget");
       },
       initCallback: function(editor){
         //editor.setCode('some value');    
@@ -1319,6 +1318,7 @@ $(document).bind('ajaxify.form', function(){
       saveFunction: function(){
         $('#editor_testimonial').val(editor.testimonial.getCode());
         $('#testimonial-form').submit();
+        mpmetrics.track("editor save:testimonial");
       },
       initCallback: function(editor){
         //editor.setCode('some value');    
@@ -1337,6 +1337,7 @@ $(document).bind('ajaxify.form', function(){
       saveFunction: function(){
         $('#editor_css').val(editor.css.getCode());
         $('#css-form').submit();
+        mpmetrics.track("editor save:css");
       },
       initCallback: function(editor){
         //editor.setCode('some value');    
@@ -1425,8 +1426,6 @@ $(document).bind('ajaxify.form', function(){
 
   // setup manage page
   manage : function(){
-    console.log("manage callback");
-    
     $("table.t-data").tablesorter({
       headers:{
         0:{sorter:false},
@@ -1499,8 +1498,6 @@ $(document).bind('ajaxify.form', function(){
   },
 
   collect : function(){
-    console.log("collect callback");
-    
     $("#sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
       
@@ -1518,8 +1515,6 @@ $(document).bind('ajaxify.form', function(){
   },
   
   install : function(){
-    console.log("install callback");
-    
     $("#sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
       return false;
@@ -1546,12 +1541,10 @@ $(document).bind('ajaxify.form', function(){
 }
 var sammyApp = $.sammy(function() {
 
-  this.debug = true;
+  this.debug = false;
   
   this.before(function(){
-    console.log("before hook called");
     $('#main-wrapper').html(loading);
-    console.log(this.path);
     
     // fix this later.
     page = this.path.substring(2);
@@ -1594,8 +1587,8 @@ var sammyApp = $.sammy(function() {
   });    
     
   this.after(function(){
-    console.log("after hook called");
     adminNavigation.mainTab(page);
+    mpmetrics.track("page: " + page);
   })
 
 });

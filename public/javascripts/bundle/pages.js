@@ -4,8 +4,6 @@
 ;var adminPages = {
 
   widget : function(){
-    console.log("widget page callback invoked");
-    
     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
       width: "800px",
       height: "700px",
@@ -18,6 +16,7 @@
       saveFunction: function(){
         $('#editor_wrapper').val(editor.wrapper.getCode());
         $('#wrapper-form').submit();
+        mpmetrics.track("editor save:widget");
       },
       initCallback: function(editor){
         //editor.setCode('some value');    
@@ -36,6 +35,7 @@
       saveFunction: function(){
         $('#editor_testimonial').val(editor.testimonial.getCode());
         $('#testimonial-form').submit();
+        mpmetrics.track("editor save:testimonial");
       },
       initCallback: function(editor){
         //editor.setCode('some value');    
@@ -54,6 +54,7 @@
       saveFunction: function(){
         $('#editor_css').val(editor.css.getCode());
         $('#css-form').submit();
+        mpmetrics.track("editor save:css");
       },
       initCallback: function(editor){
         //editor.setCode('some value');    
@@ -142,8 +143,6 @@
 
   // setup manage page
   manage : function(){
-    console.log("manage callback");
-    
     $("table.t-data").tablesorter({
       headers:{
         0:{sorter:false},
@@ -216,8 +215,6 @@
   },
 
   collect : function(){
-    console.log("collect callback");
-    
     $("#sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
       
@@ -235,8 +232,6 @@
   },
   
   install : function(){
-    console.log("install callback");
-    
     $("#sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
       return false;
