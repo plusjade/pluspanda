@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
     end
     
     def admin_frontpage
-      new_account_url
+      new_session_url
     end
     
     def root_url

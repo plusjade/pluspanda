@@ -64,8 +64,8 @@
     })
   </script>
 
-  <script type='text/javascript'> var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://'); document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E')); </script> <script type='text/javascript'> try {  var mpmetrics = new MixpanelLib('48212be322d2395bbf74e1917d5bcc76'); } catch(err) { null_fn = function () {}; var mpmetrics = {  track: null_fn,  track_funnel: null_fn,  register: null_fn,  register_once: null_fn, register_funnel: null_fn }; } </script>
 <% if ::Rails.env == 'production' %>
+  <script type='text/javascript'> var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://'); document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E')); </script> <script type='text/javascript'> try {  var mpmetrics = new MixpanelLib('48212be322d2395bbf74e1917d5bcc76'); } catch(err) { null_fn = function () {}; var mpmetrics = {  track: null_fn,  track_funnel: null_fn,  register: null_fn,  register_once: null_fn, register_funnel: null_fn }; } </script>
   <script type="text/javascript">
   var clicky = { log: function(){ return; }, goal: function(){ return; }};
   var clicky_site_id = 66354221;
@@ -78,6 +78,11 @@
   })();
   </script>
   <noscript><p><img alt="Clicky" width="1" height="1" src="http://in.getclicky.com/66354221ns.gif" /></p></noscript>    
+<% else %>
+  <script>
+    /* stub methods */
+    mpmetrics = {track : function(){}}
+  </script>
 <% end %>
 </body>
 </html>

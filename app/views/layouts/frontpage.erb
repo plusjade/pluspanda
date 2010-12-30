@@ -6,7 +6,7 @@
 
   <style type="text/css">
     body {
-      background: #EAEAEA;
+      background: url("/images/staged-bg.gif") repeat 0 0;
       font-family: Arial, Helvetica, sans-serif;
       margin:0;
       margin-top:20px;
@@ -44,6 +44,11 @@
       padding:5px;
       background:#ffffcc;
     }
+    #message {
+      font-size:12px;
+      background: #FFFFCC;
+      margin-bottom: 20px;
+    }
     form {
       background:#fff;
       padding:10px;
@@ -52,35 +57,51 @@
       width:320px;
       border:1px solid #eee;
       -webkit-border-radius:5px;
+      -moz-border-radius:5px;
+      border-radius:5px;
       -webkit-box-shadow:2px 2px 4px #ccc;
+      -moz-box-shadow:2px 2px 4px #ccc;
     }
     label {
       font-weight:bold;
       display:block;
     }
     input {
-      border:1px solid #ccc;
-      padding:5px;
-      font-size:18px;
+      border: 1px solid #eee;
+      padding:5px 0;
+      font-size:24px;
       font-weight:bold;
+      color: #333;
       width:300px;
-      background:#EAEAEA;
+      background: url("/images/staged-bg.gif") repeat 0 0;
+      -webkit-border-radius:5px;
+      -moz-border-radius:5px;
+      border-radius:5px;
     }
     input:focus {
-      background:#ffff99;
-      border:1px solid orange;
+      order:1px solid orange;
     }
     fieldset {
       margin-bottom:15px;
       border:0;
     }
-    #user_session_submit, #user_submit {
+    button {
+      display: block;
+      width: 300px;
+      padding:10px 0;
+      text-align: center;
+      margin: auto;
+      font-size:18px;
+      font-weight:bold;
       background:#7BC940;
       border:1px solid #5E892D;
       cursor:cursor;
       cursor:pointer;
+      -webkit-border-radius:5px;
+      -moz-border-radius:5px;
+      border-radius:5px;      
     }
-    #user_session_submit:hover, #user_submit:hover {
+    button:hover {
       background:#9EDD4F;
     } 
     #questions {
@@ -98,7 +119,17 @@
 <body>
   <div id="wrapper">
     <div id="content_wrapper">
+      <h1 class="title">Pluspanda Testimonials Service</h1>
+
       <%= yield %>
+
+      <h1 style="clear:both;">Questions?</h1>
+      <p id="questions">
+        Email me at <a href="mailto:jade@pluspanda.com">jade@pluspanda.com</a>
+        <br/> or go to <a href="http://pluspanda.com">http://pluspanda.com</a> for more information.
+        <br/><a href="http://pluspanda.com/terms_of_service">Terms of Service</a>
+        <br/><a href="http://pluspanda.com/privacy_policy">Privacy Policy</a>
+      </p>
     </div>
   </div>
 

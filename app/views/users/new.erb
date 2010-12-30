@@ -1,23 +1,12 @@
 
-<h1 class="title">Pluspanda Testimonials Service</h1>
-
-<div style="float:left;">
-  <%= render :template => "user_sessions/new" %>
-</div>
-
-<div style="float:right;">
-  <h1>Register</h1>
-  <%= form_for @user, :url => account_path do |f| %>
-  <% if flash[:warning] %>
-    <div class="notice"><%= flash[:warning] %></div>
-  <% end%>
-    <%= render :partial => "form", :object => f %>
-    <%= f.submit "Register" %>
-  <% end %>
-</div>
-
-<h1 style="clear:both;">Questions?</h1>
-<p id="questions">
-  Email me at <a href="mailto:jade@pluspanda.com">jade@pluspanda.com</a>
-  <br/> or go to <a href="http://pluspanda.com">http://pluspanda.com</a> for more information.
+<p id="message">
+  Pluspanda is 100% Free. I plan to charge for premium themes
+  and full-service customization. The service itself will stay FREE. 
 </p>
+<%= form_for @user, :url => account_path do |f| %>
+<% if flash[:warning] %>
+  <div class="notice"><%= flash[:warning] %></div>
+<% end%>
+  <%= render :partial => "form", :object => f %>
+  <button type="submit">Register</button>
+<% end %>
