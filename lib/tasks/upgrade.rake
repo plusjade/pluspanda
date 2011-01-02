@@ -66,7 +66,9 @@ task :publish_themes => :environment do
   puts "publishing..."
   
   User.all.each do |user|
-    user.publish_theme
+    if user.themes.find_by_staged(true)
+      user.publish_theme
+    end
     puts "published " + user.apikey
   end
   
