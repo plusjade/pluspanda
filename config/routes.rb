@@ -54,9 +54,10 @@ Pluspanda::Application.routes.draw do
   resource :session, :controller => "user_sessions"
 
   # dashboard
-  scope "/pinky", :controller => "pinky" do
+  scope "/pinky", :controller => "pinky", :as => "pinky" do
     get "()" ,:action => "index"
     get "users"
+    post "as_user"
   end
   
   # log

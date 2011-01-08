@@ -16,8 +16,16 @@ class PinkyController < ApplicationController
     
   end
   
-  private
+  def as_user
+    user = User.find_by_email(params[:email])
+    
+    UserSession.create(user)
+    
+    redirect_to admin_path
+  end
   
+  private
+    
     def require_super_user
       pinky = YAML::load(File.open("#{::Rails.root.to_s}/config/pinky.yml"))
     

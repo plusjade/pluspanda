@@ -1,5 +1,13 @@
 
 Total users: <b><%= @users_count %></b>
+
+<%= form_tag pinky_as_user_path << "?pk=#{params[:pk]}" do %>
+  <fieldset>
+    <%= text_field_tag :email %>
+      <button type="submit">Login as user</button>
+  </fieldset>
+<% end %>
+
 <br/>Newest Users:
 <table class="data">
   <thead>
