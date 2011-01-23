@@ -6,9 +6,6 @@
     showStatus.submitting();    
     $.get('/admin/testimonials/save_positions', order, function(rsp){
       showStatus.respond(rsp);
-      if(rsp.status = 'good'){
-        admin.loadSettingsForm();
-      }
     })
   },
 
@@ -22,7 +19,7 @@
     $.get('/admin/testimonials/update?do=' + action, $.param( {'id[]': ids}, true), function(rsp){
       showStatus.respond(rsp);
       if (filter)
-        admin.loadTestimonials(filter);
+        adminTestimonials.loadTestimonials(filter);
     })
   },
 
