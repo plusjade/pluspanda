@@ -1152,9 +1152,6 @@ jQuery.effects||(function(d){d.effects={version:"1.7.2",save:function(g,h){for(v
     showStatus.submitting();    
     $.get('/admin/testimonials/save_positions', order, function(rsp){
       showStatus.respond(rsp);
-      if(rsp.status = 'good'){
-        admin.loadSettingsForm();
-      }
     })
   },
 
@@ -1168,7 +1165,7 @@ jQuery.effects||(function(d){d.effects={version:"1.7.2",save:function(g,h){for(v
     $.get('/admin/testimonials/update?do=' + action, $.param( {'id[]': ids}, true), function(rsp){
       showStatus.respond(rsp);
       if (filter)
-        admin.loadTestimonials(filter);
+        adminTestimonials.loadTestimonials(filter);
     })
   },
 
