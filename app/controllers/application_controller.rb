@@ -12,7 +12,11 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
   
-  
+  before_filter  :set_p3p
+
+  def set_p3p
+    response.headers["P3P"]='CP="CAO PSA OUR"'
+  end  
   
   private
     def current_user_session
