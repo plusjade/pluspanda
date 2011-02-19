@@ -39,4 +39,19 @@ class UserSessionsController < ApplicationController
     end
   end
   
+  def single_access
+    @user = User.find_by_single_access_token(params[:single_access_token])
+    
+    if @user
+      current_user_session.destroy if current_user_session
+      UserSession.find.destroy if UserSession.find
+
+      UserSession.create(@user)
+      @user.single_access_token = ActiveSupport::SecureRandom.hex(10)
+      @user.save
+    end
+
+    redirect_to admin_path
+  end
+  
 end

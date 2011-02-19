@@ -51,7 +51,9 @@ Pluspanda::Application.routes.draw do
   
   # account management
   resource :account, :controller => "users"
-  resource :session, :controller => "user_sessions"
+  resource :session, :controller => "user_sessions" do
+    get "single_access", :on => :member
+  end
 
   # dashboard
   scope "/pinky", :controller => "pinky", :as => "pinky" do
