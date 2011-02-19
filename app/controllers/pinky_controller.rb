@@ -1,6 +1,6 @@
 class PinkyController < ApplicationController
 
-  before_filter :require_super_user
+  before_filter :authenticate
   
   def index
     
@@ -26,12 +26,11 @@ class PinkyController < ApplicationController
   
   private
     
-    def require_super_user
+    def authenticate
       pinky = YAML::load(File.open("#{::Rails.root.to_s}/config/pinky.yml"))
-    
-      unless params[:pk] == pinky["passkey"]
-        render :text => "=("
+      authenticate_or_request_with_http_basic do |user_name, password|
+        user_name == pinky["username"] && password == pinky["passkey"]
       end
-    
     end
+
 end
