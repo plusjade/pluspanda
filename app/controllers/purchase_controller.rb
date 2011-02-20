@@ -1,9 +1,13 @@
 class PurchaseController < ApplicationController
+  layout false
   
   before_filter :require_user, :setup_user
 
   def index
-    render :template => "purchase/index", :layout => false
+
   end
   
+  def thanks
+    
+  end
 end

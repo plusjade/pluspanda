@@ -1583,6 +1583,13 @@ var sammyApp = $.sammy(function() {
     })
   });    
     
+  this.get('#/thanks', function() {
+    $.get("/admin/thanks", function(view){
+      $('#main-wrapper').html(view);
+      if(typeof adminPages[page] === "function") adminPages[page]();
+    })
+  });
+    
   this.after(function(){
     adminNavigation.mainTab(page);
     mpmetrics.track("page: " + page);

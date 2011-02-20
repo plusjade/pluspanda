@@ -22,6 +22,7 @@ Pluspanda::Application.routes.draw do
     get :staged
     get :published
     get :purchase, :controller => "purchase", :action => "index"
+    get :thanks, :controller => "purchase", :action => "thanks"
     
     scope "/testimonials", :as => :testimonials do
       get "()"                  ,:action => :testimonials
