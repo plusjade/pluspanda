@@ -1,0 +1,27 @@
+
+<div style="width:400px;">  
+  <h3>Want to Support Pluspanda?</h3>
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="no-ajax" style="margin:auto; margin-bottom:20px;">
+    <b>Note:</b> Paypal will list "amateur" as the business as I used to sell stuff on ebay and print t-shirts.
+    <input type="hidden" name="cmd" value="_s-xclick">
+    <input type="hidden" name="hosted_button_id" value="RXXKCN8YW2RH6">
+    <table style="margin-bottom:10px">
+    <tr><td><input type="hidden" name="on0" value="Support Level"><b>Your Support Level</b></td></tr><tr><td><select name="os0">
+    	<option value="Paying it Forward">Paying it Forward: $100.00</option>
+    	<option value="Spreading the Love">Spreading the Love: $50.00</option>
+    	<option value="Sharing the Joy">Sharing the Joy: $25.00</option>
+    	<option value="Goodwill =)">Goodwill =): $10.00</option>
+    	<option value="It's the thought that counts">It's the thought that counts: $1.00</option>
+    </select> </td></tr>
+    <tr><td><input type="hidden" name="on1" value="Your email"><b>User Account</b></td></tr><tr><td><input type="text" name="os1" maxlength="60" value="<%= current_user.email %>" style="width:200px" readonly="readonly"></td></tr>
+    </table>
+    <input type="hidden" name="currency_code" value="USD">
+    <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+  </form>
+
+  Currently pluspanda does not sell anything.
+  <br/>However you can credit your account ahead of time by purchasing a support level.
+  This helps keep pluspanda running and expedites premium feature development.
+  <br/>- Thanks for caring!
+</div>

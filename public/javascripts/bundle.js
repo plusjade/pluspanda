@@ -1226,7 +1226,7 @@ $(document).bind('close.facebox', function() {
    
 // ajaxify the forms
 $(document).bind('ajaxify.form', function(){
-  $('form').ajaxForm({
+  $('form').not(".no-ajax").ajaxForm({
     dataType : 'json',      
     beforeSubmit: function(fields, form){
       if($(form).hasClass('js-multipart-form')){
