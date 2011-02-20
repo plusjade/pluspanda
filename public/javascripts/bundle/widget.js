@@ -24,6 +24,8 @@
     $('#theme-gallery')
       .html(adminWidget.$iframe.clone()
       .attr('src', url))
+    
+    mpmetrics.track(url);  
   }  
   
 }

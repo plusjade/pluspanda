@@ -7,11 +7,13 @@ $(function(){
     $.facebox(function(){ 
       $.get(url, function(data) { $.facebox(data) })
     })
+    mpmetrics.track(url);
     return false;    
   });
   
   $("a[rel*=fb-div]").live("click", function(){
     $.facebox({div : this.href});
+    mpmetrics.track(this.href);
     return false;    
   });
   
@@ -19,6 +21,7 @@ $(function(){
   $("a.fb-div").live("click", function(){
     $.facebox({ div: $(this).attr('rel') });
     $('div.share-data input').val(this.href);
+    mpmetrics.track(this.href);
     return false;    
   });
   

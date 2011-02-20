@@ -7,6 +7,7 @@
     $.get('/admin/testimonials/save_positions', order, function(rsp){
       showStatus.respond(rsp);
     })
+    mpmetrics.track("savePositions");
   },
 
   /*
@@ -21,6 +22,7 @@
       if (filter)
         adminTestimonials.loadTestimonials(filter);
     })
+    mpmetrics.track(action);
   },
 
 
@@ -62,7 +64,7 @@
       }
       $('abbr.timeago').timeago();  
     })
-  
+    mpmetrics.track("testimonialSave");
   }
 
 }
