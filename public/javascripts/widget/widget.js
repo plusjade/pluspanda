@@ -55,12 +55,12 @@ var panda = {
       var spltr = (-1 == is_sort) ? '?' : '#';
 
       // get GET params from links TOD0: optimize this?
-      var hash = this.href.split(spltr)[1].split('&');
+      var arr = this.href.split(spltr)[1].split('&');
       var params = {"tag":"all","sort":"newest","page":1};
-      for(x in hash){
-          var arr = hash[x].split('=');
-          params[arr[0]] = arr[1]; 
-      }
+      jQuery.each(arr, function(){
+        var pair = this.toString().split('=');
+        params[pair[0]] = pair[1]; 
+      })
       jQuery(this).remove();
       panda.getTstmls(params.tag, params.sort, params.page);
       return false;
