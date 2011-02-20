@@ -1,32 +1,29 @@
-
-<div style="width:550px; padding:10px;">  
-  <h3>Want to Support Pluspanda?</h3>
-  <p style="margin-bottom:10px">
-    Currently pluspanda does not sell anything. However you can credit your account ahead of time by purchasing a support level.
-    This helps keep pluspanda running and expedites premium feature development.
-     - Thanks for caring!
-  </p>
+<div style="width:600px; padding:10px;">  
   <div style="float:left; width:250px; margin-bottom:10px">
+    
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="no-ajax">
       <input type="hidden" name="cmd" value="_s-xclick">
       <input type="hidden" name="hosted_button_id" value="RXXKCN8YW2RH6">
-      <table style="margin-bottom:10px">
-      <tr><td><input type="hidden" name="on0" value="Support Level"><b>Your Support Level</b></td></tr><tr><td><select name="os0">
-      	<option value="Paying it Forward">Paying it Forward: $100.00</option>
-      	<option value="Spreading the Love">Spreading the Love: $50.00</option>
-      	<option value="Sharing the Joy">Sharing the Joy: $25.00</option>
-      	<option value="Goodwill =)">Goodwill =): $10.00</option>
-      	<option value="It's the thought that counts">It's the thought that counts: $1.00</option>
-      </select> </td></tr>
-      <tr><td><input type="hidden" name="on1" value="Your email"><b>User Account</b></td></tr><tr><td><input type="text" name="os1" maxlength="60" value="<%= current_user.email %>" style="width:200px" readonly="readonly"></td></tr>
-      </table>
+      <input type="hidden" name="on0" value="Support Level">
+      <b>Your Support Level</b>
+      <p style="margin-bottom:10px">
+        <select name="os0">
+      	  <option value="Paying it Forward">Paying it Forward: $100.00</option>
+      	  <option value="Spreading the Love">Spreading the Love: $50.00</option>
+      	  <option value="Sharing the Joy">Sharing the Joy: $25.00</option>
+      	  <option value="Goodwill =)">Goodwill =): $10.00</option>
+      	  <option value="It's the thought that counts">It's the thought that counts: $1.00</option>
+        </select>
+      </p>
+      <input type="hidden" name="on1" value="Your email">
+      <input type="hidden" name="os1" maxlength="60" value="<%= current_user.email %>" style="width:200px" readonly="readonly">
       <input type="hidden" name="currency_code" value="USD">
       <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
       <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
     </form>
-  </div>
-
-  <div style="float:right; width:250px; margin-bottom:10px">
+    
+    <br/><br/>
+    
   <% if Rails.env.production? %>  
   <script type="text/javascript" src="https://images-na.ssl-images-amazon.com/images/G/01/cba/js/widget/widget.js"></script>
   <form method=POST class="no-ajax" action="https://payments.amazon.com/checkout/A3DN8X7E1XP5TE">
@@ -178,13 +175,85 @@
     <input alt="Checkout with Amazon Payments" src="https://payments-sandbox.amazon.com/gp/cba/button?ie=UTF8&color=orange&background=white&cartOwnerId=A3DN8X7E1XP5TE&size=large" type="image">
     </form>
   <% end %>
+    
+    <br/><br/>
+    
+    <form class="no-ajax" action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/647428120221009" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm" target="_top">
+      <b>Your Support Level</b>
+      <p style="margin-bottom:10px">
+        <select name="item_selection_1">
+            <option value="1">$100.00 - Paying it Forward</option>
+            <option value="2">$50.00 - Spreading the Love</option>
+            <option value="3">$25.00 - Sharing the Joy</option>
+            <option value="4">$10.00 - Goodwill</option>
+            <option value="5">$1.00 - It's the thought that counts</option>
+        </select>
+      </p>
+      <input alt="" src="https://checkout.google.com/buttons/buy.gif?merchant_id=647428120221009&amp;w=117&amp;h=48&amp;style=white&amp;variant=text&amp;loc=en_US" type="image"/>
+      <input name="item_option_name_1" type="hidden" value="Paying it Forward"/>
+      <input name="item_option_price_1" type="hidden" value="100.0"/>
+      <input name="item_option_description_1" type="hidden" value="$100 Pluspanda credit"/>
+      <input name="item_option_quantity_1" type="hidden" value="1"/>
+      <input name="item_option_currency_1" type="hidden" value="USD"/>
+      <input name="shopping-cart.item-options.items.item-1.digital-content.description" type="hidden" value="Your credits will be reflected on your "account" tab shortly."/>
+      <input name="shopping-cart.item-options.items.item-1.digital-content.key" type="hidden" value="2mlvTsceL8FLSUgom2K4Ihqsohpr446cuInK7ISD4Oo="/>
+      <input name="shopping-cart.item-options.items.item-1.digital-content.key.is-encrypted" type="hidden" value="true"/>
+      <input name="shopping-cart.item-options.items.item-1.digital-content.url" type="hidden" value="http://api.pluspanda.com/admin"/>
+      <input name="item_option_name_2" type="hidden" value="Spreading the Love"/>
+      <input name="item_option_price_2" type="hidden" value="50.0"/>
+      <input name="item_option_description_2" type="hidden" value="$50 Pluspanda credit"/>
+      <input name="item_option_quantity_2" type="hidden" value="1"/>
+      <input name="item_option_currency_2" type="hidden" value="USD"/>
+      <input name="shopping-cart.item-options.items.item-2.digital-content.description" type="hidden" value="Your credits will be reflected on your "account" tab shortly."/>
+      <input name="shopping-cart.item-options.items.item-2.digital-content.key" type="hidden" value="aeSK561Jvp7WCqa0N34QdPnOF8diMNgqqGIFW0msrgY="/>
+      <input name="shopping-cart.item-options.items.item-2.digital-content.key.is-encrypted" type="hidden" value="true"/>
+      <input name="shopping-cart.item-options.items.item-2.digital-content.url" type="hidden" value="http://api.pluspanda.com/admin"/>
+      <input name="item_option_name_3" type="hidden" value="Sharing the Joy"/>
+      <input name="item_option_price_3" type="hidden" value="25.0"/>
+      <input name="item_option_description_3" type="hidden" value="$25 Pluspanda credit"/>
+      <input name="item_option_quantity_3" type="hidden" value="1"/>
+      <input name="item_option_currency_3" type="hidden" value="USD"/>
+      <input name="shopping-cart.item-options.items.item-3.digital-content.description" type="hidden" value="Your credits will be reflected on your "account" tab shortly."/>
+      <input name="shopping-cart.item-options.items.item-3.digital-content.key" type="hidden" value="dXh4YkuU7fmFO/fpyEzU6UVIiXDZ5G6YWzJNLg1Ew38="/>
+      <input name="shopping-cart.item-options.items.item-3.digital-content.key.is-encrypted" type="hidden" value="true"/>
+      <input name="shopping-cart.item-options.items.item-3.digital-content.url" type="hidden" value="http://api.pluspanda.com/admin"/>
+      <input name="item_option_name_4" type="hidden" value="Goodwill"/>
+      <input name="item_option_price_4" type="hidden" value="10.0"/>
+      <input name="item_option_description_4" type="hidden" value="$10 Pluspanda credit"/>
+      <input name="item_option_quantity_4" type="hidden" value="1"/>
+      <input name="item_option_currency_4" type="hidden" value="USD"/>
+      <input name="shopping-cart.item-options.items.item-4.digital-content.description" type="hidden" value="Your credits will be reflected on your "account" tab shortly."/>
+      <input name="shopping-cart.item-options.items.item-4.digital-content.key" type="hidden" value="xk95dVdiwT7mEhjmZPHitGnECLquyeqjm8o3f9yaTtY="/>
+      <input name="shopping-cart.item-options.items.item-4.digital-content.key.is-encrypted" type="hidden" value="true"/>
+      <input name="shopping-cart.item-options.items.item-4.digital-content.url" type="hidden" value="http://api.pluspanda.com/admin"/>
+      <input name="item_option_name_5" type="hidden" value="It's the thought that counts"/>
+      <input name="item_option_price_5" type="hidden" value="1.0"/>
+      <input name="item_option_description_5" type="hidden" value="$1 Pluspanda credit"/>
+      <input name="item_option_quantity_5" type="hidden" value="1"/>
+      <input name="item_option_currency_5" type="hidden" value="USD"/>
+      <input name="shopping-cart.item-options.items.item-5.digital-content.description" type="hidden" value="Your credits will be reflected on your "account" tab shortly."/>
+      <input name="shopping-cart.item-options.items.item-5.digital-content.key" type="hidden" value="qvoRjprP5XWtr+NH4ViHbq4metY8Cy0c/pcss49sriU="/>
+      <input name="shopping-cart.item-options.items.item-5.digital-content.key.is-encrypted" type="hidden" value="true"/>
+      <input name="shopping-cart.item-options.items.item-5.digital-content.url" type="hidden" value="http://api.pluspanda.com/admin"/>
+    </form>
+    
   </div>
   
-  <p style="clear:both; margin-bottom:10px">
-    <b>Paypal Notes:</b> You don't need a paypal account to pay with paypal.
-    <br/>Paypal will list "amateur" as the business as I used be an ebay seller.
-  </p>
-  <p>
-    <b>Amazon Notes:</b> Upon checkout Amazon will list a shipping price of 10 cents even though there is no shipping involved.
-  </p>
+  <div style="float:right; width:300px;">
+    <h3>Want to Support Pluspanda?</h3>
+    <p style="margin-bottom:10px">
+      Currently pluspanda does not sell anything. However you can credit your account ahead of time by purchasing a support level.
+      This helps keep pluspanda running and expedites premium feature development.
+       - Thanks for caring!
+    </p>
+    <p style="margin-bottom:10px">
+      <b>Paypal Notes:</b>
+      <br/> You don't need a paypal account to pay with paypal.
+       Paypal will list "amateur" as the business as I used be an ebay seller.
+    </p>
+    <p>
+      <b>Amazon Notes:</b>
+      <br/>Upon checkout Amazon will list a shipping price of 10 cents even though there is no shipping involved.
+    </p>
+  </div>
 </div>
