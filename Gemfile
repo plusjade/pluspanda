@@ -46,5 +46,7 @@ group :test, :development do
   gem "webrat", "0.7.1"
   gem "chronic", "0.2.3"
   gem "metric_fu", "2.0.1"
+  gem "wirble"
+  gem "hirb"
 #, :git => "https://github.com/jscruggs/metric_fu.git"
 end
