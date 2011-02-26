@@ -5,6 +5,7 @@ class Testimonial < ActiveRecord::Base
     :s3_credentials => Rails.root.join("config", "s3.yml"),
     :bucket => Rails.env.production? ? "pluspanda" : "pluspanda_development",
     :path   => ":attachment/:id/:style.:filename",
+    :url    => "/:attachment/:id/:style.:filename",
     :styles => { :sm => "125x125#" }
 
   after_post_process :randomize_filename
