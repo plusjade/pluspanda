@@ -34,6 +34,10 @@ GEM
     arrayfields (4.7.4)
     authlogic (2.1.6)
       activesupport
+    aws-s3 (0.6.2)
+      builder
+      mime-types
+      xml-simple
     builder (2.1.2)
     chronic (0.2.3)
       hoe (>= 1.2.1)
@@ -159,12 +163,14 @@ GEM
       rack (>= 1.0)
       rack-test (>= 0.5.3)
     wirble (0.1.3)
+    xml-simple (1.0.12)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   authlogic
+  aws-s3
   chronic (= 0.2.3)
   factory_girl
   fastercsv
