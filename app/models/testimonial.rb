@@ -78,7 +78,7 @@ class Testimonial < ActiveRecord::Base
     Testimonial.api_attributes.each do |a|
       case a
       when :image
-        testimonial[a] = self.avatar? ? root_url + self.avatar.url(:sm) : false
+        testimonial[a] = self.avatar? ? self.avatar.url(:sm) : false
       when :image_stock
         testimonial[a] = image_stock
       when :tag_name
