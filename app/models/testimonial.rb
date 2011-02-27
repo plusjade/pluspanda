@@ -49,7 +49,7 @@ class Testimonial < ActiveRecord::Base
   
   def image_source
     if self.avatar_file_name.nil? || self.avatar_file_name.empty?
-      "/images/stock.png"
+      self.image_stock
     else
       self.avatar.url(:sm) 
     end
@@ -92,14 +92,8 @@ class Testimonial < ActiveRecord::Base
     testimonial   
   end
   
-  
-  def root_url
-    ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
-  end
-    
-  
   def image_stock
-     root_url + '/images/stock.png'
+     Rails.env.production? ? "http://s3.amazonaws.com/pluspanda/stock.png" : "/images/stock.png"
   end
   
 end
