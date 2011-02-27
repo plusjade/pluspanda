@@ -7,8 +7,10 @@ class Theme < ActiveRecord::Base
   # matches {{blah_token}}, {{blah_token:param}}
   Token_regex = /\{{2}(\w+):?([\w\s?!:"',\.]*)\}{2}/i
   Themes_path = Rails.root.join("public/_pAndAThemeS_")
+
   # this should only be used in gallery view for direct css
-  Themes_url  = "_pAndAThemeS_"
+  #Themes_url  = "_pAndAThemeS_"
+  Themes_url  = "http://s3.amazonaws.com/pluspanda/themes"
 
   def self.names
     [

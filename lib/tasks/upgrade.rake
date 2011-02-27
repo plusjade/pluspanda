@@ -50,7 +50,7 @@ task :grep_css => :environment do
   puts ThemeAttribute.where(:name => name).count
   
   ThemeAttribute.where(:name => name).each do |a|
-    css = a.staged.gsub("/_pAndAThemeS_/list/images/","/_pAndAThemeS_/bernd/images/")
+    css = a.staged.gsub("/_pAndAThemeS_", "http://s3.amazonaws.com/pluspanda/themes")
     a.staged = css
     if a.save
       puts "saved css successfully."

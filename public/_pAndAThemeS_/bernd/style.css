@@ -55,14 +55,14 @@
       font-size: 1em;
       font-weight: bold; }
     #pluspanda-testimonials .title .lft {
-      background: url(/_pAndAThemeS_/bernd/images/panda_title_lft.png) no-repeat;
+      background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/panda_title_lft.png) no-repeat;
       left: 0;
       position: absolute;
       top: 0;
       width: 5px;
       height: 35px; }
     #pluspanda-testimonials .title .mdl {
-      background: url(/_pAndAThemeS_/bernd/images/panda_title_mdl.png) repeat-x;
+      background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/panda_title_mdl.png) repeat-x;
       padding: 12px 0 12px 10px;
       left: 5px;
       position: absolute;
@@ -70,7 +70,7 @@
       right: 5px;
       height: 11px; }
     #pluspanda-testimonials .title .rgt {
-      background: url(/_pAndAThemeS_/bernd/images/panda_title_rgt.png) no-repeat;
+      background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/panda_title_rgt.png) no-repeat;
       position: absolute;
       top: 0;
       right: 0px;
@@ -86,7 +86,7 @@
         height: 25px;
         width: 38px; }
       #pluspanda-testimonials .title .switcher a {
-        background: url(/_pAndAThemeS_/bernd/images/toggle_view_sprite.png) no-repeat 0 0;
+        background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/toggle_view_sprite.png) no-repeat 0 0;
         display: block;
         float: left;
         text-indent: -9999px;
@@ -136,7 +136,7 @@
       margin-top: -4px;
       padding: 4px 0; }
     #pluspanda-testimonials .panda-avg-rating .panda-rating-stars {
-      background: url(/_pAndAThemeS_/bernd/images/stars_sprite.png) no-repeat 0 0;
+      background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/stars_sprite.png) no-repeat 0 0;
       display: inline-block;
       float: left;
       margin-top: -3px;
@@ -146,7 +146,7 @@
       height: 17px;
       width: 89px; }
   #pluspanda-testimonials .t-rating .panda-rating-stars {
-    background: url(/_pAndAThemeS_/bernd/images/stars_sprite.png) no-repeat 0 0;
+    background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/stars_sprite.png) no-repeat 0 0;
     display: inline-block;
     float: left;
     margin-top: -3px;
@@ -168,7 +168,7 @@
   #pluspanda-testimonials .panda-container {
     padding: 0 15px; }
     #pluspanda-testimonials .panda-container .image {
-      background: url(/_pAndAThemeS_/bernd/images/panda_image_bg.png) no-repeat;
+      background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/panda_image_bg.png) no-repeat;
       margin-bottom: 5px;
       height: 148px;
       padding: 6px 5px 10px 5px;
@@ -177,7 +177,7 @@
         height: 148px;
         width: 148px; }
   #pluspanda-testimonials .show-more {
-    background: url(/_pAndAThemeS_/bernd/images/show_more_bg.png) no-repeat;
+    background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/show_more_bg.png) no-repeat;
     clear: both;
     color: #333333;
     display: block;
@@ -189,7 +189,7 @@
     height: 10px;
     width: 61px; }
   #pluspanda-testimonials .loader {
-    background: url(/_pAndAThemeS_/bernd/images/loader.gif) no-repeat center;
+    background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/loader.gif) no-repeat center;
     color: #333333;
     display: block;
     float: left;
@@ -251,7 +251,7 @@
     width: 255px;
     z-index: 100; }
     #pluspanda-testimonials .dropdown .arrow {
-      background: url(/_pAndAThemeS_/bernd/images/dropbox_arrow_top.png) no-repeat;
+      background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/dropbox_arrow_top.png) no-repeat;
       display: block;
       position: absolute;
       top: -15px;
@@ -259,7 +259,7 @@
       height: 15px;
       width: 27px; }
   #pluspanda-testimonials.p1 {
-    background: url(/_pAndAThemeS_/bernd/images/quote.png) no-repeat;
+    background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/quote.png) no-repeat;
     display: inline-block;
     float: left;
     margin-right: 8px;
@@ -267,7 +267,7 @@
     height: 31px;
     width: 40px; }
   #pluspanda-testimonials.p2 {
-    background: url(/_pAndAThemeS_/bernd/images/quote_small.png) no-repeat;
+    background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/quote_small.png) no-repeat;
     display: inline-block;
     float: right;
     margin-top: -20px;
@@ -337,7 +337,7 @@
     float: left;
     margin-right: 20px; }
   #pluspanda-testimonials .panda-container.list .content {
-    background: #fafafa url(/_pAndAThemeS_/bernd/images/quote_big.png) no-repeat top right;
+    background: #fafafa url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/quote_big.png) no-repeat top right;
     border: 1px solid #d5d5d5;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -350,7 +350,7 @@
     position: relative;
     width: 590px; }
     #pluspanda-testimonials .panda-container.list .content .arrow {
-      background: url(/_pAndAThemeS_/bernd/images/arrow_list.png) no-repeat;
+      background: url(http://s3.amazonaws.com/pluspanda/themes/bernd/images/arrow_list.png) no-repeat;
       position: absolute;
       left: -11px;
       top: -1px;
