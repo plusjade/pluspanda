@@ -6,36 +6,33 @@
 
 desc "test migrate"
 task :test_migrate => :environment do
+  limit = 2
+  counter = 0
+  base_path = Rails.root.join("public", "system").to_s
+  base_path = "/var/www/pluspanda/production/shared/system"
   definitions = Testimonial.attachment_definitions
-  path = "/var/www/pluspanda/production/shared"
-  Testimonial.limit(2).each do |record|
+  
+  Testimonial.all.each do |record|
     definitions.keys.each do |definition|
-      if record.send("#{definition}_file_name")
-        
+      unless record.send("#{definition}_file_name").blank?
         attachment = Paperclip::Attachment.new(definition.to_sym, record, definitions[definition.to_sym].except(:s3_credentials, :storage))
-        if File.exists?(path + attachment.url)
-          file_data =  File.open(path + attachment.url)
-          puts "Saving file: #{path + attachment.url} to Amazon S3..."
-          record.send("#{definition}").assign file_data
-          record.send("#{definition}").save
-        else
-          puts "Can't find file: #{path + attachment.url} NOT MIGRATING..."
-        end
+        path = base_path + attachment.url
         
-        if File.exists?(path + attachment.url(:sm))
-          file_data =  File.open(path + attachment.url(:sm))
-          puts "Saving file: #{path + attachment.url(:sm)} to Amazon S3..."
-          record.send("#{definition}").assign file_data
-          record.send("#{definition}").save
+        if File.exists?(path)
+          puts "Saving file: #{path} to Amazon S3..."
+          record.send(definition).assign File.open(path)
+          record.send(definition).save
+          counter += 1
         else
-          puts "Can't find file: #{path + attachment.url(:sm)} NOT MIGRATING..."
+          puts "Can't find file: #{path} NOT MIGRATING..."
         end
-        
       end
     end
+  
+    break if counter == limit
   end
 
-  break
+  exit
 end
 
 namespace :paperclip_migration do  
