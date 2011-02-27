@@ -3,6 +3,7 @@ class Testimonial < ActiveRecord::Base
   has_attached_file :avatar,
     :storage => :s3,
     :s3_credentials => Rails.root.join("config", "s3.yml"),
+    :s3_permissions => :public_read,
     :bucket => Rails.env.production? ? "pluspanda" : "pluspanda_development",
     :path   => ":attachment/:id/:style.:filename",
     :url    => "/:attachment/:id/:style.:filename",
@@ -41,7 +42,6 @@ class Testimonial < ActiveRecord::Base
     #self.url gsub!('http://','', strtolower($this->url));
   end
   
-
   def randomize_filename
     ext = File.extname(self.avatar_file_name).downcase
     self.avatar.instance_write(:file_name, "#{ActiveSupport::SecureRandom.hex(4)}#{ext}")
