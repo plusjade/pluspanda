@@ -2,7 +2,8 @@
 var pandaSettings = {
   apiUrl : '<%= root_url %>',
   apiVrsn : '<%= api_version_number %>',
-  apikey : '<%= apikey %>'
+  apikey : '<%= apikey %>',
+  fbUrl : '<%= facebox_url %>'
 }
 
 var pandaThemeConfig = {
@@ -12,3 +13,8 @@ var pandaThemeConfig = {
     return '<%= raw testimonial_html %>';
   }
 }
+
+var pandaScriptaBot = document.createElement("script");
+pandaScriptaBot.type = "text/javascript";
+pandaScriptaBot.src = '<%= widget_url %>';   
+document.body.appendChild(pandaScriptaBot);

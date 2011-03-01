@@ -10,12 +10,12 @@ class Storage
     credentials["bucket"]
   end
     
-  def initialize(user)
+  def initialize(apikey)
     credentials = YAML::load(File.open("#{Rails.root.to_s}/config/s3.yml"))[Rails.env]
     @access_key_id = credentials["access_key_id"]
     @secret_access_key = credentials["secret_access_key"]
     @bucket = credentials["bucket"]
-    @apikey = user.apikey
+    @apikey = apikey.to_s
   end
   
   def connect
@@ -66,7 +66,14 @@ class Storage
   def url(path=nil)
     path ? "#{Url}#{@bucket}/#{path}" : "#{Url}#{@bucket}"
   end
-  
+
+  def widget_url
+    url("javascripts/widget/widget.js")
+  end
+    
+  def facebox_url
+    url("javascripts/widget/facebox.js")
+  end
   
   def tmp_stylesheet_path
     Rails.root.join("tmp", "#{@apikey}.css")

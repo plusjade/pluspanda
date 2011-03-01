@@ -48,14 +48,14 @@ class User < ActiveRecord::Base
   end
 
   def publish_css
-    storage = Storage.new(self)
+    storage = Storage.new(self.apikey)
     storage.connect
     storage.add_stylesheet(generate_css)
   end
   
   # HTML is packaged in the theme_config
   def publish_theme_config
-    storage = Storage.new(self)
+    storage = Storage.new(self.apikey)
     storage.connect
     storage.add_theme_config(generate_theme_config)
   end
@@ -79,11 +79,11 @@ class User < ActiveRecord::Base
   end
 
   def stylesheet_url
-    Storage.new(self).stylesheet_url
+    Storage.new(self.apikey).stylesheet_url
   end
   
   def theme_config_url
-    Storage.new(self).theme_config_url
+    Storage.new(self.apikey).theme_config_url
   end
     
   # get the testimonials

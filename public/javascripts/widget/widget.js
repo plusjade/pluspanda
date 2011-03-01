@@ -4,7 +4,6 @@ var panda = {
   $testimonials : null,
   $iframe : null,
   $total : null,
-  fbUrl : 'javascripts/widget/facebox.js',
   pollTry: 0,
   admin : false,
   debug: false,
@@ -85,7 +84,7 @@ var panda = {
   initFacebox : function(){
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src = pandaSettings.apiUrl + "/" + panda.fbUrl
+    script.src = pandaSettings.fbUrl
     document.body.appendChild(script);
   },
   

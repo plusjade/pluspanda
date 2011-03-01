@@ -8,6 +8,18 @@ Pluspanda::Application.routes.draw do
   # current api
   scope "v1" do
     resources :testimonials do
+      get :widget, :on => :collection, :to => proc {|env|
+        #puts env["HTTP_REFERER"]
+        apikey = env["QUERY_STRING"].split("=")[1]
+        
+        if Rails.env.development?
+          user = User.find_by_apikey(apikey)
+          [200, {}, [user.generate_theme_config]]
+        else
+          url = Storage.new(apikey).theme_config_url
+          [307, {'Location' => url, 'Content-Type' => 'text/html'}, ["redirecting to: #{url}"]]
+        end
+      }
       get :widget, :on => :collection
     end
   end

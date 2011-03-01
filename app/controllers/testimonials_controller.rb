@@ -43,7 +43,7 @@ class TestimonialsController < ApplicationController
     
   end
 
-  #FIX ME!!!
+  # No longer using . See: routes.rb
   def widget 
     render :js => render_widget_js
   end

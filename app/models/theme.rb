@@ -92,13 +92,23 @@ class Theme < ActiveRecord::Base
     tokens = Testimonial.api_attributes
     testimonial = Theme.parse_testimonial(opts[:testimonial], tokens)
 
+    if Rails.env.development?
+      widget_url = "/javascripts/widget/widget.js"
+      facebox_url = "/javascripts/widget/facebox.js"
+    else  
+      widget_url = Storage.new().widget_url
+      facebox_url = Storage.new().facebox_url
+    end
+    
     context.render_to_string(
       :partial => "testimonials/theme_config",
       :locals  => {
         :apikey             => opts[:user].apikey,
         :stylesheet         => opts[:stylesheet],
         :wrapper_html       => wrapper,
-        :testimonial_html   => testimonial
+        :testimonial_html   => testimonial,
+        :widget_url         => widget_url,
+        :facebox_url        => facebox_url 
       }
     )
   end
