@@ -43,10 +43,9 @@ class TestimonialsController < ApplicationController
     
   end
 
-
+  #FIX ME!!!
   def widget 
-    @user.publish_theme unless @user.has_theme_config?   
-    render :js => @user.theme_config + render_widget_js
+    render :js => render_widget_js
   end
   
   # currently used to populate the rows in admin only.

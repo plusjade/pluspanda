@@ -13,10 +13,6 @@ class User < ActiveRecord::Base
   before_create :generate_defaults
   after_create  :create_dependencies
   
-  Theme_config_filename = "theme_config.js"
-  Stylesheet_filename = "style.css"
-  
-  
   def generate_defaults 
     self.apikey = ActiveSupport::SecureRandom.hex(8)
   end
@@ -47,24 +43,32 @@ class User < ActiveRecord::Base
   end
   
   def publish_theme
-    # html
-    f = File.new(theme_config_path, "w+")
-    f.write(generate_theme_config)
-    f.rewind
-    
-    #css
-    style = self.get_attribute("style.css").staged
-    facebox_path = Rails.root.join("public","stylesheets","facebox.css")
-    if File.exist?(facebox_path)
-      style << "\n" << File.new(facebox_path).read
-    end
-    
-    f = File.new(stylesheet_path, "w+")
-    f.write(style)
-    f.rewind    
+    publish_css
+    publish_theme_config
+  end
+
+  def publish_css
+    storage = Storage.new(self)
+    storage.connect
+    storage.add_stylesheet(generate_css)
   end
   
-
+  # HTML is packaged in the theme_config
+  def publish_theme_config
+    storage = Storage.new(self)
+    storage.connect
+    storage.add_theme_config(generate_theme_config)
+  end
+  
+  def generate_css
+    css = self.get_attribute("style.css").staged
+    facebox_path = Rails.root.join("public","stylesheets","facebox.css")
+    if File.exist?(facebox_path)
+      css << "\n" << File.new(facebox_path).read
+    end
+    css
+  end
+  
   def generate_theme_config(for_staging=false)
     Theme.render_theme_config({
       :user         => self,
@@ -74,7 +78,14 @@ class User < ActiveRecord::Base
     })    
   end
 
+  def stylesheet_url
+    Storage.new(self).stylesheet_url
+  end
   
+  def theme_config_url
+    Storage.new(self).theme_config_url
+  end
+    
   # get the testimonials
   # based on defined filters, sorters, and limits.
   # filters: page, publish, tag, rating, date.
@@ -126,49 +137,6 @@ class User < ActiveRecord::Base
     offset = (opts[:page]*opts[:limit]) - opts[:limit]
 
     return self.testimonials.where(where).order(sort).limit(opts[:limit]).offset(offset)
-   end
-   
-   
- 
-     
-# path helpers
-################
-
-  # the published stylesheet is NOT theme specific.
-  def stylesheet_url
-    "#{root_url}/system/data/#{self.apikey}/#{Stylesheet_filename}"
   end
 
-  def stylesheet_path 
-    return data_path(Stylesheet_filename)
-  end
-  
-    
-  def theme_config
-    has_theme_config? ? File.open(theme_config_path).read : "#{Theme_config_filename} not found!"
-  end
-
-  def has_theme_config?
-    File.exist?(theme_config_path)
-  end
-
-  def theme_config_path
-    return data_path(Theme_config_filename)
-  end 
-
-  
-  def data_path(path=nil)
-    return (path.nil?) ? File.join(ensure_path) : File.join(ensure_path, path)
-  end
-   
-  def ensure_path
-    path = Rails.root.join('public','system', 'data', self.apikey)
-    FileUtils.mkdir_p(path) if !File.directory?(path)
-    return path
-  end
-  
-  def root_url
-    ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
-  end
-      
 end
