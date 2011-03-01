@@ -9,14 +9,17 @@ Pluspanda::Application.routes.draw do
   scope "v1" do
     resources :testimonials do
       get :widget, :on => :collection, :to => proc {|env|
-        #puts env["HTTP_REFERER"]
         apikey = env["QUERY_STRING"].split("=")[1]
-        
+                
         if Rails.env.development?
           user = User.find_by_apikey(apikey)
           [200, {}, [user.generate_theme_config]]
         else
-          url = Storage.new(apikey).theme_config_url
+          url    = Storage.new(apikey).theme_config_url
+          log    = Rails.root.join('log', 'widget.log')
+          line   = "#{apikey}, #{env["HTTP_REFERER"]}, #{DateTime.now} \n"
+          File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
+          
           [307, {'Location' => url, 'Content-Type' => 'text/html'}, ["redirecting to: #{url}"]]
         end
       }
@@ -76,14 +79,4 @@ Pluspanda::Application.routes.draw do
     post "as_user"
   end
   
-  # log
-  match "/log/:apikey", :to => proc {|env|
-    params  = env["action_dispatch.request.path_parameters"]
-    log     = Rails.root.join('log', 'widget.log')
-    line    = "#{params[:apikey]}, #{env["QUERY_STRING"]}, #{DateTime.now} \n"
-    File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
-    [204, {}, []]
-  }
-
-    
 end

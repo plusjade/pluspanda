@@ -78,7 +78,6 @@ var panda = {
 
     if(panda.debug){console.log(cssUrl);console.log(panda.$container)}
     panda.getTstmls('all','newest',1)
-    if(!panda.admin)jQuery.get(pandaSettings.apiUrl+'/log/'+pandaSettings.apikey+"?"+parent.location.href)
   },
 
   initFacebox : function(){
