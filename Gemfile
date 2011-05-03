@@ -9,8 +9,7 @@ gem "mysql"
 gem "fastercsv"
 gem "haml"
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem "apron", '0.0.6', :git => "git://github.com/plusjade/apron.git"
 
 gem "authlogic"
 #gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"

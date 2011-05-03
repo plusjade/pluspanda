@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/plusjade/apron.git
+  revision: 182b784755f3cb9d4218f93f13441616913499fb
+  specs:
+    apron (0.0.6)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -169,6 +175,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  apron (= 0.0.6)!
   authlogic
   aws-s3
   chronic (= 0.2.3)

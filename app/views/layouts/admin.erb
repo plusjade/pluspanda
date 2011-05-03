@@ -47,16 +47,12 @@
 
   <%# Start javascripts below this line %>
   <%# -------------------------------- %>
-  <%= javascript_include_tag ::Rails.env == 'production' ? "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" : 'jquery/jquery' %>
   <script type="text/javascript">
     var loading = '<div class="loading">Loading...</div>';
   </script>
   
   <%= javascript_include_tag "codemirror/codemirror" %>
-  
-  <!-- bundle -->
-  <%= javascript_include_tag ::Rails.env == 'production' ? "bundle" : bundled_javascripts %>  
-  <!-- end bundle -->
+  <%= render_javascripts %>
   
   <script type="text/javascript">
     $(function(){
@@ -65,7 +61,7 @@
     })
   </script>
 
-<% if ::Rails.env == 'production' %>
+<% if Rails.env.production? %>
   <script type='text/javascript'> var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://'); document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E')); </script> <script type='text/javascript'> try {  var mpmetrics = new MixpanelLib('48212be322d2395bbf74e1917d5bcc76'); } catch(err) { null_fn = function () {}; var mpmetrics = {  track: null_fn,  track_funnel: null_fn,  register: null_fn,  register_once: null_fn, register_funnel: null_fn }; } </script>
   <script type="text/javascript">
   var clicky = { log: function(){ return; }, goal: function(){ return; }};
