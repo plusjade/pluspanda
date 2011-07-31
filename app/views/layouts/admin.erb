@@ -11,18 +11,22 @@
 <body>
 <div id="wrapper">
   <div id="top">
-    <a href="/admin"><img src="/images/admin/panda.png" /></a>
     
-    <ul>
+    <ul id="top_links">
+      <li>Hello, <%= @user.email %> &#160; </li>
       <li><a href="#/theme">Theme Gallery</a></li>
       <li><a href="/account" rel="facebox">Account</a></li>
       <li><a href="/admin/purchase" rel="facebox">&#36; Purchase &#36;</a></li>
       <li><%= link_to "Logout", admin_logout_path %></li>
     </ul>
+
+    <ul id="parent_nav"> 
+      <li class="widget"><a href="#/widget">1. Build Widget</a></li> 
+      <li class="manage"><a href="#/manage">2. Manage Testimonials</a></li> 
+      <li class="collect"><a href="#/collect">3. Collect Testimonials</a></li> 
+      <li class="install"><a href="#/install">4. Install On Your Site</a></li> 
+    </ul>
     
-    <div class="user-status owner">
-      Logged in as <%= @user.email %>
-    </div>
   </div>
 
   <div id="status-bar">
@@ -30,12 +34,6 @@
     <div class="responding" style="display:none">&#160;</div>
   </div>  
      
-  <ul id="parent_nav"> 
-    <li class="widget"><a href="#/widget">1. Build Widget</a></li> 
-    <li class="manage"><a href="#/manage">2. Manage Testimonials</a></li> 
-    <li class="collect"><a href="#/collect">3. Collect Testimonials</a></li> 
-    <li class="install"><a href="#/install">4. Install On Your Site</a></li> 
-  </ul>  
 
   <div id="main-wrapper">
     <%= yield %>
@@ -53,6 +51,7 @@
   
   <%= javascript_include_tag "codemirror/codemirror" %>
   <%= render_javascripts %>
+  <%= javascript_include_tag "admin" %>
   
   <script type="text/javascript">
     $(function(){
