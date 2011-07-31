@@ -1,18 +1,20 @@
-<h2>Theme gallery</h2>
+<div class="primary-content">
+  <h2>Theme gallery</h2>
 
-<ul id="gallery-links">
-<% @themes.each_with_index do |theme, i| %>
-  <li><%= link_to theme, "/admin/theme/gallery/#{theme}", :rel => i %></li>
-<% end %>
-</ul>
+  <ul id="gallery-links">
+  <% @themes.each_with_index do |theme, i| %>
+    <li><%= link_to theme, "/admin/theme/gallery/#{theme}", :rel => i %></li>
+  <% end %>
+  </ul>
 
-<%= form_for Theme.new, :url => "/admin/theme", :html => {:style => "display:none"} do |f| %>
-  <%= f.hidden_field :name, :readonly => "readonly" %>
-  <button type="submit">Install and Stage This Theme!</button>
-<% end %>  
+  <%= form_for Theme.new, :url => "/admin/theme", :html => {:style => "display:none"} do |f| %>
+    <%= f.hidden_field :name, :readonly => "readonly" %>
+    <button type="submit">Install and Stage This Theme!</button>
+  <% end %>  
 
-<div id="theme-gallery">&#160;</div>
+  <div id="theme-gallery">&#160;</div>
 
+</div>
 
 <style type="text/css">
   #gallery-links{

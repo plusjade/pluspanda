@@ -253,6 +253,7 @@ ul#sub-tabs {
   list-style: none;
   padding: 15px 0 15px 100px;
   background:#90D1BF;
+  border-bottom:1px solid #486A62;
   }
   ul#sub-tabs li {
     display: inline; }
@@ -266,6 +267,7 @@ ul#sub-tabs {
       -webkit-border-top-left-radius: 5px;
       -webkit-border-top-right-radius: 5px;
       background: #B2E4C9;
+      border-bottom:1px solid #B2E4C9;
       color: #486A62;
       font-size: 13px;
       text-decoration: none;
@@ -273,6 +275,7 @@ ul#sub-tabs {
       ul#sub-tabs li a:hover, ul#sub-tabs li a.active {
         padding: 11px 17px;
         background: white;
+        border:1px solid #486A62;
         border-bottom: 1px solid white;
         text-decoration: none;
         }
@@ -691,6 +694,7 @@ button {
 /* POSITIVE */
 button.positive, .buttons a.positive {
   color: white;
+  text-decoration:none;
   background: #d1f0b9 url("/images/common/gradients.jpg") repeat-x 0px -205px;
   border: 1px solid #bde99c; }
 
@@ -715,6 +719,15 @@ button.positive, .buttons a.positive {
   border: 1px solid #d12f19;
   color: white; }
 
+#theme-publish {
+  padding: 7px 10px !important;
+  border: 1px solid #bde99c;
+  font-weight: bold;
+  font-size: 16px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+}
+  
 ul.tab-beans {
   list-style:none;
   text-align:center;
@@ -792,10 +805,10 @@ div.editor-panel {
       color: green;
       border: 0; }
 
-#data-description {
+#data-description, .data-description {
   text-align: center;
   margin-bottom: 15px;
-  color: #777777; }
+  color: #486A62; }
 
 #with-selected {
   list-style: none;
