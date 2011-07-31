@@ -13,7 +13,10 @@ class PinkyController < ApplicationController
     @users_count = User.count
     @users_newest = User.limit(50).order("id DESC")
     @users_active = User.limit(50).order("login_count DESC")
-    
+    @user_creation_by_month = User.creation_by_month
+    @total_by_login_count = User.total_by_login_count
+    @stale_users_count = User.stale[0].total
+    @unstale_users_count = User.unstale[0].total
   end
   
   def as_user

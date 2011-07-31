@@ -1,5 +1,9 @@
-
-Total users: <b><%= @users_count %></b>
+<style type="text/css">
+  .column {
+    width:49%; 
+    display:inline-block;
+  }
+</style>
 
 <%= form_tag pinky_as_user_path << "?pk=#{params[:pk]}" do %>
   <fieldset>
@@ -8,42 +12,120 @@ Total users: <b><%= @users_count %></b>
   </fieldset>
 <% end %>
 
-<br/>Newest Users:
-<table class="data">
-  <thead>
-    <tr>
-      <th>email</th>
-      <th>login count</th>
-      <th>last login</th>
-    </tr>  
-  </thead>
-  <tbody>
-  <% @users_newest.each do |user| %>
-    <tr>
-      <td><%= user.email%></td>
-      <td><%= user.login_count %></td>
-      <td><abbr class="timeago" title="<%= Time.parse("#{user.last_login_at}").iso8601 %>"><%= user.last_login_at %></abbr></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>  
+  <h3>Totals</h3>
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Users</th>
+        <th>Total</th>
+      </tr>  
+    </thead>
+    <tbody>
+      <tr>
+        <td>All</td>
+        <td><%= @users_count %></td>
+      </tr>
+      <tr>
+        <td>Stale : Older than 30 days w/ &lt;=  3 logins </td>
+        <td><%= @stale_users_count %></td>
+      </tr>
+      <tr>
+        <td>UnStale: Older than 30 days w/ &gt;  3 logins</td>
+        <td><%= @unstale_users_count %></td>
+      </tr>
+    </tbody>
+  </table>
 
-<br/>Most active Users:
-<table class="data">
-  <thead>
-    <tr>
-      <th>email</th>
-      <th>login count</th>
-      <th>last login</th>
-    </tr>  
-  </thead>
-  <tbody>
-  <% @users_active.each do |user| %>
-    <tr>
-      <td><%= user.email%></td>
-      <td><%= user.login_count %></td>
-      <td><abbr class="timeago" title="<%= Time.parse("#{user.last_login_at}").iso8601 %>"><%= user.last_login_at %></abbr></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+
+<br/ style="clear:both">
+
+<div class="column">
+  <h3>New Users By Month</h3>
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Users</th>
+        <th>Month</th>
+        <th>Year</th>
+      </tr>  
+    </thead>
+    <tbody>
+    <% @user_creation_by_month.each do |entry| %>
+      <tr>
+        <td><%= entry.total_count%></td>
+        <td><%= entry.month %></td>
+        <td><%= entry.year %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+</div>
+
+<div class="column">
+
+  <h3># Of Users By Login Count</h3>
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Logins</th>
+        <th>Users</th>
+      </tr>  
+    </thead>
+    <tbody>
+    <% @total_by_login_count.each do |entry| %>
+      <tr>
+        <td><%= entry.logins %></td>
+        <td><%= entry.total%></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="column">
+  <h3>Newest Users</h3>
+  <table class="data">
+    <thead>
+      <tr>
+        <th>email</th>
+        <th>login count</th>
+        <th>last login</th>
+      </tr>  
+    </thead>
+    <tbody>
+    <% @users_newest.each do |user| %>
+      <tr>
+        <td><%= user.email%></td>
+        <td><%= user.login_count %></td>
+        <td><abbr class="timeago" title="<%= Time.parse("#{user.last_login_at}").iso8601 %>"><%= user.last_login_at %></abbr></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>  
+
+</div>
+
+<div class="column">
+
+  <h3>Most Active Users</h3>
+  <table class="data">
+    <thead>
+      <tr>
+        <th>email</th>
+        <th>login count</th>
+        <th>last login</th>
+      </tr>  
+    </thead>
+    <tbody>
+    <% @users_active.each do |user| %>
+      <tr>
+        <td><%= user.email%></td>
+        <td><%= user.login_count %></td>
+        <td><abbr class="timeago" title="<%= Time.parse("#{user.last_login_at}").iso8601 %>"><%= user.last_login_at %></abbr></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  
+</div>

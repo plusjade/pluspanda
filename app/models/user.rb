@@ -139,4 +139,43 @@ class User < ActiveRecord::Base
     return self.testimonials.where(where).order(sort).limit(opts[:limit]).offset(offset)
   end
 
+
+
+  def self.creation_by_month
+    self.find_by_sql("
+      SELECT count(id) as total_count, MONTH(created_at) as month, YEAR(`created_at`) as year
+      FROM users
+      GROUP BY month, year
+      HAVING month IS NOT NULL 
+      ORDER BY year desc, month desc
+    ")
+  end
+  
+  def self.total_by_login_count
+    self.find_by_sql("
+      SELECT count(id) as total, if(login_count >= 8, 8, login_count) as logins 
+      FROM users
+      GROUP BY logins
+      ORDER BY logins
+    ")
+  end
+  
+  def self.stale
+    self.find_by_sql("
+      SELECT count(id) as total
+      FROM users
+      WHERE DATE_SUB(CURDATE(),INTERVAL 30 DAY) >= created_at
+      AND login_count <= 3
+    ")
+  end
+  
+  def self.unstale
+    self.find_by_sql("
+      SELECT count(id) as total
+      FROM users
+      WHERE DATE_SUB(CURDATE(),INTERVAL 30 DAY) >= created_at
+      AND login_count > 3
+    ")
+  end
+  
 end
