@@ -715,17 +715,41 @@ button.positive, .buttons a.positive {
   border: 1px solid #d12f19;
   color: white; }
 
-#settings-panel {
-  background:#90D1BF;
-  padding-bottom: 7px; }
-#settings-panel .inner {
-  width:90%;
-  margin:auto;
-  padding:8px;
-  background:#F7FFF8;
-  order:1px solid #D9DECF;
+ul.tab-beans {
+  list-style:none;
+  text-align:center;
+  padding:4px 0 ;
+  margin-bottom:20px;
+}
+ul.tab-beans li{ 
+  display:inline;
+}
+ul.tab-beans li a{ 
+  padding:5px 12px;
+  margin:0 2px;
+  background:#B2E4C9;
+  color:#486A62;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:bold;
   border-radius:5px;
-}  
+}
+ul.tab-beans li a.active{ 
+  background:#610000;
+  color:#F7FFF8;
+}
+  
+#settings-panel fieldset{
+  padding:15px;
+}
+#settings-panel button {
+  padding: 7px 10px !important;
+  border: 1px solid #bde99c;
+  font-weight: bold;
+  font-size: 16px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+}
 
 #installed-themes {
   list-style: none;
@@ -743,7 +767,8 @@ button.positive, .buttons a.positive {
 
 div.editor-panel {
   width: 235px;
-  float: right; }
+  float: right;
+   }
   div.editor-panel button {
     float: left;
     margin: 0;
@@ -753,8 +778,7 @@ div.editor-panel {
     font-weight: bold;
     font-size: 16px;
     -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
-    backround: green; }
+    -webkit-border-radius: 7px; }
   div.editor-panel ul {
     clear: both; }
     div.editor-panel ul li {
