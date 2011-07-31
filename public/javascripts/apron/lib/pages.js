@@ -164,7 +164,7 @@
     // subtabs
     $("#sub-tabs li a").click(function(){
       $target = $(this);
-      $("#data-description").html($target.attr('title'));
+      $(".data-description").html($target.attr('title'));
       var filter = $target.html().toLowerCase();
       adminTestimonials.loadTestimonials(filter);
       adminNavigation.subTab($(this));
