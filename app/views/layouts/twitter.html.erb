@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>PlusPanda Admin Panel</title>
+
+  <style type="text/css">img, div { behavior: url(iepngfix.htc) }</style> 
+  <%= stylesheet_link_tag "admin" %>
+</head>
+
+<body>
+<div id="wrapper">
+  <div id="top">
+    
+    <ul id="top_links">
+      <li>Hello, <%= @user.email %> &#160; </li>
+      <li><a href="#/theme">Theme Gallery</a></li>
+      <li><a href="/account" rel="facebox">Account</a></li>
+      <li><a href="/admin/purchase" rel="facebox">&#36; Purchase &#36;</a></li>
+      <li><%= link_to "Logout", admin_logout_path %></li>
+    </ul>
+
+    <ul id="parent_nav"> 
+      <li class="widget"><a href="#/t_widget">Tweet Widget</a></li> 
+      <li class="manage"><a href="#/t_manage">Manage Tweets</a></li> 
+      <li class="install"><a href="#/t_install">Install On Your Site</a></li> 
+    </ul>
+    
+  </div>
+
+  <div id="status-bar">
+    <div id="submitting" style="display:none"><strong>Submitting..</strong></div>
+    <div class="responding" style="display:none">&#160;</div>
+  </div>  
+     
+
+  <div id="main-wrapper">
+    <%= yield %>
+  </div>
+  
+  <div id="footer">2009-2011 PlusPanda =]</div>
+  
+</div>
+
+  <%# Start javascripts below this line %>
+  <%# -------------------------------- %>
+  <script type="text/javascript">
+    var loading = '<div class="loading">Loading...</div>';
+  </script>
+  
+  <%= javascript_include_tag "codemirror/codemirror" %>
+  <%= render_javascripts %>
+  <%= javascript_include_tag "admin" %>
+  
+  <script type="text/javascript">
+    $(function(){
+      //if (window.location.hash == "") window.location.hash = "#/widget";
+      sammyApp.run();
+    })
+  </script>
+
+<% if Rails.env.production? %>
+  <script type='text/javascript'> var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://'); document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E')); </script> <script type='text/javascript'> try {  var mpmetrics = new MixpanelLib('48212be322d2395bbf74e1917d5bcc76'); } catch(err) { null_fn = function () {}; var mpmetrics = {  track: null_fn,  track_funnel: null_fn,  register: null_fn,  register_once: null_fn, register_funnel: null_fn }; } </script>
+  <script type="text/javascript">
+  var clicky = { log: function(){ return; }, goal: function(){ return; }};
+  var clicky_site_id = 66354221;
+  (function() {
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = ( document.location.protocol == 'https:' ? 'https://static.getclicky.com/js' : 'http://static.getclicky.com/js' );
+    ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
+  })();
+  </script>
+  <noscript><p><img alt="Clicky" width="1" height="1" src="http://in.getclicky.com/66354221ns.gif" /></p></noscript>    
+<% else %>
+  <script>
+    /* stub methods */
+    mpmetrics = {track : function(e){console.log(e);}}
+  </script>
+<% end %>
+</body>
+</html>
+
+

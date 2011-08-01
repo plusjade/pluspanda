@@ -66,6 +66,41 @@ Pluspanda::Application.routes.draw do
     get :logout
   end 
   
+  
+  # admin
+  scope "/admin/twitter", :controller => "twitter", :as => "twitter" do
+    get '/', :action => "index"
+    get :widget
+    get :manage
+    get :install
+    get :collect
+    get :staged
+    get :published
+    put :settings
+
+    scope "/tweets", :as => "tweets" do
+      get "()"                  ,:action => :testimonials
+      get "/update"             ,:action => :update   
+      get "/save_positions"     ,:action => :save_positions
+    end
+
+    scope "/theme", :controller => :theme, :as => :theme do
+      get "()"        ,:action => :index
+      post "()"       ,:action => :create
+      get "/publish"  ,:action => :publish
+      get "/gallery/:theme"  ,:action => :show
+      get "/:theme_id/stage"  ,:action => :set_staged
+      
+      scope "/:attribute" do
+        get "()"          ,:action => :staged
+        post "()"         ,:action => :update
+        get "/original"   ,:action => :original
+      end
+    
+    end
+  end
+  
+  
   # account management
   resource :account, :controller => "users"
   resource :session, :controller => "user_sessions" do

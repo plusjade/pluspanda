@@ -13,45 +13,55 @@ var sammyApp = $.sammy(function() {
   this.get('#/widget', function() {
     $.get("/admin/widget", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });
 
   this.get('#/manage', function() {
     $.get("/admin/manage", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });
   
   this.get('#/collect', function() {
     $.get("/admin/collect", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });  
   
   this.get('#/install', function() {
     $.get("/admin/install", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });
     
   this.get('#/theme', function() {
     $.get("/admin/theme", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });    
     
   this.get('#/thanks', function() {
     $.get("/admin/thanks", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });
     
+/* twitter stuff */
+  this.get('#/t_manage', function() {
+    $.get("/admin/twitter/manage", function(view){
+      $('#main-wrapper').html(view);
+      adminPages.call(page);
+    })
+  });
+  
+  
+  
   this.after(function(){
     adminNavigation.mainTab(page);
     mpmetrics.track("page: " + page);

@@ -3,6 +3,32 @@
  */ 
 ;var adminPages = {
 
+  call : function(page){
+    if(typeof adminPages[page] === "function")
+      adminPages[page]();
+  },
+  
+/* twitter pages */
+  t_manage : function(){
+    console.log("twitter manager");
+    
+    // TODO: make this declare only once and for published filter only
+    $('#tweet_list.published').sortable({
+      items:'div.tweet',
+      axis: 'y',
+      helper: 'clone'
+    });
+    
+    $("a.trash").click(function(e){
+      $(this).parent().remove();
+      
+      e.preventDefault();
+      return false;
+    })
+  },
+  
+
+/* testimonial pages */  
   widget : function(){
     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
       width: "800px",
@@ -140,8 +166,6 @@
     $(document).trigger('ajaxify.form');
   },
 
-
-  // setup manage page
   manage : function(){
     $("table.t-data").tablesorter({
       headers:{

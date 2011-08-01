@@ -1,0 +1,129 @@
+<ul id="sub-tabs"> 
+  <li><a href="#" class="active" rel="tab-data" title="Manage Your Tweets">Main</a></li> 
+  <li><a href="#help" rel="tab-help">(help)</a></li> 
+</ul> 
+
+<div class="narrow-content">
+
+  <ul class="tab-beans">
+    <li><a href="#">Published</a></li>
+    <li><a href="#">Trashed</a></li>
+  </ul>
+  
+  <%= form_tag "/blah", :id => "new_tweet" do %>
+    <label>New Tweet</label>
+    <input type="text" name="blah" /> <button>Add Tweet</button>
+  <% end %>
+    
+  <div id="tweet_list" class="published">
+  <% 10.times do %>
+    <div class="tweet">
+      <a href="#" class="trash">X</a>
+      <img src="<%= @tweet["user"]["profile_image_url"]%>" />
+      <div class="body">
+        <div class="user">
+          <a href="#">@<%= @tweet["user"]["screen_name"] %></a>
+          <%= @tweet["user"]["name"] %>
+          <%= @tweet["user"]["location"] %>
+        </div>
+        <div class="text">
+          <%= @tweet["text"] %>
+        </div>
+        <div class="date">
+          - <%= @tweet["created_at"] %> via <%= @tweet["source"] %>
+        </div>
+      </div>
+    </div>
+  <% end %>  
+  </div>
+      
+
+</div>
+
+<style type="text/css">
+  .narrow-content {
+    width:550px;
+    margin:auto;
+    padding-top:20px;
+  }
+  .tab-beans a{
+    ackground:#3ACEA4 !important;
+  }
+  #new_tweet {
+    background:#9BCA7C;
+    padding:10px 0;
+    margin:0 auto 0 auto;
+    text-align:center;
+    border-radius:5px 5px 0 0 ;
+  }
+  #new_tweet label {
+    display:block;
+    margin-bottom:5px;
+  }
+  #new_tweet input {
+    width:400px;
+    font-size:16px;
+    font-weight:bold;
+    padding:4px 2px;
+    border:0;
+    }
+  #tweet_list {
+    margin:auto;
+    padding:15px 0;
+    background:#F7FFF8;
+    border-radius:0 0 5px 5px;
+  }
+  #tweet_list.published .tweet{
+    cursor:move;
+  }
+  .tweet {
+    width:470px;
+    height:90px;
+    position:relative;
+    margin:0 auto 5px auto;
+    padding:8px;
+    border:1px solid #9BCA7C;
+    background:#FFF;
+    border-radius:5px;
+  }
+  .tweet a.trash {
+    display:block;
+    position:absolute;
+    bottom:0px;
+    right:0;
+    z-index:2;
+    width:30px;
+    line-height:20px;
+    font-size:14px;
+    font-weight:bold;
+    text-align:center;
+    text-decoration:none;
+    background:#610000;
+    color:#F7FFF8;
+    border-radius:5px 0 5px 0;
+  }
+  .tweet img {
+    display:block;
+    float:left;
+    margin-right:10px;
+    border:1px solid #ccc;
+    
+  }
+  .tweet .body {
+    float:left;
+    width:400px;
+  }
+  .tweet div {
+    margin-bottom:3px;
+  }
+  .tweet .user {
+    font-weight:bold;
+    font-size:13px;
+  }
+  .tweet .text {
+    font-size:14px;
+  }
+  .tweet .date {
+    font-size:13px;
+  }
+</style>
