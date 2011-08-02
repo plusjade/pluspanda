@@ -68,6 +68,11 @@ class Theme < ActiveRecord::Base
     }
   end
   
+  
+  # builds the theme_config js file.
+  # Note this is the main file users include on their site.
+  # This file is responsible for bootstrapping the widget.
+  # We push this to s3 and redirect to it from our api widget.js call
   def self.render_theme_config(opts)
     context = ApplicationController.new
     opts[:user]         ||= nil
@@ -114,4 +119,5 @@ class Theme < ActiveRecord::Base
   end
 
 
+  
 end
