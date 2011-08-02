@@ -88,16 +88,13 @@ var panda = {
   
   /* callback to format and inject testimonials data. */
   display: function (tweets){
+    console.log(tweets);
     if(panda.debug){console.log("display called, expecting updated content.");console.log(tweets)}
     var content = '';
     jQuery(tweets).each(function(i){
-      this.created_at = new Date(this.created_at).toDateString();
-      this.image = '<img src="'+ this.image +'" />';
-      if(this.url.length > 0){
-        this.url = '<a href="http://' + this.url + '" target="_blank">http://' + this.url + ' </a>';
-      }
+      this.image = '<img src="'+ this.user.profile_image_url +'" />';
       this.alt = (0 === (i+1) % 2) ? 'even' : 'odd';
-      content  += pandaTweetThemeConfig.testimonialHTML(this);
+      content += pandaTweetThemeConfig.tweetHTML(this);
     });
     panda.$tweets.find(".ajax_loading").replaceWith(content);
     if(panda.debug) console.log(content);

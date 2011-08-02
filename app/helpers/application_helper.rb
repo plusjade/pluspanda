@@ -12,6 +12,10 @@ module ApplicationHelper
     return "#{root_url+widget_testimonials_path}.js?apikey=#{@user.apikey}"
   end
 
+  def tweet_widget_script_url
+    "#{root_url+widget_tweets_path}.js?apikey=#{@user.apikey}"
+  end
+  
   def root_url
     ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
   end

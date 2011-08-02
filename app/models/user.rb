@@ -152,7 +152,10 @@ class User < ActiveRecord::Base
 
   def tweets_as_api
     tweets = []
-    self.tweets.map { |t| tweets.push(t.data_json) }
+    self.tweets.where(:trash => false).order("position ASC, created_at DESC").each do |t| 
+      tweets.push(t.data_json)
+    end
+    
     tweets
   end
 

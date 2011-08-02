@@ -27,11 +27,11 @@ class TwitterController < ApplicationController
     @css = @user.get_attribute("style.css").staged
     @theme_config = @user.generate_tweet_bootstrap(true)
 
-    render :template => "twitter/staged", :layout => "staged"
+    render :template => "twitter/staged", :layout => "twitter_staged"
   end
 
   def published
-    render :template => "twitter/published", :layout => "published"
+    render :template => "twitter/published", :layout => "twitter_published"
   end
 
   # PUT 

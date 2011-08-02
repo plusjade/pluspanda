@@ -5,8 +5,11 @@ class TweetsController < ApplicationController
 
   def index
     @tweets = @user.tweets_as_api
-    update_data = {}
-    
+    total = @user.tweets.where(:trash => false).count
+    update_data = {
+      "total" => total
+    }
+
     respond_to do |format|
       format.any(:html, :iframe) { render :text => 'a standalone version maybe?'}
       format.json { 
