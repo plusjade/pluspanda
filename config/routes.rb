@@ -8,6 +8,8 @@ Pluspanda::Application.routes.draw do
   # current api
   scope "v1" do
     resources :testimonials do
+      # redirect the widget request amazon s3
+      # s3 file is the user's themeConfig
       get :widget, :on => :collection, :to => proc {|env|
         apikey = env["QUERY_STRING"].split("=")[1]
                 
@@ -25,6 +27,27 @@ Pluspanda::Application.routes.draw do
       }
       get :widget, :on => :collection
     end
+    
+    resources :tweets do
+      # redirect the widget request to the saved amazon s3 file.
+      get :widget, :on => :collection, :to => proc {|env|
+        apikey = env["QUERY_STRING"].split("=")[1]
+                
+        if Rails.env.development?
+          user = User.find_by_apikey(apikey)
+          [200, {}, [user.generate_theme_config]]
+        else
+          url    = Storage.new(apikey).theme_config_url
+          log    = Rails.root.join('log', 'widget.log')
+          line   = "#{apikey}, #{env["HTTP_REFERER"]}, #{DateTime.now} \n"
+          File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
+          
+          [307, {'Location' => url, 'Content-Type' => 'text/html'}, ["redirecting to: #{url}"]]
+        end
+      }
+      get :widget, :on => :collection
+    end
+    
   end
   
   # admin
