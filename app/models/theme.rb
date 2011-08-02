@@ -118,6 +118,47 @@ class Theme < ActiveRecord::Base
     )
   end
 
+  
+  # builds the tweet_bootstrap js file.
+  # Note this is the main file users include on their site.
+  # This file is responsible for bootstrapping the widget.
+  # We push this to s3 and redirect to it from our api widget.js call
+  def self.render_tweet_bootstrap(opts)
+    context = ApplicationController.new
+    opts[:user]         ||= nil
+    opts[:stylesheet]   ||= ""
+    opts[:wrapper]      ||= ""
+    opts[:tweet]        ||= ""
+    
+    # parse wrapper.html 
+    wrapper_tokens = {
+      :count          => '<span class="pandA-tCount_ness"></span>',
+      :testimonials   => '<span class="pandA-tWrapper_ness"></span>',
+      :form_link      => '<a href="#" class="pandA-addForm_ness">{{param}}</a>'
+    }
+    wrapper = Theme.parse_wrapper(opts[:wrapper], wrapper_tokens)
+    
+    # parse testimonial.html
+    tokens = Testimonial.api_attributes
+    tweet = Theme.parse_testimonial(opts[:tweet], tokens)
 
+    if Rails.env.development?
+      widget_url = "/javascripts/widget/tweet.js"
+    else  
+      widget_url = Storage.new().widget_url
+    end
+    
+    context.render_to_string(
+      :partial => "widgets/tweet_bootstrap",
+      :locals  => {
+        :apikey         => opts[:user].apikey,
+        :stylesheet     => opts[:stylesheet],
+        :wrapper_html   => wrapper,
+        :tweet_html     => tweet,
+        :widget_url     => widget_url,
+      }
+    )
+  end
+  
   
 end

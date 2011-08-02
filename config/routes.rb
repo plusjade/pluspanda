@@ -35,7 +35,7 @@ Pluspanda::Application.routes.draw do
                 
         if Rails.env.development?
           user = User.find_by_apikey(apikey)
-          [200, {}, [user.generate_theme_config]]
+          [200, {}, [user.generate_tweet_bootstrap]]
         else
           url    = Storage.new(apikey).theme_config_url
           log    = Rails.root.join('log', 'widget.log')
