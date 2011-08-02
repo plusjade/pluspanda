@@ -1245,7 +1245,9 @@ $(document).bind('ajaxify.form', function(){
       }
       else if (rsp.testimonial)
         adminTestimonials.testimonialSave(rsp);
-
+      else if(rsp.tweet)
+        sammyApp.runRoute("get", "#/t_manage");
+        
       $('form button').removeAttr('disabled').addClass('positive');
       return false;
     }
@@ -1285,6 +1287,51 @@ $(document).bind('ajaxify.form', function(){
  */ 
 ;var adminPages = {
 
+  call : function(page){
+    if(typeof adminPages[page] === "function")
+      adminPages[page]();
+  },
+  
+/* twitter pages */
+  t_manage : function(){
+    // TODO: make this declare only once and for published filter only
+    $('#tweet_list.published').sortable({
+      items:'div.tweet',
+      axis: 'y',
+      helper: 'clone',
+      update: function(event, ui) {
+        var order = $("#tweet_list.published").sortable("serialize");
+        if(order){
+          showStatus.submitting();    
+          $.get('/admin/twitter/tweets/save_positions', order, function(rsp){
+            showStatus.respond(rsp);
+          })
+        } 
+        else {
+          showStatus.respond({"msg":'No items to sort'});
+        }
+      }
+    });
+    
+    $("a.trash").click(function(e){
+      if(confirm("Trash this Tweet?")){
+        var $a = $(this);
+        showStatus.submitting();
+        $.get('/admin/twitter/tweets/'+ $a.attr("rel") +'/trash', function(rsp){
+          showStatus.respond(rsp);
+          if(rsp && rsp.status === "good")
+            $a.parent().remove();
+        })
+      }
+      e.preventDefault();
+      return false;
+    })
+    
+    $(document).trigger('ajaxify.form');
+  },
+  
+
+/* testimonial pages */  
   widget : function(){
     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
       width: "800px",
@@ -1422,8 +1469,6 @@ $(document).bind('ajaxify.form', function(){
     $(document).trigger('ajaxify.form');
   },
 
-
-  // setup manage page
   manage : function(){
     $("table.t-data").tablesorter({
       headers:{
@@ -1446,7 +1491,7 @@ $(document).bind('ajaxify.form', function(){
     // subtabs
     $("#sub-tabs li a").click(function(){
       $target = $(this);
-      $("#data-description").html($target.attr('title'));
+      $(".data-description").html($target.attr('title'));
       var filter = $target.html().toLowerCase();
       adminTestimonials.loadTestimonials(filter);
       adminNavigation.subTab($(this));
@@ -1553,45 +1598,55 @@ var sammyApp = $.sammy(function() {
   this.get('#/widget', function() {
     $.get("/admin/widget", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });
 
   this.get('#/manage', function() {
     $.get("/admin/manage", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });
   
   this.get('#/collect', function() {
     $.get("/admin/collect", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });  
   
   this.get('#/install', function() {
     $.get("/admin/install", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });
     
   this.get('#/theme', function() {
     $.get("/admin/theme", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });    
     
   this.get('#/thanks', function() {
     $.get("/admin/thanks", function(view){
       $('#main-wrapper').html(view);
-      if(typeof adminPages[page] === "function") adminPages[page]();
+      adminPages.call(page);
     })
   });
     
+/* twitter stuff */
+  this.get('#/t_manage', function() {
+    $.get("/admin/twitter/manage", function(view){
+      $('#main-wrapper').html(view);
+      adminPages.call(page);
+    })
+  });
+  
+  
+  
   this.after(function(){
     adminNavigation.mainTab(page);
     mpmetrics.track("page: " + page);
@@ -1619,6 +1674,40 @@ var sammyApp = $.sammy(function() {
   
 }
 
+var simpleTabs = {
+  $list : null,
+  $wrapper : null,
+  init : function(list, wrapper){
+    console.log("init!");
+    simpleTabs.$list = list;
+    simpleTabs.$wrapper = wrapper;
+    
+    simpleTabs.$list.find("a").click(function(){
+      simpleTabs.showTab($(this));
+      return false;
+    });
+    
+    simpleTabs.showFirstTab();
+  },
+  
+  showFirstTab : function(){
+    var $first = simpleTabs.$list.find("a:first");
+    simpleTabs.showTab($first);
+  },
+  
+  showTab : function(node){
+    simpleTabs.clear();
+    
+    var tabIndex = node.parent().index();
+    simpleTabs.$wrapper.find("div.tab_unit").eq(tabIndex).show();
+    node.addClass("active");
+  },
+  
+  clear : function(){
+    simpleTabs.$list.find("a").removeClass("active");
+    simpleTabs.$wrapper.find("div.tab_unit").hide();
+  }
+}
 
 ;var adminWidget = {
   $iframe : $('<iframe width="100%" height="800px">Iframe not Supported</iframe>'),
@@ -1650,33 +1739,3 @@ var sammyApp = $.sammy(function() {
   }  
   
 }
-
-
-$(function(){
-  
-  $("a[rel*=facebox]").live("click", function(){
-    var url = this.href
-    $.facebox(function(){ 
-      $.get(url, function(data) { $.facebox(data) })
-    })
-    mpmetrics.track(url);
-    return false;    
-  });
-  
-  $("a[rel*=fb-div]").live("click", function(){
-    $.facebox({div : this.href});
-    mpmetrics.track(this.href);
-    return false;    
-  });
-  
-  // facebox share panel 
-  $("a.fb-div").live("click", function(){
-    $.facebox({ div: $(this).attr('rel') });
-    $('div.share-data input').val(this.href);
-    mpmetrics.track(this.href);
-    return false;    
-  });
-  
-
-}); /* end */
-
