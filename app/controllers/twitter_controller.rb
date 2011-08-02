@@ -6,6 +6,7 @@ class TwitterController < ApplicationController
   # this is so we are always loading admin pages through sammy.js
   #before_filter :as_admin_page, :only => [:widget, :manage, :install, :collect]
 
+  
   def index
 
   end
@@ -15,9 +16,7 @@ class TwitterController < ApplicationController
   end
 
   def manage
-    tweet = '{"in_reply_to_user_id":null,"user":{"show_all_inline_media":false,"follow_request_sent":false,"geo_enabled":false,"profile_use_background_image":true,"favourites_count":0,"protected":false,"url":"http:\/\/www.barackobama.com","profile_background_color":"77b0dc","name":"Barack Obama","id_str":"813286","profile_background_image_url":"http:\/\/a2.twimg.com\/profile_background_images\/272273809\/2012background_less.jpg","created_at":"Mon Mar 05 22:08:25 +0000 2007","statuses_count":1653,"notifications":false,"utc_offset":-18000,"followers_count":9393620,"listed_count":150823,"profile_background_image_url_https":"https:\/\/si0.twimg.com\/profile_background_images\/272273809\/2012background_less.jpg","profile_text_color":"333333","default_profile":false,"lang":"en","profile_sidebar_fill_color":"c2e0f6","profile_image_url_https":"https:\/\/si0.twimg.com\/profile_images\/1400727240\/o2012_twitter_normal.jpg","profile_background_tile":false,"profile_image_url":"http:\/\/a1.twimg.com\/profile_images\/1400727240\/o2012_twitter_normal.jpg","description":"This account is run by #Obama2012 campaign staff. Tweets from the President are signed -BO.\r\n","contributors_enabled":false,"default_profile_image":false,"verified":true,"profile_link_color":"2574ad","screen_name":"BarackObama","friends_count":692380,"profile_sidebar_border_color":"c2e0f6","location":"Washington, DC","id":813286,"is_translator":false,"following":true,"time_zone":"Eastern Time (US & Canada)"},"favorited":false,"in_reply_to_status_id_str":null,"id_str":"97691024717127680","created_at":"Sun Jul 31 15:32:09 +0000 2011","in_reply_to_screen_name":null,"in_reply_to_user_id_str":null,"truncated":false,"contributors":null,"retweeted":false,"text":"How will the administration\'s new fuel efficiency standards help your wallet and our environment? Take a look: http:\/\/t.co\/5RDh3ap","place":null,"in_reply_to_status_id":null,"retweet_count":"100+","source":"web","geo":null,"id":97691024717127680,"possibly_sensitive":false,"coordinates":null}'
-    @tweet = ActiveSupport::JSON.decode(tweet)
-    puts @tweet.to_yaml
+    @tweets = @user.tweets.where(:trash => false).order("position ASC, created_at DESC")
   end
 
   def install  

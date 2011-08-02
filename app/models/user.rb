@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   include Seed
   acts_as_authentic
   has_many :testimonials, :dependent => :destroy
+  has_many :tweets, :dependent => :destroy
   has_many :widget_logs, :dependent => :destroy
   has_many :themes, :dependent => :destroy   
   has_one :tconfig, :dependent => :destroy

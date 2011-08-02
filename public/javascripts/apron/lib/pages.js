@@ -16,7 +16,20 @@
     $('#tweet_list.published').sortable({
       items:'div.tweet',
       axis: 'y',
-      helper: 'clone'
+      helper: 'clone',
+      update: function(event, ui) {
+        var order = $("#tweet_list.published").sortable("serialize");
+        if(order){
+          console.log(order);
+          showStatus.submitting();    
+          $.get('/admin/twitter/tweets/save_positions', order, function(rsp){
+            showStatus.respond(rsp);
+          })
+          
+        } else {
+          showStatus.respond({"msg":'No items to sort'});
+        }
+      }
     });
     
     $("a.trash").click(function(e){
@@ -25,6 +38,8 @@
       e.preventDefault();
       return false;
     })
+    
+    $(document).trigger('ajaxify.form');
   },
   
 

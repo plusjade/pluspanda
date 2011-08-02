@@ -77,11 +77,9 @@ Pluspanda::Application.routes.draw do
     get :staged
     get :published
     put :settings
-
-    scope "/tweets", :as => "tweets" do
-      get "()"                  ,:action => :testimonials
-      get "/update"             ,:action => :update   
-      get "/save_positions"     ,:action => :save_positions
+    
+    resources :tweets do
+      get "save_positions", :on => :collection
     end
 
     scope "/theme", :controller => :theme, :as => :theme do
