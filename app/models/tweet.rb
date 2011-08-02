@@ -21,7 +21,8 @@ class Tweet < ActiveRecord::Base
     response = Net::HTTP.start(url.host, url.port) {|http|
       http.get("/1/statuses/show/#{self.tweet_uid}.json")
     }
-    JSON.parse(response.body)    
+    data = JSON.parse(response.body)    
+    data["error"] ? {} : data
   rescue Errno::ECONNREFUSED
     {}
   rescue Timeout::Error

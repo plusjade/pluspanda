@@ -9,7 +9,7 @@ gem "mysql"
 gem "fastercsv"
 gem "haml"
 
-gem "apron", '0.0.6', :git => "git://github.com/plusjade/apron.git"
+gem "apron", '0.0.8', :git => "git://github.com/plusjade/apron.git"
 
 gem "authlogic"
 #gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"

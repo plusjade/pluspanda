@@ -10,8 +10,6 @@
   
 /* twitter pages */
   t_manage : function(){
-    console.log("twitter manager");
-    
     // TODO: make this declare only once and for published filter only
     $('#tweet_list.published').sortable({
       items:'div.tweet',
@@ -20,21 +18,27 @@
       update: function(event, ui) {
         var order = $("#tweet_list.published").sortable("serialize");
         if(order){
-          console.log(order);
           showStatus.submitting();    
           $.get('/admin/twitter/tweets/save_positions', order, function(rsp){
             showStatus.respond(rsp);
           })
-          
-        } else {
+        } 
+        else {
           showStatus.respond({"msg":'No items to sort'});
         }
       }
     });
     
     $("a.trash").click(function(e){
-      $(this).parent().remove();
-      
+      if(confirm("Trash this Tweet?")){
+        var $a = $(this);
+        showStatus.submitting();
+        $.get('/admin/twitter/tweets/'+ $a.attr("rel") +'/trash', function(rsp){
+          showStatus.respond(rsp);
+          if(rsp && rsp.status === "good")
+            $a.parent().remove();
+        })
+      }
       e.preventDefault();
       return false;
     })

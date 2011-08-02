@@ -4,12 +4,12 @@
 </ul> 
 
 <div class="narrow-content">
-
+  <!--
   <ul class="tab-beans">
     <li><a href="#">Published</a></li>
     <li><a href="#">Trashed</a></li>
   </ul>
-  
+  -->
   <%= form_tag "/admin/twitter/tweets", :id => "new_tweet", :class=>"ajax" do %>
     <label>Enter tweet URL or ID</label>
     <input type="text" name="url" /> <button>Add Tweet</button>
@@ -19,7 +19,7 @@
   <% @tweets.each do |tweet| %>
   <%  data = tweet.data_json %>
     <div id="tweet_<%= tweet.id %>" class="tweet">
-      <a href="#" class="trash">X</a>
+      <a href="#" class="trash" rel="<%= tweet.id %>">X</a>
       <img src="<%= data["user"]["profile_image_url"]%>" />
       <div class="body">
         <div class="user">

@@ -4,12 +4,13 @@ class TweetsController < ApplicationController
   before_filter :require_user, :setup_user
 
   def create
-    match = params[:url].match(/[\d]+/)
-    if match
-      tweet = @user.tweets.new(:tweet_uid => match[0])
+    uid = params[:url].scan(/[\d]+/).pop
+    if uid
+      tweet = @user.tweets.new(:tweet_uid => uid)
       if tweet.save
         @status  = "good"
-        @message = "Tweet Added #{match[0]}"
+        @message = "Tweet Added #{uid}"
+        @resource = tweet
       else
         @message = tweet.errors.to_a.join(", ")
       end  
@@ -20,6 +21,21 @@ class TweetsController < ApplicationController
     serve_json_response
   end
   
+  def trash
+    @tweet = @user.tweets.find(params[:id])
+    if @tweet
+      if @tweet.destroy
+        @status = "good"
+        @message = "Tweet trashed"
+      else
+        @message = @tweet.errors.to_a.join(", ")
+      end
+    else
+      @message = "Invalid Tweet"
+    end
+    
+    serve_json_response
+  end
   
   def save_positions
     if params['tweet'] && params['tweet'].is_a?(Array) 

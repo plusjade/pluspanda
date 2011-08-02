@@ -29,7 +29,9 @@ $(document).bind('ajaxify.form', function(){
       }
       else if (rsp.testimonial)
         adminTestimonials.testimonialSave(rsp);
-
+      else if(rsp.tweet)
+        sammyApp.runRoute("get", "#/t_manage");
+        
       $('form button').removeAttr('disabled').addClass('positive');
       return false;
     }

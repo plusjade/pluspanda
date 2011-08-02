@@ -79,6 +79,7 @@ Pluspanda::Application.routes.draw do
     put :settings
     
     resources :tweets do
+      get "trash", :on => :member
       get "save_positions", :on => :collection
     end
 
