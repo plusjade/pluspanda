@@ -17,6 +17,7 @@ class Theme < ActiveRecord::Base
       "bernd",
       "bernd-simple",
       "legacy",
+      "tweets"
       "custom"
     ]
   end
