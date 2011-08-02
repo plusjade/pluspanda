@@ -17,7 +17,7 @@ class Theme < ActiveRecord::Base
       "bernd",
       "bernd-simple",
       "legacy",
-      "tweets"
+      "tweets",
       "custom"
     ]
   end
@@ -46,7 +46,7 @@ class Theme < ActiveRecord::Base
     
   end
   
-  
+  # A theme attribute is defined in the theme folder as a file
   def self.render_theme_attribute(theme, attribute)
     attributes = ThemeAttribute.names
     path = File.join(Themes_path, theme, attribute)
@@ -60,6 +60,15 @@ class Theme < ActiveRecord::Base
   def self.parse_testimonial(data, tokens)
     data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
       tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
+    }
+  end
+  
+  # parse tweet tokens
+  # For now, our js template is just function call.
+  # this changes valid tokens to js object value getters.
+  def self.parse_tweet(data, tokens)
+    data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
+      tokens.include?($1.to_sym) ? "'+item.#{$1.to_s.gsub("user_", "user.")}+'" : tkn
     }
   end
   
@@ -81,7 +90,7 @@ class Theme < ActiveRecord::Base
     opts[:wrapper]      ||= ""
     opts[:testimonial]  ||= ""
     
-    # parse wrapper.html
+    # parse wrapper.html for tokens
     tag_list = context.render_to_string(
       :partial  => "testimonials/tag_list",
       :locals   => { :tags => Tag.where({:user_id => opts[:user].id }) }
@@ -94,7 +103,7 @@ class Theme < ActiveRecord::Base
     }
     wrapper = Theme.parse_wrapper(opts[:wrapper], wrapper_tokens)
     
-    # parse testimonial.html
+    # parse testimonial.html for tokens
     tokens = Testimonial.api_attributes
     testimonial = Theme.parse_testimonial(opts[:testimonial], tokens)
 
@@ -131,17 +140,16 @@ class Theme < ActiveRecord::Base
     opts[:wrapper]      ||= ""
     opts[:tweet]        ||= ""
     
-    # parse wrapper.html 
+    # parse wrapper.html for tokens 
     wrapper_tokens = {
-      :count          => '<span class="pandA-tCount_ness"></span>',
-      :testimonials   => '<span class="pandA-tWrapper_ness"></span>',
-      :form_link      => '<a href="#" class="pandA-addForm_ness">{{param}}</a>'
+      :count    => '<span class="pandA-tCount_ness"></span>',
+      :tweets   => '<span class="pandA-tWrapper_ness"></span>',
     }
     wrapper = Theme.parse_wrapper(opts[:wrapper], wrapper_tokens)
     
-    # parse testimonial.html
-    tokens = Testimonial.api_attributes
-    tweet = Theme.parse_testimonial(opts[:tweet], tokens)
+    # parse tweet.html for tokens
+    tokens = Tweet.api_attributes
+    tweet = Theme.parse_tweet(opts[:tweet], tokens)
 
     if Rails.env.development?
       widget_url = "/javascripts/widget/tweet.js"

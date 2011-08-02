@@ -92,7 +92,7 @@ var panda = {
     if(panda.debug){console.log("display called, expecting updated content.");console.log(tweets)}
     var content = '';
     jQuery(tweets).each(function(i){
-      this.image = '<img src="'+ this.user.profile_image_url +'" />';
+      this.user.profile_image_url = '<img src="'+ this.user.profile_image_url +'" />';
       this.alt = (0 === (i+1) % 2) ? 'even' : 'odd';
       content += pandaTweetThemeConfig.tweetHTML(this);
     });

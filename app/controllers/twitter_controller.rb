@@ -24,9 +24,9 @@ class TwitterController < ApplicationController
   end
 
   def staged
-    @css = @user.get_attribute("style.css").staged
+    #@css = @user.get_attribute("style.css").staged
+    @css = Theme.render_theme_attribute("tweets", "style.css")
     @theme_config = @user.generate_tweet_bootstrap(true)
-
     render :template => "twitter/staged", :layout => "twitter_staged"
   end
 

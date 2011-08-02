@@ -31,4 +31,17 @@ class Tweet < ActiveRecord::Base
     {}
   end
   
+  
+  def self.api_attributes
+    [
+      :id,
+      :user_profile_image_url,
+      :user_screen_name,
+      :user_name,
+      :user_location,
+      :created_at,
+      :text     
+    ]    
+  end
+  
 end

@@ -17,6 +17,9 @@ class ThemeAttribute < ActiveRecord::Base
   
   def self.names
     [
+      "tweet-wrapper.html",
+      "tweet.html",
+      
       "wrapper.html",
       "testimonial.html",
       "style.css",

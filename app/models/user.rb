@@ -80,12 +80,18 @@ class User < ActiveRecord::Base
   end
 
   def generate_tweet_bootstrap(for_staging=false)
-    Theme.render_tweet_bootstrap({
+    #Theme.render_tweet_bootstrap({
+    #  :user         => self,
+    #  :stylesheet   => for_staging ? "" : self.stylesheet_url,
+    #  :wrapper      => self.get_attribute("wrapper.html").staged,
+    #  :tweet        => self.get_attribute("testimonial.html").staged
+    #})    
+    Theme.render_tweet_bootstrap(
       :user         => self,
-      :stylesheet   => for_staging ? "" : self.stylesheet_url,
-      :wrapper      => self.get_attribute("wrapper.html").staged,
-      :tweet        => self.get_attribute("testimonial.html").staged
-    })    
+      :stylesheet   => "#{Theme::Themes_url}/tweets/style.css",
+      :wrapper      => Theme.render_theme_attribute("tweets", "tweet-wrapper.html"),
+      :tweet        => Theme.render_theme_attribute("tweets", "tweet.html")
+    )
   end
 
   def stylesheet_url
