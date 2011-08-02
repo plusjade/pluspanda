@@ -3,6 +3,27 @@ class TweetsController < ApplicationController
   layout proc { |c| c.request.xhr? ? false : "twitter"}
   before_filter :require_user, :setup_user
 
+  def index
+    @tweets = @user.tweets_as_api
+    update_data = {}
+    
+    respond_to do |format|
+      format.any(:html, :iframe) { render :text => 'a standalone version maybe?'}
+      format.json { 
+        render :json => {
+          :update_data  => update_data,
+          :tweets => @tweets
+        }
+      }
+      format.js do
+        #@response.headers["Cache-Control"] = 'no-cache, must-revalidate'
+        #@response.headers["Expires"] = 'Mon, 26 Jul 1997 05:00:00 GMT'
+        render :js => "panda.display(#{@tweets.to_json});panda.update(#{update_data.to_json});"
+      end
+    end
+  end
+  
+  
   def create
     uid = params[:url].scan(/[\d]+/).pop
     if uid

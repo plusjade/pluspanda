@@ -150,6 +150,11 @@ class User < ActiveRecord::Base
   end
 
 
+  def tweets_as_api
+    tweets = []
+    self.tweets.map { |t| tweets.push(t.data_json) }
+    tweets
+  end
 
   def self.creation_by_month
     self.find_by_sql("
