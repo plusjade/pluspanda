@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :widget_logs, :dependent => :destroy
   has_many :themes, :dependent => :destroy   
   has_one :tconfig, :dependent => :destroy
+  has_one :tweet_setting, :dependent => :destroy
   
   validates_uniqueness_of :email
   

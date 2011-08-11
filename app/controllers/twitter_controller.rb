@@ -35,13 +35,13 @@ class TwitterController < ApplicationController
   end
 
   # PUT 
-  # Save tconfig settings #note rename to user.settings
+  # Save tweet_setting
   def settings
-    if @user.tconfig.update_attributes(params[:tconfig])
+    if @user.tweet_setting.update_attributes(params[:tweet_setting])
       @status   = "good"
       @message  = "Settings updated"
-      @resource = @user.tconfig
-    elsif !@user.tconfig.valid?
+      @resource = @user.tweet_setting
+    elsif !@user.tweet_setting.valid?
       @message = "Oops! Please make sure all fields are valid!"
     end
 
