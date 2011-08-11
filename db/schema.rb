@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110801093121) do
+ActiveRecord::Schema.define(:version => 20110811044551) do
 
   create_table "tags", :force => true do |t|
     t.integer  "user_id"
@@ -70,6 +70,15 @@ ActiveRecord::Schema.define(:version => 20110801093121) do
     t.integer  "name",       :limit => 8
     t.boolean  "staged",                  :default => false
     t.boolean  "published",               :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tweet_settings", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "theme"
+    t.string   "sort"
+    t.integer  "per_page"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
