@@ -62,7 +62,7 @@ class ThemeController < ApplicationController
   # get original attributes from theme source.
   def original
     attribute = ThemeAttribute.names[@attribute.name]
-    path = File.join(Theme::Themes_path, Theme.names[@user.theme_staged.name], attribute)
+    path = File.join(Theme::Themes_path, Theme.names[@user.standard_theme_staged.name], attribute)
     data = File.exist?(path) ? File.new(path).read : "/*No data*/"
     render :text => data
   end
@@ -103,7 +103,7 @@ class ThemeController < ApplicationController
     def ensure_attribute
       a = params[:attribute] ? params[:attribute].gsub("-",".") : nil
       raise ActiveRecord::NotFound unless ThemeAttribute.names.include?(a)
-      @attribute = @user.get_attribute(a)
+      @attribute = @user.get_standard_attribute(a)
     end
         
 end

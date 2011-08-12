@@ -3,12 +3,16 @@ require 'app/models/seed.rb'
 class User < ActiveRecord::Base
   include Seed
   acts_as_authentic
+
   has_many :testimonials, :dependent => :destroy
-  has_many :tweets, :dependent => :destroy
-  has_many :widget_logs, :dependent => :destroy
-  has_many :themes, :dependent => :destroy   
+  has_many :standard_themes, :dependent => :destroy   
   has_one :tconfig, :dependent => :destroy
+
+  has_many :tweets, :dependent => :destroy
+  has_many :tweet_themes, :dependent => :destroy   
   has_one :tweet_setting, :dependent => :destroy
+
+  has_many :widget_logs, :dependent => :destroy
   
   validates_uniqueness_of :email
   
@@ -27,22 +31,24 @@ class User < ActiveRecord::Base
   end
 
 
+  # Get the standard theme attribute
   # we always get the staged theme-attributes
-  def get_attribute(attribute)
-    self.theme_staged.theme_attributes.find_by_name(ThemeAttribute.names.index(attribute))
+  def get_standard_attribute(attribute)
+    self.standard_theme_staged.theme_attributes.find_by_name(ThemeAttribute.names.index(attribute))
   end
   
-  
-  def theme_staged
-    theme = self.themes.find_by_staged(true)
-    unless theme
-      theme = self.themes.first
+  # return the currently staged standard_theme
+  def standard_theme_staged
+    theme = self.standard_themes.find_by_staged(true)
+    if theme.nil?
+      theme = self.standard_themes.first
       theme.staged = true
       theme.save
     end
     
     theme
   end
+  
   
   def publish_theme
     publish_css
@@ -63,7 +69,7 @@ class User < ActiveRecord::Base
   end
   
   def generate_css
-    css = self.get_attribute("style.css").staged
+    css = self.get_standard_attribute("style.css").staged
     facebox_path = Rails.root.join("public","stylesheets","facebox.css")
     if File.exist?(facebox_path)
       css << "\n" << File.new(facebox_path).read
@@ -72,22 +78,22 @@ class User < ActiveRecord::Base
   end
   
   def generate_theme_config(for_staging=false)
-    Theme.render_theme_config({
+    StandardTheme.render_theme_config({
       :user         => self,
       :stylesheet   => for_staging ? "" : self.stylesheet_url,
-      :wrapper      => self.get_attribute("wrapper.html").staged,
-      :testimonial  => self.get_attribute("testimonial.html").staged
+      :wrapper      => self.get_standard_attribute("wrapper.html").staged,
+      :testimonial  => self.get_standard_attribute("testimonial.html").staged
     })    
   end
 
   def generate_tweet_bootstrap(for_staging=false)
-    #Theme.render_tweet_bootstrap({
+    #TweetTheme.render_tweet_bootstrap({
     #  :user         => self,
     #  :stylesheet   => for_staging ? "" : self.stylesheet_url,
-    #  :wrapper      => self.get_attribute("wrapper.html").staged,
-    #  :tweet        => self.get_attribute("testimonial.html").staged
+    #  :wrapper      => self.get_standard_attribute("wrapper.html").staged,
+    #  :tweet        => self.get_standard_attribute("testimonial.html").staged
     #})    
-    Theme.render_tweet_bootstrap(
+    TweetTheme.render_tweet_bootstrap(
       :user         => self,
       :stylesheet   => "#{Theme::Themes_url}/tweets/style.css",
       :wrapper      => Theme.render_theme_attribute("tweets", "tweet-wrapper.html"),
