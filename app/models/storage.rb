@@ -2,7 +2,7 @@ require "aws/s3"
 class Storage
 
   Url = "http://s3.amazonaws.com/"
-  Stylesheet_filename = "data/{{apikey}}/style.css"
+  StandardThemeStylesheetFilename = "data/{{apikey}}/style.css"
   Theme_config_filename = "data/{{apikey}}/theme_config.js"
 
   def self.bucket
@@ -30,11 +30,11 @@ class Storage
   end
     
   
-  def add_stylesheet(data)
+  def add_standard_theme_stylesheet(data)
     f = File.new(tmp_stylesheet_path, "w+")
     f.write(data)
     f.rewind
-    store(stylesheet_filename, tmp_stylesheet_path)
+    store(standard_theme_stylesheet_filename, tmp_stylesheet_path)
   end
   
   def add_theme_config(data)
@@ -45,8 +45,8 @@ class Storage
   end
   
   
-  def stylesheet_filename
-    Stylesheet_filename.gsub("{{apikey}}", @apikey)
+  def standard_theme_stylesheet_filename
+    StandardThemeStylesheetFilename.gsub("{{apikey}}", @apikey)
   end
   
   def theme_config_filename
@@ -55,8 +55,8 @@ class Storage
   
   
   # the published stylesheet is NOT theme specific.
-  def stylesheet_url
-    url(Stylesheet_filename.gsub("{{apikey}}", @apikey))
+  def standard_theme_stylesheet_url
+    url(StandardThemeStylesheetFilename.gsub("{{apikey}}", @apikey))
   end 
 
   def theme_config_url

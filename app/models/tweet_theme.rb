@@ -1,3 +1,5 @@
+# Handles theme processing for tweet-based testimonials
+# For notes see Theme model
 class TweetTheme < Theme
 
   def self.names
@@ -6,10 +8,22 @@ class TweetTheme < Theme
       "custom"
     ]
   end
+    
+  # returns tweet_bootstrap file contents
+  # see self.render_tweet_bootstrap for notes.
+  def generate_tweet_bootstrap(for_staging=false)  
+    TweetTheme.render_tweet_bootstrap(
+      :user         => self.user,
+      # =>              for_staging ? "" : self.standard_theme_stylesheet_url,
+      :stylesheet   => "#{Theme::Themes_url}/tweets/style.css",
+      :wrapper      => self.get_attribute("tweet-wrapper.html").staged,
+      :tweet        => self.get_attribute("tweet.html").staged
+    )
+  end
   
-
+  
   # parse tweet tokens
-  # For now, our js template is just function call.
+  # For now, our js template is just a function call.
   # this changes valid tokens to js object value getters.
   def self.parse_tweet(data, tokens)
     data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
@@ -38,7 +52,7 @@ class TweetTheme < Theme
     
     # parse tweet.html for tokens
     tokens = Tweet.api_attributes
-    tweet = Theme.parse_tweet(opts[:tweet], tokens)
+    tweet = TweetTheme.parse_tweet(opts[:tweet], tokens)
 
     if Rails.env.development?
       widget_url = "/javascripts/widget/tweet.js"

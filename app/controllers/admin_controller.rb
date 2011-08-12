@@ -28,9 +28,9 @@ class AdminController < ApplicationController
   
 
   def staged
-    @css = @user.get_standard_attribute("style.css").staged
-    
-    @theme_config = @user.generate_theme_config(true)
+    theme = @user.standard_themes.get_staged
+    @css = theme.get_attribute("style.css").staged
+    @theme_config = theme.generate_theme_config(true)
     
     render :template => "admin/staged", :layout => "staged"
   end
@@ -148,6 +148,8 @@ class AdminController < ApplicationController
   private 
   
     def as_admin_page
+      @theme = @user.standard_themes.get_staged
+      
       if request.xhr?
         render :template => "admin/#{params[:action]}", :layout => false
       else  

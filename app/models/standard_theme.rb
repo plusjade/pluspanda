@@ -1,5 +1,10 @@
+# Handles theme processing for standard (original format) testimonials
+# For notes see Theme model
 class StandardTheme < Theme
 
+  def theme_stylesheet_url
+    Storage.new(self.user.apikey).standard_theme_stylesheet_url
+  end
   
   def self.names
     [
@@ -9,41 +14,50 @@ class StandardTheme < Theme
       "custom"
     ]
   end
-      
-  # here we populate the associated attributes.
-  # we get these from the associated theme dir. 
-  # note the data should already be verified and sanitized.
-  def populate_attributes
-    attributes = ThemeAttribute.names
-    theme_path = File.join(Themes_path, StandardTheme.names[self.name])
-    
-    if File.exist?(theme_path)
-      Dir.new(theme_path).each do |file|
-        next if file.index('.') == 0
-        if attributes.include?(file)
-          contents =  File.new(File.join(theme_path, file)).read
-          self.theme_attributes.create(
-            :name     => attributes.index(file), 
-            :staged   => contents,
-            :original => contents
-          )
-        end
-      end
-    end
-    
+
+
+  def publish
+    publish_theme_css
+    publish_theme_config
   end
+
+  def publish_theme_css
+    storage = Storage.new(self.user.apikey)
+    storage.connect
+    storage.add_standard_theme_stylesheet(generate_theme_css)
+  end
+  
+  # HTML is packaged in the theme_config
+  # This is for the standard theme
+  def publish_theme_config
+    storage = Storage.new(self.user.apikey)
+    storage.connect
+    storage.add_theme_config(generate_theme_config)
+  end
+  
+  def generate_theme_css
+    css = get_attribute("style.css").staged
+    facebox_path = Rails.root.join("public","stylesheets","facebox.css")
+    if File.exist?(facebox_path)
+      css << "\n" << File.new(facebox_path).read
+    end
+    css
+  end
+  
+  def generate_theme_config(for_staging=false)
+    StandardTheme.render_theme_config({
+      :user         => self.user,
+      :stylesheet   => for_staging ? "" : self.standard_theme_stylesheet_url,
+      :wrapper      => self.get_attribute("wrapper.html").staged,
+      :testimonial  => self.get_attribute("testimonial.html").staged
+    })    
+  end
+  
   
   
   def self.parse_testimonial(data, tokens)
     data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
       tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
-    }
-  end
-  
-
-  def self.parse_wrapper(data, tokens)
-    data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
-      tokens.has_key?($1.to_sym) ? tokens[$1.to_sym].gsub("{{param}}", $2) : tkn
     }
   end
   
@@ -70,7 +84,7 @@ class StandardTheme < Theme
       :testimonials   => '<span class="pandA-tWrapper_ness"></span>',
       :form_link      => '<a href="#" class="pandA-addForm_ness">{{param}}</a>'
     }
-    wrapper = StandardTheme.parse_wrapper(opts[:wrapper], wrapper_tokens)
+    wrapper = Theme.parse_wrapper(opts[:wrapper], wrapper_tokens)
     
     # parse testimonial.html for tokens
     tokens = Testimonial.api_attributes
