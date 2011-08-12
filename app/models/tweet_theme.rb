@@ -1,0 +1,3 @@
+class TweetTheme < Theme
+
+end

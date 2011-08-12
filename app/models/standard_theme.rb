@@ -1,0 +1,3 @@
+class StandardTheme < Theme
+
+end
