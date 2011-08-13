@@ -3,8 +3,14 @@ require "aws/s3"
 class Storage
 
   Url = "http://s3.amazonaws.com/"
+  
   StandardThemeStylesheetFilename = "data/{{apikey}}/style.css"
   ThemeConfigFilename = "data/{{apikey}}/theme_config.js"
+  
+  TweetThemeStylesheetFilename = "data/{{apikey}}/tweet/style.css"
+  TweetBootstrapFilename = "data/{{apikey}}/tweet/bootstrap.js"
+  
+  
 
 # interface to s3
 # ===============
@@ -53,6 +59,20 @@ class Storage
   end
 
     
+  def add_tweet_theme_stylesheet(data)
+    f = File.new(tmp_stylesheet_path, "w+")
+    f.write(data)
+    f.rewind
+    store(tweet_theme_stylesheet_filename, tmp_stylesheet_path)
+  end
+
+  def add_tweet_bootstrap(data)
+    f = File.new(tmp_theme_config_path, "w+")
+    f.write(data)
+    f.rewind
+    store(tweet_bootstrap_filename, tmp_theme_config_path)
+  end
+      
 # File names
 # ===========
   
@@ -61,8 +81,16 @@ class Storage
     StandardThemeStylesheetFilename.gsub("{{apikey}}", @apikey)
   end
   
+  def tweet_theme_stylesheet_filename
+    TweetThemeStylesheetFilename.gsub("{{apikey}}", @apikey)
+  end
+  
   def theme_config_filename
     ThemeConfigFilename.gsub("{{apikey}}", @apikey)
+  end
+  
+  def tweet_bootstrap_filename
+    TweetBootstrapFilename.gsub("{{apikey}}", @apikey)
   end
   
   # the published stylesheet is NOT theme specific.
@@ -70,13 +98,27 @@ class Storage
     url(StandardThemeStylesheetFilename.gsub("{{apikey}}", @apikey))
   end 
 
+  # the published stylesheet is NOT theme specific.
+  def tweet_theme_stylesheet_url
+    url(TweetThemeStylesheetFilename.gsub("{{apikey}}", @apikey))
+  end
+  
   def theme_config_url
     url(ThemeConfigFilename.gsub("{{apikey}}", @apikey))
   end
   
+  def tweet_bootstrap_url
+    url(TweetBootstrapFilename.gsub("{{apikey}}", @apikey))
+  end
+  
+  
+
+
   def url(path=nil)
     path ? "#{Url}#{@bucket}/#{path}" : "#{Url}#{@bucket}"
   end
+
+
 
   # This is the s3 path to the static standard-widget-js-bootstrapper
   def standard_widget_url

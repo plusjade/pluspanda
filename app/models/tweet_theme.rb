@@ -18,13 +18,37 @@ class TweetTheme < Theme
     }
   end
 
+
+  def publish
+    publish_css
+    publish_tweet_bootstrap
+  end
+
+  def publish_css
+    storage = Storage.new(self.user.apikey)
+    storage.connect
+    storage.add_tweet_theme_stylesheet(generate_css)
+  end
+  
+  # HTML is packaged in the theme_config
+  # This is for the standard theme
+  def publish_tweet_bootstrap
+    storage = Storage.new(self.user.apikey)
+    storage.connect
+    storage.add_tweet_bootstrap(generate_tweet_bootstrap)
+  end
+  
+  def generate_css
+    get_attribute("style.css").staged
+  end
+  
+  
   # returns tweet_bootstrap file contents
   # see self.render_tweet_bootstrap for notes.
   def generate_tweet_bootstrap(for_staging=false)  
     TweetTheme.render_tweet_bootstrap(
       :user         => self.user,
-      # =>              for_staging ? "" : self.standard_theme_stylesheet_url,
-      :stylesheet   => "#{Theme::Themes_url}/tweets/style.css",
+      :stylesheet   => for_staging ? "" : self.theme_stylesheet_url,
       :wrapper      => self.get_attribute("tweet-wrapper.html").staged,
       :tweet        => self.get_attribute("tweet.html").staged
     )
@@ -70,5 +94,8 @@ class TweetTheme < Theme
     )
   end
   
+  def theme_stylesheet_url
+    Storage.new(self.user.apikey).tweet_theme_stylesheet_url
+  end
   
 end
