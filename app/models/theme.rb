@@ -80,5 +80,12 @@ class Theme < ActiveRecord::Base
     }
   end
   
+  def tmp_stylesheet_path
+    Rails.root.join("tmp", "#{user.apikey}.css")
+  end
+
+  def tmp_theme_config_path
+    Rails.root.join("tmp", "#{user.apikey}.js")
+  end
   
 end

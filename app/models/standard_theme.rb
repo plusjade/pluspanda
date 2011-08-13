@@ -2,6 +2,11 @@
 # For notes see Theme model
 class StandardTheme < Theme
 
+  # set filenames to be used for s3
+  # Note {{apikey}} is replaced with the user's apikey
+  StylesheetFilename = "data/{{apikey}}/style.css"
+  ThemeConfigFilename = "data/{{apikey}}/theme_config.js"
+  
   def self.names
     [
       "bernd",
@@ -25,7 +30,12 @@ class StandardTheme < Theme
   def publish_css
     storage = Storage.new(self.user.apikey)
     storage.connect
-    storage.add_standard_theme_stylesheet(generate_css)
+    
+    f = File.new(tmp_stylesheet_path, "w+")
+    f.write(self.generate_css)
+    f.rewind
+    
+    storage.store(stylesheet_filename, tmp_stylesheet_path)
   end
   
   # HTML is packaged in the theme_config
@@ -33,8 +43,14 @@ class StandardTheme < Theme
   def publish_theme_config
     storage = Storage.new(self.user.apikey)
     storage.connect
-    storage.add_theme_config(generate_theme_config)
+    
+    f = File.new(tmp_theme_config_path, "w+")
+    f.write(self.generate_theme_config)
+    f.rewind
+    
+    storage.store(theme_config_filename, tmp_theme_config_path)
   end
+    
   
   def generate_css
     css = get_attribute("style.css").staged
@@ -48,7 +64,7 @@ class StandardTheme < Theme
   def generate_theme_config(for_staging=false)
     StandardTheme.render_theme_config({
       :user         => self.user,
-      :stylesheet   => for_staging ? "" : self.theme_stylesheet_url,
+      :stylesheet   => for_staging ? "" : self.stylesheet_url,
       :wrapper      => self.get_attribute("wrapper.html").staged,
       :testimonial  => self.get_attribute("testimonial.html").staged
     })    
@@ -105,10 +121,26 @@ class StandardTheme < Theme
   end
 
   
-  def theme_stylesheet_url
-    Storage.new(self.user.apikey).standard_theme_stylesheet_url
+  
+# s3 filenames and urls
+# =====================
+  
+  def stylesheet_filename
+    StylesheetFilename.gsub("{{apikey}}", user.apikey)
   end
   
+  # the published stylesheet is NOT theme specific.
+  def stylesheet_url
+    Storage.new(user.apikey).url(stylesheet_filename)
+  end
+
+  def theme_config_filename
+    ThemeConfigFilename.gsub("{{apikey}}", user.apikey)
+  end
+  
+  def theme_config_url
+    Storage.new(user.apikey).url(theme_config_filename)
+  end
   
 end
 

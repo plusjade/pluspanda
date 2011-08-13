@@ -2,6 +2,11 @@
 # For notes see Theme model
 class TweetTheme < Theme
 
+  # set filenames to be used for s3
+  # Note {{apikey}} is replaced with the user's apikey
+  TweetStylesheetFilename = "data/{{apikey}}/tweet/style.css"
+  TweetBootstrapFilename = "data/{{apikey}}/tweet/bootstrap.js"
+  
   def self.names
     [
       "tweets",
@@ -27,7 +32,12 @@ class TweetTheme < Theme
   def publish_css
     storage = Storage.new(self.user.apikey)
     storage.connect
-    storage.add_tweet_theme_stylesheet(generate_css)
+    
+    f = File.new(tmp_stylesheet_path, "w+")
+    f.write(self.generate_css)
+    f.rewind
+    
+    storage.store(stylesheet_filename, tmp_stylesheet_path)
   end
   
   # HTML is packaged in the theme_config
@@ -35,7 +45,12 @@ class TweetTheme < Theme
   def publish_tweet_bootstrap
     storage = Storage.new(self.user.apikey)
     storage.connect
-    storage.add_tweet_bootstrap(generate_tweet_bootstrap)
+    
+    f = File.new(tmp_theme_config_path, "w+")
+    f.write(self.generate_tweet_bootstrap)
+    f.rewind
+    
+    storage.store(tweet_bootstrap_filename, tmp_theme_config_path)
   end
   
   def generate_css
@@ -48,7 +63,7 @@ class TweetTheme < Theme
   def generate_tweet_bootstrap(for_staging=false)  
     TweetTheme.render_tweet_bootstrap(
       :user         => self.user,
-      :stylesheet   => for_staging ? "" : self.theme_stylesheet_url,
+      :stylesheet   => for_staging ? "" : self.stylesheet_url,
       :wrapper      => self.get_attribute("tweet-wrapper.html").staged,
       :tweet        => self.get_attribute("tweet.html").staged
     )
@@ -94,8 +109,26 @@ class TweetTheme < Theme
     )
   end
   
-  def theme_stylesheet_url
-    Storage.new(self.user.apikey).tweet_theme_stylesheet_url
+    
+# s3 filenames and urls
+# =====================
+
+  def stylesheet_filename
+    TweetStylesheetFilename.gsub("{{apikey}}", user.apikey)
   end
-  
+
+  def tweet_bootstrap_filename
+    TweetBootstrapFilename.gsub("{{apikey}}", user.apikey)
+  end
+
+  # the published stylesheet is NOT theme specific.
+  def stylesheet_url
+    Storage.new(user.apikey).url(stylesheet_filename)
+  end
+
+  def tweet_bootstrap_url
+    Storage.new(user.apikey).url(tweet_bootstrap_filename)
+  end
+
+    
 end

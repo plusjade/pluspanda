@@ -4,17 +4,6 @@ class Storage
 
   Url = "http://s3.amazonaws.com/"
   
-  StandardThemeStylesheetFilename = "data/{{apikey}}/style.css"
-  ThemeConfigFilename = "data/{{apikey}}/theme_config.js"
-  
-  TweetThemeStylesheetFilename = "data/{{apikey}}/tweet/style.css"
-  TweetBootstrapFilename = "data/{{apikey}}/tweet/bootstrap.js"
-  
-  
-
-# interface to s3
-# ===============
-
   def self.bucket
     credentials = YAML::load(File.open("#{Rails.root.to_s}/config/s3.yml"))[Rails.env]
     credentials["bucket"]
@@ -35,89 +24,15 @@ class Storage
     })
   end
 
+  # save/update a file to s3
   def store(filename, filepath)
     AWS::S3::S3Object.store(filename, open(filepath), @bucket)
   end
     
-# Adders
-# ===========
-#   publishing necessarily means "save to s3"
-#   These methods save theme files as noted.
-  
-  def add_standard_theme_stylesheet(data)
-    f = File.new(tmp_stylesheet_path, "w+")
-    f.write(data)
-    f.rewind
-    store(standard_theme_stylesheet_filename, tmp_stylesheet_path)
-  end
-
-  def add_theme_config(data)
-    f = File.new(tmp_theme_config_path, "w+")
-    f.write(data)
-    f.rewind
-    store(theme_config_filename, tmp_theme_config_path)
-  end
-
-    
-  def add_tweet_theme_stylesheet(data)
-    f = File.new(tmp_stylesheet_path, "w+")
-    f.write(data)
-    f.rewind
-    store(tweet_theme_stylesheet_filename, tmp_stylesheet_path)
-  end
-
-  def add_tweet_bootstrap(data)
-    f = File.new(tmp_theme_config_path, "w+")
-    f.write(data)
-    f.rewind
-    store(tweet_bootstrap_filename, tmp_theme_config_path)
-  end
-      
-# File names
-# ===========
-  
-  
-  def standard_theme_stylesheet_filename
-    StandardThemeStylesheetFilename.gsub("{{apikey}}", @apikey)
-  end
-  
-  def tweet_theme_stylesheet_filename
-    TweetThemeStylesheetFilename.gsub("{{apikey}}", @apikey)
-  end
-  
-  def theme_config_filename
-    ThemeConfigFilename.gsub("{{apikey}}", @apikey)
-  end
-  
-  def tweet_bootstrap_filename
-    TweetBootstrapFilename.gsub("{{apikey}}", @apikey)
-  end
-  
-  # the published stylesheet is NOT theme specific.
-  def standard_theme_stylesheet_url
-    url(StandardThemeStylesheetFilename.gsub("{{apikey}}", @apikey))
-  end 
-
-  # the published stylesheet is NOT theme specific.
-  def tweet_theme_stylesheet_url
-    url(TweetThemeStylesheetFilename.gsub("{{apikey}}", @apikey))
-  end
-  
-  def theme_config_url
-    url(ThemeConfigFilename.gsub("{{apikey}}", @apikey))
-  end
-  
-  def tweet_bootstrap_url
-    url(TweetBootstrapFilename.gsub("{{apikey}}", @apikey))
-  end
-  
-  
-
-
+  # returns the absolute url path to our s3 bucket
   def url(path=nil)
     path ? "#{Url}#{@bucket}/#{path}" : "#{Url}#{@bucket}"
   end
-
 
 
   # This is the s3 path to the static standard-widget-js-bootstrapper
@@ -134,13 +49,5 @@ class Storage
   def facebox_url
     url("javascripts/widget/facebox.js")
   end
-  
-  def tmp_stylesheet_path
-    Rails.root.join("tmp", "#{@apikey}.css")
-  end
-
-  def tmp_theme_config_path
-    Rails.root.join("tmp", "#{@apikey}.js")
-  end 
 
 end
