@@ -4,7 +4,7 @@ class TweetsController < ApplicationController
   before_filter :require_user, :setup_user
 
   def index
-    @tweets = @user.tweets_as_api
+    @tweets = @user.tweets.as_api
     total = @user.tweets.where(:trash => false).count
     update_data = {
       "total" => total

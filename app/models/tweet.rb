@@ -32,6 +32,15 @@ class Tweet < ActiveRecord::Base
   end
   
   
+  def self.as_api
+    cache = []
+    self.where(:trash => false).order("position ASC, created_at DESC").each do |t| 
+      cache.push(t.data_json)
+    end
+    
+    cache
+  end
+  
   def self.api_attributes
     [
       :id,

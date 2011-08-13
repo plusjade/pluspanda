@@ -90,15 +90,6 @@ class User < ActiveRecord::Base
   end
 
 
-  def tweets_as_api
-    tweets = []
-    self.tweets.where(:trash => false).order("position ASC, created_at DESC").each do |t| 
-      tweets.push(t.data_json)
-    end
-    
-    tweets
-  end
-
   def self.creation_by_month
     self.find_by_sql("
       SELECT count(id) as total_count, MONTH(created_at) as month, YEAR(`created_at`) as year
