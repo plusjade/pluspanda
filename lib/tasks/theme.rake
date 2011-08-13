@@ -21,12 +21,12 @@ task :grep_css => :environment do
 end
 
 desc "Explicitely publish all user staged themes."
-task :publish_themes => :environment do
+task :publish_standard_themes => :environment do
   puts "publishing..."
   
   User.all.each do |user|
     if user.themes.find_by_staged(true)
-      user.publish_theme
+      user.publish_standard_theme
     end
     puts "published " + user.apikey
   end

@@ -1,9 +1,13 @@
+# This interfaces with amazon s3 to physically store files.
 require "aws/s3"
 class Storage
 
   Url = "http://s3.amazonaws.com/"
   StandardThemeStylesheetFilename = "data/{{apikey}}/style.css"
-  Theme_config_filename = "data/{{apikey}}/theme_config.js"
+  ThemeConfigFilename = "data/{{apikey}}/theme_config.js"
+
+# interface to s3
+# ===============
 
   def self.bucket
     credentials = YAML::load(File.open("#{Rails.root.to_s}/config/s3.yml"))[Rails.env]
@@ -29,6 +33,10 @@ class Storage
     AWS::S3::S3Object.store(filename, open(filepath), @bucket)
   end
     
+# Adders
+# ===========
+#   publishing necessarily means "save to s3"
+#   These methods save theme files as noted.
   
   def add_standard_theme_stylesheet(data)
     f = File.new(tmp_stylesheet_path, "w+")
@@ -36,13 +44,17 @@ class Storage
     f.rewind
     store(standard_theme_stylesheet_filename, tmp_stylesheet_path)
   end
-  
+
   def add_theme_config(data)
     f = File.new(tmp_theme_config_path, "w+")
     f.write(data)
     f.rewind
     store(theme_config_filename, tmp_theme_config_path)
   end
+
+    
+# File names
+# ===========
   
   
   def standard_theme_stylesheet_filename
@@ -50,9 +62,8 @@ class Storage
   end
   
   def theme_config_filename
-    Theme_config_filename.gsub("{{apikey}}", @apikey)
+    ThemeConfigFilename.gsub("{{apikey}}", @apikey)
   end
-  
   
   # the published stylesheet is NOT theme specific.
   def standard_theme_stylesheet_url
@@ -60,17 +71,24 @@ class Storage
   end 
 
   def theme_config_url
-    url(Theme_config_filename.gsub("{{apikey}}", @apikey))
+    url(ThemeConfigFilename.gsub("{{apikey}}", @apikey))
   end
   
   def url(path=nil)
     path ? "#{Url}#{@bucket}/#{path}" : "#{Url}#{@bucket}"
   end
 
-  def widget_url
+  # This is the s3 path to the static standard-widget-js-bootstrapper
+  def standard_widget_url
     url("javascripts/widget/widget.js")
   end
-    
+  
+  # This is the s3 path to the static tweet-widget-js-bootstrapper
+  def tweet_widget_url
+    url("javascripts/widget/widget.js")
+  end
+  
+  # static s3 path to facebox.js  
   def facebox_url
     url("javascripts/widget/facebox.js")
   end

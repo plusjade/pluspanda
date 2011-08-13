@@ -55,7 +55,7 @@ class TweetTheme < Theme
     if Rails.env.development?
       widget_url = "/javascripts/widget/tweet.js"
     else  
-      widget_url = Storage.new().widget_url
+      widget_url = Storage.new().tweet_widget_url
     end
     
     context.render_to_string(

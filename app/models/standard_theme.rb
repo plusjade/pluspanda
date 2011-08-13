@@ -87,7 +87,7 @@ class StandardTheme < Theme
       widget_url = "/javascripts/widget/widget.js"
       facebox_url = "/javascripts/widget/facebox.js"
     else  
-      widget_url = Storage.new().widget_url
+      widget_url = Storage.new().standard_widget_url
       facebox_url = Storage.new().facebox_url
     end
     
