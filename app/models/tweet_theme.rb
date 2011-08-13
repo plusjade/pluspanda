@@ -9,6 +9,15 @@ class TweetTheme < Theme
     ]
   end
     
+  # parse tweet tokens
+  # For now, our js template is just a function call.
+  # this changes valid tokens to js object value getters.
+  def self.parse_tweet(data, tokens)
+    data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
+      tokens.include?($1.to_sym) ? "'+item.#{$1.to_s.gsub("user_", "user.")}+'" : tkn
+    }
+  end
+
   # returns tweet_bootstrap file contents
   # see self.render_tweet_bootstrap for notes.
   def generate_tweet_bootstrap(for_staging=false)  
@@ -20,17 +29,6 @@ class TweetTheme < Theme
       :tweet        => self.get_attribute("tweet.html").staged
     )
   end
-  
-  
-  # parse tweet tokens
-  # For now, our js template is just a function call.
-  # this changes valid tokens to js object value getters.
-  def self.parse_tweet(data, tokens)
-    data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
-      tokens.include?($1.to_sym) ? "'+item.#{$1.to_s.gsub("user_", "user.")}+'" : tkn
-    }
-  end
-  
   
   # builds the tweet_bootstrap js file.
   # Note this is the main file users include on their site.

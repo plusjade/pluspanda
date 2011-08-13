@@ -2,10 +2,6 @@
 # For notes see Theme model
 class StandardTheme < Theme
 
-  def theme_stylesheet_url
-    Storage.new(self.user.apikey).standard_theme_stylesheet_url
-  end
-  
   def self.names
     [
       "bernd",
@@ -15,16 +11,21 @@ class StandardTheme < Theme
     ]
   end
 
-
+  def self.parse_testimonial(data, tokens)
+    data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
+      tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
+    }
+  end
+  
   def publish
-    publish_theme_css
+    publish_css
     publish_theme_config
   end
 
-  def publish_theme_css
+  def publish_css
     storage = Storage.new(self.user.apikey)
     storage.connect
-    storage.add_standard_theme_stylesheet(generate_theme_css)
+    storage.add_standard_theme_stylesheet(generate_css)
   end
   
   # HTML is packaged in the theme_config
@@ -35,7 +36,7 @@ class StandardTheme < Theme
     storage.add_theme_config(generate_theme_config)
   end
   
-  def generate_theme_css
+  def generate_css
     css = get_attribute("style.css").staged
     facebox_path = Rails.root.join("public","stylesheets","facebox.css")
     if File.exist?(facebox_path)
@@ -47,18 +48,10 @@ class StandardTheme < Theme
   def generate_theme_config(for_staging=false)
     StandardTheme.render_theme_config({
       :user         => self.user,
-      :stylesheet   => for_staging ? "" : self.standard_theme_stylesheet_url,
+      :stylesheet   => for_staging ? "" : self.theme_stylesheet_url,
       :wrapper      => self.get_attribute("wrapper.html").staged,
       :testimonial  => self.get_attribute("testimonial.html").staged
     })    
-  end
-  
-  
-  
-  def self.parse_testimonial(data, tokens)
-    data.gsub(/[\n\r\t]/,'').gsub("'","&#146;").gsub("+","&#43;").gsub(Token_regex) { |tkn|
-      tokens.include?($1.to_sym) ? "'+item.#{$1.to_s}+'" : tkn
-    }
   end
   
   
@@ -111,6 +104,10 @@ class StandardTheme < Theme
     )
   end
 
+  
+  def theme_stylesheet_url
+    Storage.new(self.user.apikey).standard_theme_stylesheet_url
+  end
   
   
 end
