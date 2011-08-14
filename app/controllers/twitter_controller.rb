@@ -1,6 +1,6 @@
 class TwitterController < ApplicationController
 
-  layout proc { |c| c.request.xhr? ? false : "twitter"}
+  layout proc { |c| c.request.xhr? ? false : "admin"}
   before_filter :require_user, :setup_user
 
   # this is so we are always loading admin pages through sammy.js

@@ -5,13 +5,13 @@
   loadWidgetPublished : function(){
     $('#widget-published-wrapper')
      .html(adminWidget.$iframe.clone()
-     .attr('src', '/admin/twitter/published#panda.admin'))
+     .attr('src', '/twitter/published#panda.admin'))
   },
 
   loadWidgetStaged : function(){
     $('#widget-staged-wrapper')
      .html(adminWidget.$iframe.clone()
-     .attr('src', '/admin/twitter/staged#panda.admin'))
+     .attr('src', '/twitter/staged#panda.admin'))
   }
 
 }

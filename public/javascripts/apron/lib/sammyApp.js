@@ -7,9 +7,15 @@ var sammyApp = $.sammy(function() {
     
     // fix this later.
     page = this.path.substring(2);
-  })
+  });
     
+  this.after(function(){
+    adminNavigation.mainTab(page);
+    mpmetrics.track("page: " + page);
+  });
     
+/* standard testimonial pages */  
+
   this.get('#/widget', function() {
     $.get("/admin/widget", function(view){
       $('#main-wrapper').html(view);
@@ -52,32 +58,29 @@ var sammyApp = $.sammy(function() {
     })
   });
     
-/* twitter stuff */
+/* twitter pages */
+
   this.get('#/t_widget', function() {
-    $.get("/admin/twitter/widget", function(view){
+    $.get("/twitter/widget", function(view){
       $('#main-wrapper').html(view);
       adminPages.call(page);
     })
   });
   
   this.get('#/t_manage', function() {
-    $.get("/admin/twitter/manage", function(view){
+    $.get("/twitter/manage", function(view){
       $('#main-wrapper').html(view);
       adminPages.call(page);
     })
   });
   
   this.get('#/t_install', function() {
-    $.get("/admin/twitter/install", function(view){
+    $.get("/twitter/install", function(view){
       $('#main-wrapper').html(view);
       adminPages.call(page);
     })
   });
   
-  this.after(function(){
-    adminNavigation.mainTab(page);
-    mpmetrics.track("page: " + page);
-  })
 
 });
 

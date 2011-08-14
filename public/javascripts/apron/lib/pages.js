@@ -9,6 +9,7 @@
   },
   
 /* twitter pages */
+
   t_manage : function(){
     // TODO: make this declare only once and for published filter only
     $('#tweet_list.published').sortable({
@@ -135,7 +136,7 @@
        showStatus.submitting();
        $.get(this.href, {rand: Math.random()}, function(data){
          editor.testimonial.setCode(data);
-         showStatus.respond({status:'good', msg:'Testimonial HTML Loaded.'});
+         showStatus.respond({status:'good', msg:'HTML Loaded.'});
        });
        return false;
      })
@@ -190,7 +191,8 @@
     
   },
   
-/* testimonial pages */  
+/* testimonial pages */ 
+ 
   widget : function(){
     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
       width: "850px",

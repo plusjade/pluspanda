@@ -3,7 +3,8 @@
   <ul class="sub-tabs"> 
     <li><a href="#published" class="active" rel="tab-widget">Published View</a></li> 
     <li><a href="#staged" rel="tab-preview">Staged View</a></li> 
-    <li><a href="#html" rel="tab-html">Customize</a></li> 
+    <li><a href="#settings" rel="tab-settings">Settings</a></li> 
+    <li><a href="#html" rel="tab-customize">Customize</a></li> 
     <li><a href="#help" rel="tab-help">(help)</a></li> 
   </ul> 
 </div>
@@ -49,27 +50,27 @@
       <br/>You can also install more themes in the <a href="#/theme">Theme Gallery</a>
     </p>
     
-  <%= form_for @user.tweet_setting, :url => '/admin/twitter/settings', :html => { :id => nil, :rel => "form.settings" } do |f| %>  
-    <fieldset>
-      <label>Tweets per page:</label>
-      #<%= f.text_field(:per_page, :id => nil, :class => "tconfig_per_page", :maxlength => 3, :style => "width:30px" ) %>
-    </fieldset>
+    <%= form_for @user.tweet_setting, :url => '/admin/twitter/settings', :html => { :id => nil, :rel => "form.settings" } do |f| %>  
+      <fieldset>
+        <label>Tweets per page:</label>
+        #<%= f.text_field(:per_page, :id => nil, :class => "tconfig_per_page", :maxlength => 3, :style => "width:30px" ) %>
+      </fieldset>
     
-    <fieldset>
-      <label>Order tweets by:</label>  
-       <%= f.select(:sort, Tconfig.sorters, {}, :id => nil, :class => "tconfig_sort" ) %>
-      <p>(you can order testimonials in the <b>Manage Testimonials</b> section)</p>
-    </fieldset>
+      <fieldset>
+        <label>Order tweets by:</label>  
+         <%= f.select(:sort, Tconfig.sorters, {}, :id => nil, :class => "tconfig_sort" ) %>
+        <p>(you can order tweets in the <b>Manage Testimonials</b> section)</p>
+      </fieldset>
     
-    <fieldset class="buttons">
-      <button type="submit" class="positive">Update Settings</button>
-    </fieldset>
-  <% end %>
+      <fieldset class="buttons">
+        <button type="submit" class="positive">Update Settings</button>
+      </fieldset>
+    <% end %>
     
   </div>
     
   
-  <div id="tab-html" class="tab-content">
+  <div id="tab-customize" class="tab-content">
     
     <ul id="js_tabs_list" class="tab-beans">
       <li><a href="#css" rel="tab-css">Edit CSS</a></li>

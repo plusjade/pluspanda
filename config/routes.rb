@@ -93,7 +93,7 @@ Pluspanda::Application.routes.draw do
   
   
   # admin
-  scope "/admin/twitter", :controller => "twitter", :as => "twitter" do
+  scope "/twitter", :controller => "twitter", :as => "twitter" do
     get '/', :action => "index"
     get :widget
     get :manage

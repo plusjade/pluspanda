@@ -20,11 +20,17 @@
     </ul>
 
     <ul id="parent_nav"> 
+    <% if params[:controller] == "admin" %>
       <li class="widget"><a href="#/widget">Build Widget</a></li> 
       <li class="manage"><a href="#/manage">Manage Testimonials</a></li> 
       <li class="install"><a href="#/install">Install On Your Site</a></li> 
       <li class="collect"><a href="#/collect">Collect Testimonials</a></li> 
       <li class="theme"><a href="#/theme">Theme Gallery</a></li> 
+    <% else %>
+      <li class="t_widget"><a href="#/t_widget">Tweet Widget</a></li> 
+      <li class="t_manage"><a href="#/t_manage">Manage Tweets</a></li> 
+      <li class="t_install"><a href="#/t_install">Install On Your Site</a></li>
+    <% end %>
     </ul>
     
   </div>
@@ -54,7 +60,7 @@
   
   <script type="text/javascript">
     $(function(){
-      if (window.location.hash == "") window.location.hash = "#/widget";
+      if (window.location.hash == "") window.location.hash = "#/<%= (params[:controller] == "admin") ? "widget" : "t_widget" %>";
       sammyApp.run();
     })
   </script>
