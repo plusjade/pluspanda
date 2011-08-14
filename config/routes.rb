@@ -19,7 +19,7 @@ Pluspanda::Application.routes.draw do
           user = User.find_by_apikey(apikey)
           [200, {}, [user.standard_themes.get_staged.generate_theme_config]]
         else
-          url    = Storage.new(apikey).theme_config_url
+          url    = user.standard_themes.get_staged.theme_config_url
           log    = Rails.root.join('log', 'widget.log')
           line   = "#{apikey}, #{env["HTTP_REFERER"]}, #{DateTime.now} \n"
           File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
@@ -39,7 +39,7 @@ Pluspanda::Application.routes.draw do
           user = User.find_by_apikey(apikey)
           [200, {}, [user.tweet_themes.get_staged.generate_tweet_bootstrap]]
         else
-          url    = Storage.new(apikey).theme_config_url
+          url    = user.tweet_themes.get_staged.theme_config_url
           log    = Rails.root.join('log', 'widget.log')
           line   = "#{apikey}, #{env["HTTP_REFERER"]}, #{DateTime.now} \n"
           File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
