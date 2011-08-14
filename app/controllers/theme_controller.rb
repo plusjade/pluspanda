@@ -2,7 +2,6 @@ class ThemeController < ApplicationController
   
   layout proc { |c| c.request.xhr? ? false : "admin"}
   before_filter :require_user, :setup_user
-  before_filter :ensure_attribute, :only => [:original, :staged, :update]
 
   # theme gallery
   def index
@@ -62,7 +61,7 @@ class ThemeController < ApplicationController
   # get original attributes from theme source.
   def original
     attribute = ThemeAttribute.names[@attribute.name]
-    path = File.join(Theme::Themes_path, Theme.names[@user.standard_themes.get_staged.name], attribute)
+    path = File.join(Theme::Themes_path, Theme.names[@theme.name], attribute)
     data = File.exist?(path) ? File.new(path).read : "/*No data*/"
     render :text => data
   end
@@ -89,21 +88,24 @@ class ThemeController < ApplicationController
 
   # parse staged attributes and generate file caches to serve in production.
   def publish
-    @user.standard_themes.get_staged.publish
+    @theme.publish
     @status = "good"
     @message = "Successfully published changes."
 
     serve_json_response
   end  
 
-
-
-  private
-    
-    def ensure_attribute
-      a = params[:attribute] ? params[:attribute].gsub("-",".") : nil
-      raise ActiveRecord::NotFound unless ThemeAttribute.names.include?(a)
-      @attribute = @user.standard_themes.get_staged.get_attribute(a)
+  def ensure_attribute
+    a = nil
+    if params[:attribute]
+      a = params[:attribute].reverse
+      a[a.index("-")] = "."
+      a = a.reverse
     end
-        
+    
+    raise ActiveRecord::NotFound unless ThemeAttribute.names.include?(a)
+    @attribute = @theme.get_attribute(a)
+  end
+  
+  
 end

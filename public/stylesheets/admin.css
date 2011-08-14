@@ -274,6 +274,7 @@ ul.sub-tabs {
     display:block;
     float:right;
     clear:both;
+    margin-bottom:4px;
     }
     ul.sub-tabs a {
       display:block;
@@ -286,8 +287,6 @@ ul.sub-tabs {
       text-align:right;}
       ul.sub-tabs li a:hover {}
       ul.sub-tabs li a.active {
-        border-left:1px solid #E2EED6;
-        border-bottom:1px solid #E2EED6;
         background: #FFF;
         position:relative;
         left:1px;
