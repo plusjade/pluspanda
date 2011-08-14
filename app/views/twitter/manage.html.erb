@@ -1,61 +1,61 @@
-<ul class="sub-tabs"> 
-  <li><a href="#" class="active" rel="tab-data" title="Manage Your Tweets">Main</a></li> 
-  <li><a href="#help" rel="tab-help">(help)</a></li> 
-</ul> 
-
-<div class="narrow-content">
-  <!--
-  <ul class="tab-beans">
-    <li><a href="#">Published</a></li>
-    <li><a href="#">Trashed</a></li>
-  </ul>
-  -->
-  <%= form_tag "/admin/twitter/tweets", :id => "new_tweet", :class=>"ajax" do %>
-    <label>Enter tweet URL or ID</label>
-    <input type="text" name="url" /> <button>Add Tweet</button>
-  <% end %>
+<div id="side-wrapper">
+  <ul class="sub-tabs"> 
+    <li><a href="#main" class="active" rel="tab-main" title="Manage Your Tweets">Main</a></li> 
+    <li><a href="#help" rel="tab-help">Help</a></li> 
+  </ul> 
+  
+  <div class="options-box">
     
-  <div id="tweet_list" class="published">
-  <% @tweets.each do |tweet| %>
-  <%  data = tweet.data_json %>
-    <div id="tweet_<%= tweet.id %>" class="tweet">
-      <a href="#" class="trash" rel="<%= tweet.id %>">X</a>
-      <img src="<%= data["user"]["profile_image_url"]%>" />
-      <div class="body">
-        <div class="user">
-          <a href="#">@<%= data["user"]["screen_name"] %></a>
-          <%= data["user"]["name"] %>
-          <%= data["user"]["location"] %>
-        </div>
-        <div class="text">
-          <%= data["text"] %>
-        </div>
-        <div class="date">
-          - <%= data["created_at"] %>
+  </div>
+</div>
+<div class="primary-content">
+  
+  <div id="tab-main" class="tab-content">
+
+    <%= form_tag "/admin/twitter/tweets", :id => "new_tweet", :class=>"ajax" do %>
+      <label>Enter tweet URL or ID</label>
+      <input type="text" name="url" /> <button>Add Tweet</button>
+    <% end %>
+    
+    <div id="tweet_list" class="published">
+    <% @tweets.each do |tweet| %>
+    <%  data = tweet.data_json %>
+      <div id="tweet_<%= tweet.id %>" class="tweet">
+        <a href="#" class="trash" rel="<%= tweet.id %>">X</a>
+        <img src="<%= data["user"]["profile_image_url"]%>" />
+        <div class="body">
+          <div class="user">
+            <a href="#">@<%= data["user"]["screen_name"] %></a>
+            <%= data["user"]["name"] %>
+            <%= data["user"]["location"] %>
+          </div>
+          <div class="text">
+            <%= data["text"] %>
+          </div>
+          <div class="date">
+            - <%= data["created_at"] %>
+          </div>
         </div>
       </div>
+    <% end %>  
     </div>
-  <% end %>  
-  </div>
-      
-
+  
+  </div>    
+  
+  <div id="tab-help" class="tab-content">
+    Help!
+  </div>  
+  
 </div>
 
 <style type="text/css">
-  .narrow-content {
-    width:550px;
-    margin:auto;
-    padding-top:20px;
-  }
   .tab-beans a{
     ackground:#3ACEA4 !important;
   }
   #new_tweet {
+    width:500px;
     background:#9BCA7C;
-    padding:10px 0;
-    margin:0 auto 0 auto;
-    text-align:center;
-    border-radius:5px 5px 0 0 ;
+    padding:10px;
   }
   #new_tweet label {
     display:block;
@@ -69,10 +69,7 @@
     border:0;
     }
   #tweet_list {
-    margin:auto;
     padding:15px 0;
-    background:#F7FFF8;
-    border-radius:0 0 5px 5px;
   }
   #tweet_list.published .tweet{
     cursor:move;
@@ -81,7 +78,7 @@
     width:470px;
     height:90px;
     position:relative;
-    margin:0 auto 7px auto;
+    margin:0 0 7px 0;
     padding:8px;
     background:#FFF;
     border-radius:5px;

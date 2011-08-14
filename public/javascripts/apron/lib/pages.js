@@ -43,10 +43,153 @@
       return false;
     })
     
+    $("ul.sub-tabs li a").click(function(){
+      adminNavigation.subTab($(this));
+      return false;
+    });
+    
     $(document).trigger('ajaxify.form');
   },
   
 
+  t_widget : function(){
+     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
+       width: "850px",
+       height: "700px",
+       parserfile: "parsexml.js",
+       stylesheet: "/stylesheets/codemirror/xmlcolors.css?1",
+       path: "/javascripts/codemirror/",
+       continuousScanning: 500,
+       lineNumbers: true,
+       textWrapping: false,
+       saveFunction: function(){
+         $('#editor_wrapper').val(editor.wrapper.getCode());
+         $('#wrapper-form').submit();
+         mpmetrics.track("editor save:widget");
+       },
+       initCallback: function(editor){
+         //editor.setCode('some value');    
+       }    
+     });
+
+     editor.testimonial = CodeMirror.fromTextArea('editor_testimonial', {
+       width: "850px",
+       height: "700px",
+       parserfile: "parsexml.js",
+       stylesheet: "/stylesheets/codemirror/xmlcolors.css?3453",
+       path: "/javascripts/codemirror/",
+       continuousScanning: 500,
+       lineNumbers: true,
+       textWrapping: false,
+       saveFunction: function(){
+         $('#editor_testimonial').val(editor.testimonial.getCode());
+         $('#testimonial-form').submit();
+         mpmetrics.track("editor save:testimonial");
+       },
+       initCallback: function(editor){
+         //editor.setCode('some value');    
+       }    
+     });
+
+     editor.css = CodeMirror.fromTextArea('editor_css', {
+       width: "850px",
+       height: "700px",
+       parserfile: "parsecss.js",
+       stylesheet: "/stylesheets/codemirror/csscolors.css?3453",
+       path: "/javascripts/codemirror/",
+       continuousScanning: 500,
+       lineNumbers: true,
+       textWrapping: false,
+       saveFunction: function(){
+         $('#editor_css').val(editor.css.getCode());
+         $('#css-form').submit();
+         mpmetrics.track("editor save:css");
+       },
+       initCallback: function(editor){
+         //editor.setCode('some value');    
+       }    
+     });
+
+
+    // overload save button for saving data
+     $('#wrapper-form button').click(function(){
+       $('#editor_wrapper').val(editor.wrapper.getCode());
+     });
+     $('#testimonial-form button').click(function(){
+       $('#editor_testimonial').val(editor.testimonial.getCode());
+     });
+     $('#css-form button').click(function(){
+       $('#editor_css').val(editor.css.getCode());
+     });
+
+     // editor data-loading functions
+     $('#load-stock-wrapper, #refresh-wrapper').click(function(){
+       showStatus.submitting();
+       $.get(this.href, {rand: Math.random()}, function(data){
+         editor.wrapper.setCode(data);
+         showStatus.respond({status:'good', msg:'Wrapper HTML Loaded.'});
+       });
+       return false;
+     })
+     $('#load-stock-testimonial, #refresh-testimonial').click(function(){
+       showStatus.submitting();
+       $.get(this.href, {rand: Math.random()}, function(data){
+         editor.testimonial.setCode(data);
+         showStatus.respond({status:'good', msg:'Testimonial HTML Loaded.'});
+       });
+       return false;
+     })
+     $('#load-stock-css, #refresh-css').click(function(){
+       showStatus.submitting();
+       $.get(this.href, {rand: Math.random()}, function(data){
+         editor.css.setCode(data);
+         showStatus.respond({status:'good', msg:'CSS Loaded.'});
+       });
+       return false;
+     })    
+
+
+     $("#theme-publish").click(function(){
+       showStatus.submitting();
+       $.get(this.href, function(rsp){
+         showStatus.respond(rsp);
+       })
+       return false;
+     });
+
+     // subtabs
+     $("ul.sub-tabs li a").click(function(){
+       adminNavigation.subTab($(this));
+
+       var tab = $(this).attr("href").substring(1);
+       switch(tab){
+         case "published":
+           twitterWidget.loadWidgetPublished();
+           break;
+         case "staged":
+           twitterWidget.loadWidgetStaged();
+           break;
+       }
+
+       return false;
+     });
+
+     $("#installed-themes li.theme").find("a").click(function(){
+       showStatus.submitting();
+       $.get(this.href, function(rsp){
+         showStatus.respond(rsp);
+         sammyApp.refresh();
+       })
+       return false;
+     });
+
+     // init
+     twitterWidget.loadWidgetPublished();
+     adminNavigation.initSubs();
+     $(document).trigger('ajaxify.form');
+    
+  },
+  
 /* testimonial pages */  
   widget : function(){
     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {

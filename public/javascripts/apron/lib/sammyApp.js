@@ -53,6 +53,13 @@ var sammyApp = $.sammy(function() {
   });
     
 /* twitter stuff */
+  this.get('#/t_widget', function() {
+    $.get("/admin/twitter/widget", function(view){
+      $('#main-wrapper').html(view);
+      adminPages.call(page);
+    })
+  });
+  
   this.get('#/t_manage', function() {
     $.get("/admin/twitter/manage", function(view){
       $('#main-wrapper').html(view);
@@ -60,7 +67,12 @@ var sammyApp = $.sammy(function() {
     })
   });
   
-  
+  this.get('#/t_install', function() {
+    $.get("/admin/twitter/install", function(view){
+      $('#main-wrapper').html(view);
+      adminPages.call(page);
+    })
+  });
   
   this.after(function(){
     adminNavigation.mainTab(page);

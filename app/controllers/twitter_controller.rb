@@ -4,7 +4,7 @@ class TwitterController < ApplicationController
   before_filter :require_user, :setup_user
 
   # this is so we are always loading admin pages through sammy.js
-  #before_filter :as_admin_page, :only => [:widget, :manage, :install, :collect]
+  before_filter :as_admin_page, :only => [:widget, :manage, :install, :collect]
 
   
   def index
@@ -53,11 +53,14 @@ class TwitterController < ApplicationController
 
 
   def as_admin_page
+    @theme = @user.tweet_themes.get_staged
+    @tweets = @user.tweets.where(:trash => false).order("position ASC, created_at DESC")
+    
     if request.xhr?
-      render :template => "admin/#{params[:action]}", :layout => false
+      render :template => "twitter/#{params[:action]}", :layout => false
     else  
       # set the hash to a sammy route
-      redirect_to "/admin#/#{params[:action]}"
+      redirect_to "/admin/twitter#/t_#{params[:action]}"
     end
   end
 
