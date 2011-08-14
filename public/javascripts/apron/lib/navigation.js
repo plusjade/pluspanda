@@ -14,7 +14,7 @@
   subTab : function($target){
     var tab = $target.attr('rel');
     $('div.tab-content').hide();
-    $('#sub-tabs li a').removeClass('active');
+    $('.sub-tabs li a').removeClass('active');
     $target.addClass('active');
     $('#'+ tab).show();
   }

@@ -13,8 +13,7 @@
   <div id="top">
     
     <ul id="top_links">
-      <li>Hello, <%= @user.email %> &#160; </li>
-      <li><a href="#/theme">Theme Gallery</a></li>
+      <li style="float:left;margin-left:10px">Hello, <%= @user.email %> &#160; </li>
       <li><a href="/account" rel="facebox">Account</a></li>
       <li><a href="/admin/purchase" rel="facebox">&#36; Purchase &#36;</a></li>
       <li><%= link_to "Logout", admin_logout_path %></li>
@@ -25,6 +24,7 @@
       <li class="manage"><a href="#/manage">Manage Testimonials</a></li> 
       <li class="install"><a href="#/install">Install On Your Site</a></li> 
       <li class="collect"><a href="#/collect">Collect Testimonials</a></li> 
+      <li class="theme"><a href="#/theme">Theme Gallery</a></li> 
     </ul>
     
   </div>

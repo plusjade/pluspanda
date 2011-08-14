@@ -154,7 +154,7 @@
     });
     
     // subtabs
-    $("#sub-tabs li a").click(function(){
+    $("ul.sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
 
       var tab = $(this).attr("href").substring(1);
@@ -205,7 +205,7 @@
     });
 
     // subtabs
-    $("#sub-tabs li a").click(function(){
+    $("ul.sub-tabs li a").click(function(){
       $target = $(this);
       $(".data-description").html($target.attr('title'));
       var filter = $target.html().toLowerCase();
@@ -231,7 +231,7 @@
         showStatus.respond({"msg":'Nothing selected.'});
       } else {
         var action = $(this).html().toLowerCase();
-        var filter = $('#sub-tabs li a.active').html().toLowerCase();
+        var filter = $('ul.sub-tabs li a.active').html().toLowerCase();
         adminTestimonials.batchUpdate(ids, action, filter);
       }
       return false;
@@ -258,7 +258,7 @@
   },
 
   collect : function(){
-    $("#sub-tabs li a").click(function(){
+    $("ul.sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
       
       var tab = $(this).attr("href").substring(1);
@@ -275,7 +275,7 @@
   },
   
   install : function(){
-    $("#sub-tabs li a").click(function(){
+    $("ul.sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
       return false;
     });

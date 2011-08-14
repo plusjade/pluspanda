@@ -1,11 +1,20 @@
-<div class="primary-content">
-  <h2>Theme gallery</h2>
 
-  <ul id="gallery-links">
+<div id="side-wrapper">
+
+  <ul id="gallery-links" class="sub-tabs">
   <% @themes.each_with_index do |theme, i| %>
     <li><%= link_to theme, "/admin/theme/gallery/#{theme}", :rel => i %></li>
   <% end %>
   </ul>
+  
+
+  
+  <div class="options-box">
+
+  </div>
+</div>
+
+<div class="primary-content">
 
   <%= form_for Theme.new, :url => "/admin/theme", :html => {:style => "display:none"} do |f| %>
     <%= f.hidden_field :name, :readonly => "readonly" %>

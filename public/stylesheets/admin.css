@@ -182,22 +182,24 @@ input.save-account {
 #top {
   min-width: 900px;
   font-size: 0.9em;
-  background:#90D1BF url('/images/admin/panda.png') no-repeat 10px 10px;
+  background:#90D1BF url('/images/admin/panda.png') no-repeat 1% 90%;
   overflow: hidden; }
   #top #top_links {
     text-align:right;
     list-style: none;
-    margin-bottom:30px;
-    padding: 5px 0; }
+    margin-bottom:40px;
+    padding: 5px 0; 
+    background:#486A62;
+    color:#F7FFF8;
+    }
     #top #top_links  li {
       display: inline;
       margin:0; }
       #top #top_links  li a {
-        background: #486A62;
+        ackground: #486A62;
         padding: 5px 10px;
         color: #F7FFF8;
         margin:0;
-        border-radius:0 0 3px 3px;
         text-decoration: none; }
         #top #top_links  li a:hover {
           background: #F7FFF8;
@@ -232,8 +234,8 @@ ul#parent_nav {
   min-width: 800px;
   list-style: none;
   padding: 16px 0;
+  padding-left:21%;
   border-bottom:1px solid #486A62;
-  text-align:center;
   }
   ul#parent_nav li {
     display: inline; }
@@ -262,14 +264,14 @@ ul#parent_nav {
         
               
 /* sub-tabs navigation */
-ul#sub-tabs {
+ul.sub-tabs {
   list-style: none;
   background:#E2EED6;
   padding:25px 0 20px 0;
   }
-  ul#sub-tabs li {
+  ul.sub-tabs li {
     }
-    ul#sub-tabs li a {
+    ul.sub-tabs li a {
       display:block;
       padding: 10px 17px;
       margin-bottom: 5px;
@@ -279,8 +281,8 @@ ul#sub-tabs {
       text-decoration: none;
       font-weight: bold; 
       text-align:right;}
-      ul#sub-tabs li a:hover {}
-      ul#sub-tabs li a.active {
+      ul.sub-tabs li a:hover {}
+      ul.sub-tabs li a.active {
         background: #FFF;
         position:relative;
         left:2px;

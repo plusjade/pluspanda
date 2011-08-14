@@ -6,20 +6,20 @@ class ThemeController < ApplicationController
 
   # theme gallery
   def index
-    @themes  = Theme.names
+    @themes  = StandardTheme.names
 
     render :template => "theme/index", :layout => false
   end
 
   # theme gallery theme
   def show
-    raise ActiveRecord::NotFound unless Theme.names.include?(params[:theme])
+    raise ActiveRecord::NotFound unless StandardTheme.names.include?(params[:theme])
 
-    @theme_config = Theme.render_theme_config(
+    @theme_config = StandardTheme.render_theme_config(
       :user         => @user,
-      :stylesheet   => "#{Theme::Themes_url}/#{params[:theme]}/style.css",
-      :wrapper      => Theme.render_theme_attribute(params[:theme], "wrapper.html"),
-      :testimonial  => Theme.render_theme_attribute(params[:theme], "testimonial.html")
+      :stylesheet   => "#{StandardTheme::Themes_url}/#{params[:theme]}/style.css",
+      :wrapper      => StandardTheme.render_theme_attribute(params[:theme], "wrapper.html"),
+      :testimonial  => StandardTheme.render_theme_attribute(params[:theme], "testimonial.html")
     )   
     
     render :template => "theme/show", :layout => "staged"
