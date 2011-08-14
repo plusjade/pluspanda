@@ -2,7 +2,6 @@ var simpleTabs = {
   $list : null,
   $wrapper : null,
   init : function(list, wrapper){
-    console.log("init!");
     simpleTabs.$list = list;
     simpleTabs.$wrapper = wrapper;
     
@@ -23,7 +22,10 @@ var simpleTabs = {
     simpleTabs.clear();
     
     var tabIndex = node.parent().index();
-    simpleTabs.$wrapper.find("div.tab_unit").eq(tabIndex).show();
+    // quick hack to show tokens in sidebar
+    var $tab = simpleTabs.$wrapper.find("div.tab_unit").eq(tabIndex).show();
+    $(".options-box").empty().append($tab.find("ul.tokens").clone().show());
+
     node.addClass("active");
   },
   

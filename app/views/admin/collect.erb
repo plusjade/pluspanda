@@ -6,8 +6,9 @@
   </ul> 
   
   <div class="options-box">
-    
+    <%= link_to "View form in external page.", collection_form_url, :target => "_blank" %>
   </div>
+  
 </div>
 
 <div class="primary-content">
@@ -15,13 +16,12 @@
   <div id="tab-collect" class="tab-content">
     <div class="data-description">
       Send your customers to your testimonial collection form to fill out a testimonial.
-      <br/>Testimonials auto-magically appear in your admin panel.
+       Testimonials auto-magically appear in your admin panel.
     </div>
     
     <div id="public-link">
       <span>Link to your form:</span> 
       <input id="collector-form-url" type="text" value="<%= collection_form_url %>" /> 
-       <br/><%= link_to "View this baby in action.", collection_form_url, :target => "_blank" %>
     </div>
     <div id="collector-form-view">&#160;</div>
   </div>

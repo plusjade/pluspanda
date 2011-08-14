@@ -10,13 +10,6 @@
   <div class="options-box">
     <div class="editor-panel buttons">
 
-      <ul class="tokens">
-        <li><b>Wrapper Tokens</b></li>
-        <li><input type="text" value="{{testimonials}}" /></li>
-        <li><input type="text" value="{{tag_list}}" /></li>
-        <li><input type="text" value="{{count}}" /></li>
-        <li><input type="text" value="{{form_link:Link Text}}" /></li>
-      </ul> 
     </div>
   </div>
 </div>
@@ -85,65 +78,12 @@
   <div id="tab-html" class="tab-content">
     
     <ul id="js_tabs_list" class="tab-beans">
+      <li><a href="#css" rel="tab-css">Edit CSS</a></li>
       <li><a href="#html" rel="tab-html">Edit Wrapper HTML</a></li> 
       <li><a href="#html" rel="tab-testimonial-html">Edit Testimonial HTML</a></li> 
-      <li><a href="#css" rel="tab-css">Edit CSS</a></li>
     </ul>
     
     <div id="js_tabs_wrapper">
-    
-      <div class="tab_unit">
-        <div class="data-description">
-          This is the Wrapper HTML used to style your widget. View your HTML changes in the <b>Staged View Tab</b>.
-        </div>
-      
-        <%= form_tag('/admin/theme/wrapper-html', :method => :post, :id => 'wrapper-form', :class => "editor-form" ) do %>
-          
-          <ul class="tokens">
-            <li><b>Wrapper Tokens</b></li>
-            <li><input type="text" value="{{testimonials}}" /></li>
-            <li><input type="text" value="{{tag_list}}" /></li>
-            <li><input type="text" value="{{count}}" /></li>
-            <li><input type="text" value="{{form_link:Link Text}}" /></li>
-          </ul>
-          
-          <div class="editor-panel buttons">
-            <button type="submit" class="positive">Save HTML</button>
-            <ul>
-              <li><a href="/admin/theme/wrapper-html" id="refresh-wrapper">Refresh Staged HTML</a></li>
-              <li><a href="/admin/theme/wrapper-html/original" id="load-stock-wrapper">Load Original HTML</a></li>
-            </ul>
-          </div>
-      
-          <textarea id="editor_wrapper" name="data" style="height:600px"><%= @theme.get_attribute("wrapper.html").staged %></textarea>
-        <% end %>
-      </div>
-
-  
-      <div id="tab-testimonial-html" class="tab_unit">
-        <div class="data-description">
-          This is the Testimonial HTML used to style each testimonial. View your HTML changes in the <b>Staged View Tab</b>.
-        </div>  
-    
-        <%= form_tag('/admin/theme/testimonial-html', :method => :post, :id => 'testimonial-form', :class => "editor-form" ) do %>
-          <div class="editor-panel buttons">
-            <button type="submit" class="positive">Save HTML</button>
-            <ul>
-              <li><a href="/admin/theme/testimonial-html" id="refresh-testimonial">Refresh Staged HTML</a></li>
-              <li><a href="/admin/theme/testimonial-html/original" id="load-stock-testimonial">Load Original HTML</a></li>
-            </ul>
-            <ul class="tokens">
-              <li><b>Testimonial Tokens</b></li>
-              <% Testimonial.api_attributes.each do |a| %>
-                <li><input type="text" value="{{<%= a %>}}" /></li>
-              <% end%>
-            </ul>
-          </div>
-      
-          <textarea id="editor_testimonial" name="data" style="width:95%; height:600px"><%= @theme.get_attribute("testimonial.html").staged %></textarea>
-        <% end %>
-
-      </div>
     
       <div id="tab-css" class="tab_unit">
         <div class="data-description">
@@ -160,7 +100,58 @@
           </div>  
           <textarea id="editor_css" name="data" style="width:95%; height:600px"><%= @theme.get_attribute("style.css").staged %></textarea>
         <% end %>
+      </div>
+      
+      <div class="tab_unit">
+        <div class="data-description">
+          This is the Wrapper HTML used to style your widget. View your HTML changes in the <b>Staged View Tab</b>.
+        </div>
+      
+        <%= form_tag('/admin/theme/wrapper-html', :method => :post, :id => 'wrapper-form', :class => "editor-form" ) do %>
+          <div class="editor-panel buttons">
+            <button type="submit" class="positive">Save HTML</button>
+            <ul>
+              <li><a href="/admin/theme/wrapper-html" id="refresh-wrapper">Refresh Staged HTML</a></li>
+              <li><a href="/admin/theme/wrapper-html/original" id="load-stock-wrapper">Load Original HTML</a></li>
+            </ul>
+          </div>
+      
+          <textarea id="editor_wrapper" name="data" style="height:600px"><%= @theme.get_attribute("wrapper.html").staged %></textarea>
+        <% end %>
+        
+        <ul class="tokens" style="display:none">
+          <li><b>Wrapper Tokens</b></li>
+          <li><input type="text" value="{{testimonials}}" /></li>
+          <li><input type="text" value="{{tag_list}}" /></li>
+          <li><input type="text" value="{{count}}" /></li>
+          <li><input type="text" value="{{form_link:Link Text}}" /></li>
+        </ul>
+      </div>
 
+  
+      <div id="tab-testimonial-html" class="tab_unit">
+        <div class="data-description">
+          This is the Testimonial HTML used to style each testimonial. View your HTML changes in the <b>Staged View Tab</b>.
+        </div>  
+    
+        <%= form_tag('/admin/theme/testimonial-html', :method => :post, :id => 'testimonial-form', :class => "editor-form" ) do %>
+          <div class="editor-panel buttons">
+            <button type="submit" class="positive">Save HTML</button>
+            <ul>
+              <li><a href="/admin/theme/testimonial-html" id="refresh-testimonial">Refresh Staged HTML</a></li>
+              <li><a href="/admin/theme/testimonial-html/original" id="load-stock-testimonial">Load Original HTML</a></li>
+            </ul>
+          </div>
+      
+          <textarea id="editor_testimonial" name="data" style="width:95%; height:600px"><%= @theme.get_attribute("testimonial.html").staged %></textarea>
+        <% end %>
+
+        <ul class="tokens" style="display:none">
+          <li><b>Testimonial Tokens</b></li>
+          <% Testimonial.api_attributes.each do |a| %>
+            <li><input type="text" value="{{<%= a %>}}" /></li>
+          <% end%>
+        </ul>
       </div>
 
     </div>

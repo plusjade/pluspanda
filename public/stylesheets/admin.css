@@ -175,8 +175,7 @@ input.save-account {
 
 /* base layout */
 #wrapper {
-  min-width: 800px;
-  overflow: hidden; }
+  min-width: 800px;}
 
 /* top black links */
 #top {
@@ -214,7 +213,8 @@ input.save-account {
 #side-wrapper {
   float:left;
   width:20%;
-  height:900px;
+  height:100%;
+  min-height: 400px;
 }
 
 .options-box {
@@ -223,6 +223,7 @@ input.save-account {
 .primary-content {
   float:left;
   width:70%;
+  height:100%;
   min-height: 400px;
   padding: 25px;
   border-left:1px solid #E2EED6;
@@ -811,12 +812,11 @@ div.editor-panel {
       display:inline; }
 
 ul.tokens {
-  display:none;
+
 }
 ul.tokens input {
   width: 100%;
   padding: 6px 4px;
-  background: #ffffcc;
   font-weight: bold;
   font-size: 14px;
   color: green;
