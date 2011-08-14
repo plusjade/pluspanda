@@ -175,7 +175,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  apron (= 0.0.8)!
+  apron!
   authlogic
   aws-s3
   chronic (= 0.2.3)
