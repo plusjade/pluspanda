@@ -12,11 +12,11 @@ Pluspanda::Application.routes.draw do
       # s3 file is the user's themeConfig
       get :widget, :on => :collection, :to => proc {|env|
         apikey = env["QUERY_STRING"].split("=")[1]
-                
+        user = User.find_by_apikey(apikey)
+        
         if Rails.env.development?
           # note in development we serve the staged attributes directly
           # even for "published" mode. so we always see staging in published.
-          user = User.find_by_apikey(apikey)
           [200, {}, [user.standard_themes.get_staged.generate_theme_config]]
         else
           url    = user.standard_themes.get_staged.theme_config_url
