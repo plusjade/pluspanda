@@ -50,7 +50,7 @@
 /* testimonial pages */  
   widget : function(){
     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
-      width: "800px",
+      width: "850px",
       height: "700px",
       parserfile: "parsexml.js",
       stylesheet: "/stylesheets/codemirror/xmlcolors.css?1",
@@ -69,7 +69,7 @@
     });
 
     editor.testimonial = CodeMirror.fromTextArea('editor_testimonial', {
-      width: "800px",
+      width: "850px",
       height: "700px",
       parserfile: "parsexml.js",
       stylesheet: "/stylesheets/codemirror/xmlcolors.css?3453",
@@ -88,7 +88,7 @@
     });
 
     editor.css = CodeMirror.fromTextArea('editor_css', {
-      width: "800px",
+      width: "850px",
       height: "700px",
       parserfile: "parsecss.js",
       stylesheet: "/stylesheets/codemirror/csscolors.css?3453",

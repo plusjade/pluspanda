@@ -1,22 +1,27 @@
-
-<ul id="sub-tabs">
-  <li><a href="#form" class="active" rel="tab-collect">Form Preview</a></li>  
-  <li><a href="#settings" rel="tab-settings">Form Settings</a></li> 
-  <li><a href="#help" rel="tab-help">(help)</a></li> 
-</ul> 
+<div id="side-wrapper">
+  <ul id="sub-tabs">
+    <li><a href="#form" class="active" rel="tab-collect">Form Preview</a></li>  
+    <li><a href="#settings" rel="tab-settings">Form Settings</a></li> 
+    <li><a href="#help" rel="tab-help">(help)</a></li> 
+  </ul> 
+  
+  <div class="options-box">
+    
+  </div>
+</div>
 
 <div class="primary-content">
 
   <div id="tab-collect" class="tab-content">
     <div class="data-description">
       Send your customers to your testimonial collection form to fill out a testimonial.
-      Testimonials auto-magically appear in your admin panel.
+      <br/>Testimonials auto-magically appear in your admin panel.
     </div>
     
     <div id="public-link">
       <span>Link to your form:</span> 
       <input id="collector-form-url" type="text" value="<%= collection_form_url %>" /> 
-       <%= link_to "View this baby in action.", collection_form_url, :target => "_blank" %>
+       <br/><%= link_to "View this baby in action.", collection_form_url, :target => "_blank" %>
     </div>
     <div id="collector-form-view">&#160;</div>
   </div>

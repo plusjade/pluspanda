@@ -1,15 +1,21 @@
-<ul id="sub-tabs"> 
-  <li><a href="<%= admin_testimonials_path %>?filter=new" class="active" rel="tab-data" title="Testimonials created in the last 48 hours.">New</a></li> 
-  <li><a href="<%= admin_testimonials_path %>?filter=published" rel="tab-data" title="Published testimonials publically viewable in your widget and other testimonial tools.">Published</a></li> 
-  <li><a href="<%= admin_testimonials_path %>?filter=hidden" rel="tab-data" title="Unpublished testimonials not included in your widget. (hidden)">Hidden</a></li> 
-  <li><a href="<%= admin_testimonials_path %>?filter=trash" rel="tab-data" title="Trashed testimonials are permamently deleted after 7 days.">Trash</a></li> 
-  <li><a href="#help" rel="tab-help">(help)</a></li> 
-</ul> 
+<div id="side-wrapper">
+  <ul id="sub-tabs"> 
+    <li><a href="<%= admin_testimonials_path %>?filter=new" class="active" rel="tab-data" title="Testimonials created in the last 48 hours.">New</a></li> 
+    <li><a href="<%= admin_testimonials_path %>?filter=published" rel="tab-data" title="Published testimonials publically viewable in your widget and other testimonial tools.">Published</a></li> 
+    <li><a href="<%= admin_testimonials_path %>?filter=hidden" rel="tab-data" title="Unpublished testimonials not included in your widget. (hidden)">Hidden</a></li> 
+    <li><a href="<%= admin_testimonials_path %>?filter=trash" rel="tab-data" title="Trashed testimonials are permamently deleted after 7 days.">Trash</a></li> 
+    <li><a href="#help" rel="tab-help">(help)</a></li> 
+  </ul> 
+  <div class="options-box">
+    
+  </div>
+</div>
+
 
 <div class="primary-content">
 
   <div id="tab-data" class="tab-content">
-    <div class="data-description">&#160;</div>
+    <div class="data-description">Testimonials created in the last 48 hours.</div>
     
     <div class="admin-new-testimonials-list">
       <ul id="with-selected">
