@@ -218,6 +218,7 @@ input.save-account {
 }
 
 .options-box {
+  clear:both;
   padding:20px;
 }
 .primary-content {
@@ -267,16 +268,17 @@ ul#parent_nav {
 /* sub-tabs navigation */
 ul.sub-tabs {
   list-style: none;
-  background:#E2EED6;
   padding:25px 0 20px 0;
   }
   ul.sub-tabs li {
+    display:block;
+    float:right;
+    clear:both;
     }
-    ul.sub-tabs li a {
+    ul.sub-tabs a {
       display:block;
-      padding: 10px 17px;
-      margin-bottom: 5px;
-      ackground: white;
+      padding: 12px 17px;
+      background:#E2EED6;
       color: #486A62;
       font-size: 13px;
       text-decoration: none;
@@ -284,9 +286,11 @@ ul.sub-tabs {
       text-align:right;}
       ul.sub-tabs li a:hover {}
       ul.sub-tabs li a.active {
+        border-left:1px solid #E2EED6;
+        border-bottom:1px solid #E2EED6;
         background: #FFF;
         position:relative;
-        left:2px;
+        left:1px;
         }
 
 /* footer */
