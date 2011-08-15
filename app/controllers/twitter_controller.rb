@@ -60,7 +60,7 @@ class TwitterController < ApplicationController
       render :template => "twitter/#{params[:action]}", :layout => false
     else  
       # set the hash to a sammy route
-      redirect_to "/admin/twitter#/t_#{params[:action]}"
+      redirect_to "/twitter#/t_#{params[:action]}"
     end
   end
 

@@ -20,7 +20,7 @@
         var order = $("#tweet_list.published").sortable("serialize");
         if(order){
           showStatus.submitting();    
-          $.get('/admin/twitter/tweets/save_positions', order, function(rsp){
+          $.get('/twitter/tweets/save_positions', order, function(rsp){
             showStatus.respond(rsp);
           })
         } 
@@ -34,7 +34,7 @@
       if(confirm("Trash this Tweet?")){
         var $a = $(this);
         showStatus.submitting();
-        $.get('/admin/twitter/tweets/'+ $a.attr("rel") +'/trash', function(rsp){
+        $.get('/twitter/tweets/'+ $a.attr("rel") +'/trash', function(rsp){
           showStatus.respond(rsp);
           if(rsp && rsp.status === "good")
             $a.parent().remove();
