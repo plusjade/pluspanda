@@ -5,11 +5,15 @@ module ApplicationHelper
   end
   
   def embed_code(apikey)
-    return "<script type=\"text/javascript\" src=\"#{widget_script_url}\" charset=\"utf-8\"></script>"
+    "<script type=\"text/javascript\" src=\"#{widget_script_url}\" charset=\"utf-8\"></script>"
+  end
+  
+  def tweet_embed_code(apikey)
+    "<script type=\"text/javascript\" src=\"#{tweet_widget_script_url}\" charset=\"utf-8\"></script>"
   end
   
   def widget_script_url
-    return "#{root_url+widget_testimonials_path}.js?apikey=#{@user.apikey}"
+    "#{root_url+widget_testimonials_path}.js?apikey=#{@user.apikey}"
   end
 
   def tweet_widget_script_url
