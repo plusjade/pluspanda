@@ -34,9 +34,9 @@ Pluspanda::Application.routes.draw do
       # redirect the widget request to the saved amazon s3 file.
       get :widget, :on => :collection, :to => proc {|env|
         apikey = env["QUERY_STRING"].split("=")[1]
+        user = User.find_by_apikey(apikey)
                 
         if Rails.env.development?
-          user = User.find_by_apikey(apikey)
           [200, {}, [user.tweet_themes.get_staged.generate_tweet_bootstrap]]
         else
           url    = user.tweet_themes.get_staged.theme_config_url
