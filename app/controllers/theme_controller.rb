@@ -5,63 +5,31 @@ class ThemeController < ApplicationController
 
   # theme gallery
   def index
-    @themes  = StandardTheme.names
+    @themes  = @theme.class.names
 
     render :template => "theme/index", :layout => false
   end
+  
 
   # theme gallery theme
   def show
-    raise ActiveRecord::NotFound unless StandardTheme.names.include?(params[:theme])
+    raise ActiveRecord::NotFound unless @theme.class.names.include?(params[:theme])
 
-    @theme_config = StandardTheme.render_theme_config(
+    @theme_config = @theme.class.render_theme_config(
       :user         => @user,
-      :stylesheet   => "#{StandardTheme::Themes_url}/#{params[:theme]}/style.css",
-      :wrapper      => StandardTheme.render_theme_attribute(params[:theme], "wrapper.html"),
-      :testimonial  => StandardTheme.render_theme_attribute(params[:theme], "testimonial.html")
+      :stylesheet   => "#{@theme.class::Themes_url}/#{params[:theme]}/style.css",
+      :wrapper      => @theme.class.render_theme_attribute(params[:theme], "wrapper.html"),
+      :testimonial  => @theme.class.render_theme_attribute(params[:theme], "testimonial.html")
     )   
     
     render :template => "theme/show", :layout => "staged"
   end
   
   
-  # install and stage a new theme.
-  def create
-    params[:theme][:staged] = true
-    
-    if @user.themes.count >= 5
-      @message = "Your account only allows 5 themes."
-    elsif @user.themes.find_by_name(params[:theme][:name])
-      @message = "This theme is already installed."
-    else
-      @user.themes.update_all(:staged => false)
-      
-      if @user.themes.create(params[:theme])
-        @status = "good"
-        @message = "Theme successfully installed."
-      else
-        @message = "There was a problem installing this theme."
-      end
-    end
-      
-    serve_json_response
-  end
-
-  def set_staged
-    theme = @user.themes.find(params[:theme_id])
-    
-    @user.themes.update_all(:staged => false)
-    theme.staged = true
-    theme.save
-    @status = "good"
-    @message = "'#{Theme.names[theme.name]}' theme is now staged."
-    serve_json_response
-  end
-
   # get original attributes from theme source.
   def original
     attribute = ThemeAttribute.names[@attribute.name]
-    path = File.join(Theme::Themes_path, Theme.names[@theme.name], attribute)
+    path = File.join(Theme::Themes_path, @theme.class.names[@theme.name], attribute)
     data = File.exist?(path) ? File.new(path).read : "/*No data*/"
     render :text => data
   end
