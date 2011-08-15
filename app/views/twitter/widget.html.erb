@@ -7,6 +7,9 @@
     <li><a href="#html" rel="tab-customize">Customize</a></li> 
     <li><a href="#help" rel="tab-help">Help</a></li> 
   </ul> 
+  <div class="options-box">
+    
+  </div>
 </div>
 
 
@@ -97,10 +100,7 @@
         
         <ul class="tokens" style="display:none">
           <li><b>Wrapper Tokens</b></li>
-          <li><input type="text" value="{{testimonials}}" /></li>
-          <li><input type="text" value="{{tag_list}}" /></li>
-          <li><input type="text" value="{{count}}" /></li>
-          <li><input type="text" value="{{form_link:Link Text}}" /></li>
+          <li><input type="text" value="{{tweets}}" /></li>
         </ul>
       </div>
 
@@ -171,6 +171,9 @@
      <div class="indent">
        The wrapper HTML is the over all HTML template that makes up your widget.
        Each tweet gets displayed <em>inside</em> of your wrapper HTML.
+       To the right of the editor there are a list of tokens.
+       Using tokens allows you to place pluspanda data wherever you wish.
+       <br/>The {{tweets}} token is used to place the list of tweets in your HTML
        <br/><br/>
        <ul>
          <li>
