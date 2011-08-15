@@ -39,7 +39,7 @@ Pluspanda::Application.routes.draw do
         if Rails.env.development?
           [200, {}, [user.tweet_themes.get_staged.generate_tweet_bootstrap]]
         else
-          url    = user.tweet_themes.get_staged.theme_config_url
+          url    = user.tweet_themes.get_staged.tweet_bootstrap_url
           log    = Rails.root.join('log', 'widget.log')
           line   = "#{apikey}, #{env["HTTP_REFERER"]}, #{DateTime.now} \n"
           File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
