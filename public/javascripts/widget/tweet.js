@@ -86,9 +86,8 @@ var panda = {
     jQuery('head script[src^="' + pandaTweetSettings.apiUrl + '"]').remove();
   },  
   
-  /* callback to format and inject testimonials data. */
+  /* callback to format and inject tweet data. */
   display: function (tweets){
-    console.log(tweets);
     if(panda.debug){console.log("display called, expecting updated content.");console.log(tweets)}
     var content = '';
     jQuery(tweets).each(function(i){
