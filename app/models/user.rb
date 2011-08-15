@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
     
     # tweet testimonials
     self.create_tweet_setting
+    self.seed_tweets
     self.tweet_themes.create(:name => 0, :staged => true)
   end
 
