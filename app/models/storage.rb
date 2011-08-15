@@ -42,7 +42,7 @@ class Storage
   
   # This is the s3 path to the static tweet-widget-js-bootstrapper
   def tweet_widget_url
-    url("javascripts/widget/widget.js")
+    url("javascripts/widget/tweet.js")
   end
   
   # static s3 path to facebox.js  
