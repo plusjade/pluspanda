@@ -279,7 +279,7 @@ jQuery.getPageScroll = function() {
 
 /*!
  * jQuery Form Plugin
- * version: 2.52 (07-DEC-2010)
+ * version: 2.84 (12-AUG-2011)
  * @requires jQuery v1.3.2 or later
  *
  * Examples and documentation at: http://malsup.com/jquery/form/
@@ -328,22 +328,26 @@ $.fn.ajaxSubmit = function(options) {
 		log('ajaxSubmit: skipping submit process - no element selected');
 		return this;
 	}
+	
+	var method, action, url, $form = this;
 
 	if (typeof options == 'function') {
 		options = { success: options };
 	}
 
-	var action = this.attr('action');
-	var url = (typeof action === 'string') ? $.trim(action) : '';
+	method = this.attr('method');
+	action = this.attr('action');
+	url = (typeof action === 'string') ? $.trim(action) : '';
+	url = url || window.location.href || '';
 	if (url) {
 		// clean url (don't include hash vaue)
 		url = (url.match(/^([^#]+)/)||[])[1];
 	}
-	url = url || window.location.href || '';
 
 	options = $.extend(true, {
 		url:  url,
-		type: this.attr('method') || 'GET',
+		success: $.ajaxSettings.success,
+		type: method || 'GET',
 		iframeSrc: /^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank'
 	}, options);
 
@@ -366,7 +370,7 @@ $.fn.ajaxSubmit = function(options) {
 	if (options.data) {
 		options.extraData = options.data;
 		for (n in options.data) {
-			if(options.data[n] instanceof Array) {
+			if( $.isArray(options.data[n]) ) {
 				for (var k in options.data[n]) {
 					a.push( { name: n, value: options.data[n][k] } );
 				}
@@ -402,7 +406,7 @@ $.fn.ajaxSubmit = function(options) {
 		options.data = q; // data is the query string for 'post'
 	}
 
-	var $form = this, callbacks = [];
+	var callbacks = [];
 	if (options.resetForm) {
 		callbacks.push(function() { $form.resetForm(); });
 	}
@@ -440,14 +444,20 @@ $.fn.ajaxSubmit = function(options) {
 	   // hack to fix Safari hang (thanks to Tim Molendijk for this)
 	   // see:  http://groups.google.com/group/jquery-dev/browse_thread/thread/36395b7ab510dd5d
 	   if (options.closeKeepAlive) {
-		   $.get(options.closeKeepAlive, fileUpload);
+		   $.get(options.closeKeepAlive, function() { fileUpload(a); });
 		}
 	   else {
-		   fileUpload();
+		   fileUpload(a);
 		}
    }
    else {
-	   $.ajax(options);
+		// IE7 massage (see issue 57)
+		if ($.browser.msie && method == 'get') { 
+			var ieMeth = $form[0].getAttribute('method');
+			if (typeof ieMeth === 'string')
+				options.type = ieMeth;
+		}
+		$.ajax(options);
    }
 
 	// fire 'notify' event
@@ -456,8 +466,17 @@ $.fn.ajaxSubmit = function(options) {
 
 
 	// private function for handling file uploads (hat tip to YAHOO!)
-	function fileUpload() {
-		var form = $form[0];
+	function fileUpload(a) {
+		var form = $form[0], el, i, s, g, id, $io, io, xhr, sub, n, timedOut, timeoutHandle;
+        var useProp = !!$.fn.prop;
+
+        if (a) {
+        	// ensure that every serialized input is still enabled
+          	for (i=0; i < a.length; i++) {
+                el = $(form[a[i].name]);
+                el[ useProp ? 'prop' : 'attr' ]('disabled', false);
+          	}
+        }
 
 		if ($(':input[name=submit],:input[id=submit]', form).length) {
 			// if there is an input with a name or id of 'submit' then we won't be
@@ -466,23 +485,25 @@ $.fn.ajaxSubmit = function(options) {
 			return;
 		}
 		
-		var s = $.extend(true, {}, $.ajaxSettings, options);
+		s = $.extend(true, {}, $.ajaxSettings, options);
 		s.context = s.context || s;
-		var id = 'jqFormIO' + (new Date().getTime()), fn = '_'+id;
-		window[fn] = function() {
-			var f = $io.data('form-plugin-onload');
-			if (f) {
-				f();
-				window[fn] = undefined;
-				try { delete window[fn]; } catch(e){}
-			}
+		id = 'jqFormIO' + (new Date().getTime());
+		if (s.iframeTarget) {
+			$io = $(s.iframeTarget);
+			n = $io.attr('name');
+			if (n == null)
+			 	$io.attr('name', id);
+			else
+				id = n;
 		}
-		var $io = $('<iframe id="' + id + '" name="' + id + '" src="'+ s.iframeSrc +'" onload="window[\'_\'+this.id]()" />');
-		var io = $io[0];
+		else {
+			$io = $('<iframe name="' + id + '" src="'+ s.iframeSrc +'" />');
+			$io.css({ position: 'absolute', top: '-1000px', left: '-1000px' });
+		}
+		io = $io[0];
 
-		$io.css({ position: 'absolute', top: '-1000px', left: '-1000px' });
 
-		var xhr = { // mock object
+		xhr = { // mock object
 			aborted: 0,
 			responseText: null,
 			responseXML: null,
@@ -491,13 +512,19 @@ $.fn.ajaxSubmit = function(options) {
 			getAllResponseHeaders: function() {},
 			getResponseHeader: function() {},
 			setRequestHeader: function() {},
-			abort: function() {
+			abort: function(status) {
+				var e = (status === 'timeout' ? 'timeout' : 'aborted');
+				log('aborting upload... ' + e);
 				this.aborted = 1;
 				$io.attr('src', s.iframeSrc); // abort op in progress
+				xhr.error = e;
+				s.error && s.error.call(s.context, xhr, e, status);
+				g && $.event.trigger("ajaxError", [xhr, s, e]);
+				s.complete && s.complete.call(s.context, xhr, e);
 			}
 		};
 
-		var g = s.global;
+		g = s.global;
 		// trigger ajax global events so that activity/block indicators work like normal
 		if (g && ! $.active++) {
 			$.event.trigger("ajaxStart");
@@ -507,7 +534,7 @@ $.fn.ajaxSubmit = function(options) {
 		}
 
 		if (s.beforeSend && s.beforeSend.call(s.context, xhr, s) === false) {
-			if (s.global) { 
+			if (s.global) {
 				$.active--;
 			}
 			return;
@@ -516,13 +543,10 @@ $.fn.ajaxSubmit = function(options) {
 			return;
 		}
 
-		var cbInvoked = false;
-		var timedOut = 0;
-
 		// add submitting element to data if we know it
-		var sub = form.clk;
+		sub = form.clk;
 		if (sub) {
-			var n = sub.name;
+			n = sub.name;
 			if (n && !sub.disabled) {
 				s.extraData = s.extraData || {};
 				s.extraData[n] = sub.value;
@@ -532,7 +556,15 @@ $.fn.ajaxSubmit = function(options) {
 				}
 			}
 		}
+		
+		var CLIENT_TIMEOUT_ABORT = 1;
+		var SERVER_ABORT = 2;
 
+		function getDoc(frame) {
+			var doc = frame.contentWindow ? frame.contentWindow.document : frame.contentDocument ? frame.contentDocument : frame.document;
+			return doc;
+		}
+		
 		// take a breath so that pending repaints get some cpu time before the upload starts
 		function doSubmit() {
 			// make sure form attrs are set
@@ -540,15 +572,15 @@ $.fn.ajaxSubmit = function(options) {
 
 			// update form attrs in IE friendly way
 			form.setAttribute('target',id);
-			if (form.getAttribute('method') != 'POST') {
+			if (!method) {
 				form.setAttribute('method', 'POST');
 			}
-			if (form.getAttribute('action') != s.url) {
+			if (a != s.url) {
 				form.setAttribute('action', s.url);
 			}
 
 			// ie borks in some cases when setting encoding
-			if (! s.skipEncodingOverride) {
+			if (! s.skipEncodingOverride && (!method || /post/i.test(method))) {
 				$form.attr({
 					encoding: 'multipart/form-data',
 					enctype:  'multipart/form-data'
@@ -557,7 +589,23 @@ $.fn.ajaxSubmit = function(options) {
 
 			// support timout
 			if (s.timeout) {
-				setTimeout(function() { timedOut = true; cb(); }, s.timeout);
+				timeoutHandle = setTimeout(function() { timedOut = true; cb(CLIENT_TIMEOUT_ABORT); }, s.timeout);
+			}
+			
+			// look for server aborts
+			function checkState() {
+				try {
+					var state = getDoc(io).readyState;
+					log('state = ' + state);
+					if (state.toLowerCase() == 'uninitialized')
+						setTimeout(checkState,50);
+				}
+				catch(e) {
+					log('Server abort: ' , e, ' (', e.name, ')');
+					cb(SERVER_ABORT);
+					timeoutHandle && clearTimeout(timeoutHandle);
+					timeoutHandle = undefined;
+				}
 			}
 
 			// add "extra" data to form if provided in options
@@ -566,14 +614,17 @@ $.fn.ajaxSubmit = function(options) {
 				if (s.extraData) {
 					for (var n in s.extraData) {
 						extraInputs.push(
-							$('<input type="hidden" name="'+n+'" value="'+s.extraData[n]+'" />')
+							$('<input type="hidden" name="'+n+'" />').attr('value',s.extraData[n])
 								.appendTo(form)[0]);
 					}
 				}
 
-				// add iframe to doc and submit the form
-				$io.appendTo('body');
-				$io.data('form-plugin-onload', cb);
+				if (!s.iframeTarget) {
+					// add iframe to doc and submit the form
+					$io.appendTo('body');
+	                io.attachEvent ? io.attachEvent('onload', cb) : io.addEventListener('load', cb, false);
+				}
+				setTimeout(checkState,15);
 				form.submit();
 			}
 			finally {
@@ -594,24 +645,42 @@ $.fn.ajaxSubmit = function(options) {
 		else {
 			setTimeout(doSubmit, 10); // this lets dom updates render
 		}
-	
-		var data, doc, domCheckCount = 50;
 
-		function cb() {
-			if (cbInvoked) {
+		var data, doc, domCheckCount = 50, callbackProcessed;
+
+		function cb(e) {
+			if (xhr.aborted || callbackProcessed) {
+				return;
+			}
+			try {
+				doc = getDoc(io);
+			}
+			catch(ex) {
+				log('cannot access response document: ', ex);
+				e = SERVER_ABORT;
+			}
+			if (e === CLIENT_TIMEOUT_ABORT && xhr) {
+				xhr.abort('timeout');
+				return;
+			}
+			else if (e == SERVER_ABORT && xhr) {
+				xhr.abort('server abort');
 				return;
 			}
 
-			$io.removeData('form-plugin-onload');
-			
-			var ok = true;
+			if (!doc || doc.location.href == s.iframeSrc) {
+				// response not received yet
+				if (!timedOut)
+					return;
+			}
+            io.detachEvent ? io.detachEvent('onload', cb) : io.removeEventListener('load', cb, false);
+
+			var status = 'success', errMsg;
 			try {
 				if (timedOut) {
 					throw 'timeout';
 				}
-				// extract the server response from the iframe
-				doc = io.contentWindow ? io.contentWindow.document : io.contentDocument ? io.contentDocument : io.document;
-				
+
 				var isXml = s.dataType == 'xml' || doc.XMLDocument || $.isXMLDoc(doc);
 				log('isXml='+isXml);
 				if (!isXml && window.opera && (doc.body == null || doc.body.innerHTML == '')) {
@@ -628,76 +697,104 @@ $.fn.ajaxSubmit = function(options) {
 				}
 
 				//log('response detected');
-				cbInvoked = true;
-				xhr.responseText = doc.documentElement ? doc.documentElement.innerHTML : null; 
+                var docRoot = doc.body ? doc.body : doc.documentElement;
+                xhr.responseText = docRoot ? docRoot.innerHTML : null;
 				xhr.responseXML = doc.XMLDocument ? doc.XMLDocument : doc;
+				if (isXml)
+					s.dataType = 'xml';
 				xhr.getResponseHeader = function(header){
 					var headers = {'content-type': s.dataType};
 					return headers[header];
 				};
+                // support for XHR 'status' & 'statusText' emulation :
+                if (docRoot) {
+                    xhr.status = Number( docRoot.getAttribute('status') ) || xhr.status;
+                    xhr.statusText = docRoot.getAttribute('statusText') || xhr.statusText;
+                }
 
-				var scr = /(json|script)/.test(s.dataType);
+				var dt = s.dataType || '';
+				var scr = /(json|script|text)/.test(dt.toLowerCase());
 				if (scr || s.textarea) {
 					// see if user embedded response in textarea
 					var ta = doc.getElementsByTagName('textarea')[0];
 					if (ta) {
 						xhr.responseText = ta.value;
+                        // support for XHR 'status' & 'statusText' emulation :
+                        xhr.status = Number( ta.getAttribute('status') ) || xhr.status;
+                        xhr.statusText = ta.getAttribute('statusText') || xhr.statusText;
 					}
 					else if (scr) {
 						// account for browsers injecting pre around json response
 						var pre = doc.getElementsByTagName('pre')[0];
 						var b = doc.getElementsByTagName('body')[0];
 						if (pre) {
-							xhr.responseText = pre.textContent;
+							xhr.responseText = pre.textContent ? pre.textContent : pre.innerHTML;
 						}
 						else if (b) {
 							xhr.responseText = b.innerHTML;
 						}
-					}			  
+					}
 				}
 				else if (s.dataType == 'xml' && !xhr.responseXML && xhr.responseText != null) {
 					xhr.responseXML = toXml(xhr.responseText);
 				}
-				data = $.httpData(xhr, s.dataType);
+
+                try {
+                    data = httpData(xhr, s.dataType, s);
+                }
+                catch (e) {
+                    status = 'parsererror';
+                    xhr.error = errMsg = (e || status);
+                }
 			}
-			catch(e){
-				log('error caught:',e);
-				ok = false;
-				xhr.error = e;
-				$.handleError(s, xhr, 'error', e);
-			}
-			
-			if (xhr.aborted) {
-				log('upload aborted');
-				ok = false;
+			catch (e) {
+				log('error caught: ',e);
+				status = 'error';
+                xhr.error = errMsg = (e || status);
 			}
 
+			if (xhr.aborted) {
+				log('upload aborted');
+				status = null;
+			}
+
+            if (xhr.status) { // we've set xhr.status
+                status = (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) ? 'success' : 'error';
+            }
+
 			// ordering of these callbacks/triggers is odd, but that's how $.ajax does it
-			if (ok) {
-				s.success.call(s.context, data, 'success', xhr);
-				if (g) {
-					$.event.trigger("ajaxSuccess", [xhr, s]);
-				}
+			if (status === 'success') {
+				s.success && s.success.call(s.context, data, 'success', xhr);
+				g && $.event.trigger("ajaxSuccess", [xhr, s]);
 			}
-			if (g) {
-				$.event.trigger("ajaxComplete", [xhr, s]);
-			}
+            else if (status) {
+				if (errMsg == undefined)
+					errMsg = xhr.statusText;
+				s.error && s.error.call(s.context, xhr, status, errMsg);
+				g && $.event.trigger("ajaxError", [xhr, s, errMsg]);
+            }
+
+			g && $.event.trigger("ajaxComplete", [xhr, s]);
+
 			if (g && ! --$.active) {
 				$.event.trigger("ajaxStop");
 			}
-			if (s.complete) {
-				s.complete.call(s.context, xhr, ok ? 'success' : 'error');
-			}
+
+			s.complete && s.complete.call(s.context, xhr, status);
+
+			callbackProcessed = true;
+			if (s.timeout)
+				clearTimeout(timeoutHandle);
 
 			// clean up
 			setTimeout(function() {
-				$io.removeData('form-plugin-onload');
-				$io.remove();
+				if (!s.iframeTarget)
+					$io.remove();
 				xhr.responseXML = null;
 			}, 100);
 		}
 
-		function toXml(s, doc) {
+		var toXml = $.parseXML || function(s, doc) { // use parseXML if available (jQuery 1.5+)
 			if (window.ActiveXObject) {
 				doc = new ActiveXObject('Microsoft.XMLDOM');
 				doc.async = 'false';
@@ -706,8 +803,33 @@ $.fn.ajaxSubmit = function(options) {
 			else {
 				doc = (new DOMParser()).parseFromString(s, 'text/xml');
 			}
-			return (doc && doc.documentElement && doc.documentElement.tagName != 'parsererror') ? doc : null;
-		}
+			return (doc && doc.documentElement && doc.documentElement.nodeName != 'parsererror') ? doc : null;
+		};
+		var parseJSON = $.parseJSON || function(s) {
+			return window['eval']('(' + s + ')');
+		};
+
+		var httpData = function( xhr, type, s ) { // mostly lifted from jq1.4.4
+
+			var ct = xhr.getResponseHeader('content-type') || '',
+				xml = type === 'xml' || !type && ct.indexOf('xml') >= 0,
+				data = xml ? xhr.responseXML : xhr.responseText;
+
+			if (xml && data.documentElement.nodeName === 'parsererror') {
+				$.error && $.error('parsererror');
+			}
+			if (s && s.dataFilter) {
+				data = s.dataFilter(data, type);
+			}
+			if (typeof data === 'string') {
+				if (type === 'json' || !type && ct.indexOf('json') >= 0) {
+					data = parseJSON(data);
+				} else if (type === "script" || !type && ct.indexOf("javascript") >= 0) {
+					$.globalEval(data);
+				}
+			}
+			return data;
+		};
 	}
 };
 
@@ -741,7 +863,7 @@ $.fn.ajaxForm = function(options) {
 		log('terminating; zero elements found by selector' + ($.isReady ? '' : ' (DOM not ready)'));
 		return this;
 	}
-	
+
 	return this.ajaxFormUnbind().bind('submit.form-plugin', function(e) {
 		if (!e.isDefaultPrevented()) { // if event has been canceled, don't proceed
 			e.preventDefault();
@@ -805,7 +927,7 @@ $.fn.formToArray = function(semantic) {
 	if (!els) {
 		return a;
 	}
-	
+
 	var i,j,n,v,el,max,jmax;
 	for(i=0, max=els.length; i < max; i++) {
 		el = els[i];
@@ -990,9 +1112,10 @@ $.fn.clearForm = function() {
  * Clears the selected form elements.
  */
 $.fn.clearFields = $.fn.clearInputs = function() {
+	var re = /^(?:color|date|datetime|email|month|number|password|range|search|tel|text|time|url|week)$/i; // 'hidden' is not in this list
 	return this.each(function() {
 		var t = this.type, tag = this.tagName.toLowerCase();
-		if (t == 'text' || t == 'password' || tag == 'textarea') {
+		if (re.test(t) || tag == 'textarea') {
 			this.value = '';
 		}
 		else if (t == 'checkbox' || t == 'radio') {
@@ -1054,21 +1177,17 @@ $.fn.selected = function(select) {
 };
 
 // helper fn for console logging
-// set $.fn.ajaxSubmit.debug to true to enable debug logging
 function log() {
-	if ($.fn.ajaxSubmit.debug) {
-		var msg = '[jquery.form] ' + Array.prototype.join.call(arguments,'');
-		if (window.console && window.console.log) {
-			window.console.log(msg);
-		}
-		else if (window.opera && window.opera.postError) {
-			window.opera.postError(msg);
-		}
+	var msg = '[jquery.form] ' + Array.prototype.join.call(arguments,'');
+	if (window.console && window.console.log) {
+		window.console.log(msg);
+	}
+	else if (window.opera && window.opera.postError) {
+		window.opera.postError(msg);
 	}
 };
 
 })(jQuery);
-
 
 (function($){$.extend({tablesorter:new function(){var parsers=[],widgets=[];this.defaults={cssHeader:"header",cssAsc:"headerSortUp",cssDesc:"headerSortDown",sortInitialOrder:"asc",sortMultiSortKey:"shiftKey",sortForce:null,sortAppend:null,textExtraction:"simple",parsers:{},widgets:[],widgetZebra:{css:["even","odd"]},headers:{},widthFixed:false,cancelSelection:true,sortList:[],headerList:[],dateFormat:"us",decimal:'.',debug:false};function benchmark(s,d){log(s+","+(new Date().getTime()-d.getTime())+"ms");}this.benchmark=benchmark;function log(s){if(typeof console!="undefined"&&typeof console.debug!="undefined"){console.log(s);}else{alert(s);}}function buildParserCache(table,$headers){if(table.config.debug){var parsersDebug="";}var rows=table.tBodies[0].rows;if(table.tBodies[0].rows[0]){var list=[],cells=rows[0].cells,l=cells.length;for(var i=0;i<l;i++){var p=false;if($.metadata&&($($headers[i]).metadata()&&$($headers[i]).metadata().sorter)){p=getParserById($($headers[i]).metadata().sorter);}else if((table.config.headers[i]&&table.config.headers[i].sorter)){p=getParserById(table.config.headers[i].sorter);}if(!p){p=detectParserForColumn(table,cells[i]);}if(table.config.debug){parsersDebug+="column:"+i+" parser:"+p.id+"\n";}list.push(p);}}if(table.config.debug){log(parsersDebug);}return list;};function detectParserForColumn(table,node){var l=parsers.length;for(var i=1;i<l;i++){if(parsers[i].is($.trim(getElementText(table.config,node)),table,node)){return parsers[i];}}return parsers[0];}function getParserById(name){var l=parsers.length;for(var i=0;i<l;i++){if(parsers[i].id.toLowerCase()==name.toLowerCase()){return parsers[i];}}return false;}function buildCache(table){if(table.config.debug){var cacheTime=new Date();}var totalRows=(table.tBodies[0]&&table.tBodies[0].rows.length)||0,totalCells=(table.tBodies[0].rows[0]&&table.tBodies[0].rows[0].cells.length)||0,parsers=table.config.parsers,cache={row:[],normalized:[]};for(var i=0;i<totalRows;++i){var c=table.tBodies[0].rows[i],cols=[];cache.row.push($(c));for(var j=0;j<totalCells;++j){cols.push(parsers[j].format(getElementText(table.config,c.cells[j]),table,c.cells[j]));}cols.push(i);cache.normalized.push(cols);cols=null;};if(table.config.debug){benchmark("Building cache for "+totalRows+" rows:",cacheTime);}return cache;};function getElementText(config,node){if(!node)return"";var t="";if(config.textExtraction=="simple"){if(node.childNodes[0]&&node.childNodes[0].hasChildNodes()){t=node.childNodes[0].innerHTML;}else{t=node.innerHTML;}}else{if(typeof(config.textExtraction)=="function"){t=config.textExtraction(node);}else{t=$(node).text();}}return t;}function appendToTable(table,cache){if(table.config.debug){var appendTime=new Date()}var c=cache,r=c.row,n=c.normalized,totalRows=n.length,checkCell=(n[0].length-1),tableBody=$(table.tBodies[0]),rows=[];for(var i=0;i<totalRows;i++){rows.push(r[n[i][checkCell]]);if(!table.config.appender){var o=r[n[i][checkCell]];var l=o.length;for(var j=0;j<l;j++){tableBody[0].appendChild(o[j]);}}}if(table.config.appender){table.config.appender(table,rows);}rows=null;if(table.config.debug){benchmark("Rebuilt table:",appendTime);}applyWidget(table);setTimeout(function(){$(table).trigger("sortEnd");},0);};function buildHeaders(table){if(table.config.debug){var time=new Date();}var meta=($.metadata)?true:false,tableHeadersRows=[];for(var i=0;i<table.tHead.rows.length;i++){tableHeadersRows[i]=0;};$tableHeaders=$("thead th",table);$tableHeaders.each(function(index){this.count=0;this.column=index;this.order=formatSortingOrder(table.config.sortInitialOrder);if(checkHeaderMetadata(this)||checkHeaderOptions(table,index))this.sortDisabled=true;if(!this.sortDisabled){$(this).addClass(table.config.cssHeader);}table.config.headerList[index]=this;});if(table.config.debug){benchmark("Built headers:",time);log($tableHeaders);}return $tableHeaders;};function checkCellColSpan(table,rows,row){var arr=[],r=table.tHead.rows,c=r[row].cells;for(var i=0;i<c.length;i++){var cell=c[i];if(cell.colSpan>1){arr=arr.concat(checkCellColSpan(table,headerArr,row++));}else{if(table.tHead.length==1||(cell.rowSpan>1||!r[row+1])){arr.push(cell);}}}return arr;};function checkHeaderMetadata(cell){if(($.metadata)&&($(cell).metadata().sorter===false)){return true;};return false;}function checkHeaderOptions(table,i){if((table.config.headers[i])&&(table.config.headers[i].sorter===false)){return true;};return false;}function applyWidget(table){var c=table.config.widgets;var l=c.length;for(var i=0;i<l;i++){getWidgetById(c[i]).format(table);}}function getWidgetById(name){var l=widgets.length;for(var i=0;i<l;i++){if(widgets[i].id.toLowerCase()==name.toLowerCase()){return widgets[i];}}};function formatSortingOrder(v){if(typeof(v)!="Number"){i=(v.toLowerCase()=="desc")?1:0;}else{i=(v==(0||1))?v:0;}return i;}function isValueInArray(v,a){var l=a.length;for(var i=0;i<l;i++){if(a[i][0]==v){return true;}}return false;}function setHeadersCss(table,$headers,list,css){$headers.removeClass(css[0]).removeClass(css[1]);var h=[];$headers.each(function(offset){if(!this.sortDisabled){h[this.column]=$(this);}});var l=list.length;for(var i=0;i<l;i++){h[list[i][0]].addClass(css[list[i][1]]);}}function fixColumnWidth(table,$headers){var c=table.config;if(c.widthFixed){var colgroup=$('<colgroup>');$("tr:first td",table.tBodies[0]).each(function(){colgroup.append($('<col>').css('width',$(this).width()));});$(table).prepend(colgroup);};}function updateHeaderSortCount(table,sortList){var c=table.config,l=sortList.length;for(var i=0;i<l;i++){var s=sortList[i],o=c.headerList[s[0]];o.count=s[1];o.count++;}}function multisort(table,sortList,cache){if(table.config.debug){var sortTime=new Date();}var dynamicExp="var sortWrapper = function(a,b) {",l=sortList.length;for(var i=0;i<l;i++){var c=sortList[i][0];var order=sortList[i][1];var s=(getCachedSortType(table.config.parsers,c)=="text")?((order==0)?"sortText":"sortTextDesc"):((order==0)?"sortNumeric":"sortNumericDesc");var e="e"+i;dynamicExp+="var "+e+" = "+s+"(a["+c+"],b["+c+"]); ";dynamicExp+="if("+e+") { return "+e+"; } ";dynamicExp+="else { ";}var orgOrderCol=cache.normalized[0].length-1;dynamicExp+="return a["+orgOrderCol+"]-b["+orgOrderCol+"];";for(var i=0;i<l;i++){dynamicExp+="}; ";}dynamicExp+="return 0; ";dynamicExp+="}; ";eval(dynamicExp);cache.normalized.sort(sortWrapper);if(table.config.debug){benchmark("Sorting on "+sortList.toString()+" and dir "+order+" time:",sortTime);}return cache;};function sortText(a,b){return((a<b)?-1:((a>b)?1:0));};function sortTextDesc(a,b){return((b<a)?-1:((b>a)?1:0));};function sortNumeric(a,b){return a-b;};function sortNumericDesc(a,b){return b-a;};function getCachedSortType(parsers,i){return parsers[i].type;};this.construct=function(settings){return this.each(function(){if(!this.tHead||!this.tBodies)return;var $this,$document,$headers,cache,config,shiftDown=0,sortOrder;this.config={};config=$.extend(this.config,$.tablesorter.defaults,settings);$this=$(this);$headers=buildHeaders(this);this.config.parsers=buildParserCache(this,$headers);cache=buildCache(this);var sortCSS=[config.cssDesc,config.cssAsc];fixColumnWidth(this);$headers.click(function(e){$this.trigger("sortStart");var totalRows=($this[0].tBodies[0]&&$this[0].tBodies[0].rows.length)||0;if(!this.sortDisabled&&totalRows>0){var $cell=$(this);var i=this.column;this.order=this.count++%2;if(!e[config.sortMultiSortKey]){config.sortList=[];if(config.sortForce!=null){var a=config.sortForce;for(var j=0;j<a.length;j++){if(a[j][0]!=i){config.sortList.push(a[j]);}}}config.sortList.push([i,this.order]);}else{if(isValueInArray(i,config.sortList)){for(var j=0;j<config.sortList.length;j++){var s=config.sortList[j],o=config.headerList[s[0]];if(s[0]==i){o.count=s[1];o.count++;s[1]=o.count%2;}}}else{config.sortList.push([i,this.order]);}};setTimeout(function(){setHeadersCss($this[0],$headers,config.sortList,sortCSS);appendToTable($this[0],multisort($this[0],config.sortList,cache));},1);return false;}}).mousedown(function(){if(config.cancelSelection){this.onselectstart=function(){return false};return false;}});$this.bind("update",function(){this.config.parsers=buildParserCache(this,$headers);cache=buildCache(this);}).bind("sorton",function(e,list){$(this).trigger("sortStart");config.sortList=list;var sortList=config.sortList;updateHeaderSortCount(this,sortList);setHeadersCss(this,$headers,sortList,sortCSS);appendToTable(this,multisort(this,sortList,cache));}).bind("appendCache",function(){appendToTable(this,cache);}).bind("applyWidgetId",function(e,id){getWidgetById(id).format(this);}).bind("applyWidgets",function(){applyWidget(this);});if($.metadata&&($(this).metadata()&&$(this).metadata().sortlist)){config.sortList=$(this).metadata().sortlist;}if(config.sortList.length>0){$this.trigger("sorton",[config.sortList]);}applyWidget(this);});};this.addParser=function(parser){var l=parsers.length,a=true;for(var i=0;i<l;i++){if(parsers[i].id.toLowerCase()==parser.id.toLowerCase()){a=false;}}if(a){parsers.push(parser);};};this.addWidget=function(widget){widgets.push(widget);};this.formatFloat=function(s){var i=parseFloat(s);return(isNaN(i))?0:i;};this.formatInt=function(s){var i=parseInt(s);return(isNaN(i))?0:i;};this.isDigit=function(s,config){var DECIMAL='\\'+config.decimal;var exp='/(^[+]?0('+DECIMAL+'0+)?$)|(^([-+]?[1-9][0-9]*)$)|(^([-+]?((0?|[1-9][0-9]*)'+DECIMAL+'(0*[1-9][0-9]*)))$)|(^[-+]?[1-9]+[0-9]*'+DECIMAL+'0+$)/';return RegExp(exp).test($.trim(s));};this.clearTableBody=function(table){if($.browser.msie){function empty(){while(this.firstChild)this.removeChild(this.firstChild);}empty.apply(table.tBodies[0]);}else{table.tBodies[0].innerHTML="";}};}});$.fn.extend({tablesorter:$.tablesorter.construct});var ts=$.tablesorter;ts.addParser({id:"text",is:function(s){return true;},format:function(s){return $.trim(s.toLowerCase());},type:"text"});ts.addParser({id:"digit",is:function(s,table){var c=table.config;return $.tablesorter.isDigit(s,c);},format:function(s){return $.tablesorter.formatFloat(s);},type:"numeric"});ts.addParser({id:"currency",is:function(s){return/^[£$€?.]/.test(s);},format:function(s){return $.tablesorter.formatFloat(s.replace(new RegExp(/[^0-9.]/g),""));},type:"numeric"});ts.addParser({id:"ipAddress",is:function(s){return/^\d{2,3}[\.]\d{2,3}[\.]\d{2,3}[\.]\d{2,3}$/.test(s);},format:function(s){var a=s.split("."),r="",l=a.length;for(var i=0;i<l;i++){var item=a[i];if(item.length==2){r+="0"+item;}else{r+=item;}}return $.tablesorter.formatFloat(r);},type:"numeric"});ts.addParser({id:"url",is:function(s){return/^(https?|ftp|file):\/\/$/.test(s);},format:function(s){return jQuery.trim(s.replace(new RegExp(/(https?|ftp|file):\/\//),''));},type:"text"});ts.addParser({id:"isoDate",is:function(s){return/^\d{4}[\/-]\d{1,2}[\/-]\d{1,2}$/.test(s);},format:function(s){return $.tablesorter.formatFloat((s!="")?new Date(s.replace(new RegExp(/-/g),"/")).getTime():"0");},type:"numeric"});ts.addParser({id:"percent",is:function(s){return/\%$/.test($.trim(s));},format:function(s){return $.tablesorter.formatFloat(s.replace(new RegExp(/%/g),""));},type:"numeric"});ts.addParser({id:"usLongDate",is:function(s){return s.match(new RegExp(/^[A-Za-z]{3,10}\.? [0-9]{1,2}, ([0-9]{4}|'?[0-9]{2}) (([0-2]?[0-9]:[0-5][0-9])|([0-1]?[0-9]:[0-5][0-9]\s(AM|PM)))$/));},format:function(s){return $.tablesorter.formatFloat(new Date(s).getTime());},type:"numeric"});ts.addParser({id:"shortDate",is:function(s){return/\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test(s);},format:function(s,table){var c=table.config;s=s.replace(/\-/g,"/");if(c.dateFormat=="us"){s=s.replace(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/,"$3/$1/$2");}else if(c.dateFormat=="uk"){s=s.replace(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/,"$3/$2/$1");}else if(c.dateFormat=="dd/mm/yy"||c.dateFormat=="dd-mm-yy"){s=s.replace(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2})/,"$1/$2/$3");}return $.tablesorter.formatFloat(new Date(s).getTime());},type:"numeric"});ts.addParser({id:"time",is:function(s){return/^(([0-2]?[0-9]:[0-5][0-9])|([0-1]?[0-9]:[0-5][0-9]\s(am|pm)))$/.test(s);},format:function(s){return $.tablesorter.formatFloat(new Date("2000/01/01 "+s).getTime());},type:"numeric"});ts.addParser({id:"metadata",is:function(s){return false;},format:function(s,table,cell){var c=table.config,p=(!c.parserMetadataName)?'sortValue':c.parserMetadataName;return $(cell).metadata()[p];},type:"numeric"});ts.addWidget({id:"zebra",format:function(table){if(table.config.debug){var time=new Date();}$("tr:visible",table.tBodies[0]).filter(':even').removeClass(table.config.widgetZebra.css[1]).addClass(table.config.widgetZebra.css[0]).end().filter(':odd').removeClass(table.config.widgetZebra.css[0]).addClass(table.config.widgetZebra.css[1]);if(table.config.debug){$.tablesorter.benchmark("Applying Zebra widget",time);}}});})(jQuery);
 /*
@@ -1194,23 +1313,27 @@ jQuery.effects||(function(d){d.effects={version:"1.7.2",save:function(g,h){for(v
   },
     
   testimonialSave : function(rsp){
-    if(rsp.testimonial.image){
-      $('#testimonial-image-wrapper').html('<img src="' + rsp.testimonial.image + '" />');
-    }
-
-    $.get(rsp.testimonial.path, function(data){
+    if(rsp.testimonial){
+      
+      if(rsp.testimonial.image){
+        $('#testimonial-image-wrapper').html('<img src="' + rsp.testimonial.image + '" />');
+      }
       switch(rsp.testimonial.type){
         case 'new':
           $('#facebox form').clearForm();
-          $('#t-data').prepend(data);
+          sammyApp.refresh();
           break;
         case 'existing':
-          $('#tstml_' + rsp.testimonial.id).replaceWith(data);
+          $.get(rsp.testimonial.path, function(data){
+            $('#tstml_' + rsp.testimonial.id).replaceWith(data);
+            $('abbr.timeago').timeago();  
+            $.facebox.close();
+          })
           break;
       }
-      $('abbr.timeago').timeago();  
-    })
-    mpmetrics.track("testimonialSave");
+
+      mpmetrics.track("testimonialSave");
+    }
   }
 
 }
@@ -1276,7 +1399,7 @@ $(document).bind('ajaxify.form', function(){
   subTab : function($target){
     var tab = $target.attr('rel');
     $('div.tab-content').hide();
-    $('#sub-tabs li a').removeClass('active');
+    $('.sub-tabs li a').removeClass('active');
     $target.addClass('active');
     $('#'+ tab).show();
   }
@@ -1293,6 +1416,7 @@ $(document).bind('ajaxify.form', function(){
   },
   
 /* twitter pages */
+
   t_manage : function(){
     // TODO: make this declare only once and for published filter only
     $('#tweet_list.published').sortable({
@@ -1303,7 +1427,7 @@ $(document).bind('ajaxify.form', function(){
         var order = $("#tweet_list.published").sortable("serialize");
         if(order){
           showStatus.submitting();    
-          $.get('/admin/twitter/tweets/save_positions', order, function(rsp){
+          $.get('/twitter/tweets/save_positions', order, function(rsp){
             showStatus.respond(rsp);
           })
         } 
@@ -1317,7 +1441,7 @@ $(document).bind('ajaxify.form', function(){
       if(confirm("Trash this Tweet?")){
         var $a = $(this);
         showStatus.submitting();
-        $.get('/admin/twitter/tweets/'+ $a.attr("rel") +'/trash', function(rsp){
+        $.get('/twitter/tweets/'+ $a.attr("rel") +'/trash', function(rsp){
           showStatus.respond(rsp);
           if(rsp && rsp.status === "good")
             $a.parent().remove();
@@ -1327,14 +1451,158 @@ $(document).bind('ajaxify.form', function(){
       return false;
     })
     
+    $("ul.sub-tabs li a").click(function(){
+      adminNavigation.subTab($(this));
+      return false;
+    });
+    
     $(document).trigger('ajaxify.form');
   },
   
 
-/* testimonial pages */  
+  t_widget : function(){
+     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
+       width: "850px",
+       height: "700px",
+       parserfile: "parsexml.js",
+       stylesheet: "/stylesheets/codemirror/xmlcolors.css?1",
+       path: "/javascripts/codemirror/",
+       continuousScanning: 500,
+       lineNumbers: true,
+       textWrapping: false,
+       saveFunction: function(){
+         $('#editor_wrapper').val(editor.wrapper.getCode());
+         $('#wrapper-form').submit();
+         mpmetrics.track("editor save:widget");
+       },
+       initCallback: function(editor){
+         //editor.setCode('some value');    
+       }    
+     });
+
+     editor.testimonial = CodeMirror.fromTextArea('editor_testimonial', {
+       width: "850px",
+       height: "700px",
+       parserfile: "parsexml.js",
+       stylesheet: "/stylesheets/codemirror/xmlcolors.css?3453",
+       path: "/javascripts/codemirror/",
+       continuousScanning: 500,
+       lineNumbers: true,
+       textWrapping: false,
+       saveFunction: function(){
+         $('#editor_testimonial').val(editor.testimonial.getCode());
+         $('#testimonial-form').submit();
+         mpmetrics.track("editor save:testimonial");
+       },
+       initCallback: function(editor){
+         //editor.setCode('some value');    
+       }    
+     });
+
+     editor.css = CodeMirror.fromTextArea('editor_css', {
+       width: "850px",
+       height: "700px",
+       parserfile: "parsecss.js",
+       stylesheet: "/stylesheets/codemirror/csscolors.css?3453",
+       path: "/javascripts/codemirror/",
+       continuousScanning: 500,
+       lineNumbers: true,
+       textWrapping: false,
+       saveFunction: function(){
+         $('#editor_css').val(editor.css.getCode());
+         $('#css-form').submit();
+         mpmetrics.track("editor save:css");
+       },
+       initCallback: function(editor){
+         //editor.setCode('some value');    
+       }    
+     });
+
+
+    // overload save button for saving data
+     $('#wrapper-form button').click(function(){
+       $('#editor_wrapper').val(editor.wrapper.getCode());
+     });
+     $('#testimonial-form button').click(function(){
+       $('#editor_testimonial').val(editor.testimonial.getCode());
+     });
+     $('#css-form button').click(function(){
+       $('#editor_css').val(editor.css.getCode());
+     });
+
+     // editor data-loading functions
+     $('#load-stock-wrapper, #refresh-wrapper').click(function(){
+       showStatus.submitting();
+       $.get(this.href, {rand: Math.random()}, function(data){
+         editor.wrapper.setCode(data);
+         showStatus.respond({status:'good', msg:'Wrapper HTML Loaded.'});
+       });
+       return false;
+     })
+     $('#load-stock-testimonial, #refresh-testimonial').click(function(){
+       showStatus.submitting();
+       $.get(this.href, {rand: Math.random()}, function(data){
+         editor.testimonial.setCode(data);
+         showStatus.respond({status:'good', msg:'HTML Loaded.'});
+       });
+       return false;
+     })
+     $('#load-stock-css, #refresh-css').click(function(){
+       showStatus.submitting();
+       $.get(this.href, {rand: Math.random()}, function(data){
+         editor.css.setCode(data);
+         showStatus.respond({status:'good', msg:'CSS Loaded.'});
+       });
+       return false;
+     })    
+
+
+     $("#theme-publish").click(function(){
+       showStatus.submitting();
+       $.get(this.href, function(rsp){
+         showStatus.respond(rsp);
+       })
+       return false;
+     });
+
+     // subtabs
+     $("ul.sub-tabs li a").click(function(){
+       adminNavigation.subTab($(this));
+
+       var tab = $(this).attr("href").substring(1);
+       switch(tab){
+         case "published":
+           twitterWidget.loadWidgetPublished();
+           break;
+         case "staged":
+           twitterWidget.loadWidgetStaged();
+           break;
+       }
+
+       return false;
+     });
+
+     $("#installed-themes li.theme").find("a").click(function(){
+       showStatus.submitting();
+       $.get(this.href, function(rsp){
+         showStatus.respond(rsp);
+         sammyApp.refresh();
+       })
+       return false;
+     });
+
+     // init
+     twitterWidget.loadWidgetPublished();
+     adminNavigation.initSubs();
+     $(document).trigger('ajaxify.form');
+    
+  },
+  
+/* testimonial pages */ 
+ 
   widget : function(){
     editor.wrapper = CodeMirror.fromTextArea('editor_wrapper', {
-      width: "800px",
+      width: "850px",
       height: "700px",
       parserfile: "parsexml.js",
       stylesheet: "/stylesheets/codemirror/xmlcolors.css?1",
@@ -1353,7 +1621,7 @@ $(document).bind('ajaxify.form', function(){
     });
 
     editor.testimonial = CodeMirror.fromTextArea('editor_testimonial', {
-      width: "800px",
+      width: "850px",
       height: "700px",
       parserfile: "parsexml.js",
       stylesheet: "/stylesheets/codemirror/xmlcolors.css?3453",
@@ -1372,7 +1640,7 @@ $(document).bind('ajaxify.form', function(){
     });
 
     editor.css = CodeMirror.fromTextArea('editor_css', {
-      width: "800px",
+      width: "850px",
       height: "700px",
       parserfile: "parsecss.js",
       stylesheet: "/stylesheets/codemirror/csscolors.css?3453",
@@ -1438,7 +1706,7 @@ $(document).bind('ajaxify.form', function(){
     });
     
     // subtabs
-    $("#sub-tabs li a").click(function(){
+    $("ul.sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
 
       var tab = $(this).attr("href").substring(1);
@@ -1489,7 +1757,7 @@ $(document).bind('ajaxify.form', function(){
     });
 
     // subtabs
-    $("#sub-tabs li a").click(function(){
+    $("ul.sub-tabs li a").click(function(){
       $target = $(this);
       $(".data-description").html($target.attr('title'));
       var filter = $target.html().toLowerCase();
@@ -1515,7 +1783,7 @@ $(document).bind('ajaxify.form', function(){
         showStatus.respond({"msg":'Nothing selected.'});
       } else {
         var action = $(this).html().toLowerCase();
-        var filter = $('#sub-tabs li a.active').html().toLowerCase();
+        var filter = $('ul.sub-tabs li a.active').html().toLowerCase();
         adminTestimonials.batchUpdate(ids, action, filter);
       }
       return false;
@@ -1542,7 +1810,7 @@ $(document).bind('ajaxify.form', function(){
   },
 
   collect : function(){
-    $("#sub-tabs li a").click(function(){
+    $("ul.sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
       
       var tab = $(this).attr("href").substring(1);
@@ -1559,7 +1827,7 @@ $(document).bind('ajaxify.form', function(){
   },
   
   install : function(){
-    $("#sub-tabs li a").click(function(){
+    $("ul.sub-tabs li a").click(function(){
       adminNavigation.subTab($(this));
       return false;
     });
@@ -1592,9 +1860,20 @@ var sammyApp = $.sammy(function() {
     
     // fix this later.
     page = this.path.substring(2);
-  })
+  });
     
+  this.after(function(){
+    adminNavigation.mainTab(page);
+    mpmetrics.track("page: " + page);
+  });
+
+  // catches any post
+  this.post(/[\s\S]+/, function() {
+  
+  });
     
+/* standard testimonial pages */  
+
   this.get('#/widget', function() {
     $.get("/admin/widget", function(view){
       $('#main-wrapper').html(view);
@@ -1637,20 +1916,29 @@ var sammyApp = $.sammy(function() {
     })
   });
     
-/* twitter stuff */
-  this.get('#/t_manage', function() {
-    $.get("/admin/twitter/manage", function(view){
+/* twitter pages */
+
+  this.get('#/t_widget', function() {
+    $.get("/twitter/widget", function(view){
       $('#main-wrapper').html(view);
       adminPages.call(page);
     })
   });
   
+  this.get('#/t_manage', function() {
+    $.get("/twitter/manage", function(view){
+      $('#main-wrapper').html(view);
+      adminPages.call(page);
+    })
+  });
   
+  this.get('#/t_install', function() {
+    $.get("/twitter/install", function(view){
+      $('#main-wrapper').html(view);
+      adminPages.call(page);
+    })
+  });
   
-  this.after(function(){
-    adminNavigation.mainTab(page);
-    mpmetrics.track("page: " + page);
-  })
 
 });
 
@@ -1678,7 +1966,6 @@ var simpleTabs = {
   $list : null,
   $wrapper : null,
   init : function(list, wrapper){
-    console.log("init!");
     simpleTabs.$list = list;
     simpleTabs.$wrapper = wrapper;
     
@@ -1699,7 +1986,10 @@ var simpleTabs = {
     simpleTabs.clear();
     
     var tabIndex = node.parent().index();
-    simpleTabs.$wrapper.find("div.tab_unit").eq(tabIndex).show();
+    // quick hack to show tokens in sidebar
+    var $tab = simpleTabs.$wrapper.find("div.tab_unit").eq(tabIndex).show();
+    $(".options-box").empty().append($tab.find("ul.tokens").clone().show());
+
     node.addClass("active");
   },
   
@@ -1707,6 +1997,23 @@ var simpleTabs = {
     simpleTabs.$list.find("a").removeClass("active");
     simpleTabs.$wrapper.find("div.tab_unit").hide();
   }
+}
+
+;var twitterWidget = {
+  $iframe : $('<iframe width="100%" height="800px">Iframe not Supported</iframe>'),
+  
+  loadWidgetPublished : function(){
+    $('#widget-published-wrapper')
+     .html(adminWidget.$iframe.clone()
+     .attr('src', '/twitter/published#panda.admin'))
+  },
+
+  loadWidgetStaged : function(){
+    $('#widget-staged-wrapper')
+     .html(adminWidget.$iframe.clone()
+     .attr('src', '/twitter/staged#panda.admin'))
+  }
+
 }
 
 ;var adminWidget = {
