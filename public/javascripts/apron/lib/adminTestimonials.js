@@ -48,23 +48,27 @@
   },
     
   testimonialSave : function(rsp){
-    if(rsp.testimonial.image){
-      $('#testimonial-image-wrapper').html('<img src="' + rsp.testimonial.image + '" />');
-    }
-
-    $.get(rsp.testimonial.path, function(data){
+    if(rsp.testimonial){
+      
+      if(rsp.testimonial.image){
+        $('#testimonial-image-wrapper').html('<img src="' + rsp.testimonial.image + '" />');
+      }
       switch(rsp.testimonial.type){
         case 'new':
           $('#facebox form').clearForm();
-          $('#t-data').prepend(data);
+          sammyApp.refresh();
           break;
         case 'existing':
-          $('#tstml_' + rsp.testimonial.id).replaceWith(data);
+          $.get(rsp.testimonial.path, function(data){
+            $('#tstml_' + rsp.testimonial.id).replaceWith(data);
+            $('abbr.timeago').timeago();  
+            $.facebox.close();
+          })
           break;
       }
-      $('abbr.timeago').timeago();  
-    })
-    mpmetrics.track("testimonialSave");
+
+      mpmetrics.track("testimonialSave");
+    }
   }
 
 }

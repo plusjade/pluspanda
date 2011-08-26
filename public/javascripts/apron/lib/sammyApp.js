@@ -13,6 +13,11 @@ var sammyApp = $.sammy(function() {
     adminNavigation.mainTab(page);
     mpmetrics.track("page: " + page);
   });
+
+  // catches any post
+  this.post(/[\s\S]+/, function() {
+  
+  });
     
 /* standard testimonial pages */  
 
