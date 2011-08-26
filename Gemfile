@@ -4,7 +4,7 @@ gem 'rails', '3.0.0'
 gem "nokogiri"
 gem "sanitize"
 gem "paperclip"
-gem "mysql"
+gem 'mysql', '2.8.1'
 
 gem "fastercsv"
 gem "haml"

@@ -184,7 +184,7 @@ DEPENDENCIES
   haml
   hirb
   metric_fu (= 2.0.1)
-  mysql
+  mysql (= 2.8.1)
   nokogiri
   paperclip
   rails (= 3.0.0)
