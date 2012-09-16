@@ -9,8 +9,6 @@ gem 'mysql', '2.8.1'
 gem "fastercsv"
 gem "haml"
 
-gem "apron", :git => "git://github.com/plusjade/apron.git"
-
 gem "authlogic"
 #gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
 #gem 'sqlite3-ruby', :require => 'sqlite3'

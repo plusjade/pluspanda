@@ -3,27 +3,24 @@ class AdminController < ApplicationController
   layout proc { |c| c.request.xhr? ? false : "admin"}
   before_filter :require_user, :setup_user
   
-  # this is so we are always loading admin pages through sammy.js
-  before_filter :as_admin_page, :only => [:widget, :manage, :install, :collect]
-  
   def index
 
   end
 
   def widget
-
+    @theme = @user.standard_themes.get_staged
   end
   
   def manage
-
+    @theme = @user.standard_themes.get_staged
   end
   
   def install  
-
+    @theme = @user.standard_themes.get_staged
   end
   
   def collect
-
+    @theme = @user.standard_themes.get_staged
   end
   
 
@@ -144,19 +141,4 @@ class AdminController < ApplicationController
     redirect_to admin_frontpage
   end  
   
-    
-  private 
-  
-    def as_admin_page
-      @theme = @user.standard_themes.get_staged
-      
-      if request.xhr?
-        render :template => "admin/#{params[:action]}", :layout => false
-      else  
-        # set the hash to a sammy route
-        redirect_to "/admin#/#{params[:action]}"
-      end
-    end
-
-
 end
