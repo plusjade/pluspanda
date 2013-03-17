@@ -1,13 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8">
   <title>PlusPanda Admin Panel</title>
-  
-  <%= javascript_include_tag "codemirror/codemirror" %>
+
   <style type="text/css">img, div { behavior: url(iepngfix.htc) }</style> 
-  <%= stylesheet_link_tag "admin" %>
+  <link rel="stylesheet" href="/codemirror-3.1/lib/codemirror.css">
+  <style type="text/css">
+    .CodeMirror {height:500px}
+  </style>
+  <link rel="stylesheet" href="/codemirror-3.1/theme/ambiance.css">
+  <%= stylesheet_link_tag "admin", "bootstrap" %>
   
+  <script type="text/javascript" src="/codemirror-3.1/lib/codemirror.js"></script>
+  <script type="text/javascript" src="/codemirror-3.1/mode/xml/xml.js"></script>
+  <script type="text/javascript" src="/codemirror-3.1/mode/css/css.js"></script>
+
   <script data-main="/javascripts/require-js/main.js" src="/javascripts/require-js/require.js"></script>
 </head>
 
@@ -24,11 +32,14 @@
 
     <ul id="parent_nav"> 
     <% if params[:controller] == "admin" %>
-      <li class="widget"><a href="/admin/widget">Build Widget</a></li> 
+      <li class="dashboard"><a href="/admin">My Widget</a></li> 
+      <li class="widget"><a href="/admin/widget">Customize Widget</a></li> 
       <li class="manage"><a href="/admin/manage">Manage Testimonials</a></li> 
       <li class="install"><a href="/admin/install">Install On Your Site</a></li> 
       <li class="collect"><a href="/admin/collect">Collect Testimonials</a></li> 
+      <!--
       <li class="theme"><a href="/admin/theme">Theme Gallery</a></li> 
+      -->
     <% else %>
       <li class="t_widget"><a href="/admin/t_widget">Tweet Widget</a></li> 
       <li class="t_manage"><a href="/admin/t_manage">Manage Tweets</a></li> 
