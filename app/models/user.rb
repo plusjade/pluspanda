@@ -8,10 +8,6 @@ class User < ActiveRecord::Base
   has_many :standard_themes, :dependent => :destroy   
   has_one :tconfig, :dependent => :destroy
 
-  has_many :tweets, :dependent => :destroy
-  has_many :tweet_themes, :dependent => :destroy   
-  has_one :tweet_setting, :dependent => :destroy
-
   has_many :widget_logs, :dependent => :destroy
   
   validates_uniqueness_of :email
@@ -29,11 +25,6 @@ class User < ActiveRecord::Base
     self.create_tconfig
     self.seed_testimonials
     self.standard_themes.create(:name => 0, :staged => true)
-    
-    # tweet testimonials
-    self.create_tweet_setting
-    self.seed_tweets
-    self.tweet_themes.create(:name => 0, :staged => true)
   end
 
     

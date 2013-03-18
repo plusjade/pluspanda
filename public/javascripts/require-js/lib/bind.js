@@ -29,13 +29,11 @@ define([
         showStatus.respond(rsp);     
 
         if (rsp.tconfig){
-        
+
         }
         else if (rsp.testimonial)
           adminTestimonials.testimonialSave(rsp);
-        else if(rsp.tweet)
-          sammyApp.runRoute("get", "#/t_manage");
-        
+
         $('form button').removeAttr('disabled').addClass('positive');
         return false;
       }

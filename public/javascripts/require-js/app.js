@@ -14,13 +14,12 @@ define([
   'lib/adminTestimonials',
   'lib/pages',
   'lib/showStatus',
-  'lib/tweetWidget',
   'lib/widget',
   'lib/bind',
 ], function($, _, Backbone, Router,
   a,a,a,a,a,a,
   AdminTestimonials, AdminPages, ShowStatus,
-  TweetWidget, Widget, Bind
+  Widget, Bind
   ){
 
   var App = { 

@@ -3,7 +3,6 @@
 # Notably:
 #
 # - StandardTheme (original format themes)
-# - TweetTheme (themes for twitter widget)
 #
 class Theme < ActiveRecord::Base
 

@@ -29,27 +29,7 @@ Pluspanda::Application.routes.draw do
       }
       get :widget, :on => :collection
     end
-    
-    resources :tweets do
-      # redirect the widget request to the saved amazon s3 file.
-      get :widget, :on => :collection, :to => proc {|env|
-        apikey = env["QUERY_STRING"].split("=")[1]
-        user = User.find_by_apikey(apikey)
-                
-        if Rails.env.development?
-          [200, {}, [user.tweet_themes.get_staged.generate_tweet_bootstrap]]
-        else
-          url    = user.tweet_themes.get_staged.tweet_bootstrap_url
-          log    = Rails.root.join('log', 'widget.log')
-          line   = "#{apikey}, #{env["HTTP_REFERER"]}, #{DateTime.now} \n"
-          File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
-          
-          [307, {'Location' => url, 'Content-Type' => 'text/html'}, ["redirecting to: #{url}"]]
-        end
-      }
-      get :widget, :on => :collection
-    end
-    
+
   end
 
   # account management
@@ -97,8 +77,7 @@ Pluspanda::Application.routes.draw do
     end
     
   end
-  
-  
+
   # admin
   scope "/admin", :controller => :admin, :as => :admin do
     get '/', :action => "index"
@@ -127,39 +106,6 @@ Pluspanda::Application.routes.draw do
     put :settings
     get :logout
   end 
-  
-  
-  # admin
-  scope "/twitter", :controller => "twitter", :as => "twitter" do
-    get '/', :action => "index"
-    get :widget
-    get :manage
-    get :install
-    get :collect
-    get :staged
-    get :published
-    put :settings
-    
-    resources :tweets do
-      get "trash", :on => :member
-      get "save_positions", :on => :collection
-    end
-
-    scope "/theme", :controller => :tweet_theme, :as => :theme do
-      get "()"        ,:action => :index
-      post "()"       ,:action => :create
-      get "/publish"  ,:action => :publish
-      get "/gallery/:theme"  ,:action => :show
-      get "/:theme_id/stage"  ,:action => :set_staged
-      
-      scope "/:attribute" do
-        get "()"          ,:action => :staged
-        post "()"         ,:action => :update
-        get "/original"   ,:action => :original
-      end
-    
-    end
-  end
 
   # dashboard
   scope "/pinky", :controller => "pinky", :as => "pinky" do
