@@ -5,13 +5,13 @@ define([], function(){
     loadWidgetPublished : function(){
       $('#widget-published-wrapper')
        .html(this.$iframe.clone()
-       .attr('src', '/admin/published#panda.admin'))
+       .attr('src', '/admin/widget/published#panda.admin'))
     },
 
     loadWidgetStaged : function(){
       $('#widget-staged-wrapper')
        .html(this.$iframe.clone()
-       .attr('src', '/admin/staged#panda.admin'))
+       .attr('src', '/admin/widget/staged#panda.admin'))
     },
     
     loadFormPreview : function(){

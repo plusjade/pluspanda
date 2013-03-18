@@ -7,35 +7,6 @@ class AdminController < ApplicationController
 
   end
 
-  def widget
-    @theme = @user.standard_themes.get_staged
-  end
-  
-  def manage
-    @theme = @user.standard_themes.get_staged
-  end
-  
-  def install  
-    @theme = @user.standard_themes.get_staged
-  end
-  
-  def collect
-    @theme = @user.standard_themes.get_staged
-  end
-  
-
-  def staged
-    theme = @user.standard_themes.get_staged
-    @css = theme.get_attribute("style.css").staged
-    @theme_config = theme.generate_theme_config(true)
-    
-    render :template => "admin/staged", :layout => "staged"
-  end
-
-  def published
-    render :template => "admin/published", :layout => "published"
-  end
-  
   # PUT 
   # Save tconfig settings #note rename to user.settings
   def settings

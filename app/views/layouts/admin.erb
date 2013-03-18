@@ -24,27 +24,21 @@
   <div id="top">
     
     <ul id="top_links">
-      <li style="float:left;margin-left:10px">Hello, <%= @user.email %> &#160; </li>
-      <li><a href="/account" rel="facebox">Account</a></li>
-      <li><a href="/admin/purchase" rel="facebox">&#36; Purchase &#36;</a></li>
+      <li>Hello, <%= @user.email %> &#160; </li>
       <li><%= link_to "Logout", admin_logout_path %></li>
     </ul>
 
     <ul id="parent_nav"> 
-    <% if params[:controller] == "admin" %>
-      <li class="dashboard"><a href="/admin">My Widget</a></li> 
-      <li class="widget"><a href="/admin/widget">Customize Widget</a></li> 
-      <li class="manage"><a href="/admin/manage">Manage Testimonials</a></li> 
-      <li class="install"><a href="/admin/install">Install On Your Site</a></li> 
-      <li class="collect"><a href="/admin/collect">Collect Testimonials</a></li> 
+      <li><a href="/admin">Dashboard</a></li> 
+      <li><a href="/admin/widget">Customize Widget</a></li> 
+      <li><a href="/admin/manage">Manage Testimonials</a></li> 
+      <li><a href="/admin/install">Install On Your Site</a></li> 
+      <li><a href="/admin/collect">Collect Testimonials</a></li> 
+      <li><a href="/admin/account">Account</a></li> 
+      <li><a href="/admin/purchase">Purchase</a></li> 
       <!--
       <li class="theme"><a href="/admin/theme">Theme Gallery</a></li> 
       -->
-    <% else %>
-      <li class="t_widget"><a href="/admin/t_widget">Tweet Widget</a></li> 
-      <li class="t_manage"><a href="/admin/t_manage">Manage Tweets</a></li> 
-      <li class="t_install"><a href="/admin/t_install">Install On Your Site</a></li>
-    <% end %>
     </ul>
     
   </div>
@@ -58,7 +52,7 @@
     <%= yield %>
   </div>
   
-  <div id="footer">2009-2011 PlusPanda =]</div>
+  <div id="footer">2009-2013 PlusPanda =]</div>
   
 </div>
 

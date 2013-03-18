@@ -49,34 +49,5 @@ class UsersController < ApplicationController
     }
     return true
   end
-  
-  def show
-    @user = @current_user
-    render :template => 
-      'users/show',
-      :layout => false if request.xhr?
-  end
 
-
-  def edit
-    @user = @current_user
-    render :template => 
-      'users/edit',
-      :layout => false if request.xhr?
-  end
-  
-  
-  def update
-    if @current_user.update_attributes(params[:user])
-      @status  = "good"
-      @message = "Account Updated!"
-    elsif !@user.valid?
-      @message = 'Oops! Please make sure all fields are valid!'
-    end
-    
-    serve_json_response
-    return
-  end
-  
-        
 end

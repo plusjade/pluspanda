@@ -1,0 +1,7 @@
+<div id="side-wrapper">
+  <%= render :partial => "#{params["controller"]}/sidebar" %>
+</div>
+
+<div class="primary-content">
+  <%= render :template => "#{params["controller"]}/#{params["action"]}" %>
+</div>

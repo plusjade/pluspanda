@@ -51,19 +51,58 @@ Pluspanda::Application.routes.draw do
     end
     
   end
+
+  # account management
+  resource :account, :controller => "users", :only => [:new, :create]
+  resource :session, :controller => "user_sessions" do
+    get "single_access", :on => :member
+  end
+
+  namespace :admin do
+    resource :account
+
+    scope "/collect", :controller => :collect, :as => :collect do
+      get "()", :action => :index
+      get :help
+      get :settings
+    end
+    
+    scope "/purchase", :controller => :purchase, :as => :purchase do
+      get "()", :action => :index
+      get :thanks
+    end
+
+    scope "/install", :controller => :install, :as => :install do
+      get "()", :action => :index
+      get :help
+    end
+
+    scope "/manage", :controller => :manage, :as => :manage do
+      get "()", :action => :index
+      get :help
+      get :settings
+    end
+
+    scope "/widget", :controller => :widget, :as => :widget do
+      get "()", :action => :index
+      get :preview
+      get :settings
+      get :css
+      get :wrapper
+      get :testimonial
+      get :help
+
+      get :staged
+      get :published
+    end
+    
+  end
+  
   
   # admin
   scope "/admin", :controller => :admin, :as => :admin do
     get '/', :action => "index"
-    get :widget
-    get :manage
-    get :install
-    get :collect
-    get :staged
-    get :published
-    get :purchase, :controller => "purchase", :action => "index"
-    get :thanks, :controller => "purchase", :action => "thanks"
-    
+
     scope "/testimonials", :as => :testimonials do
       get "()"                  ,:action => :testimonials
       get "/update"             ,:action => :update   
@@ -85,9 +124,7 @@ Pluspanda::Application.routes.draw do
     
     end
 
-    
     put :settings
-    
     get :logout
   end 
   
@@ -122,13 +159,6 @@ Pluspanda::Application.routes.draw do
       end
     
     end
-  end
-  
-  
-  # account management
-  resource :account, :controller => "users"
-  resource :session, :controller => "user_sessions" do
-    get "single_access", :on => :member
   end
 
   # dashboard

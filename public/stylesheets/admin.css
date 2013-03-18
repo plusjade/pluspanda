@@ -188,18 +188,18 @@ input.save-account {
     list-style: none;
     margin-bottom:40px;
     padding: 5px 0; 
-    background:#486A62;
-    color:#F7FFF8;
     }
     #top #top_links  li {
       display: inline;
+      color:#486A62;
+      font-weight:bold;
       margin:0; }
       #top #top_links  li a {
-        ackground: #486A62;
         padding: 5px 10px;
-        color: #F7FFF8;
         margin:0;
-        text-decoration: none; }
+        font-weight:bold;
+        color:inherit;
+        }
         #top #top_links  li a:hover {
           background: #F7FFF8;
           color:#486A62; }
@@ -212,7 +212,7 @@ input.save-account {
             
 #side-wrapper {
   float:left;
-  width:20%;
+  width:15%;
   height:100%;
   min-height: 400px;
 }
@@ -223,7 +223,7 @@ input.save-account {
 }
 .primary-content {
   float:left;
-  width:70%;
+  width:80%;
   height:100%;
   min-height: 400px;
   padding: 25px;
@@ -272,7 +272,6 @@ ul.sub-tabs {
   }
   ul.sub-tabs li {
     display:block;
-    float:right;
     clear:both;
     margin-bottom:4px;
     }
@@ -283,11 +282,12 @@ ul.sub-tabs {
       color: #486A62;
       font-size: 13px;
       text-decoration: none;
-      font-weight: bold; 
-      text-align:right;}
+      border-radius:3px 0 0 3px;
+      font-weight: bold; }
       ul.sub-tabs li a:hover {}
       ul.sub-tabs li a.active {
-        background: #FFF;
+        background: #486A62;
+        color:#E2EED6;
         position:relative;
         left:1px;
         }
@@ -829,28 +829,6 @@ ul.tokens input {
   margin-bottom: 15px;
   line-height:1.5em;
   color: #486A62; }
-
-#with-selected {
-  list-style: none;
-  margin: 0;
-  margin-bottom: 10px;
-  padding: 0; }
-  #with-selected li {
-    display: inline;
-    margin-right: 5px; }
-    #with-selected li.right {
-      float: right; }
-    #with-selected li a {
-      display:inline-block;
-      padding:4px 12px;
-      background:#444;
-      color:#F7FFF8;
-      font-weight:bold;
-      font-size:14px;
-      text-decoration:none;
-      border-radius:3px;
-      
-    }
           
 .share-data {
   width: 600px;
@@ -1006,4 +984,11 @@ td.edit {
 }
 .tweet .date {
   font-size:13px;
+}
+
+
+/*bootstrap customizations */
+
+a.btn {
+  text-decoration:none;
 }

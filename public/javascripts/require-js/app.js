@@ -12,16 +12,14 @@ define([
   'vendor/timeago.min',
 
   'lib/adminTestimonials',
-  'lib/navigation',
   'lib/pages',
   'lib/showStatus',
-  'lib/simpleTabs',
   'lib/tweetWidget',
   'lib/widget',
   'lib/bind',
 ], function($, _, Backbone, Router,
   a,a,a,a,a,a,
-  AdminTestimonials, AdminNavigation, AdminPages, ShowStatus, SimpleTabs,
+  AdminTestimonials, AdminPages, ShowStatus,
   TweetWidget, Widget, Bind
   ){
 
@@ -37,21 +35,15 @@ define([
     start : function(){
       var that = this;
       $(function(){
-        that.bind()
-        that.router.start()
+        that.bind();
+        that.router.start();
+        AdminPages.call(window.location.pathname.slice(1));
+        $("#parent_nav").find("a[href='"+window.location.pathname+"']").addClass("active")
+        $(".sub-tabs").find("a[href='"+window.location.pathname+"']").addClass("active");
       })
     },
-    
-    bind : function(){
-      $("a[rel*=facebox]").live("click", function(){
-        var url = this.href
-        $.facebox(function(){ 
-          $.get(url, function(data) { $.facebox(data) })
-        })
-        mpmetrics.track(url);
-        return false;    
-      });
 
+    bind : function(){
       $("a[rel*=fb-div]").live("click", function(){
         $.facebox({div : this.href});
         mpmetrics.track(this.href);
@@ -65,8 +57,6 @@ define([
         mpmetrics.track(this.href);
         return false;    
       });
-      
-      SimpleTabs.init('.js_tabs_list', '.js_tabs_wrapper');
     }
     
   }
