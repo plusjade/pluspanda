@@ -62,73 +62,74 @@ define([
     },
 
     'admin/manage' : function(){
-      $("table.t-data").tablesorter({
-        headers:{
-          0:{sorter:false},
-          1:{sorter:false},
-          9:{sorter:false},
-          10:{sorter:false},
-          11:{sorter:false}
-        }
-      }); 
+        var $withSelected = $("#with-selected"),
+            $filters = $(".manage-testimonial-filters");
 
-      // TODO: make this declare only once and for published filter only
-      $('table.t-data').sortable({
-        items:'tr',
-        handle:'td.move',
-        axis: 'y',
-        helper: 'clone'
-      });
+        $("table.tdata").tablesorter({
+            headers:{
+                0:{sorter:false},
+                1:{sorter:false},
+                9:{sorter:false},
+                10:{sorter:false},
+                11:{sorter:false}
+            }
+        });
 
-      // subtabs
-      $(".manage-testimonial-filters").find('a').click(function(){
-        $target = $(this);
-        $(".data-description").html($target.attr('title'));
-        var filter = $target.html().toLowerCase();
-        adminTestimonials.loadTestimonials(filter);
-        return false;
-      })
-    
+        // TODO: make this declare only once and for published filter only
+        $('table.t-data').sortable({
+            items:'tr',
+            handle:'td.move',
+            axis: 'y',
+            helper: 'clone'
+        });
 
-      $('#with-selected li a.select').click(function(){
-        var toggle = ($(this).hasClass('all')) ? true : false; 
-        $(".checkboxes input").attr('checked', toggle);
-        return false;
-      });
-
-      // batch update testimonials
-      $('#with-selected li a.do').click(function(){
-        var ids = []
-        $(".checkboxes input:checked").each(function(){
-          ids.push($(this).val());
+        $filters.find('a').click(function(){
+            $filters.find('a').removeClass('active');
+            $target = $(this).addClass('active');
+            $(".data-description").html($target.attr('title'));
+            var filter = $target.html().toLowerCase();
+            adminTestimonials.loadTestimonials(filter);
+            return false;
         })
-        if (ids.length === 0) {
-          showStatus.respond({"msg":'Nothing selected.'});
-        } else {
-          var action = $(this).html().toLowerCase();
-          var filter = $('ul.sub-tabs li a.active').html().toLowerCase();
-          adminTestimonials.batchUpdate(ids, action, filter);
-        }
-        return false;
-      });
 
+        $withSelected.find('a.select').click(function(){
+            var toggle = ($(this).hasClass('all')) ? true : false; 
+            $(".checkboxes input").attr('checked', toggle);
+            return false;
+        });
 
-      // save testimonial positions 
-      $('#with-selected a.save-positions').click(function(){
-        var order = $("table.t-data").sortable("serialize");
-        if(order){
-          adminTestimonials.savePositions(order);
-        } else {
-          showStatus.respond({"msg":'No items to sort'});
-        }
-        return false;
-      });    
-    
-    
-    
-      // initialize
-      adminTestimonials.loadTestimonials("new");
-      $(document).trigger('ajaxify.form');
+        // batch update testimonials
+        $withSelected.find('a.do').click(function(e){
+            var ids = []
+            $(".checkboxes input:checked").each(function(){
+                ids.push($(this).val());
+            })
+            if (ids.length === 0) {
+                showStatus.respond({"msg":'Nothing selected.'});
+            } else {
+                var action = $(this).html().toLowerCase();
+                var filter = $('ul.sub-tabs li a.active').html().toLowerCase();
+                adminTestimonials.batchUpdate(ids, action, filter);
+            }
+
+            e.preventDefault();
+            return false;
+        });
+
+        // save testimonial positions 
+        $withSelected.find('a.save-positions').click(function(){
+            var order = $("table.t-data").sortable("serialize");
+            if(order) {
+                adminTestimonials.savePositions(order);
+            } else {
+                showStatus.respond({"msg":'No items to sort'});
+            }
+            return false;
+        });
+
+        // initialize
+        adminTestimonials.loadTestimonials("new");
+        $(document).trigger('ajaxify.form');
     },
 
     'admin/collect' : function() {

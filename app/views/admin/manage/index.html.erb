@@ -1,21 +1,4 @@
-<div style="background:#eee; padding:10px 0; border-bottom:1px solid #ccc">
-  <div class="btn-toolbar">
-    <div class="btn-group manage-testimonial-filters">
-      <a href="<%= admin_testimonials_path %>?filter=new" class="active btn" rel="tab-data" title="Testimonials created in the last 48 hours.">New</a> 
-      <a href="<%= admin_testimonials_path %>?filter=published" class="btn" rel="tab-data" title="Published testimonials publically viewable in your widget and other testimonial tools.">Published</a> 
-      <a href="<%= admin_testimonials_path %>?filter=hidden" class="btn" rel="tab-data" title="Unpublished testimonials not included in your widget. (hidden)">Hidden</a> 
-      <a href="<%= admin_testimonials_path %>?filter=trash" class="btn" rel="tab-data" title="Trashed testimonials are permamently deleted after 7 days.">Trash</a> 
-    </div> 
-  
-    <div class="btn-group" style="float:right">
-      <%= link_to 'New Testimonial', new_testimonial_path, :rel => 'facebox', :class => 'btn btn-success positive' %>
-    </div>
-  </div>
-
-  <div class="data-description">Testimonials created in the last 48 hours.</div>
-</div>
-
-<div class="admin-new-testimonials-list btn-toolbar">
+<div class="admin-new-testimonials-list btn-toolbar" style="background:#eee; padding:12px; border:1px solid #ccc">
   <div class="btn-group">
     <a href="#" class="select all btn">+ All</a>
     <a href="#" class="select none btn">- None</a>
@@ -28,9 +11,25 @@
     <a href="/admin/testimonials/update?do=unlock" class="btn do">Unlock</a>
     <a href="/admin/testimonials/update?do=trash" class="btn do">Trash</a>
     <a href="/admin/testimonials/update?do=untrash" class="btn do">UNTRASH</a>
-    <%= link_to "Save Positions", "#", :class => "btn save-positions" %>
+    <a href="#" class="btn save-positions">Save Positions</a>
+  </div>
+  <div class="btn-group" style="float:right">
+    <a href="<%= new_testimonial_path %>" class="btn btn-success positive" rel="facebox">New Testimonial</a>
   </div>
 </div>
+
+<div>
+  <div class="btn-toolbar">
+    <div class="btn-group manage-testimonial-filters">
+      <a href="<%= admin_testimonials_path %>?filter=new" class="active btn" rel="tab-data" title="Testimonials created in the last 48 hours.">New</a> 
+      <a href="<%= admin_testimonials_path %>?filter=published" class="btn" rel="tab-data" title="Published testimonials publically viewable in your widget and other testimonial tools.">Published</a> 
+      <a href="<%= admin_testimonials_path %>?filter=hidden" class="btn" rel="tab-data" title="Unpublished testimonials not included in your widget. (hidden)">Hidden</a> 
+      <a href="<%= admin_testimonials_path %>?filter=trash" class="btn" rel="tab-data" title="Trashed testimonials are permamently deleted after 7 days.">Trash</a> 
+      <div class="btn data-description" style="background:#FFF; border:0; margin-left:10px;">Testimonials created in the last 48 hours.</div>
+    </div> 
+  </div>
+</div>
+
 
 <table class="t-data">
   <thead>
