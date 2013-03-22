@@ -7,8 +7,8 @@ define([
   'vendor/addon',
   'vendor/facebox',
   'vendor/jquery.form',
-  'vendor/jquery.tablesorter.min',
-  'vendor/jquery.ui',
+  'vendor/jquery.tablesorter-2.0.5.min',
+  'vendor/jquery.ui-1.10.2.min',
   'vendor/timeago.min',
 
   'lib/adminTestimonials',
