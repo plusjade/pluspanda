@@ -106,5 +106,11 @@ class ApplicationController < ActionController::Base
     def setup_user
       @user = current_user
     end  
+
+    def go
+      render({
+        :template => "layouts/shared/main-content",
+        :layout => !request.xhr? })
+    end
 end
 

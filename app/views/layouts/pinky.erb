@@ -5,11 +5,9 @@
   <title>PlusPanda SUPA admin Panel</title>
   
   <% if ::Rails.env == 'production' %>
-    <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
-    <%= javascript_include_tag "bundle" %>  
+    <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" %>
   <% else %>  
     <%= javascript_include_tag 'jquery/jquery' %>
-    <%= javascript_include_tag bundled_javascripts %>
   <% end %>
 
 
@@ -32,22 +30,8 @@
   <script type="text/javascript">
   $(function(){
     $("abbr").timeago();
-    
-    $("table.data").tablesorter({
-      headers:{
-        //0:{sorter:false},
-        //1:{sorter:false},
-        //9:{sorter:false},
-        //10:{sorter:false},
-        //11:{sorter:false}
-      }
-    })
   })
   </script>
-
-<% if ::Rails.env == 'production' %>
-    
-<% end %>
 </body>
 </html>
 

@@ -16,15 +16,13 @@ class ThemeAttribute < ActiveRecord::Base
   }
   
   # IMPORTANT. Names are saved by their array index value.
-  # NO NOT reorder these.
+  # DO NOT reorder these.
   def self.names
     [
       "wrapper.html",
       "testimonial.html",
       "style.css",
       "modal.css",
-      "tweet-wrapper.html",
-      "tweet.html",
     ]
   end
 

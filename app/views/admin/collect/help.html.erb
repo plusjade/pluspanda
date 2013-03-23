@@ -1,0 +1,24 @@
+<h3>Collecting Testimonials Publically.</h3>
+
+<h4>Using Your Public "Add Testimonial" Form.</h4>
+<div class="indent">
+  Your public "add testimonial" form can be seen here: <%= link_to collection_form_url, collection_form_url %>
+  <br/>You can share this link with all of your customers. Once a customer gives the required identifer information,
+  his editable testimonial will be generated for him to fill out.
+</div>
+
+<h4>Tip: Pre-populating The Public Form.</h4>
+<div class="indent">
+  Make it easier for customers to submit testimonials by pre-populating
+  your public form with necessary identifer information.
+  <b>Example:</b>
+  <br/>You can restrict testimonial submission to only customers who have made a confirmed purchase
+  from you by revealing your pluspanda link on the "order confirmation" page or "thank you" email.
+  You can then pass identifier data into the url to pre-populate the fields.
+  The pluspanda link would look something like this: 
+  <div class="indent">
+    You can easily pre-populate known fields by passing them in the url string.
+    <br/><input style="margin:7px 0; padding:5px; width:100%" type="text" value="<%= collection_form_url %>?name=your_customers_name&key=your_private_access_key&email=customer_email&meta=custom_meta_data" />
+    <br/><b>See it in action:</b> <a href="<%= collection_form_url %>&name=your_customers_name&access_key=your_private_access_key&email=customer_email&meta=custom_meta_data" target="_blank">View your pre-populated public form</a>
+  </div>
+</div>

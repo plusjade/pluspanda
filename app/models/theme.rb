@@ -3,7 +3,6 @@
 # Notably:
 #
 # - StandardTheme (original format themes)
-# - TweetTheme (themes for twitter widget)
 #
 class Theme < ActiveRecord::Base
 
@@ -18,6 +17,10 @@ class Theme < ActiveRecord::Base
   # this should only be used in gallery view for direct css
   #Themes_url  = "_pAndAThemeS_"
   Themes_url  = "http://s3.amazonaws.com/pluspanda/themes"
+
+  def name_human
+    self.class.names[name]
+  end
 
   # Get the standard theme attribute
   # we always get the staged theme-attributes

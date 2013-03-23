@@ -1,0 +1,17 @@
+<div class="data-description">
+  This is the complete CSS used to style your widget. View your CSS changes in the <b>Edit View</b>.
+</div>  
+
+<%= form_tag('/admin/theme/style-css', :method => :post, :id => 'code-editor-form', :class => "editor-form" ) do %>
+  <div class="btn-toolbar">
+    <div class="btn-group">
+      <a href="/admin/theme/style-css" class="refresh btn">Refresh Staged CSS</a>
+      <a href="/admin/theme/style-css/original" class="load-stock btn">Load Original CSS</a>
+    </div> 
+
+    <div class="btn-group" style="float:right">
+      <button type="submit" class="btn btn-success positive">Save CSS</button>
+    </div>
+  </div>
+  <textarea id="code-editor" name="data" style="width:95%; height:600px"><%= @theme.get_attribute("style.css").staged %></textarea>
+<% end %>
