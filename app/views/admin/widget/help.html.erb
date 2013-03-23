@@ -1,86 +1,74 @@
-<h3>Overview</h3>
- <div class="indent">
-   The "Build Widget" section is used to configure and edit all parts of how your widget will display.
-   We will go through the tabs one by one and explain the functionality.
-   <br/>
-   The top portion controls some basic settings for your widget.
-   # of testimonials sets how many testimonials display at a time per page.
-   You can also order the testimonials by date or custom positions.
- </div>  
- <h3>Installed Themes</h3>
- <div class="indent">
-   The installed themes list shows all the themes you currently have installed on your account.
-   To install more themes go to the top right "Theme Gallery".
-   The orange highlighted theme is the theme that is currently "staged".
 
-   <h5>Staging</h5>
-   The staged theme is the theme you are editing and the theme that shows up in the "staged view".
-   Any edits you make to the HTML or CSS will show immediately in the staged view.
-   However it will NOT affect the published view at all.
-   Pluspanda does not keep track of which theme is published only which theme is staged.
+<h3>Published View</h3>
+<div class="indent">
+  <p>
+    Shows a published view of your widget, the way it will look when you install it on your website.
+  </p>
+  <p>
+    <strong>Update your published view</strong> by clicking <strong>publish changes</strong> located in the "Edit View" section.
+  </p>
+  <p>
+    Remember only testimonials marked <b>published</b> will display in the widget.
+  </p>
+</div>
 
-   <h5>Publishing</h5>
-   To publish any changes to your widget you simply go to the staged view, verify your changes, and click "publish changes".
-   Note that publishing changes will always mean "publish my staging edits".
-   In other words you always work in the staging environment and never directly touch the published view.
- </div>
+<h3>Edit View</h3>
+<div class="indent">
+  Shows an editable 'preview view' of your widget. It automatically changes any time you make edits to the HTML or CSS.
+  This allows you to preview and verify your customizations before you publish them.
 
- <h3>Published View Tab</h3>
- <div class="indent">
-   <p>
-     This tab shows a published view of your widget, the way it will look when you install it on your website.
-   </p>
-   <p>
-     To update your published view you must work with your staged view first, verify your changes, and then click
-     "publish changes" located in the "Staged View" tab.
-   </p>
-   <p>
-     Remember only testimonials marked <b>published</b> will display in the widget.
-   </p>
- </div>
+  <p>
+    <h4>Switch Themes</h4>
+    Preview and switch themes by using the theme dropdown menu. Themes are automatically "staged" in the edit view.
+    The CSS and HTML editors will always use and save to the "staged" theme's assets.
+  </p>
+  <p>
+    <strong>REMEMBER:</strong> The edit view is your workspace. It will never affect your Published view until you actually publish your changes!
+  </p>
+</div>
 
- <h3>Staged View Tab</h3>  
- <div class="indent">
-   This tab shows a staged view of your widget. It automatically changes any and every time
-   you make edits to the HTML or CSS. This allows you to preview and verify your customizations before
-   you publish them.
- </div>
+<h3>Settings</h3>  
+<div class="indent">
+  Change basic widget settings.
+  <br># of testimonials sets how many testimonials display at a time per page.
+  <br>You can also order the testimonials by date or custom positions.
+</div>
 
- <h3>Edit Wrapper HTML Tab</h3>  
- <div class="indent">
-   The wrapper HTML is the over all HTML template that makes up your widget.
-   Each testimonial gets displayed <em>inside</em> of your wrapper HTML.
-   To the right of the editor there are a list of tokens.
-   Using tokens allows you to place pluspanda data wherever you wish.
-   <br/>The {{testimonials}} token is used to place the list of testimonials in your HTML
-   <br/>The {{count}} token will output a count of your current total number of testimonials.
-   <br/>The {{form_link:Add Testimonial}} token is new in pluspanda. It creates a link on your widget
-   that will load your collection form right on your own website.
+<h3>Edit CSS HTML</h3>  
+<div class="indent">
+  Place all your CSS inside this editor and pluspanda will serve it for you.
+</div>
 
-   <br/><br/>
-   <ul>
-     <li>
-       <b>Refresh Staged HTML</b> will refresh the editor with the latest saved copy.
-     </li>
-     <li>
-       <b>Load Original HTML</b> will load the most recent HTML from the original theme.
-     </li>
-   </ul>    
- </div>
+<h3>Edit Wrapper HTML</h3>
+<div class="indent">
+  The wrapper HTML is the over all HTML template that makes up your widget.
+  Each testimonial gets displayed <em>inside</em> of your wrapper HTML.
+  To the right of the editor there are a list of tokens.
+  Using tokens allows you to place pluspanda data wherever you wish.
+  <br/>The {{testimonials}} token is used to place the list of testimonials in your HTML
+  <br/>The {{count}} token will output a count of your current total number of testimonials.
+  <br/>The {{form_link:Add Testimonial}} token is new in pluspanda. It creates a link on your widget
+  that will load your collection form right on your own website.
 
- <h3>Edit Testimonial HTML Tab</h3>  
- <div class="indent">
-   The testimonial HTML is the HTML used to display <em>each</em> testimonial.
-   Each testimonial will display inside of the wrapper HTML wherever you place your
-   {{testimonials}} token.
+  <br/><br/>
+  <ul>
+    <li>
+      <b>Refresh Staged HTML</b> will refresh the editor with the latest saved copy.
+    </li>
+    <li>
+      <b>Load Original HTML</b> will load the most recent HTML from the original theme.
+    </li>
+  </ul>    
+</div>
 
-   <br/>
-   The testimonials tab also has its own list of tokens to the right.
-   These are all the attributes of a testimonial. Use them to output the different types of testimonial
-   data.
- </div>
+<h3>Edit Testimonial HTML</h3>  
+<div class="indent">
+  The testimonial HTML is the HTML used to display <em>each</em> testimonial.
+  Each testimonial will display inside of the wrapper HTML wherever you place your
+  {{testimonials}} token.
 
- <h3>Edit CSS HTML Tab</h3>  
- <div class="indent">
-   Place all your CSS inside this editor and pluspanda will serve it for you.
- </div>
+  <br/>
+  The testimonials tab also has its own list of tokens to the right.
+  These are all the attributes of a testimonial. Use them to output the different types of testimonial
+  data.
+</div>
