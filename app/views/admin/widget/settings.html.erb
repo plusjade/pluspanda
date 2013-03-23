@@ -20,18 +20,3 @@
     <p>(you can order testimonials in the <b>Manage Testimonials</b> section)</p>
   </fieldset>
 <% end %>
-
-<strong>Installed themes</strong>
-<ul id="installed-themes">
-<% @user.standard_themes.each do |theme| %>
-  <% if theme.staged == true %>
-    <li class="theme"><%= link_to StandardTheme.names[theme.name], "/admin/theme/#{theme.id}/stage", :class => "active", :title => "Click to stage this theme for editing." %></li>
-  <% else %>
-    <li class="theme"><%= link_to StandardTheme.names[theme.name], "/admin/theme/#{theme.id}/stage", :title => "Click to stage this theme for editing." %></li>
-  <% end %>
-<% end %>
-</ul>
-<p style="line-height:1.5em;">
-  The highlighted theme is the currently staged theme. Stage a new theme by clicking the theme name.
-  <br/>You can also install more themes in the <a href="#/theme">Theme Gallery</a>
-</p>

@@ -59,6 +59,24 @@ define([
             })
             return false;
         });
+        
+        $("#new_theme").submit(function(e){
+            showStatus.submitting();
+            $.ajax({
+                type : 'POST',
+                dataType : 'JSON',
+                url :  $(this).attr('action'),
+                data : $(this).serialize(),
+                success : function(rsp){
+                    console.log(rsp);
+                    showStatus.respond(rsp);
+                    adminWidget.loadWidgetStaged();
+                }
+            })
+
+            e.preventDefault();
+            return false;
+        })
     },
 
     'admin/manage' : function(){

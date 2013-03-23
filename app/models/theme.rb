@@ -18,6 +18,10 @@ class Theme < ActiveRecord::Base
   #Themes_url  = "_pAndAThemeS_"
   Themes_url  = "http://s3.amazonaws.com/pluspanda/themes"
 
+  def name_human
+    self.class.names[name]
+  end
+
   # Get the standard theme attribute
   # we always get the staged theme-attributes
   def get_attribute(attribute)

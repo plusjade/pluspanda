@@ -1,6 +1,23 @@
 <div class="data-description buttons">
   <a href="/admin/theme/publish" id="theme-publish" class="positive">Publish Changes</a> 
-  This widget displays all the code customizations you currently have saved.
+  
+  This is the <strong>Editable View</strong> where you can freely customize your widget
+  without affecting your Published version in any way.
   <br/>Click "Publish Changes" to officially update published mode.
 </div>
+
+<%= form_for Theme.new, :url => "/admin/theme" do |f| %>
+  <select name="theme[name]">
+    <% StandardTheme.names.each do |name| %>
+      <% if @theme.name_human == name %>
+        <option selected="selected"><%= name %></option>
+      <% else %>
+        <option><%= name %></option>
+      <% end %>
+    <% end %>
+  </select>
+
+  <button type="submit">Switch Theme</button>
+<% end %>  
+
 <div id="widget-staged-wrapper">&#160;</div>
