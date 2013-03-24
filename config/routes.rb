@@ -113,5 +113,6 @@ Pluspanda::Application.routes.draw do
     get "users"
     post "as_user"
   end
-
+  
+  root to: redirect('/session/new')
 end

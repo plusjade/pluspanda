@@ -55,25 +55,22 @@
       margin:auto;
       margin-bottom:15px;
       width:320px;
-      border:1px solid #eee;
       -webkit-border-radius:5px;
       -moz-border-radius:5px;
       border-radius:5px;
-      -webkit-box-shadow:2px 2px 4px #ccc;
-      -moz-box-shadow:2px 2px 4px #ccc;
     }
     label {
       font-weight:bold;
       display:block;
     }
     input {
-      border: 1px solid #eee;
+      border: 1px solid #CDA864;
       padding:5px 0;
       font-size:24px;
       font-weight:bold;
       color: #333;
       width:300px;
-      background: url("/images/staged-bg.gif") repeat 0 0;
+      background-color:#FFFFCC;
       -webkit-border-radius:5px;
       -moz-border-radius:5px;
       border-radius:5px;
@@ -133,5 +130,9 @@
     </div>
   </div>
 
+<script type="text/javascript">
+  var email = document.getElementById('user_email') || document.getElementById('user_session_email');
+  if(email) email.focus();
+</script>
 </body>
 </html>
