@@ -26,7 +26,7 @@ class UserSessionsController < ApplicationController
       UserSession.find.destroy if UserSession.find
 
       UserSession.create(@user)
-      @user.single_access_token = ActiveSupport::SecureRandom.hex(10)
+      @user.single_access_token = SecureRandom.hex(10)
       @user.save
     end
 

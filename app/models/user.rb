@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   after_create  :create_dependencies
   
   def generate_defaults 
-    self.apikey = ActiveSupport::SecureRandom.hex(8)
+    self.apikey = SecureRandom.hex(8)
   end
   
   

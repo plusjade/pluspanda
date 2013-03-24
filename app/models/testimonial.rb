@@ -29,7 +29,7 @@ class Testimonial < ActiveRecord::Base
     
     
   def generate_defaults 
-    self.token = ActiveSupport::SecureRandom.hex(6)
+    self.token = SecureRandom.hex(6)
   end
 
   
@@ -44,7 +44,7 @@ class Testimonial < ActiveRecord::Base
   
   def randomize_filename
     ext = File.extname(self.avatar_file_name).downcase
-    self.avatar.instance_write(:file_name, "#{ActiveSupport::SecureRandom.hex(4)}#{ext}")
+    self.avatar.instance_write(:file_name, "#{SecureRandom.hex(4)}#{ext}")
   end
   
   def image_source
