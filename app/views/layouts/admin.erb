@@ -16,7 +16,7 @@
   <script type="text/javascript" src="/codemirror-3.1/mode/xml/xml.js"></script>
   <script type="text/javascript" src="/codemirror-3.1/mode/css/css.js"></script>
 
-  <script data-main="/javascripts/require-js/main.js" src="/javascripts/require-js/require.js"></script>
+  <script data-main="/javascripts/<%= Rails.env.production? ? "require-js-build" : "require-js" %>/main.js" src="/javascripts/require-js/require.js"></script>
 </head>
 
 <body>
