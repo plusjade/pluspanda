@@ -16,7 +16,6 @@ define([
       var that = this;
 
       this.bind("route:page", function(page){
-        console.log('page: '+page);
         $.get("/"+page, function(view){
           $('#main-wrapper').html(view);
           $(".sub-tabs").find("a[href='"+window.location.pathname+"']").addClass("active");

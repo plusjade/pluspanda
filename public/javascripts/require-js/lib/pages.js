@@ -68,7 +68,6 @@ define([
                 url :  $(this).attr('action'),
                 data : $(this).serialize(),
                 success : function(rsp){
-                    console.log(rsp);
                     showStatus.respond(rsp);
                     adminWidget.loadWidgetStaged();
                 }
@@ -151,7 +150,6 @@ define([
     },
 
     'admin/collect' : function() {
-        console.log("collect callback");
         adminWidget.loadFormPreview();
     },
 
