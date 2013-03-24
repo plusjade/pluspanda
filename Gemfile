@@ -13,12 +13,10 @@ gem 'multi_json'
 
 gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
 
-# To use debugger
-# gem 'ruby-debug'
-
 gem 'aws-s3', :require => 'aws/s3'
 
-# group :test, :development do
+group :test, :development do
+  gem 'thin'
 #   gem 'factory_girl'
 #   gem 'ruby-debug'
 #   gem "rspec-rails", "2.0.1"
@@ -27,5 +25,4 @@ gem 'aws-s3', :require => 'aws/s3'
 #   gem "metric_fu", "2.0.1"
 #   gem "wirble"
 #   gem "hirb"
-# #, :git => "https://github.com/jscruggs/metric_fu.git"
-# end
+end
