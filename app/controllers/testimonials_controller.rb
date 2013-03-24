@@ -279,11 +279,11 @@ class TestimonialsController < ApplicationController
     
       email = (params[:testimonial][:email].nil?) ? '' : params[:testimonial][:email].strip
     
-      if !access_key.empty? && access_key != params[:access_key]
+      if !access_key.blank? && access_key != params[:access_key]
         flash[:notice] = "Invalid Access Key!"
-      elsif params[:testimonial][:name].nil? || params[:testimonial][:name].strip.empty?
+      elsif params[:testimonial][:name].nil? || params[:testimonial][:name].strip.blank?
         flash[:notice] = "Please enter your full name."
-      elsif @user.tconfig.form["email"] && (email.empty? || email.index('@') == nil)
+      elsif @user.tconfig.form["email"] && (email.blank? || email.index('@') == nil)
         flash[:notice] = "Please enter a valid email address."
       else
         return true

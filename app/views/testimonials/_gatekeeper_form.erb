@@ -11,7 +11,7 @@
 <%= form_for @testimonial do |f| %>
   <%= hidden_field_tag(:apikey, params[:apikey]) if params['apikey'] %>
 
-<% unless @user.tconfig.form["require_key"].empty? %>
+<% unless @user.tconfig.form["require_key"].blank? %>
   <fieldset>
     <%= text_field_tag :access_key, params[:access_key], :rel => "text_req" %>
      <label>Access Key<span class="req_star">*</span></label>
@@ -30,7 +30,7 @@
   </fieldset>	
 <% end %>
 
-<% unless @user.tconfig.form["meta"].empty? %>
+<% unless @user.tconfig.form["meta"].blank? %>
   <fieldset class="panda-meta "> 
 	  <%= f.text_field :meta, :rel => "text_req" %>
      <label><%= @user.tconfig.form["meta"] %><span class="req_star">*</span></label>

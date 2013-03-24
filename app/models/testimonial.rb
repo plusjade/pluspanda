@@ -48,7 +48,7 @@ class Testimonial < ActiveRecord::Base
   end
   
   def image_source
-    if self.avatar_file_name.nil? || self.avatar_file_name.empty?
+    if self.avatar_file_name.nil? || self.avatar_file_name.blank?
       self.image_stock
     else
       self.avatar.url(:sm) 
