@@ -1,8 +1,8 @@
 Pluspanda::Application.routes.draw do
   
   # legacy api
-  resources :testimonials do
-    get :widget, :on => :collection
+  resources :testimonials, as: :legacy_testimonials do
+    get :widget, :on => :collection, as: :legacy_widget
   end
   
   # current api
@@ -113,5 +113,5 @@ Pluspanda::Application.routes.draw do
     get "users"
     post "as_user"
   end
-  
+
 end
