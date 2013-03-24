@@ -16,7 +16,7 @@ Total logs: <%= @logs_count %>
       <td><%= User.find(log.user_id).email %></td>
       <td><%= link_to log.url, log.url, :target => "_blank" %></td>
       <td><%= log.impressions %></td>
-       <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 %>"><%= log.created_at %></abbr></td>
+       <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 rescue nil %>"><%= log.created_at %></abbr></td>
     </tr>
   <% end %>
   </tbody>  
@@ -38,7 +38,7 @@ Total logs: <%= @logs_count %>
       <td><%= User.find(log.user_id).email %></td>
       <td><%= link_to log.url, log.url, :target => "_blank" %></td>
       <td><%= log.impressions %></td>
-       <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 %>"><%= log.created_at %></abbr></td>
+       <td><abbr class="timeago" title="<%= Time.parse("#{log.created_at}").iso8601 rescue nil %>"><%= log.created_at %></abbr></td>
     </tr>
   <% end %>
   </tbody>  

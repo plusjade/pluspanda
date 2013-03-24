@@ -98,7 +98,7 @@
       <tr>
         <td><%= user.email%></td>
         <td><%= user.login_count %></td>
-        <td><abbr class="timeago" title="<%= Time.parse("#{user.last_login_at}").iso8601 %>"><%= user.last_login_at %></abbr></td>
+        <td><abbr class="timeago" title="<%= Time.parse("#{user.last_login_at}").iso8601 rescue nil %>"><%= user.last_login_at %></abbr></td>
       </tr>
     <% end %>
     </tbody>
@@ -122,7 +122,7 @@
       <tr>
         <td><%= user.email%></td>
         <td><%= user.login_count %></td>
-        <td><abbr class="timeago" title="<%= Time.parse("#{user.last_login_at}").iso8601 %>"><%= user.last_login_at %></abbr></td>
+        <td><abbr class="timeago" title="<%= Time.parse("#{user.last_login_at}").iso8601 rescue nil %>"><%= user.last_login_at %></abbr></td>
       </tr>
     <% end %>
     </tbody>
