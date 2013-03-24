@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
     # standard testimonials
     self.create_tconfig
     self.seed_testimonials
-    self.standard_themes.create(:name => 0, :staged => true)
+    self.standard_themes.create(:name => 0, :staged => true).publish
   end
 
     
