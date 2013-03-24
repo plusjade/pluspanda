@@ -1,7 +1,8 @@
 define([
   'jquery',
-  'lib/showStatus'
-  ], function($, showStatus){
+  'lib/showStatus',
+  'lib/adminTestimonials'
+  ], function($, showStatus, adminTestimonials){
   
   // facebox reveal callback  
   $(document).bind('reveal.facebox', function(){
