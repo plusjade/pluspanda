@@ -62,7 +62,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.21)
     multi_json (1.7.2)
-    mysql (2.9.1)
+    mysql2 (0.3.11)
     nokogiri (1.5.9)
     paperclip (2.3.16)
       activerecord (>= 2.3.0)
@@ -123,7 +123,7 @@ DEPENDENCIES
   fastercsv (~> 1.5.5)
   haml (~> 4)
   multi_json
-  mysql (= 2.9.1)
+  mysql2
   nokogiri (~> 1.5.6)
   paperclip (~> 2.3.8)
   rails (~> 3.2)
