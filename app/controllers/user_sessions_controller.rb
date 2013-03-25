@@ -1,14 +1,14 @@
 class UserSessionsController < ApplicationController
   layout "frontpage"
-  before_filter :require_no_user
+  before_filter  {
+    redirect_to admin_path if current_user
+  }
 
   def new
-    redirect_to admin_path if current_user
     @user_session = UserSession.new
   end
   
   def create
-    redirect_to admin_path if current_user
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       @user_session.record.update_attributes(:last_login_at => Time.now)
