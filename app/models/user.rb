@@ -62,7 +62,11 @@ class User < ActiveRecord::Base
     self.standard_themes.create(:name => 0, :staged => true).publish
   end
 
-    
+  def deliver_password_reset_instructions!
+    reset_perishable_token!  
+    UserMailer.password_reset_instructions(self).deliver
+  end
+
   # get the testimonials
   # based on defined filters, sorters, and limits.
   # filters: page, publish, tag, rating, date.

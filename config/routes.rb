@@ -33,9 +33,13 @@ Pluspanda::Application.routes.draw do
   end
 
   # account management
-  resource :account, :controller => "users", :only => [:new, :create]
+  resource :account, :controller => "users", :only => [:new, :create] do
+    match :reset_password, on: :collection
+  end
+
   resource :session, :controller => "user_sessions" do
     get "single_access", :on => :member
+    get "perishable", :on => :member
   end
 
   namespace :admin do
