@@ -1,8 +1,4 @@
 
-<div class="data-description">
-  Place your testimonials on your website by following these 2 steps:
-</div>
-
 <% if @user.email.blank? %>
 <h2 style="text-decoration:underline; color:#0066cc;">
  <img src="/static/images/admin/warning.png" />
@@ -13,14 +9,9 @@
 <% end %>
 
 <div class="install-page">
-  <h3>1) Place This Code Where You Want Your Testimonials to Display:</h3>
+  <h3>Place This Code Where You Want Your Testimonials to Display:</h3>
   <p>
-    <textarea><%=h '<div id="plusPandaYes"></div>' %></textarea>
-  </p>
-  
-  <h3>2) Place This Code Before The Closing Body Tag at the Bottom of Your Page:</h3>
-  <p>
-    <textarea><%= embed_code(@user.apikey) %></textarea>
+    <textarea><%=h "<div id=\"plusPandaYes\"></div>\n#{embed_code(@user.apikey)}" %></textarea>
   </p>
   
   <h3>TIP: Check out your sample page!</h3>
