@@ -91,11 +91,7 @@ class User < ActiveRecord::Base
     unless opts[:tag] == 'all'
       where[:tag_id] = opts[:tag].to_i
     end
-      
-    # filter by rating
-    #if(is_numeric($params['rating']))
-    #  where['rating'] = $params['rating'];
-  
+
     #--sorters--
     sort = "created_at DESC"
     case(opts[:sort])
@@ -113,11 +109,16 @@ class User < ActiveRecord::Base
       when 'position'
         sort = "position ASC"
      end 
-     
+
     # determine the offset and limits.
     offset = (opts[:page]*opts[:limit]) - opts[:limit]
 
-    return self.testimonials.where(where).order(sort).limit(opts[:limit]).offset(offset)
+    if !premium && ((offset + opts[:limit]) > Testimonial::TrialLimit)
+      opts[:limit] = Testimonial::TrialLimit - offset
+      if opts[:limit] < 0; opts[:limit] = 0; end
+    end
+
+    testimonials.where(where).order(sort).limit(opts[:limit]).offset(offset)
   end
 
 

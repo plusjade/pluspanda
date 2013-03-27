@@ -1,5 +1,8 @@
 require 'sanitize'
 class Testimonial < ActiveRecord::Base
+
+  TrialLimit = 10
+
   has_attached_file :avatar,
     :storage => :s3,
     :s3_credentials => Rails.root.join("config", "s3.yml"),
