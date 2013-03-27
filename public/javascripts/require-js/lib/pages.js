@@ -78,6 +78,10 @@ define([
         })
     },
 
+    'admin/widget/settings' : function() {
+        $(document).trigger('ajaxify.form');
+    },
+
     'admin/manage' : function(){
         var $withSelected = $("#with-selected"),
             $filters = $(".manage-testimonial-filters");
@@ -172,6 +176,9 @@ define([
       $(document).trigger('ajaxify.form');
     },
 
+    'admin/account' : function() {
+        $(document).trigger('ajaxify.form');
+    },
 
     initEditor : function(id, options){
         var $codeEditor = $('#code-editor'),
