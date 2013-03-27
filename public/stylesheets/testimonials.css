@@ -63,6 +63,9 @@ p {
   margin-bottom: 10px;
   color: #666666; }
 
+form {
+  position:relative;
+}
 form fieldset {
   margin-bottom: 10px; }
 form label {
@@ -190,7 +193,6 @@ input:focus, textarea:focus {
 
 #content_wrapper {
   margin: 0 auto;
-  padding: 20px 50px;
   clear: both;
   width: 750px;
   min-height: 400px; }
@@ -219,11 +221,10 @@ input:focus, textarea:focus {
   text-align: center; }
 
 #status {
-  text-align: center;
   color: green;
   font-size: 18px;
-  padding: 5px;
-  margin: auto; }
+  margin-bottom:15px
+}
 
 #editor-wrapper fieldset {
   margin-bottom: 7px; }
@@ -249,12 +250,7 @@ input:focus, textarea:focus {
   overflow: auto;
   padding: 20px;
   background: #f7f7f7;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  -moz-box-shadow: 0 0 3px #cccccc;
-  -webkit-box-shadow: 0 0 3px #cccccc;
-  box-shadow: 0 0 3px #cccccc, inset 0 0 -3px #eeeeee;
+  border:2px solid #eee;
   margin-bottom: 15px; }
   #editor-wrapper .t-view #t-view-inner {
     width: 725px;
