@@ -196,23 +196,20 @@ class TestimonialsController < ApplicationController
         @message = "Oops! Please make sure all fields are valid!"
         respond_to do |format|
           format.any(:html, :iframe) { flash[:notice] = @message }
-          format.json { json_response and return}
-          format.js   { render :js   => "alert('something cool');" and return }
+          format.json { json_response }
+          format.js   { render :js   => "alert('something cool');" }
         end
       else
         respond_to do |format|
-          format.any(:html, :iframe) { flash[:notice] = "Oops! An unknown error occured. Please try again." }
-          format.json { json_response and return}
-          format.js   { render :js   => "alert('something cool');" and return }
+          format.any(:html, :iframe) { 
+            flash[:notice] = @testimonial.errors.to_a.join(', ')
+            redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
+          }
+          format.json { json_response }
+          format.js   { render :js   => "alert('something cool');" }
         end        
       end  
-      
-      @testimonial = @user.testimonials.find_by_id(params[:id])
-      render :text   => "invalid testimonial" and return if @testimonial.nil?
-      render :action => "edit"
     end
-    
-    return
   end
 
 
