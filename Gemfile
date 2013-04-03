@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '~> 3.2'
 gem "nokogiri", '~> 1.5.6'
 gem "sanitize", '~> 2.0.3'
-gem "paperclip", '~> 2.3.8'
+gem "paperclip"
 gem "rmagick"
 gem 'mysql2'
 
@@ -15,6 +15,7 @@ gem 'multi_json'
 gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
 
 gem 'aws-s3', :require => 'aws/s3'
+gem 'aws-sdk'
 
 group :test, :development do
   gem 'thin'
