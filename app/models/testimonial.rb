@@ -59,7 +59,7 @@ class Testimonial < ActiveRecord::Base
   end
 
   def self.api_attributes
-    testimonial = [
+    [
       :id,
       :rating,
       :company,
@@ -70,8 +70,8 @@ class Testimonial < ActiveRecord::Base
       :url,
       :c_position,
       :image,
-      :image_stock      
-    ]    
+      :image_stock
+    ]
   end
   
   

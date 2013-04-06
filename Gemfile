@@ -14,7 +14,6 @@ gem 'multi_json'
 
 gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
 
-gem 'aws-s3', :require => 'aws/s3'
 gem 'aws-sdk'
 
 group :test, :development do

@@ -28,27 +28,21 @@ class StandardTheme < Theme
   end
 
   def publish_css
-    storage = Storage.new(self.user.apikey)
-    storage.connect
-    
     f = File.new(tmp_stylesheet_path, "w+")
-    f.write(self.generate_css)
+    f.write(generate_css)
     f.rewind
-    
-    storage.store(stylesheet_filename, tmp_stylesheet_path)
+
+    Storage.store(stylesheet_filename, tmp_stylesheet_path)
   end
   
   # HTML is packaged in the theme_config
   # This is for the standard theme
   def publish_theme_config
-    storage = Storage.new(self.user.apikey)
-    storage.connect
-    
     f = File.new(tmp_theme_config_path, "w+")
     f.write(self.generate_theme_config)
     f.rewind
-    
-    storage.store(theme_config_filename, tmp_theme_config_path)
+
+    Storage.store(theme_config_filename, tmp_theme_config_path)
   end
     
   
@@ -103,8 +97,8 @@ class StandardTheme < Theme
       widget_url = "/javascripts/widget/widget.js"
       facebox_url = "/javascripts/widget/facebox.js"
     else  
-      widget_url = Storage.new().standard_widget_url
-      facebox_url = Storage.new().facebox_url
+      widget_url = Storage.standard_widget_url
+      facebox_url = Storage.facebox_url
     end
     
     context.render_to_string(
@@ -131,7 +125,7 @@ class StandardTheme < Theme
   
   # the published stylesheet is NOT theme specific.
   def stylesheet_url
-    Storage.new(user.apikey).url(stylesheet_filename)
+    Storage.url(stylesheet_filename)
   end
 
   def theme_config_filename
@@ -139,7 +133,7 @@ class StandardTheme < Theme
   end
   
   def theme_config_url
-    Storage.new(user.apikey).url(theme_config_filename)
+    Storage.url(theme_config_filename)
   end
   
 end
