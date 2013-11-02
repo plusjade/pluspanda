@@ -32,7 +32,7 @@ class StandardTheme < Theme
     f.write(generate_css)
     f.rewind
 
-    Storage.store(stylesheet_filename, tmp_stylesheet_path)
+    Storage.store(stylesheet_filename, tmp_stylesheet_path, content_type: "text/css")
   end
   
   # HTML is packaged in the theme_config

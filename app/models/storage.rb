@@ -10,8 +10,8 @@ class Storage
     end
 
     # save/update a file to s3
-    def store(key, filepath)
-      bucket.objects[key].write(filepath)
+    def store(key, filepath, opts={})
+      bucket.objects[key].write(filepath, opts)
     end
 
     # returns the absolute url path to our s3 bucket
