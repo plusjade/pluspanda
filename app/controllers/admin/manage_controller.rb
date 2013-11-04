@@ -5,11 +5,16 @@ class Admin::ManageController < ApplicationController
 
   def index
     @theme = @user.standard_themes.get_staged
-    go
+
+    render({
+      template: "#{ params["controller"] }/#{ params["action"] }",
+      layout: !request.xhr?
+    })
   end
   
   def help
-    go
+    render({
+      :template => "layouts/shared/main-content",
+      :layout => !request.xhr? })
   end
-  
 end

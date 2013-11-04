@@ -45,4 +45,10 @@ class Admin::WidgetController < ApplicationController
     render :template => "admin/widget/published", :layout => "published"
   end
 
+  def go
+    render({
+      template: "#{ params["controller"] }/#{ params["action"] }",
+      layout: !request.xhr? })
+  end
+
 end

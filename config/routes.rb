@@ -56,10 +56,7 @@ Pluspanda::Application.routes.draw do
       get :thanks
     end
 
-    scope "/install", :controller => :install, :as => :install do
-      get "()", :action => :index
-      get :help
-    end
+    get "install", action: :install, as: :install
 
     scope "/manage", :controller => :manage, :as => :manage do
       get "()", :action => :index

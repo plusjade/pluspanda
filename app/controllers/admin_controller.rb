@@ -7,6 +7,11 @@ class AdminController < ApplicationController
 
   end
 
+  def install
+    @theme = @user.standard_themes.get_staged
+    
+  end
+
   # PUT 
   # Save tconfig settings #note rename to user.settings
   def settings

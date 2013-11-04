@@ -7,7 +7,7 @@ class Admin::CollectController < ApplicationController
   }
   
   def index
-    go
+
   end
 
   def settings
