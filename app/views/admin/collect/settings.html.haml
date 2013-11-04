@@ -1,0 +1,40 @@
+= form_for @user.tconfig, :url => '/admin/settings' do |f|
+  .btn-toolbar
+    .btn-group{style: "float:right"}
+      %button.btn.btn-success.positive{type: "submit"} Save
+    %h2 Configure Form Settings.
+  .form-group
+    %label Custom Header Message.
+    = f.text_area :message, :style => 'width:100%;height:100px', class: "form-control"
+    %p.indent
+      This text will display at the top of your public form.
+      Place your company name here, offer incentives for submitting testimonials,
+      or just give a nice thank you.
+  .form-group
+    %label Customer Full Name
+    %p.indent
+      A customer's full name is always required. You can optionally require 3 more fields:
+  .form-group
+    %label Access Key
+    %input.form-control{name: "tconfig[form][require_key]", type: "text", value: @user.tconfig.form['require_key'] }
+    .indent
+      New testimonials cannot be created without
+      %em this
+      valid access key.
+  .form-group
+    %label Require Email (Yes)
+    %input.form-control{name: "tconfig[form][email]", type: "checkbox", checked: !!@user.tconfig.form['email'] }
+    .indent
+      Customers are required to enter a valid email address.
+      Use this option if you wish to openly collect testimonials from anyone interested in writing one.
+      This way you can maintain contact with people you may not know.
+  .form-group
+    %label Define Meta Data Name
+    %input.form-control{name: "tconfig[form][meta]", type: "text", value: @user.tconfig.form['meta'] }
+    .indent
+      Customers are required to enter specific meta data defined below.
+      %br/
+      %b Example:
+      If you wish to collect testimonials from only customers that have
+      made purchases, you can place the link onto your order confirmation page. Rather than using
+      an email identifier of which you already have, you can pass the order confirmation code or customer_id as meta data.

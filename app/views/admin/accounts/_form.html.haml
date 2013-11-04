@@ -1,0 +1,9 @@
+.form-group
+  %label Email
+  = form.text_field :email, class: "form-control"
+.form-group
+  = form.label :password, form.object.new_record? ? nil : "Change password"
+  = form.password_field :password, class: "form-control"
+.form-group
+  = form.label :password_confirmation
+  = form.password_field :password_confirmation, class: "form-control"

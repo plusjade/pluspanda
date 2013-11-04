@@ -1,0 +1,42 @@
+#layout-editor
+  .base-padding
+    .data-description.buttons
+      This is the
+      %strong Editable View
+      where you can freely customize your widget without affecting your Published version in any way. Click "Publish Changes" to officially update published mode.
+
+    .settings
+      %a#theme-publish.btn.btn-success{href: "/admin/theme/publish"} Publish Changes
+      = form_for @user.tconfig, :url => '/admin/settings', :html => { :id => nil, :rel => "form.settings", class: "form-horizontal" } do |f|
+        .btn-toolbar
+          .btn-group{style: "float:right"}
+            %button.btn.btn-success{type: "submit"} Save
+          %h3 Layout Settings
+        .form-group
+          .col-md-4
+            %label Testimonials per page
+          .col-md-8
+            = f.text_field(:per_page, :id => nil, :class => "tconfig_per_page form-control", :maxlength => 3, :style => "width:30px" )
+        .form-group
+          .col-md-4
+            %label Order Testimonials by
+          .col-md-8
+            = f.select(:sort, Tconfig.sorters, {}, :id => nil, :class => "tconfig_sort form-control" )
+            %small{ style: "font-size:0.9em" } Order testimonials in the <strong>Manage Testimonials</strong> section
+    .themes
+      %h3 Change Theme
+      = form_for Theme.new, :url => "/admin/theme" do |f|
+        /%select{ name: "theme[name]" }
+        - StandardTheme.names.each do |name|
+          - if @theme.name_human == name
+            %div{ style: "padding:10px; background-color:#eee; line-height:40px; text-align:center; display:inline-block; border:1px solid green;" }= name
+          - else
+            %div{ style: "padding:10px; background-color:#eee; line-height:40px; text-align:center; display:inline-block" }= name
+
+
+#layout-previewer
+  .base-padding
+    .btn-group
+      %a.btn.btn-primary{ href: "#", title: "Use the \"staged\" version to preview updates without affecting your live widget." } Staging
+      %a.btn.btn-primary{ href: "#", title: "This widget displays the \"published\" version which appears on your live website." } Production
+    #widget-published-wrapper
