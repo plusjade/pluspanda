@@ -1,0 +1,76 @@
+.base-padding
+  .btn-toolbar{ style: "margin-bottom:10px" }
+    .btn-group.manage-testimonial-filters
+      %a.btn.btn-primary.js-published{href: "#", title: "Published testimonials publically viewable in your widget and other testimonial tools."} Published
+      %a.btn.btn-primary.js-hidden{href: "#", title: "Unpublished testimonials not included in your widget. (hidden)"} Hidden
+      %a.btn.btn-primary.js-new{href: "#", title: "Testimonials created in the last 48 hours."} New
+      %a.btn.btn-primary.js-trash{href: "#", title: "Trashed testimonials are permamently deleted after 7 days."} Trash
+    .btn-group
+      %a#new-testimonial-button.btn.btn-success.positive{href: "#" } New Testimonial
+    .btn.pull-right.data-description
+  %form#new-testimonial-view{ style: "display: none" }
+    %div{ style: "margin-bottom:10px" }
+      %button.btn.btn-success{ type: "submit" } Save
+      %a.btn.btn-danger.js-cancel{ href: "#" } Cancel
+    .table-wrapper-scrollable
+      %table.table.table-bordered.table-striped{ style: "padding:0; margin:0" }
+        %thead
+          %tr
+            %th Rating
+            %th Name
+            %th Location
+            %th Website
+            %th Company
+            %th Job Title
+            %th Body
+        %tbody
+          %tr
+            %td
+              %select{name: "rating"}
+                %option{value: "5"} 5 stars
+                %option{value: "4"} 4 stars
+                %option{value: "3"} 3 stars
+                %option{value: "2"} 2 stars
+                %option{value: "1"} 1 star
+            %td
+              %input.name.form-control{name: "name" }
+            %td
+              %input.location.form-control{name: "location" }
+            %td
+              %input.url.form-control{name: "url" }
+            %td
+              %input.company.form-control{name: "company" }
+            %td
+              %input.c_position.form-control{name: "c_position" }
+            %td
+              %textarea.form-control{name: "body" } 
+
+  .admin-new-testimonials-list.btn-toolbar{style: "padding-bottom:10px"}
+    .btn-group
+      %a.select.all.btn.btn-sm.btn-default{href: "#"} + All
+      %a.select.none.btn.btn-sm.btn-default{href: "#"} - None
+    #with-selected.btn-group
+      %a.btn.btn-sm.btn-default.do{href: "#"} Publish
+      %a.btn.btn-sm.btn-default.do{href: "#"} Hide
+      %a.btn.btn-sm.btn-default.do{href: "#"} Lock
+      %a.btn.btn-sm.btn-default.do{href: "#"} Unlock
+      %a.btn.btn-sm.btn-default.do{href: "#"} Trash
+      %a.btn.btn-sm.btn-default.do{href: "#"} UNTRASH
+  .table-wrapper-scrollable
+    %table.table.table-bordered.table-striped{style: "padding:0; margin:0"}
+      %thead
+        %tr
+          %th
+          %th
+          %th
+          %th Created
+          %th Rating
+          %th Name
+          %th Location
+          %th Website
+          %th Company
+          %th Job Title
+          %th Body
+          %th Updated
+          %th
+      %tbody#t-data

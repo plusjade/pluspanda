@@ -1,55 +1,56 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
+    'jquery',
+    'underscore',
+    'backbone'
+], function($, _, Backbone) {
 
-  'lib/pages',
-], function($, _, Backbone, adminPages){
+    return Backbone.Router.extend({
+        routes: {
+            "*page": "page"
+        }
+        ,
+        initialize : function(App) {
+            this.App = App;
+            this.$main = $('#main-wrapper');
+        }
+        ,
+        page : function(route) {
+            var self = this;
+            $.ajax({
+                url : "/" + route,
+            })
+            .done(function(view) {
+                self.$main.html(view);
+                self.call(route);
+            })
+        }
+        ,
+        start : function() {
+            Backbone.history.start({ pushState: true, silent: true, hashChange : false });
+            this.call(window.location.pathname.slice(1));
+        }
+        ,
+        call : function(page) {
+            if(typeof this[page] === "function") {
+                this[page]();
+            }
+        }
+        ,
+        'admin/manage' : function() {
+            new this.App.ManageView();
+        }
+        ,
+        'admin/collect' : function() {
+            new this.App.CollectView();
+        }
+        ,
+        'admin/account' : function() {
+            new this.App.AccountView();
+        }
+        ,
+        'admin/widget' : function() {
+            new this.App.WidgetView();
+        }
 
-  return Backbone.Router.extend({
-
-    routes: {
-      "*page": "page"
-    },
-
-    initialize : function(){
-      var that = this;
-
-      this.bind("route:page", function(page){
-        $.get("/"+page, function(view){
-          $('#main-wrapper').html(view);
-          $(".sub-tabs").find("a[href='"+window.location.pathname+"']").addClass("active");
-          adminPages.call(page);
-        })
-      }, this)
-
-      // Hand off all link events to the Router.
-      $("#parent_nav").find('a').live("click", function(e){
-        if( _.isString($(this).attr("href")))
-          that.navigate($(this).attr("href"), {trigger: true});
-          
-        $("#parent_nav").find("a").removeClass("active");
-        $(this).addClass('active');
-        e.preventDefault();
-        return false;
-      });
-
-      $(".sub-tabs").find('a').live("click", function(e){
-          if( _.isString($(this).attr("href")))
-            that.navigate($(this).attr("href"), {trigger: true});
-
-          e.preventDefault();
-          return false;
-      })
-
-    },
-
-    // Public: Start Router.
-    // Returns: Nothing
-    start : function(){
-      Backbone.history.start({pushState: true, silent : true});
-    }
-
-  });
-
+    });
 });

@@ -1,73 +1,47 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'router',
+    'jquery',
+    'underscore',
+    'backbone',
+    'router',
 
-  'vendor/addon',
-  'vendor/facebox',
-  'vendor/jquery.form',
-  'vendor/jquery.tablesorter-2.0.5.min',
-  'vendor/jquery.ui-1.10.2.min',
-  'vendor/timeago.min',
+    'layoutView',
+    'manageView',
+    'collectView',
+    'accountView',
+    'widgetView',
 
-  'lib/adminTestimonials',
-  'lib/pages',
-  'lib/showStatus',
-  'lib/widget',
-  'lib/bind',
+    'lib/showStatus',
+
+    'vendor/addon',
+    'vendor/facebox',
+    'vendor/jquery.ui-1.10.2.min',
+    'vendor/timeago.min'
 ], function($, _, Backbone, Router,
-  a,a,a,a,a,a,
-  AdminTestimonials, AdminPages, ShowStatus,
-  Widget, Bind
-  ){
-
-  var App = { 
-    
-    router : new Router,
-    
-    // Public: Start the application relative to the site_source.
-    // The web-server is responsible for passing site_source in the Header.
-    // Once the site_source folder is known we can load _config.yml and start the app.
-    //
-    // Returns: Nothing
-    start : function(){
-      var that = this;
-      $(function(){
-        that.bind();
-        that.router.start();
-        AdminPages.call(window.location.pathname.slice(1));
-        $("#parent_nav").find("a[href='"+window.location.pathname+"']").addClass("active")
-        $(".sub-tabs").find("a[href='"+window.location.pathname+"']").addClass("active");
-      })
-    },
-
-    bind : function(){
-        $("a[rel*=facebox]").live("click", function(){
-            var url = this.href
-            $.facebox(function(){ 
-              $.get(url, function(data) { $.facebox(data) })
+    LayoutView, ManageView, CollectView, AccountView, WidgetView,
+    ShowStatus
+){
+    return { 
+        utils : {
+            showStatus : ShowStatus,
+        }
+        ,
+        LayoutView : LayoutView
+        ,
+        ManageView : ManageView
+        ,
+        CollectView : CollectView
+        ,
+        AccountView : AccountView
+        ,
+        WidgetView : WidgetView
+        ,
+        start : function() {
+            this.router = new Router(this);
+            var self = this;
+            $(function() {
+                new LayoutView(self.router);
+                self.router.start();
             })
-            mpmetrics.track(url);
-            return false;    
-          });
-
-      $("a[rel*=fb-div]").live("click", function(){
-        $.facebox({div : this.href});
-        mpmetrics.track(this.href);
-        return false;    
-      });
-
-      // facebox share panel 
-      $("a.fb-div").live("click", function(){
-        $.facebox({ div: $(this).attr('rel') });
-        $('div.share-data input').val(this.href);
-        mpmetrics.track(this.href);
-        return false;    
-      });
+        }
     }
-    
-  }
-  
-  return App;
 });

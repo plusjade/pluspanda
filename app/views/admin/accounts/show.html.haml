@@ -1,0 +1,7 @@
+#layout-editor
+  .base-padding
+    = form_for @user, :url => admin_account_path, html: { id: "account-form" } do |f|
+      %h2 Update Account
+      = render :partial => "form", :object => f
+      .form-group
+        %button.btn.btn-success{type: "submit"} Update

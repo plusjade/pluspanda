@@ -3,11 +3,11 @@
     .data-description
       Send your customers to your testimonial collection form to fill out a testimonial. Testimonials auto-magically appear in your admin panel.
 
-    = form_for @user.tconfig, :url => '/admin/settings' do |f|
+    = form_for @user.tconfig, :url => '/admin/settings', html: { id: "collect-form" } do |f|
       .btn-toolbar
         .btn-group{style: "float:right"}
           %button.btn.btn-success{ type: "submit" } Save & Update
-        %h3 Customize Form
+        %h3 Customizations
 
       #public-link.form-group
         %label External Link
@@ -32,7 +32,7 @@
           valid access key.
       .form-group
         %label Require Email (Yes)
-        %input.form-control{name: "tconfig[form][email]", type: "checkbox", checked: !!@user.tconfig.form['email'] }
+        %input{name: "tconfig[form][email]", type: "checkbox", checked: !!@user.tconfig.form['email'] }
         .indent
           Customers are required to enter a valid email address.
           Use this option if you wish to openly collect testimonials from anyone interested in writing one.
@@ -51,4 +51,3 @@
 #layout-previewer
   .base-padding
     #collector-form-view  
-

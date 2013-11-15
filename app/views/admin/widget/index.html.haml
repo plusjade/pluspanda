@@ -1,22 +1,14 @@
 #layout-editor
   .base-padding
-    .data-description.buttons
-      This is the
-      %strong Editable View
-      where you can freely customize your widget without affecting your Published version in any way. Click "Publish Changes" to officially update published mode.
-
     .settings
-      %a#theme-publish.btn.btn-success{href: "/admin/theme/publish"} Publish Changes
-      = form_for @user.tconfig, :url => '/admin/settings', :html => { :id => nil, :rel => "form.settings", class: "form-horizontal" } do |f|
-        .btn-toolbar
-          .btn-group{style: "float:right"}
-            %button.btn.btn-success{type: "submit"} Save
-          %h3 Layout Settings
+      = form_for @user.tconfig, :url => '/admin/settings', :html => { :id => "theme-settings-form", :rel => "form.settings", class: "form-horizontal" } do |f|
+        %button{type: "submit", style: "display:none" }
+        %h3 Settings
         .form-group
           .col-md-4
             %label Testimonials per page
           .col-md-8
-            = f.text_field(:per_page, :id => nil, :class => "tconfig_per_page form-control", :maxlength => 3, :style => "width:30px" )
+            = f.text_field(:per_page, :id => nil, :class => "tconfig_per_page form-control", :maxlength => 3, :style => "width:50px" )
         .form-group
           .col-md-4
             %label Order Testimonials by
@@ -24,19 +16,23 @@
             = f.select(:sort, Tconfig.sorters, {}, :id => nil, :class => "tconfig_sort form-control" )
             %small{ style: "font-size:0.9em" } Order testimonials in the <strong>Manage Testimonials</strong> section
     .themes
-      %h3 Change Theme
-      = form_for Theme.new, :url => "/admin/theme" do |f|
-        /%select{ name: "theme[name]" }
+      %h3 Themes
+      = form_for Theme.new, :url => "/admin/theme", html: { id: "theme-change-form" } do |f|
         - StandardTheme.names.each do |name|
-          - if @theme.name_human == name
-            %div{ style: "padding:10px; background-color:#eee; line-height:40px; text-align:center; display:inline-block; border:1px solid green;" }= name
-          - else
-            %div{ style: "padding:10px; background-color:#eee; line-height:40px; text-align:center; display:inline-block" }= name
+          %div{ class: (@theme.name_human == name) ? "active" : false }= name
 
+    .data-description.buttons{style: "margin-top:30px;"}
+      %strong NOTE
+      %br
+      All changes made only affect the "staging" area. This allows you to freely test changes without affecting your production widget.
+      Click "Publish changes" to clone the staging widget into the production widget.
+      %p{style: "margin-top:10px;"}
+        %a#theme-publish.btn.btn-success.btn-lg{ href: "/admin/theme/publish" } Publish Changes
 
 #layout-previewer
-  .base-padding
-    .btn-group
-      %a.btn.btn-primary{ href: "#", title: "Use the \"staged\" version to preview updates without affecting your live widget." } Staging
-      %a.btn.btn-primary{ href: "#", title: "This widget displays the \"published\" version which appears on your live website." } Production
-    #widget-published-wrapper
+  #widget-previewer
+    .base-padding
+      .btn-group
+        %a.btn.btn-primary.js-staging.active{ href: "#", title: "Use the \"staged\" version to preview updates without affecting your live widget." } Staging
+        %a.btn.btn-primary.js-production{ href: "#", title: "This widget displays the \"published\" version which appears on your live website." } Production
+      #widget-published-wrapper

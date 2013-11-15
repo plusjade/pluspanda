@@ -1,12 +1,20 @@
 ({
     dir: "../require-js-build",
-        paths: {
-            jquery : 'libs/jquery-1.8.3',
-            underscore: 'libs/underscore-1.3.1-amd', // AMD support
-            backbone: 'libs/backbone-0.9.1-amd', // AMD support
-            mustache : 'libs/mustache-0.7.2',
-        },
-
+    shim: {
+      underscore: {
+        exports: '_'
+      },
+      backbone: {
+        deps: ["underscore", "jquery"],
+        exports: "Backbone"
+      }
+    },
+    paths: {
+        'jquery' : 'libs/jquery-1.8.3',
+        'underscore': 'libs/underscore.1.5.2.min',
+        'backbone': 'libs/backbone.1.1.0.min',
+        'mustache' : 'libs/mustache-0.7.3'
+    },
     modules: [
         {
             name: "main"

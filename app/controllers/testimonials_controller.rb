@@ -4,6 +4,10 @@ class TestimonialsController < ApplicationController
   before_filter :ensure_valid_user
   before_filter :ready_testimonial_filters_and_sorters, :only => [:index, :widget]
 
+  # TODO this is for testing only
+  skip_before_filter :verify_authenticity_token
+
+
   def index
     @testimonials = @user.get_testimonials(
       :page     => @active_page, 
@@ -168,6 +172,20 @@ class TestimonialsController < ApplicationController
     end
   end
 
+  WritableAttributes = [
+    :name, 
+    :location, 
+    :c_position, 
+    :position, 
+    :company, 
+    :rating, 
+    :url, 
+    :body, 
+    :publish, 
+    :lock, 
+    :email, 
+    :trash
+  ]
 
   def update
     @testimonial = @user.testimonials.find_by_id(params[:id])
@@ -175,13 +193,13 @@ class TestimonialsController < ApplicationController
     return unless is_able_to_publish
     
     # temp hack to ensure core attributes are saved even if image fails
-    if params[:testimonial] && params[:testimonial][:avatar]
-      core_attrs = params[:testimonial].dup
+    if params && params[:avatar]
+      core_attrs = params.dup
       core_attrs.delete(:avatar)
-      @testimonial.update_attributes(core_attrs)
+      @testimonial.update_attributes(core_attrs.slice(*WritableAttributes))
     end
 
-    if @testimonial.update_attributes(params[:testimonial])
+    if @testimonial.update_attributes(params.slice(*WritableAttributes))
       @status   = "good"
       @message  = "Testimonial Updated!"
       @resource = @testimonial
@@ -194,7 +212,7 @@ class TestimonialsController < ApplicationController
             flash[:notice] = @message
             redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
           end
-          format.json { json_response }
+          format.json { serve_json_response }
           format.js   { render :js   => "alert('something cool');" }
         end
       end
@@ -203,7 +221,7 @@ class TestimonialsController < ApplicationController
         @message = "Oops! Please make sure all fields are valid!"
         respond_to do |format|
           format.any(:html, :iframe) { flash[:notice] = @message }
-          format.json { json_response }
+          format.json { serve_json_response }
           format.js   { render :js   => "alert('something cool');" }
         end
       else
@@ -212,7 +230,7 @@ class TestimonialsController < ApplicationController
             flash[:notice] = @testimonial.errors.to_a.join(', ')
             redirect_to "#{edit_testimonial_path(@testimonial)}?apikey=#{@user.apikey}"
           }
-          format.json { json_response }
+          format.json { serve_json_response }
           format.js   { render :js   => "alert('something cool');" }
         end        
       end  

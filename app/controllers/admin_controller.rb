@@ -46,9 +46,17 @@ class AdminController < ApplicationController
       where = { :created_at => (Time.now - 2.day)..Time.now, :trash => false }
     end
 
-    render @user.testimonials.where(where).order(order)
-    return
-     
+    testimonials = @user.testimonials.where(where).order(order)
+    testimonials.map! { |t| 
+      data = t.sanitize_for_api.merge(t.attributes)
+      data.merge({
+        :share_url => "#{view_context.root_url + view_context.edit_testimonial_path(t.id)}?apikey=#{current_user.apikey}",
+        :edit_url => view_context.edit_testimonial_path(t.id),
+        :endpoint => view_context.testimonial_path(t.id)
+      })
+    }
+
+    render :json => { :testimonials => testimonials }
   end
   
   # GET

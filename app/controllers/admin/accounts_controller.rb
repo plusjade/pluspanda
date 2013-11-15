@@ -5,7 +5,6 @@ class Admin::AccountsController < ApplicationController
 
   def show
     @user = @current_user
-    go
   end
 
   def update

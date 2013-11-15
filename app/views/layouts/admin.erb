@@ -1,77 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <meta charset="utf-8">
   <title>PlusPanda Admin Panel</title>
 
+  <%= stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css", "admin-new" %>
+<!--  
   <link rel="stylesheet" href="/codemirror-3.1/lib/codemirror.css">
-  <style type="text/css">
-    .CodeMirror {height:500px}
-  </style>
+  <style type="text/css">.CodeMirror {height:500px} </style>
   <link rel="stylesheet" href="/codemirror-3.1/theme/ambiance.css">
-  <%= stylesheet_link_tag "admin", "bootstrap" %>
-  
   <script type="text/javascript" src="/codemirror-3.1/lib/codemirror.js"></script>
   <script type="text/javascript" src="/codemirror-3.1/mode/xml/xml.js"></script>
   <script type="text/javascript" src="/codemirror-3.1/mode/css/css.js"></script>
-
-  <script data-main="/javascripts/<%= Rails.env.production? ? "require-js-build" : "require-js" %>/main.js" src="/javascripts/require-js/require.js"></script>
+ -->
 </head>
 
 <body>
 <div id="wrapper">
   <div id="top">
-    
-    <ul id="top_links">
-      <li>Hello, <%= @user.email %> &#160; </li>
-      <li><%= link_to "Logout", admin_logout_path %></li>
-    </ul>
-
     <ul id="parent_nav"> 
       <li><a href="/admin">Upgrade</a></li>
-      <li><a href="/admin/widget">Customize Widget</a></li> 
+      <li><a href="/admin/widget">Customize Layout</a></li> 
       <li><a href="/admin/manage">Manage Testimonials</a></li> 
-      <li><a href="/admin/install">Install On Your Site</a></li> 
       <li><a href="/admin/collect">Collect Testimonials</a></li> 
+      <li><a href="/admin/install">Install On Your Site</a></li> 
       <li><a href="/admin/account">Account</a></li> 
+      <li><%= link_to "Logout", admin_logout_path %></li>
     </ul>
-    
   </div>
-
+  <div style="height:52px"></div>
   <div id="status-bar">
     <div id="submitting" style="display:none"><strong>Submitting..</strong></div>
     <div class="responding" style="display:none">&#160;</div>
   </div>  
-     
+
   <div id="main-wrapper">
     <%= yield %>
   </div>
-  
-  <div id="footer">2009-2013 PlusPanda =]</div>
-  
 </div>
 
+<script type="text/x-template" id="testimonial-manage-template">
+  <td class="checkboxes">
+    <input type="checkbox" value="{{ id }}"/ class="select">
+  </td>
+
+  <td class="toggle-publish no-padding {{# publish }}publish{{/ publish }}">
+    <a href="#" title="Publish or hide the testimonial"> </a>
+  </td>
+
+  <td class="toggle-lock no-padding {{# lock }}lock{{/ lock }}">
+    <a href="#" title="Lock or unlock the testimonial from user editing."> </a>
+  </td>
+  <td>
+    <div class="created" style="width:100px;">
+      <abbr class="timeago" title="{{ created_at }}">{{ created_at }}
+    </div>
+  </td>
+  <td>
+    <select name="rating">
+      <option value="5">5 stars</option>
+      <option value="4">4 stars</option>
+      <option value="3">3 stars</option>
+      <option value="2">2 stars</option>
+      <option value="1">1 star</option>
+    </select>
+  </td>
+  <td>
+    <input name="name" class="name form-control" value="{{ name }}">
+  </td>
+  <td>
+    <input name="location" class="location form-control" value="{{ location }}">
+  </td>
+  <td>
+    <input name="url" class="url form-control" value="{{ url }}">
+  </td>
+  <td>
+    <input name="company" class="company form-control" value="{{ company }}">
+  </td>
+  <td>
+    <input name="c_position" class="c_position form-control" value="{{ c_position }}">
+  </td>
+  <td>
+    <textarea name="body" class="form-control">{{ body }}</textarea>
+  </td>
+  <td>
+    <div class="updated" style="width:100px;">
+      <abbr class="timeago" title="{{ updated_at }}">{{ updated_at }}</abbr>
+    </div>
+  </td>
+  <td class="share">
+    <a href="{{ share_url }}" class="share-link" target="_blank">share</a>
+  </td>
+</script>
 
   <%# Start javascripts below this line %>
   <%# -------------------------------- %>
   <script type="text/javascript">
     var loading = '<div class="loading">Loading...</div>';
   </script>
+  <script src="/javascripts/modernizer-custom.js"></script>
+  <script data-main="/javascripts/<%= Rails.env.production? ? "require-js-build" : "require-js" %>/main.js" src="/javascripts/require-js/require.js"></script>
 
 <% if Rails.env.production? %>
   <script type='text/javascript'> var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://'); document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E')); </script> <script type='text/javascript'> try {  var mpmetrics = new MixpanelLib('48212be322d2395bbf74e1917d5bcc76'); } catch(err) { null_fn = function () {}; var mpmetrics = {  track: null_fn,  track_funnel: null_fn,  register: null_fn,  register_once: null_fn, register_funnel: null_fn }; } </script>
-  <script type="text/javascript">
-  var clicky = { log: function(){ return; }, goal: function(){ return; }};
-  var clicky_site_id = 66354221;
-  (function() {
-    var s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.async = true;
-    s.src = ( document.location.protocol == 'https:' ? 'https://static.getclicky.com/js' : 'http://static.getclicky.com/js' );
-    ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
-  })();
-  </script>
-  <noscript><p><img alt="Clicky" width="1" height="1" src="http://in.getclicky.com/66354221ns.gif" /></p></noscript>    
 <% else %>
   <script>
     /* stub methods */
@@ -80,5 +112,3 @@
 <% end %>
 </body>
 </html>
-
-

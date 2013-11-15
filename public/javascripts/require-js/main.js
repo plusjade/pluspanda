@@ -5,6 +5,9 @@ require.config({
     underscore: {
       exports: '_'
     },
+    mustache: {
+      exports: 'Mustache'
+    },
     backbone: {
       deps: ["underscore", "jquery"],
       exports: "Backbone"
@@ -14,7 +17,7 @@ require.config({
     'jquery' : 'libs/jquery-1.8.3',
     'underscore': 'libs/underscore.1.5.2.min',
     'backbone': 'libs/backbone.1.1.0.min',
-    'mustache' : 'libs/mustache-0.7.2',
+    'mustache' : 'libs/mustache-0.7.3'
   }  
 });
 
