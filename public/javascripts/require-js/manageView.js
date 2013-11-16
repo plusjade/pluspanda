@@ -24,7 +24,21 @@ define([
                         data : { filter: filter },
                     })
                     .done(function(data) {
+                        self.next_page = data.next_page;
                         self.reset(data.testimonials);
+                    })
+        }
+        ,
+        loadNext : function() {
+            var self = this;
+            return  $.ajax({
+                        dataType: "JSON",
+                        url : '/admin/testimonials.json',
+                        data : { filter: this.filterName, page: this.next_page },
+                    })
+                    .done(function(data) {
+                        self.next_page = data.next_page;
+                        self.add(data.testimonials);
                     })
         }
         ,
@@ -166,10 +180,33 @@ define([
     })
 
     var TestimonialsView = Backbone.View.extend({
+        el : '#js-testimonials-pager'
+        ,
+        events : {
+            'click' : 'loadNext'
+        }
+        ,
         initialize : function() {
             this.$container = $('#t-data');
             this.collection.on('reset', this.render, this);
+            this.collection.on('add', this.add, this);
+            this.collection.on('reset add', this.toggle, this);
+
             this.collection.loadTestimonials("published");
+        }
+        ,
+        toggle : function() {
+            if(this.collection.next_page > 0) {
+                this.$el.show();
+            }
+            else {
+                this.$el.hide();
+            }
+        }
+        ,
+        loadNext : function(e) {
+            e.preventDefault();
+            this.collection.loadNext();
         }
         ,
         render : function() {
@@ -184,6 +221,10 @@ define([
             else {
                 this.$container.html('<tr><td colspan="13"><h4>No results</h4></td></tr>');
             }
+        }
+        ,
+        add : function(model) {
+            this.$container.append( new TestimonialView({ model : model }).render() );
         }
     })
 

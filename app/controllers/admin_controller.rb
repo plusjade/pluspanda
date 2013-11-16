@@ -46,17 +46,31 @@ class AdminController < ApplicationController
       where = { :created_at => (Time.now - 2.day)..Time.now, :trash => false }
     end
 
-    testimonials = @user.testimonials.where(where).order(order)
-    testimonials.map! { |t| 
-      data = t.sanitize_for_api.merge(t.attributes)
-      data.merge({
-        :share_url => "#{view_context.root_url + view_context.edit_testimonial_path(t.id)}?apikey=#{current_user.apikey}",
-        :edit_url => view_context.edit_testimonial_path(t.id),
-        :endpoint => view_context.testimonial_path(t.id)
-      })
-    }
 
-    render :json => { :testimonials => testimonials }
+    limit = 30
+    page = params[:page].to_i > 1 ? params[:page].to_i : 1
+    offset = ( page*limit ) - limit
+
+    query = @user.testimonials.where(where)
+    total = query.count
+
+    testimonials = query
+      .order(order)
+      .limit(limit)
+      .offset(offset)
+      .map do |t| 
+        t.sanitize_for_api
+          .merge(t.attributes)
+          .merge({
+            :share_url => "#{ view_context.root_url + view_context.edit_testimonial_path(t.id) }?apikey=#{ current_user.apikey }"
+          })
+    end
+
+    render json: {
+      testimonials: testimonials,
+      total: total,
+      next_page: (limit*page < total) ? page+1 : false 
+    }
   end
   
   # GET
