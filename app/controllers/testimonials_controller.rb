@@ -192,6 +192,11 @@ class TestimonialsController < ApplicationController
     render :text => "invalid testimonial" and return if @testimonial.nil?
     return unless is_able_to_publish
     
+    if params[:testimonial]
+      params.merge!(params[:testimonial])
+      params.delete(:testimonial)
+    end
+
     # temp hack to ensure core attributes are saved even if image fails
     if params && params[:avatar]
       core_attrs = params.dup
