@@ -1,30 +1,31 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>PlusPanda Feedback Engine</title>
-  <%= stylesheet_link_tag "testimonials" %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlusPanda Feedback Engine</title>
+    <%= stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" %>
+    <%#= stylesheet_link_tag "testimonials" %>
+    <style type="text/css">
+    #iframe-wrapper{
+      width:750px;
+      height:390px;
+    }
+    #iframe-wrapper .new_testimonial{
+      margin:auto;
+      margin-top: 50px;
+    }
+    #iframe-wrapper button {
+      padding:10px;
+      display:block;
+      margin:auto;
+    }
+    </style>
+  </head>
 
-  <style type="text/css">
-  #iframe-wrapper{
-    width:750px;
-    height:390px;
-  }
-  #iframe-wrapper .new_testimonial{
-    margin:auto;
-    margin-top: 50px;
-  }
-  #iframe-wrapper button {
-    padding:10px;
-    display:block;
-    margin:auto;
-  }
-  </style>
-</head>
-
-<body>
-  <div id="iframe-wrapper">
-    <%= yield %>
-  </div>
-</body>
+  <body>
+    <div class="container" style="max-width:700px;">
+      <%= yield %>
+    </div>
+  </body>
 </html>

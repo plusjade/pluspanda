@@ -1,0 +1,93 @@
+%style
+  :plain
+    .form-horizontal label {
+      text-align:right;
+    }
+    .alert {
+      margin:0;
+      padding:10px;
+    }
+
+.message-wrapper{ style:"padding:10px;" }
+  = raw @user.tconfig.message
+
+= form_for @testimonial, :html => { :multipart => true, :class => "js-multipart-form form-horizontal" } do |f|
+
+  - if params['apikey']
+    = hidden_field_tag(:apikey, params[:apikey])
+  #status.form-group
+    .col-xs-8.col-xs-offset-4
+      - if @testimonial.lock
+        .alert.alert-danger
+          This Testimonial is locked!
+      - elsif flash[:notice]
+        .alert.alert-danger
+          = flash[:notice]
+
+  - unless @user.tconfig.form["require_key"].blank?
+    .form-group
+      %label.col-xs-4
+        Access Key
+        %span.req_star *
+      .col-xs-8
+        = text_field_tag :access_key, params[:access_key], :rel => "text_req", class: "form-control"
+  .form-group
+    %label.col-xs-4
+      Full Name
+      %span.req_star *
+    .col-xs-8
+      = f.text_field :name, :rel => "text_req", class: "form-control"
+  - if @user.tconfig.form["email"]
+    .form-group
+      %label.col-xs-4
+        Email
+        %span.req_star *
+      .col-xs-8
+        = f.text_field :email, :rel => "email_req", class: "form-control"
+  - unless @user.tconfig.form["meta"].blank?
+    .form-group
+      %label.col-xs-4
+        = @user.tconfig.form["meta"]
+        %span.req_star *
+      .col-xs-8
+        = f.text_field :meta, :rel => "text_req", class: "form-control"
+
+
+
+  .form-group
+    %label.col-xs-4 Testimonial
+    .col-xs-8
+      = f.text_area :body, class: "form-control", style: "height:100px;"
+  .form-group
+    %label.col-xs-4 Select a rating
+    .col-xs-8.rating-fallback
+      = f.select(:rating, [['5 stars',5],['4 stars',4],['3 stars',3],['2 stars',2],['1 star',1]])
+  .form-group
+    %label.col-xs-4 Company
+    .col-xs-8
+      = f.text_field :company, class: "form-control"
+  .form-group
+    %label.col-xs-4 Location
+    .col-xs-8
+      = f.text_field :location, class: "form-control"
+  .form-group
+    %label.col-xs-4 Role at Company
+    .col-xs-8
+      = f.text_field :c_position, class: "form-control"
+  .form-group
+    %label.col-xs-4 Website
+    .col-xs-8
+      = f.text_field :url, class: "form-control"
+  .form-group
+    %label.col-xs-4 Headshot or Logo
+    .col-xs-8
+      = f.file_field :avatar, style: "width:180px"
+      #testimonial-image-wrapper.image{rel: @testimonial.avatar.url(:sm)}
+        = image_tag @testimonial.image_source
+  .form-group
+    .col-xs-8.col-xs-offset-4
+      %strong.pull-right{ style: "line-height:32px;"}
+        Powered by
+        %a{ href: "http://pluspanda.com" } http://pluspanda.com
+
+      %button.submit-button.btn.btn-success{type: "submit"} Save Changes

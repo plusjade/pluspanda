@@ -245,7 +245,7 @@
 })(jQuery);
 
 /* setup the facebox */
-panda.$iframe = jQuery('<iframe width="750px" height="390px" frameborder="0" scrolling="no">Iframe not Supported</iframe>')
+panda.$iframe = jQuery('<iframe width="600px" height="390px" frameborder="0" scrolling="auto">Iframe not Supported</iframe>')
   .attr('src',  pandaSettings.apiUrl + '/' + pandaSettings.apiVrsn + '/testimonials/new.iframe?apikey='+pandaSettings.apikey);
 
 panda.$container.find("a.pandA-addForm_ness").click(function(){

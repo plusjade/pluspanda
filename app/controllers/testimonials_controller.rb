@@ -91,11 +91,7 @@ class TestimonialsController < ApplicationController
     # collector form iframe loads as public api so we want to emulate accurately.
     respond_to do |format|
       format.any(:html, :iframe) do
-        if !params[:apikey] && current_user
-          render 'editor.admin'
-        else 
-          render 'gatekeeper'
-        end
+        render "editor", formats: [:html]
       end
     end
   end
@@ -103,7 +99,10 @@ class TestimonialsController < ApplicationController
 
   #POST
   def create
-    return unless is_able_to_publish
+    unless is_able_to_publish
+      @testimonial = Testimonial.new(params[:testimonial])
+      render "editor", formats: [:html] and return
+    end
 
     @testimonial = @user.testimonials.new(params[:testimonial])
     
@@ -127,11 +126,15 @@ class TestimonialsController < ApplicationController
         end
       end
       return
-    else  
+    else
       if !@testimonial.valid?
         @message  = "Please make sure all fields are valid!"
         respond_to do |format|
-          format.any(:html, :iframe) { flash[:notice] = @message }
+          format.any(:html, :iframe) {
+            flash[:notice] = @message
+            @testimonial = Testimonial.new(params[:testimonial])
+            render "editor", formats: [:html] and return
+          }
           format.json { serve_json_response and return }
           format.js   { render :js   => "alert('#{@message}');" and return}
         end
@@ -141,11 +144,8 @@ class TestimonialsController < ApplicationController
           format.any(:html, :iframe) { flash[:notice] = @message }
           format.json { serve_json_response and return }
           format.js   { render :js   => "alert('#{@message}');" and return}
-        end         
+        end
       end
-      
-      @testimonial = Testimonial.new(params[:testimonial])  
-      render :action => "new"      
     end
   end
 
@@ -155,13 +155,9 @@ class TestimonialsController < ApplicationController
     if @testimonial
       respond_to do |format|
         format.any(:html, :iframe) do
-          if @user[:is_via_api]
-            render "editor.public"
-          else
-            render "editor.admin"
-          end
+          render "editor"
         end
-      end        
+      end
     else
       respond_to do |format|
         format.any(:html, :iframe) { render :text => "error! invalid testimonial" }
@@ -318,8 +314,7 @@ class TestimonialsController < ApplicationController
         return true
       end
 
-      redirect_to :back
-      return false
+      false
     end
   
 

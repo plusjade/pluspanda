@@ -1,38 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>PlusPanda Feedback Engine</title>
-  
-  <%= stylesheet_link_tag "testimonials" %>
-</head>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlusPanda Feedback Engine</title>
+    <%= stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" %>
 
-<body>
-<div id="wrapper">
-  <div id="content_wrapper">
-    <%= yield %>
-    
-    <div id="panda-powered">
-      <h2>Powered by <%= link_to "http://pluspanda.com", "http://pluspanda.com" %></h2>
+    <%#= stylesheet_link_tag "testimonials" %>
+  </head>
+
+  <body>
+    <div class="container" style="max-width:600px">
+      <%= yield %>
     </div>
-    <div id="footer">© Copyright 2010 PlusPanda =]</div>
-  </div>
-  
-</div>
-
-<% if ::Rails.env == 'production' %>
-  <script type="text/javascript">
-  var clicky = { log: function(){ return; }, goal: function(){ return; }};
-  var clicky_site_id = 66354221;
-  (function() {
-    var s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.async = true;
-    s.src = ( document.location.protocol == 'https:' ? 'https://static.getclicky.com/js' : 'http://static.getclicky.com/js' );
-    ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
-  })();
-  </script>
-  <noscript><p><img alt="Clicky" width="1" height="1" src="http://in.getclicky.com/66354221ns.gif" /></p></noscript>    
-<% end %>
-</body>
+  </body>
 </html>
