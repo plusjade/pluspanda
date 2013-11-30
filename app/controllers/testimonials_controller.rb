@@ -184,7 +184,8 @@ class TestimonialsController < ApplicationController
     :publish, 
     :lock, 
     :email, 
-    :trash
+    :trash,
+    :avatar
   ]
 
   def update
