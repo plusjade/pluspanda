@@ -8,27 +8,6 @@ class StandardThemeController < ApplicationController
     @theme = @user.standard_themes.get_staged
   }
 
-  # theme gallery
-  def index
-    @themes  = Theme::Names
-
-    render :template => "theme/index", :layout => false
-  end
-
-  # theme gallery theme
-  def show
-    raise ActiveRecord::NotFound unless Theme::Names.include?(params[:theme])
-
-    @theme_config = @theme.class.render_theme_config(
-      :user         => @user,
-      :stylesheet   => "#{@theme.class::Themes_url}/#{params[:theme]}/style.css",
-      :wrapper      => @theme.class.render_theme_attribute(params[:theme], "wrapper.html"),
-      :testimonial  => @theme.class.render_theme_attribute(params[:theme], "testimonial.html")
-    )   
-    
-    render :template => "theme/show", :layout => "staged"
-  end
-
   # get original attributes from theme source.
   def original
     attribute = ThemeAttribute.names[@attribute.name]
