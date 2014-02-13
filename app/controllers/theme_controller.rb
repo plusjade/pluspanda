@@ -1,4 +1,4 @@
-class StandardThemeController < ApplicationController
+class ThemeController < ApplicationController
 
   layout proc { |c| c.request.xhr? ? false : "admin"}
 
@@ -40,7 +40,7 @@ class StandardThemeController < ApplicationController
     @message = "Successfully published changes."
 
     serve_json_response
-  end  
+  end
 
   def ensure_attribute
     a = nil
@@ -49,7 +49,7 @@ class StandardThemeController < ApplicationController
       a[a.index("-")] = "."
       a = a.reverse
     end
-    
+
     raise ActiveRecord::NotFound unless ThemeAttribute.names.include?(a)
     @attribute = @theme.get_attribute(a)
   end

@@ -89,7 +89,7 @@ Pluspanda::Application.routes.draw do
       get "/save_positions"     ,:action => :save_positions
     end
 
-    scope "/theme", :controller => :standard_theme, :as => :theme do
+    scope "/theme", :controller => :theme, :as => :theme do
       get "()"        ,:action => :index
       post "()"       ,:action => :create
       get "/publish"  ,:action => :publish
