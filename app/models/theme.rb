@@ -48,6 +48,12 @@ class Theme < ActiveRecord::Base
     self.theme_attributes.find_by_name(ThemeAttribute::Names.index(attribute))
   end
 
+  # Get the original attribute data
+  def get_attribute_original_by_index(index)
+    path = File.join(Themes_path, name_human, ThemeAttribute::Names[index])
+    File.exist?(path) ? File.new(path).read : "/*No data*/"
+  end
+
   # here we populate the associated attributes.
   # we get these from the associated theme dir. 
   # note the data should already be verified and sanitized.

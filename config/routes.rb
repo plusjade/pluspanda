@@ -89,19 +89,18 @@ Pluspanda::Application.routes.draw do
       get "/save_positions"     ,:action => :save_positions
     end
 
-    scope "/theme", :controller => :theme, :as => :theme do
+    scope "/theme", :controller => "admin/theme", :as => :theme do
       get "()"        ,:action => :index
       post "()"       ,:action => :create
       get "/publish"  ,:action => :publish
       get "/gallery/:theme"  ,:action => :show
       get "/:theme_id/stage"  ,:action => :set_staged
-      
-      scope "/:attribute" do
-        get "()"          ,:action => :staged
-        post "()"         ,:action => :update
-        get "/original"   ,:action => :original
-      end
-    
+    end
+
+    scope "/theme_attribute", :controller => "admin/theme_attribute", :as => :theme_attribute, constraints: { attribute: /[\w\-\.]+/ } do
+      get "/:attribute" , :action => :staged
+      post "/:attribute", :action => :update
+      get "/:attribute/original", :action => :original
     end
 
     put :settings
