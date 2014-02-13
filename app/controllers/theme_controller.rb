@@ -10,7 +10,7 @@ class ThemeController < ApplicationController
 
   # get original attributes from theme source.
   def original
-    attribute = ThemeAttribute.names[@attribute.name]
+    attribute = ThemeAttribute::Names[@attribute.name]
     path = File.join(Theme::Themes_path, Theme::Names[@theme.name], attribute)
     data = File.exist?(path) ? File.new(path).read : "/*No data*/"
     render :text => data
@@ -50,7 +50,7 @@ class ThemeController < ApplicationController
       a = a.reverse
     end
 
-    raise ActiveRecord::NotFound unless ThemeAttribute.names.include?(a)
+    raise ActiveRecord::NotFound unless ThemeAttribute::Names.include?(a)
     @attribute = @theme.get_attribute(a)
   end
 

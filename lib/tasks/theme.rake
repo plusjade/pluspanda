@@ -6,7 +6,7 @@ end
 
 desc "loop through all staged css and perform search and replace for urls"
 task :grep_css => :environment do
-  name = ThemeAttribute.names.index("style.css")
+  name = ThemeAttribute::Names.index("style.css")
   puts ThemeAttribute.where(:name => name).count
   
   ThemeAttribute.where(:name => name).each do |a|

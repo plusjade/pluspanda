@@ -45,7 +45,7 @@ class Theme < ActiveRecord::Base
   # Get the standard theme attribute
   # we always get the staged theme-attributes
   def get_attribute(attribute)
-    self.theme_attributes.find_by_name(ThemeAttribute.names.index(attribute))
+    self.theme_attributes.find_by_name(ThemeAttribute::Names.index(attribute))
   end
 
   # here we populate the associated attributes.
@@ -55,7 +55,7 @@ class Theme < ActiveRecord::Base
     # attributes are white-listed and then included if the theme has
     # a filename of the same attribute name.
 
-    attributes = ThemeAttribute.names
+    attributes = ThemeAttribute::Names
     theme_path = File.join(Themes_path, name_human)
 
     if File.exist?(theme_path)
@@ -116,7 +116,7 @@ class Theme < ActiveRecord::Base
 
   # A theme attribute is defined in the theme folder as a file
   def self.render_theme_attribute(theme, attribute)
-    attributes = ThemeAttribute.names
+    attributes = ThemeAttribute::Names
     path = File.join(Themes_path, theme, attribute)
 
     if attributes.include?(attribute) && File.exist?(path)
