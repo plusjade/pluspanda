@@ -1,124 +1,132 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone'
-], function($, _, Backbone, adminWidget){
+    'jquery',
+    'underscore',
+    'backbone',
+    'mustache',
 
+    'previewView',
 
-  return Backbone.View.extend({
-    initialize : function() {
+    'lib/showStatus'
+], function($, _, Backbone, Mustache,
+    PreviewView,
+    ShowStatus) {
 
-    }
-    ,
-    'admin/widget/css' : function() {
-        var editor = this.initEditor('code-editor', {
-            mode: { name: "css"},
-            theme: "ambiance",
-            continuousScanning: 500,
-            lineNumbers: true,
-            textWrapping: false
-        });
-        $(document).trigger('ajaxify.form');
-    },
+    var ThemeAttribute = Backbone.Model.extend({
+        urlRoot: '/admin/theme_attribute'
+        ,
+        parse : function(data) {
+            data['fetch-entropy'] = Date.now();
+            return data;
+        }
+    })
+    var ThemeAttributes = Backbone.Collection.extend({
+        model : ThemeAttribute
+    })
 
-    'admin/widget/wrapper' : function(){
-        var editor = this.initEditor('code-editor', {
-          mode: { name: "xml", htmlMode: true },
-          theme: "ambiance",
-          path: "/codemirror-3.1/",
-          continuousScanning: 500,
-          lineNumbers: true
-        });
-        $(document).trigger('ajaxify.form');
-    },
+    var ThemeAttributeView = Backbone.View.extend({
+        model : ThemeAttribute
+        ,
+        tagName : 'a'
+        ,
+        className : 'btn btn-primary'
+        ,
+        events : {
+            'click' : 'select'
+        }
+        ,
+        initialize : function() {
+            this.model.on('change', this.setActive, this);
+        }
+        ,
+        render : function() {
+            return this.$el.html(this.model.id);
+        }
+        ,
+        select : function() {
+            this.model.fetch();
+        }
+        ,
+        setActive : function() {
+            this.$el.siblings('a').removeClass('active');
+            this.$el.addClass('active');
+        }
+    })
 
-    'admin/widget/testimonial' : function(){
-        var editor = this.initEditor('code-editor', {
-          mode: { name: "xml", htmlMode: true },
-          theme: "ambiance",
-          continuousScanning: 500,
-          lineNumbers: true,
-          textWrapping: false
-        });
-        $(document).trigger('ajaxify.form');
-    },
-    
-    'admin/widget' : function(){
-        adminWidget.loadWidgetPublished();
-    },
-
-    'admin/widget/preview' : function(){
-        adminWidget.loadWidgetStaged();
-        $("#theme-publish").click(function(){
-            showStatus.submitting();
-            $.get(this.href, function(rsp){
-                showStatus.respond(rsp);
-            })
-            return false;
-        });
-        
-        $("#new_theme").submit(function(e){
-            showStatus.submitting();
-            $.ajax({
-                type : 'POST',
-                dataType : 'JSON',
-                url :  $(this).attr('action'),
-                data : $(this).serialize(),
-                success : function(rsp){
-                    showStatus.respond(rsp);
-                    adminWidget.loadWidgetStaged();
+    var ThemeAttributesView = Backbone.View.extend({
+        el : '#layout-editor'
+        ,
+        events :  {
+            'click .js-save' : 'save'
+        }
+        ,
+        initialize : function(attrs) {
+            this.previewView = attrs.previewView;
+            var self = this,
+                options = {
+                mode: { name: "xml", htmlMode: true },
+                theme: "ambiance",
+                path: "/codemirror-3.1/",
+                continuousScanning: 500,
+                lineNumbers: true
+            };
+            this.editor = window.CodeMirror.fromTextArea(document.getElementById('code-editor'), options);
+            this.editor.addKeyMap({
+                'Cmd-S' : function(cm) {
+                    self.save();
                 }
             })
 
-            e.preventDefault();
-            return false;
-        })
-    },
+            this.collection
+                .on('change:fetch-entropy', function(model) {
+                    var mode = model.id.split('.')[1] == 'css' ? 'css' : 'xml';
+                    this.editor.setOption("mode", mode);
+                    this.editor.setValue(model.get('body'));
+                    this.model = model;
 
-    'admin/theme' : function(){
-      $("#gallery-links").find("a").click(function(){
-        adminWidget.loadThemePreview(this.href);
-        var theme_id = $(this).attr("rel");
-        $("#theme_name").val(theme_id);
-        $("#new_theme").show();
-      
-        $("#gallery-links").find("a").removeClass("active");
-        $(this).addClass("active");
-      
-        return false;
-      });
-      $(document).trigger('ajaxify.form');
-    }
-    ,
-    initEditor : function(id, options){
-        var $codeEditor = $('#code-editor'),
-            $form = $('#code-editor-form'),
-            editor = window.CodeMirror.fromTextArea(document.getElementById(id), options);
+                    var content = Mustache.render(
+                            '<select><option>Available Tokens</option>{{# tokens }}<option>{{.}}</option>{{/ tokens }}</select>',
+                            { tokens : model.get('tokens') }
+                        );
+                    $('#token-list').html(content);
+                }, this)
+                .on('sync', function() {
+                    this.previewView.staging();
+                }, this)
+        }
+        ,
+        render : function() {
+            var cache = [];
+            this.collection.each(function(model) {
+                cache.push(new ThemeAttributeView({ model: model }).render());
+            })
+            $.fn.append.apply(this.$el.find('.attribute-list'), cache);
 
-        editor.addKeyMap({
-          'Cmd-S' : function(cm){
-              $codeEditor.val(cm.getValue());
-              $form.submit();
-              mpmetrics.track("editor save:css");
-          }
-        })
+            this.collection.at(0).fetch();
+        }
+        ,
+        save : function() {
+            if(this.model) {
+                ShowStatus.submitting();
+                this.model.set('body', this.editor.getValue());
+                this.model.save().done(function() {
+                    ShowStatus.respond({ msg :'Template Saved!', status: "good" });
+                });
+            }
+        }
+    })
 
-        $form.find('button').click(function(){
-          $codeEditor.val(editor.getValue());
-        });
+    return Backbone.View.extend({
+        initialize : function() {
+            var attributes = new ThemeAttributes([
+                { id: "wrapper.html" },
+                { id: "testimonial.html" },
+                { id: "style.css" }
+            ]);
 
-        $form.find('.refresh, .load-stock').click(function(){
-          showStatus.submitting();
-          $.get(this.href, {rand: Math.random()}, function(data){
-            editor.setValue(data);
-            showStatus.respond({status:'good', msg:'Content Loaded.'});
-          });
-          return false;
-        })
-
-        return editor;
-    }
-  })
-
-
+            new ThemeAttributesView({ 
+                    collection: attributes,
+                    previewView : new PreviewView()
+                }).render();
+        }
+    })
 })

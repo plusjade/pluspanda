@@ -10,12 +10,32 @@ class Admin::ThemeAttributeController < ApplicationController
 
   # get staged copy of staged attribute
   def staged
-    render :text => load_attribute.staged
+
+    attribute = load_attribute
+    name = ThemeAttribute::Names[attribute.name]
+    tokens = if name == "testimonial.html"
+                Testimonial.api_attributes.map{ |a| "{{#{ a }}}" }
+            elsif name == "wrapper.html"
+              [
+                "{{testimonials}}",
+                "{{tag_list}}",
+                "{{count}}",
+                "{{form_link:Link Text}}"
+              ]
+            else
+              []
+            end
+
+
+    render json: {
+      body: attribute.staged,
+      tokens: tokens
+    }
   end
 
   # update staged copy of staged attribute.
   def update
-    if load_attribute.update_attributes(:staged => params['data'])
+    if load_attribute.update_attributes(:staged => params[:body])
       @status  = "good"
       @message = "Theme data updated."
     else

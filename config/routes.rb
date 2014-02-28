@@ -66,6 +66,7 @@ Pluspanda::Application.routes.draw do
 
     scope "/widget", :controller => :widget, :as => :widget do
       get "()", :action => :index
+      get :editor
       get :preview
       get :settings
       get :css
@@ -99,7 +100,7 @@ Pluspanda::Application.routes.draw do
 
     scope "/theme_attribute", :controller => "admin/theme_attribute", :as => :theme_attribute, constraints: { attribute: /[\w\-\.]+/ } do
       get "/:attribute" , :action => :staged
-      post "/:attribute", :action => :update
+      put "/:attribute", :action => :update
       get "/:attribute/original", :action => :original
     end
 

@@ -51,6 +51,10 @@ define([
         'admin/widget' : function() {
             new this.App.WidgetView();
         }
+        ,
+        'admin/widget/editor' : function() {
+            new this.App.EditorView();
+        }
 
     });
 });

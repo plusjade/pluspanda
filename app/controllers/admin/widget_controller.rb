@@ -10,6 +10,10 @@ class Admin::WidgetController < ApplicationController
     go
   end
 
+  def editor
+    go
+  end
+
   def css
     go
   end

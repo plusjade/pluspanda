@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/codemirror-3.1/lib/codemirror.css">
+<style type="text/css">.CodeMirror {height:600px} </style>
+<link rel="stylesheet" href="/codemirror-3.1/theme/ambiance.css">
+<script type="text/javascript" src="/codemirror-3.1/lib/codemirror.js"></script>
+<script type="text/javascript" src="/codemirror-3.1/mode/xml/xml.js"></script>
+<script type="text/javascript" src="/codemirror-3.1/mode/css/css.js"></script>
+
+#layout-editor
+  .base-padding
+    %button.btn.btn-success.pull-right.js-save Save
+    .btn-group.attribute-list
+
+    #derp{style: "margin-top: 10px;"}
+      #token-list{ style: "display:block; margin-bottom:10px" }
+      %textarea#code-editor{ style: "width:100%; height:400px;" }
+
+#layout-previewer
+  = render partial: "widget-previewer"

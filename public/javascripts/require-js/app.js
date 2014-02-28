@@ -9,6 +9,7 @@ define([
     'collectView',
     'accountView',
     'widgetView',
+    'editorView',
     'previewView',
 
     'lib/showStatus',
@@ -18,7 +19,7 @@ define([
     'vendor/jquery.ui-1.10.2.min',
     'vendor/timeago.min'
 ], function($, _, Backbone, Router,
-    LayoutView, ManageView, CollectView, AccountView, WidgetView, PreviewView,
+    LayoutView, ManageView, CollectView, AccountView, WidgetView, EditorView, PreviewView,
     ShowStatus
 ){
     return { 
@@ -35,6 +36,8 @@ define([
         AccountView : AccountView
         ,
         WidgetView : WidgetView
+        ,
+        EditorView : EditorView
         ,
         PreviewView : PreviewView
         ,
