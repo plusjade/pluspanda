@@ -15,15 +15,16 @@ gem 'multi_json'
 gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
 
 gem 'aws-sdk'
+gem 'cancan'
 
 group :test, :development do
-  gem 'thin'
-#   gem 'factory_girl'
-#   gem 'ruby-debug'
-#   gem "rspec-rails", "2.0.1"
-#   gem "webrat", "0.7.1"
-#   gem "chronic", "0.2.3"
-#   gem "metric_fu", "2.0.1"
-#   gem "wirble"
-#   gem "hirb"
+  gem 'factory_girl_rails'
+  gem "rspec-rails", ">= 2.12"
+  gem 'spork-rails'
+  gem 'capybara'
+  gem "capybara-webkit"
+  gem 'shoulda-matchers'
+  gem 'webmock', '~> 1.17'
+  # gem "wirble"
+  # gem "hirb"
 end

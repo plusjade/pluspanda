@@ -1,74 +1,71 @@
-# This file is copied to ~/spec when you run 'ruby script/generate rspec'
-# from the project root directory.
+require 'spork'
+#uncomment the following line to use spork with the debugger
+#require 'spork/ext/ruby-debug'
 
-ENV["RAILS_ENV"] = 'test'
+module AppHelpers
+  def create_user
+    # TODO refine implementation and expectations
+    stub_request(:put, /https:\/\/s3.amazonaws.com\/pluspanda_development\/data\/.+\/.+/)
 
-require File.dirname(__FILE__) + "/../config/environment"
-require 'rspec/rails'
-require 'rspec/expectations'
-require 'webrat'
-require "authlogic/test_case"
-require 'factory_girl'
-Dir["#{File.dirname(__FILE__)}/factories/*.rb"].each {|f| require f}
+    FactoryGirl.create(:user)
+  end
 
-include Authlogic::TestCase 
+  def create_and_authenticate_user
+    activate_authlogic
 
-
-Webrat.configure do |config|
-  config.mode = :rails
-end
-
-Rspec.configure do |config|
-  require 'rspec/expectations'
-  config.include Rspec::Matchers
-  config.mock_with :rspec
-end
-
-class Class
-  def publicize_methods
-    saved_private_instance_methods = self.private_instance_methods
-    self.class_eval { public *saved_private_instance_methods }
-    yield
-    self.class_eval { private *saved_private_instance_methods }
+    user = create_user
+    UserSession.create(user)
+    user
   end
 end
 
+Spork.prefork do
 
-def current_user(stubs = {})
-  @current_user ||= mock_model(User, stubs)
+  # This file is copied to spec/ when you run 'rails generate rspec:install'
+  ENV["RAILS_ENV"] ||= 'test'
+  require File.expand_path("../../config/environment", __FILE__)
+  require 'rspec/rails'
+  require 'rspec/autorun'
+
+  require "cancan/matchers"
+  require 'webmock/rspec'
+  require "authlogic/test_case"
+  include Authlogic::TestCase 
+  include AppHelpers
+
+  # Requires supporting ruby files with custom matchers and macros, etc,
+  # in spec/support/ and its subdirectories.
+  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
+  RSpec.configure do |config|
+    # ## Mock Framework
+    #
+    # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
+    #
+    # config.mock_with :mocha
+    # config.mock_with :flexmock
+    # config.mock_with :rr
+
+    # If you're not using ActiveRecord, or you'd prefer not to run each of your
+    # examples within a transaction, remove the following line or assign false
+    # instead of true.
+    config.use_transactional_fixtures = true
+
+    # If true, the base class of anonymous controllers will be inferred
+    # automatically. This will be the default behavior in future versions of
+    # rspec-rails.
+    config.infer_base_class_for_anonymous_controllers = false
+
+    # Run specs in random order to surface order dependencies. If you find an
+    # order dependency and want to debug it, you can fix the order by providing
+    # the seed, which is printed after each run.
+    #     --seed 1234
+    config.order = "random"
+  end
+
 end
 
-def user_session(stubs = {}, user_stubs = {})
-  @current_user_session ||= mock_model(UserSession, {:user => current_user(user_stubs)}.merge(stubs))
+Spork.each_run do
+  # This code will be run each time you run your specs.
+  FactoryGirl.reload
 end
-
-def login(session_stubs = {}, user_stubs = {})
-  UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs))
-end
-
-def logout
-  @user_session = nil
-end
-
-
-
-
-
-def login_user(options = {})
-   @logged_in_user = Factory.create(:user2, options)
-   @controller.stub!(:current_user).and_return(@logged_in_user)
-   @logged_in_user
- end
- 
- def login_admin(options = {})
-   options[:admin] = true
-   @logged_in_user = Factory.create(:user2, options)
-   @controller.stub!(:current_user).and_return(@logged_in_user)
-   @logged_in_user
- end
- 
- def logout_user
-   @logged_in_user = nil
-   @controller.stub!(:current_user).and_return(@logged_in_user)
-   @logged_in_user
- end

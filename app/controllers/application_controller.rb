@@ -14,6 +14,17 @@ class ApplicationController < ActionController::Base
   
   before_filter  :set_p3p
 
+  rescue_from CanCan::AccessDenied do |exception|
+    if params[:format] == "json"
+      render(nothing: true, status: :unauthorized)
+    else
+      store_location
+      flash[:notice] = "You must be logged in to access this page"
+      redirect_to admin_frontpage
+    end
+  end
+
+
   def set_p3p
     response.headers["P3P"]='CP="CAO PSA OUR"'
   end  
@@ -101,16 +112,10 @@ class ApplicationController < ActionController::Base
       options ||= {}
       options[:format] = :iframe if request.format == :iframe
       options
-    end  
-    
+    end
+
     def setup_user
       @user = current_user
-    end  
-
-    def go
-      render({
-        :template => "layouts/shared/main-content",
-        :layout => !request.xhr? })
     end
 end
 

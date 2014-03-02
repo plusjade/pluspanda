@@ -5,7 +5,7 @@
       %textarea= h "<div id=\"plusPandaYes\"></div>\n#{ embed_code(@user.apikey) }"
     %h3 TIP: Check out your sample page!
     %p
-      %a{href: "/admin/widget/published", target: "_blank"}> Sample Page
+      %a{href: "/users/#{ current_user.id }/widget/published", target: "_blank"}> Sample Page
     %p You can view the page source to see where your code should go.
 
 :css

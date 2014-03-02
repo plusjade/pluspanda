@@ -1,7 +1,7 @@
 #layout-editor
   .base-padding
     .settings
-      = form_for @user.tconfig, :url => '/admin/settings', :html => { :id => "theme-settings-form", :rel => "form.settings", class: "form-horizontal" } do |f|
+      = form_for @user.tconfig, :url => "/users/#{ current_user.id }/settings", :html => { :id => "theme-settings-form", :rel => "form.settings", class: "form-horizontal" } do |f|
         %button{type: "submit", style: "display:none" }
         %h3 Settings
         .form-group
@@ -17,7 +17,7 @@
             %small{ style: "font-size:0.9em" } Order testimonials in the <strong>Manage Testimonials</strong> section
     .themes
       %h3 Themes
-      = form_for Theme.new, :url => "/admin/theme", html: { id: "theme-change-form" } do |f|
+      = form_for Theme.new, :url => "/users/#{ current_user.id }/theme", html: { id: "theme-change-form" } do |f|
         - Theme::Names.each do |name|
           %div{ class: (@theme.name_human == name) ? "active" : false }= name
 
@@ -27,7 +27,7 @@
       All changes made only affect the "staging" area. This allows you to freely test changes without affecting your production widget.
       Click "Publish changes" to clone the staging widget into the production widget.
       %p{style: "margin-top:10px;"}
-        %a#theme-publish.btn.btn-success.btn-lg{ href: "/admin/theme/publish" } Publish Changes
+        %a#theme-publish.btn.btn-success.btn-lg{ href: "/users/#{ current_user.id }/theme/publish" } Publish Changes
 
 #layout-previewer
-  = render partial: "widget-previewer"
+  = render partial: "admin/widget-previewer"

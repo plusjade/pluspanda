@@ -45,68 +45,46 @@ Pluspanda::Application.routes.draw do
   namespace :admin do
     resource :account
 
-    scope "/collect", :controller => :collect, :as => :collect do
-      get "()", :action => :index
-      get :help
-      get :settings
-    end
-    
-    scope "/purchase", :controller => :purchase, :as => :purchase do
-      get "()", :action => :index
-      get :thanks
-    end
-
-    get "install", action: :install, as: :install
-
-    scope "/manage", :controller => :manage, :as => :manage do
-      get "()", :action => :index
-      get :help
-      get :settings
-    end
-
-    scope "/widget", :controller => :widget, :as => :widget do
-      get "()", :action => :index
-      get :editor
-      get :preview
-      get :settings
-      get :css
-      get :wrapper
-      get :testimonial
-      get :help
-
-      get :staged
-      get :published
-    end
-    
+    get '/', action: "index"
+    get :logout
+    get :collect
+    get :install
+    get :manage
+    get :editor
+    get :widget
+    get :thanks
   end
 
-  # admin
-  scope "/admin", :controller => :admin, :as => :admin do
-    get '/', :action => "index"
+  resources :users do
+    member do
+      put :settings, controller: "api/settings", action: "update"
 
-    scope "/testimonials", :as => :testimonials do
-      get "()"                  ,:action => :testimonials
-      get "/update"             ,:action => :update   
-      get "/save_positions"     ,:action => :save_positions
+      scope "/testimonials", controller: "api/testimonials", as: :testimonials do
+        get "()", :action => :index
+        put "()", :action => :update
+        post "/save_positions", :action => :save_positions
+      end
+
+      scope "/theme_attributes", :controller => "api/theme_attributes", :as => :theme_attributes, constraints: { attribute: /[\w\-\.]+/ } do
+        get "/:attribute/staged" , :action => :staged
+        put "/:attribute/staged", :action => :update
+        get "/:attribute/original", :action => :original
+      end
+
+      scope "/theme", controller: "api/theme", as: :theme do
+        post "()", action: :create
+        post "/publish", action: :publish
+        get "/gallery/:theme", action: :show
+        get "/:theme_id/stage", action: :set_staged
+      end
+
+      scope "/widget", :controller => 'api/widget', :as => :widget do
+        get :staged
+        get :published
+      end
     end
+  end
 
-    scope "/theme", :controller => "admin/theme", :as => :theme do
-      get "()"        ,:action => :index
-      post "()"       ,:action => :create
-      get "/publish"  ,:action => :publish
-      get "/gallery/:theme"  ,:action => :show
-      get "/:theme_id/stage"  ,:action => :set_staged
-    end
-
-    scope "/theme_attribute", :controller => "admin/theme_attribute", :as => :theme_attribute, constraints: { attribute: /[\w\-\.]+/ } do
-      get "/:attribute" , :action => :staged
-      put "/:attribute", :action => :update
-      get "/:attribute/original", :action => :original
-    end
-
-    put :settings
-    get :logout
-  end 
 
   # dashboard
   scope "/pinky", :controller => "pinky", :as => "pinky" do

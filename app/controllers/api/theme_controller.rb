@@ -1,7 +1,15 @@
-class Admin::ThemeController < ApplicationController
+class Api::ThemeController < ApplicationController
 
   layout false
-  before_filter :require_user, :setup_user
+
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render(nothing: true, status: :unauthorized)
+  end
+
+  before_filter {
+    @user = User.find(params[:id])
+    authorize! :edit, @user
+  }
 
   # parse staged attributes and generate file caches to serve in production.
   def publish
@@ -14,6 +22,11 @@ class Admin::ThemeController < ApplicationController
 
   # install and stage a new theme.
   def create
+    theme = Theme::Names.index(params[:theme][:name])
+    unless theme
+      render(nothing: true, status: :not_found) and return
+    end
+
     params[:theme][:name] = Theme::Names.index(params[:theme][:name])
     params[:theme][:staged] = true
 

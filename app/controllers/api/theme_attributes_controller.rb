@@ -1,16 +1,18 @@
-class Admin::ThemeAttributeController < ApplicationController
+class Api::ThemeAttributesController < ApplicationController
 
   layout false
-  before_filter :require_user, :setup_user
 
-  # get original attributes from theme source for currently staged theme.
-  def original
-    render :text => @user.standard_themes.get_staged.get_attribute_original_by_index(load_attribute.name)
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render(nothing: true, status: :unauthorized)
   end
+
+  before_filter {
+    @user = User.find(params[:id])
+    authorize! :edit, @user
+  }
 
   # get staged copy of staged attribute
   def staged
-
     attribute = load_attribute
     name = ThemeAttribute::Names[attribute.name]
     tokens = if name == "testimonial.html"
@@ -30,6 +32,13 @@ class Admin::ThemeAttributeController < ApplicationController
     render json: {
       body: attribute.staged,
       tokens: tokens
+    }
+  end
+
+  # get original attributes from theme source for currently staged theme.
+  def original
+    render json: {
+      body: @user.standard_themes.get_staged.get_attribute_original_by_index(load_attribute.name)
     }
   end
 

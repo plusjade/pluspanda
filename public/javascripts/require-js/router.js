@@ -52,7 +52,7 @@ define([
             new this.App.WidgetView();
         }
         ,
-        'admin/widget/editor' : function() {
+        'admin/editor' : function() {
             new this.App.EditorView();
         }
 
