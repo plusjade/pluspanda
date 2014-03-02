@@ -63,33 +63,17 @@ var panda = function() {
         $totals = $container.find("span.pandA-tCount_ness");
         $tags = $container.find("ul.pandA-tTags_ness");
 
-        $container.on("click", 'a.show-more', function() {
-            var is_sort = this.href.indexOf('#');
-            var parent = (-1 == is_sort) ? 'a.show-more' : '.panda-testimonials-sorters a';
-            var spltr = (-1 == is_sort) ? '?' : '#';
+        var version = jQuery.fn.jquery.split('.');
+        version = parseInt(version[0] + version[1]);
 
-            // get GET params from links TOD0: optimize this?
-            var arr = this.href.split(spltr)[1].split('&');
-            var params = {"tag":"all","sort":"newest","page":1};
-            jQuery.each(arr, function() {
-                var pair = this.toString().split('=');
-                params[pair[0]] = pair[1]; 
-            })
-
-            jQuery(this).remove();
-            getTestimonials(params.tag, params.sort, params.page);
-            return false;
-        });
-
-        $tags.on("click", 'a', function() {
-            var tag = this.hash.substring(1);
-            $tags.find('a').removeClass('active');
-            jQuery(this).addClass('active');
-
-            $testimonials.empty();
-            getTestimonials(tag,'newest',1);
-            return false;  
-        });
+        if(version >= 17) {
+            $container.on("click", 'a.show-more', showMore);
+            $tags.on("click", 'a', showTags);
+        }
+        else {
+            $container.find("a.show-more").live("click", showMore);
+            $tags.find("a").live("click", showTags);
+        }
 
         initFacebox(jQuery);
 
@@ -98,6 +82,34 @@ var panda = function() {
         }
 
         getTestimonials('all','newest',1);
+    }
+
+    function showMore(e) {
+        e.preventDefault();
+        var is_sort = e.currentTarget.href.indexOf('#');
+        var parent = (-1 == is_sort) ? 'a.show-more' : '.panda-testimonials-sorters a';
+        var spltr = (-1 == is_sort) ? '?' : '#';
+
+        // get GET params from links TOD0: optimize this?
+        var arr = e.currentTarget.href.split(spltr)[1].split('&');
+        var params = {"tag":"all","sort":"newest","page":1};
+        jQuery.each(arr, function() {
+            var pair = this.toString().split('=');
+            params[pair[0]] = pair[1]; 
+        })
+
+        jQuery(e.currentTarget).remove();
+        getTestimonials(params.tag, params.sort, params.page);
+    }
+
+    function showTags (e) {
+        e.preventDefault();
+        var tag = e.currentTarget.hash.substring(1);
+        $tags.find('a').removeClass('active');
+        jQuery(e.currentTarget).addClass('active');
+
+        $testimonials.empty();
+        getTestimonials(tag, 'newest', 1);
     }
 
     // get the testimonials as json.
