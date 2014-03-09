@@ -17,6 +17,7 @@ define([
         }
         ,
         initialize : function(attrs) {
+            this.user = attrs.user;
             this.previewView = attrs.previewView;
 
             var self = this;
@@ -37,7 +38,7 @@ define([
             $.ajax({
                 dataType: "JSON",
                 type : "PUT",
-                url: "/admin/settings",
+                url: this.user.url() + "/settings",
                 data: this.$el.serializeArray()
             })
             .done(function(rsp) {
@@ -59,6 +60,7 @@ define([
         }
         ,
         initialize : function(attrs) {
+            this.user = attrs.user;
             this.previewView = attrs.previewView;
         }
         ,
@@ -69,7 +71,7 @@ define([
             $.ajax({
                 dataType: "JSON",
                 type : "POST",
-                url: "/admin/theme",
+                url: this.user.url() + "/theme",
                 data: { "theme[name]" : this.selected }
             })
             .done(function(rsp) {
@@ -97,10 +99,11 @@ define([
             'click' : 'publish'
         }
         ,
-        initialize : function() {
-            this.previewView = new PreviewView();
-            new SettingsView({ previewView : this.previewView });
-            new ThemeChangeView({ previewView : this.previewView });
+        initialize : function(args) {
+            this.user = args.user;
+            this.previewView = new PreviewView({ user: this.user });
+            new SettingsView({ previewView : this.previewView, user: this.user });
+            new ThemeChangeView({ previewView : this.previewView, user: this.user });
         }
         ,
         publish : function(e) {
@@ -110,8 +113,8 @@ define([
             ShowStatus.submitting();
             $.ajax({
                 dataType: "JSON",
-                type : "GET",
-                url: "/admin/theme/publish"
+                type : "POST",
+                url: this.user.url() + "/theme/publish"
             })
             .done(function(rsp) {
                 ShowStatus.respond(rsp);

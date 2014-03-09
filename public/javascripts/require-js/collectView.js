@@ -13,7 +13,8 @@ define([
             'submit' : 'save'
         }
         ,
-        initialize : function() {
+        initialize : function(args) {
+            this.user = args.user;
             this.$preview = $('#collector-form-view');
             this.renderPreview();
         }
@@ -25,7 +26,7 @@ define([
             $.ajax({
                 dataType: "JSON",
                 type : "PUT",
-                url: "/admin/settings",
+                url: this.user.url() + "/settings",
                 data: this.$el.serializeArray()
             })
             .done(function(rsp) {

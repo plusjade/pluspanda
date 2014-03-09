@@ -12,7 +12,9 @@ define([
     ShowStatus) {
 
     var ThemeAttribute = Backbone.Model.extend({
-        urlRoot: '/admin/theme_attribute'
+        url : function() {
+            return this.user.url() + '/theme_attributes/'+ this.id +'/staged';
+        }
         ,
         parse : function(data) {
             data['fetch-entropy'] = Date.now();
@@ -116,16 +118,18 @@ define([
     })
 
     return Backbone.View.extend({
-        initialize : function() {
+        initialize : function(attrs) {
+            this.user = attrs.user;
             var attributes = new ThemeAttributes([
                 { id: "wrapper.html" },
                 { id: "testimonial.html" },
                 { id: "style.css" }
             ]);
+            attributes.each(function(d) { d.user = attrs.user });
 
             new ThemeAttributesView({ 
                     collection: attributes,
-                    previewView : new PreviewView()
+                    previewView : new PreviewView({ user : this.user })
                 }).render();
         }
     })

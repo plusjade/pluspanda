@@ -37,23 +37,23 @@ define([
         }
         ,
         'admin/manage' : function() {
-            new this.App.ManageView();
+            new this.App.ManageView({ user: this.App.user });
         }
         ,
         'admin/collect' : function() {
-            new this.App.CollectView();
+            new this.App.CollectView({ user: this.App.user });
         }
         ,
         'admin/account' : function() {
-            new this.App.AccountView();
+            new this.App.AccountView({ user: this.App.user });
         }
         ,
         'admin/widget' : function() {
-            new this.App.WidgetView();
+            new this.App.WidgetView({ user: this.App.user });
         }
         ,
         'admin/editor' : function() {
-            new this.App.EditorView();
+            new this.App.EditorView({ user: this.App.user });
         }
 
     });

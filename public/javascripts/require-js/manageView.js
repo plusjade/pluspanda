@@ -14,13 +14,17 @@ define([
         ,
         filters : ['new', 'published', 'hidden', 'trash']
         ,
+        initialize : function(args) {
+            this.user = args.user;
+        }
+        ,
         loadTestimonials : function(filter) {
             if($.inArray(filter, this.filters) === -1) return false;
             this.filterName = filter;
             var self = this;
             return  $.ajax({
                         dataType: "JSON",
-                        url : '/admin/testimonials.json',
+                        url : this.user.url() + '/testimonials.json',
                         data : { filter: filter },
                     })
                     .done(function(data) {
@@ -33,7 +37,7 @@ define([
             var self = this;
             return  $.ajax({
                         dataType: "JSON",
-                        url : '/admin/testimonials.json',
+                        url : this.user.url() + '/testimonials.json',
                         data : { filter: this.filterName, page: this.next_page },
                     })
                     .done(function(data) {
@@ -45,7 +49,8 @@ define([
         savePositions : function(order) {
             return  $.ajax({
                         dataType: "JSON",
-                        url : '/admin/testimonials/save_positions',
+                        type : "PUT",
+                        url : this.user.url() + '/testimonials/save_positions',
                         data : order,
                     })
         },
@@ -57,8 +62,9 @@ define([
 
             return  $.ajax({
                         dataType: "JSON",
-                        url : '/admin/testimonials/update',
-                        data : { 'do': action, 'id': ids },
+                        type: "PUT",
+                        url : this.user.url() + '/testimonials',
+                        data : { 'do': action, 'ids': ids },
                     })
                     .done(function() {
                         _.each(selected, function(model) {
@@ -364,8 +370,8 @@ define([
     });
 
     return Backbone.View.extend({
-        initialize : function() {
-            var testimonials = new Testimonials();
+        initialize : function(args) {
+            var testimonials = new Testimonials({ user: args.user });
 
             new SelectedTestimonials({ collection: testimonials });
             new Filters({ collection: testimonials });

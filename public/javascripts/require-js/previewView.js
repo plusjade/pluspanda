@@ -12,7 +12,8 @@ define([
             'click .js-production' : 'production'
         }
         ,
-        initialize : function() {
+        initialize : function(args) {
+            this.user = args.user;
             this.$preview = $("#widget-published-wrapper");
             this.staging();
         }
@@ -31,7 +32,7 @@ define([
             var endpoint = (state === "staging") ? "staged" : "published";
             this.$preview.html(
                 $('<iframe width="100%" height="800px">Iframe not Supported</iframe>')
-                    .attr('src', '/admin/widget/' + endpoint + '#panda.admin')
+                    .attr('src', this.user.url() + '/widget/' + endpoint + '#panda.admin')
               );
 
             this.$('a.btn').removeClass('active');

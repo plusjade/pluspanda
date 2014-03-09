@@ -4,6 +4,8 @@ define([
     'backbone',
     'router',
 
+    'user',
+
     'layoutView',
     'manageView',
     'collectView',
@@ -19,6 +21,7 @@ define([
     'vendor/jquery.ui-1.10.2.min',
     'vendor/timeago.min'
 ], function($, _, Backbone, Router,
+    User,
     LayoutView, ManageView, CollectView, AccountView, WidgetView, EditorView, PreviewView,
     ShowStatus
 ){
@@ -41,7 +44,8 @@ define([
         ,
         PreviewView : PreviewView
         ,
-        start : function() {
+        start : function(user_id) {
+            this.user = new User({ id: user_id });
             this.router = new Router(this);
             var self = this;
             $(function() {

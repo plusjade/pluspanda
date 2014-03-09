@@ -1,8 +1,8 @@
 define([
     'jquery',
     'underscore',
-    'app',
-], function($, _, App) {
+    'backbone'
+], function($, _, Backbone) {
     return Backbone.View.extend({
         el: '#parent_nav'
         ,
