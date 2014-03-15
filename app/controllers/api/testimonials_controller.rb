@@ -39,7 +39,7 @@ class Api::TestimonialsController < ApplicationController
         t.sanitize_for_api
           .merge(t.attributes)
           .merge({
-            :share_url => "#{ view_context.root_url + view_context.edit_testimonial_path(t.id) }?apikey=#{ current_user.apikey }"
+            share_url: view_context.edit_testimonial_url(t.id, apikey: current_user.apikey)
           })
     end
 
