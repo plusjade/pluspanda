@@ -49,7 +49,7 @@ describe Api::ThemeController do
       get :create, {
         id: @user.id,
         theme: {
-          name: Theme::Names.first
+          name: ThemePackage.themes.first
         },
         format: "json"
       }

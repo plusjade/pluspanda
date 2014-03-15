@@ -14,10 +14,9 @@ class Api::ThemeAttributesController < ApplicationController
   # get staged copy of staged attribute
   def staged
     attribute = load_attribute
-    name = ThemeAttribute::Names[attribute.name]
-    tokens = if name == "testimonial.html"
+    tokens = if attribute.attribute_name == "testimonial.html"
                 Testimonial.api_attributes.map{ |a| "{{#{ a }}}" }
-            elsif name == "wrapper.html"
+            elsif attribute.attribute_name == "wrapper.html"
               [
                 "{{testimonials}}",
                 "{{tag_list}}",
@@ -37,8 +36,9 @@ class Api::ThemeAttributesController < ApplicationController
 
   # get original attributes from theme source for currently staged theme.
   def original
+    theme_package = ThemePackage.new(@user.standard_themes.get_staged.theme_name)
     render json: {
-      body: @user.standard_themes.get_staged.get_attribute_original_by_index(load_attribute.name)
+      body: theme_package.get_attribute(load_attribute.attribute_name)
     }
   end
 

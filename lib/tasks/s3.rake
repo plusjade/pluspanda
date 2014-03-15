@@ -12,7 +12,7 @@ namespace :s3 do
       :secret_access_key  => credentials["secret_access_key"]
     })
 
-    root = Theme::Themes_path
+    root = ThemePackage::Path
     # all themes.
     Dir.new(root).each do |theme|
       next if theme.index(".") == 0 || theme == "Thumbs.db"

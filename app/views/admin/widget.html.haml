@@ -18,8 +18,8 @@
     .themes
       %h3 Themes
       = form_for Theme.new, :url => "/users/#{ current_user.id }/theme", html: { id: "theme-change-form" } do |f|
-        - Theme::Names.each do |name|
-          %div{ class: (@theme.name_human == name) ? "active" : false }= name
+        - ThemePackage.themes.each do |name|
+          %div{ class: (@theme.theme_name == name) ? "active" : false }= name
 
     .data-description.buttons{style: "margin-top:30px;"}
       %strong NOTE

@@ -4,8 +4,6 @@ class ThemeAttribute < ActiveRecord::Base
   belongs_to :theme
   before_save :sanitize
 
-  # IMPORTANT. Names are saved by their array index value.
-  # DO NOT reorder these.
   Names = %w{
     wrapper.html
     testimonial.html
@@ -25,8 +23,19 @@ class ThemeAttribute < ActiveRecord::Base
   }
 
   def sanitize
-    unless self.name == 2
-      self.staged = Sanitize.clean(self.staged.to_s, SANITIZE_CONFIG)
+    if ["wrapper.html", "testimonial.html"].include?(attribute_name)
+      self.staged = Sanitize.clean(staged.to_s, SANITIZE_CONFIG)
     end
+  end
+
+  def self.migrate
+    %w{
+        wrapper.html
+        testimonial.html
+        style.css
+        modal.css
+      }.each_with_index do |name, i |
+        ThemeAttribute.update_all({ attribute_name: name }, { name: i })
+      end
   end
 end
