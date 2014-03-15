@@ -12,22 +12,25 @@ Pluspanda::Application.routes.draw do
       # s3 file is the user's themeConfig
       get :widget, :on => :collection, :to => proc {|env|
         apikey = env["QUERY_STRING"].split("=")[1]
-        user = User.find_by_apikey(apikey)
-        
+
         if Rails.env.development?
+          user = User.find_by_apikey(apikey)
           # note in development we serve the staged attributes directly
           # even for "published" mode. so we always see staging in published.
           [200, {}, [user.standard_themes.get_staged.generate_theme_config]]
         else
-          url    = user.standard_themes.get_staged.theme_config_url
-          log    = Rails.root.join('log', 'widget.log')
-          line   = "#{apikey}, #{env["HTTP_REFERER"]}, #{DateTime.now} \n"
-          File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
-          
-          [307, {'Location' => url, 'Content-Type' => 'text/html'}, ["redirecting to: #{url}"]]
+          url = Publish::Config.new(apikey).endpoint
+          # log    = Rails.root.join('log', 'widget.log')
+          # line   = "#{apikey}, #{env["HTTP_REFERER"]}, #{DateTime.now} \n"
+          # File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
+
+          [
+            307,
+            { 'Location' => url, 'Content-Type' => 'text/html'} ,
+            ["redirecting to: #{ url }"]
+          ]
         end
       }
-      get :widget, :on => :collection
     end
 
   end
