@@ -16,6 +16,7 @@ gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
 
 gem 'aws-sdk'
 gem 'cancan'
+gem 'annotate', ">=2.6.0"
 
 group :test, :development do
   gem 'factory_girl_rails'
@@ -25,6 +26,6 @@ group :test, :development do
   gem "capybara-webkit"
   gem 'shoulda-matchers'
   gem 'webmock', '~> 1.17'
-  # gem "wirble"
-  # gem "hirb"
+  gem "wirble"
+  gem "hirb"
 end

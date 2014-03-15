@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: theme_attributes
+#
+#  id             :integer          not null, primary key
+#  theme_id       :integer
+#  name           :integer
+#  published      :text
+#  staged         :text
+#  original       :text
+#  created_at     :datetime
+#  updated_at     :datetime
+#  attribute_name :string(255)
+#
+
 require 'sanitize'
 class ThemeAttribute < ActiveRecord::Base
 

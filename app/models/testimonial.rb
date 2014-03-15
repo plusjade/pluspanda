@@ -1,3 +1,30 @@
+# == Schema Information
+#
+# Table name: testimonials
+#
+#  id               :integer          not null, primary key
+#  user_id          :integer
+#  tag_id           :integer
+#  token            :string(255)
+#  name             :string(255)
+#  company          :string(255)
+#  c_position       :string(255)
+#  location         :string(255)
+#  url              :string(255)
+#  body             :text
+#  body_edit        :text
+#  rating           :integer
+#  publish          :boolean          default(FALSE)
+#  position         :integer
+#  lock             :boolean          default(FALSE)
+#  email            :string(255)
+#  meta             :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  avatar_file_name :string(255)      default(""), not null
+#  trash            :boolean          default(FALSE)
+#
+
 require 'sanitize'
 class Testimonial < ActiveRecord::Base
 

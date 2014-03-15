@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: tconfigs
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  theme      :string(255)
+#  sort       :string(255)
+#  per_page   :integer
+#  form       :text
+#  message    :text
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Tconfig < ActiveRecord::Base
   serialize :form, Hash
   belongs_to :user
