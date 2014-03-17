@@ -76,70 +76,15 @@ class User < ActiveRecord::Base
   
   def create_dependencies
     # standard testimonials
-    self.create_tconfig
-    self.seed_testimonials
-    self.standard_themes.create(:name => 0, :staged => true).publish
+    create_tconfig
+    seed_testimonials
+    standard_themes.create(theme_name: ThemePackage.themes.first, staged: true).publish
   end
 
   def deliver_password_reset_instructions!
     reset_perishable_token!  
     UserMailer.password_reset_instructions(self.reload).deliver
   end
-
-  # get the testimonials
-  # based on defined filters, sorters, and limits.
-  # filters: page, publish, tag, rating, date.
-  # sorters: created
-  def get_testimonials(opts={})
-    where  = {:trash => false}
-    opts[:get_count]  ||= false
-    opts[:publish]    ||= 'yes'
-    opts[:rating]     ||= ''
-    opts[:range]      ||= ''
-    opts[:sort]       ||= self.tconfig.sort
-    opts[:updated]    ||= ''
-    opts[:limit]      ||= self.tconfig.per_page
-    opts[:tag]        ||= 'all'
-
-    # filter by publish
-    where[:publish] = ('yes' == opts[:publish]) ? true : false
-
-    return self.testimonials.where(where).count if opts[:get_count]
-    
-    # filter by tag
-    unless opts[:tag] == 'all'
-      where[:tag_id] = opts[:tag].to_i
-    end
-
-    #--sorters--
-    sort = "created_at DESC"
-    case(opts[:sort])
-      when 'created'
-        case(opts[:created])
-          when 'newest'
-            sort = "created_at DESC"
-          when 'oldest'
-            sort = "created_at ASC"
-        end
-      when 'name'
-        sort = "name ASC"
-      when 'company'
-        sort = "company ASC"
-      when 'position'
-        sort = "position ASC"
-     end 
-
-    # determine the offset and limits.
-    offset = (opts[:page]*opts[:limit]) - opts[:limit]
-
-    if !premium && ((offset + opts[:limit]) > Testimonial::TrialLimit)
-      opts[:limit] = Testimonial::TrialLimit - offset
-      if opts[:limit] < 0; opts[:limit] = 0; end
-    end
-
-    testimonials.where(where).order(sort).limit(opts[:limit]).offset(offset)
-  end
-
 
   def self.creation_by_month
     self.find_by_sql("

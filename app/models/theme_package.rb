@@ -9,7 +9,7 @@ class ThemePackage
 
   def initialize(theme_name)
     unless self.class.themes.include?(theme_name)
-      raise "Theme #{ theme_name } not found in #{ self.class.themes }" 
+      raise "Theme '#{ theme_name }' not found in #{ self.class.themes }" 
     end
 
     @path = File.join(Path, theme_name)
