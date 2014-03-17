@@ -6,7 +6,9 @@ define([
     'app',
 ], function($, _, Mustache, ShowStatus, App) {
     var Testimonial = Backbone.Model.extend({
-        urlRoot: '/v1/testimonials'
+        url : function() {
+            return '/v1/testimonials/' + this.id + '?apikey=' + this.collection.user.get('apikey');
+        }
     })
 
     var Testimonials = Backbone.Collection.extend({

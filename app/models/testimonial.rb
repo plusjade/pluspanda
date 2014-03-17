@@ -56,8 +56,89 @@ class Testimonial < ActiveRecord::Base
       'img' => ['src','alt']
     }
   }  
+
+  # get the testimonials
+  # based on defined filters, sorters, and limits.
+  # filters: page, publish, tag, rating, date.
+  # sorters: created
+  def self.from_user(opts={})
+    criteria  = { 
+      trash: false,
+      user_id: opts[:user_id]
+    }
+    opts[:get_count]  ||= false
+    opts[:publish]    ||= 'yes'
+    opts[:rating]     ||= ''
+    opts[:range]      ||= ''
+    opts[:updated]    ||= ''
+    opts[:tag]        ||= 'all'
+
+    # filter by publish
+    criteria[:publish] = ('yes' == opts[:publish]) ? true : false
+
+    return where(criteria).count if opts[:get_count]
     
-    
+    # filter by tag
+    unless opts[:tag] == 'all'
+      criteria[:tag_id] = opts[:tag].to_i
+    end
+
+    sort = get_mysql_sort(opts[:sort], opts[:created])
+
+    # determine the offset and limits.
+    offset = (opts[:page]*opts[:limit]) - opts[:limit]
+
+    if !opts[:premium] && ((offset + opts[:limit]) > Testimonial::TrialLimit)
+      opts[:limit] = Testimonial::TrialLimit - offset
+      if opts[:limit] < 0; opts[:limit] = 0; end
+    end
+
+    where(criteria)
+      .order(sort)
+      .limit(opts[:limit])
+      .offset(offset)
+  end
+
+  def self.update_data_payload(opts)
+    total = from_user({ user_id: opts[:user_id], get_count: true })
+    update_data = {
+      "total"   => total,
+      "average" => opts[:average],
+    }
+
+    offset = ( opts[:page]*opts[:limit] ) - opts[:limit]
+    chunk = offset + opts[:limit]
+    if (total > chunk) && ( opts[:premium] || (TrialLimit > chunk) )
+      update_data["nextPageUrl"]  = Rails.application.routes.url_helpers.testimonials_url + ".js?apikey=" + opts[:apikey] + '&tag=' + opts[:tag] + '&sort=' + opts[:sort] + '&page=' + (opts[:page] + 1).to_s
+      update_data["nextPage"]     = opts[:page] + 1
+      update_data["tag"]          = opts[:tag]
+      update_data["sort"]         = opts[:sort]
+    end
+
+    update_data
+  end
+
+  def self.get_mysql_sort(condition, created=nil)
+    sort = "created_at DESC"
+    case(condition)
+      when 'created'
+        case(created)
+          when 'newest'
+            sort = "created_at DESC"
+          when 'oldest'
+            sort = "created_at ASC"
+        end
+      when 'name'
+        sort = "name ASC"
+      when 'company'
+        sort = "company ASC"
+      when 'position'
+        sort = "position ASC"
+     end
+
+     sort
+  end
+
   def generate_defaults 
     self.token = SecureRandom.hex(6)
   end

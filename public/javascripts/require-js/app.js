@@ -44,8 +44,8 @@ define([
         ,
         PreviewView : PreviewView
         ,
-        start : function(user_id) {
-            this.user = new User({ id: user_id });
+        start : function(user) {
+            this.user = new User(user);
             this.router = new Router(this);
             var self = this;
             $(function() {
