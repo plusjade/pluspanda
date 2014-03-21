@@ -1,20 +1,21 @@
-/*<%= Time.new %>*/
-var pandaSettings = {
-  apiUrl : '<%= root_url %>',
-  apiVrsn : '<%= api_version_number %>',
-  apikey : '<%= apikey %>',
-  fbUrl : '<%= facebox_url %>'
-}
+(function() {
+    // <%= Time.new %>
+    window.pandaSettings = {
+        apiUrl : '<%= root_url %>',
+        apiVrsn : '<%= api_version_number %>',
+        apikey : '<%= apikey %>',
+    }
 
-var pandaThemeConfig = {
-  cssUrl : '<%= stylesheet %>',
-  wrapperHTML : '<%= raw wrapper_html %>',
-  testimonialHTML : function(item){
-    return '<%= raw testimonial_html %>';
-  }
-}
+    window.pandaThemeConfig = {
+        cssUrl : '<%= stylesheet %>',
+        wrapperHTML : '<%= raw wrapper_html %>',
+        testimonialHTML : function(item) {
+            return '<%= raw testimonial_html %>';
+        }
+    }
 
-var pandaScriptaBot = document.createElement("script");
-pandaScriptaBot.type = "text/javascript";
-pandaScriptaBot.src = '<%= widget_url %>';   
-document.body.appendChild(pandaScriptaBot);
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = '<%= widget_url %>';
+    document.body.appendChild(script);
+})();
