@@ -19,7 +19,7 @@ Pluspanda::Application.routes.draw do
           # even for "published" mode. so we always see staging in published.
           [200, {}, [user.standard_themes.get_staged.generate_theme_config]]
         else
-          url = Publish::Config.new(apikey).endpoint
+          url = Publish::Config.new(apikey, 'blah').endpoint
           # log    = Rails.root.join('log', 'widget.log')
           # line   = "#{apikey}, #{env["HTTP_REFERER"]}, #{DateTime.now} \n"
           # File.open(log, 'a') { |f| f.write(line) } if File.exist?(log)
