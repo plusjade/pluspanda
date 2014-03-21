@@ -109,7 +109,8 @@ ActiveRecord::Schema.define(:version => 20140315234322) do
     t.datetime "last_login_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "premium",             :default => false
+    t.string   "perishable_token",                       :null => false
+    t.boolean  "premium",             :default => false, :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

@@ -1,6 +1,8 @@
 class AddUserPremium < ActiveRecord::Migration
   def up
-    add_column :users, :premium, :boolean, default: false
+    unless column_exists? :users, :premium
+      add_column :users, :premium, :boolean, default: false
+    end
   end
 
   def down
