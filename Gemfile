@@ -18,7 +18,12 @@ gem 'aws-sdk'
 gem 'cancan'
 gem 'annotate', ">=2.6.0"
 
-group :test, :development do
+group :development do
+  gem "wirble"
+  gem "hirb"
+end
+
+group :test do
   gem 'factory_girl_rails'
   gem "rspec-rails", ">= 2.12"
   gem 'spork-rails'
@@ -26,6 +31,4 @@ group :test, :development do
   gem "capybara-webkit"
   gem 'shoulda-matchers'
   gem 'webmock', '~> 1.17'
-  gem "wirble"
-  gem "hirb"
 end
