@@ -59,8 +59,7 @@ class Theme < ActiveRecord::Base
   end
 
   def publish
-    Publish::Stylesheet.new(user.apikey).publish(generate_css)
-    Publish::Config.new(user.apikey).publish(generate_theme_config)
+    Publish::Config.new(user.apikey, generate_theme_config).publish
   end
 
   def generate_css
@@ -74,11 +73,13 @@ class Theme < ActiveRecord::Base
   end
 
   def generate_theme_config(for_staging=false)
+    stylesheet = Publish::Stylesheet.new(user.apikey, generate_css)
+
     ThemeConfig.render({
-      :user         => self.user,
-      :stylesheet   => for_staging ? "" : Publish::Stylesheet.new(user.apikey).endpoint,
-      :wrapper      => self.get_attribute("wrapper.html").staged,
-      :testimonial  => self.get_attribute("testimonial.html").staged
+      :user         => user,
+      :stylesheet   => for_staging ? "" : stylesheet.endpoint,
+      :wrapper      => get_attribute("wrapper.html").staged,
+      :testimonial  => get_attribute("testimonial.html").staged
     })
   end
 
