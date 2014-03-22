@@ -84,6 +84,7 @@ Pluspanda::Application.routes.draw do
       scope "/widget", :controller => 'api/widget', :as => :widget do
         get :staged
         get :published
+        get "stock/:theme_name", action: "stock"
       end
     end
   end

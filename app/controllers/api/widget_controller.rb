@@ -16,4 +16,17 @@ class Api::WidgetController < ApplicationController
   def published
     render :template => "api/widget/published", :layout => "published"
   end
+
+  def stock
+    theme = ThemePackage.new(params[:theme_name])
+    @css = theme.get_attribute("style.css")
+    @theme_config = ThemeConfig.render({
+      :user         => @user,
+      :stylesheet   => '',
+      :wrapper      => theme.get_attribute("wrapper.html"),
+      :testimonial  => theme.get_attribute("testimonial.html")
+    })
+
+    render template: "api/widget/staged", layout: "staged"
+  end
 end
