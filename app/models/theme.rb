@@ -73,11 +73,13 @@ class Theme < ActiveRecord::Base
   end
 
   def generate_theme_config(for_staging=false)
-    stylesheet = Publish::Stylesheet.new(user.apikey, generate_css)
+    stylesheet = for_staging ?
+                  'stub-style.css' :
+                  Publish::Stylesheet.new(user.apikey, generate_css).endpoint
 
     ThemeConfig.render({
       :user         => user,
-      :stylesheet   => for_staging ? "" : stylesheet.endpoint,
+      :stylesheet   => stylesheet,
       :wrapper      => get_attribute("wrapper.html").staged,
       :testimonial  => get_attribute("testimonial.html").staged
     })
