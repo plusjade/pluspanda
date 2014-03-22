@@ -1,6 +1,6 @@
 module ThemeParser
   # matches {{blah_token}}, {{blah_token:param}}
-  Token_regex = /\{{2}(\w+):?([\w\s?!:"',\.]*)\}{2}/i
+  Token_regex = /\{{2}\s?(\w+):?([\w\s?!:"',\.]*)\s?\}{2}/i
 
   # parses the theme wrapper attribute
   def self.parse_wrapper(data, tokens)
