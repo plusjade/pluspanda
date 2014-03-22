@@ -86,7 +86,7 @@ class TestimonialsController < ApplicationController
       else
         respond_to do |format|
           format.any(:html, :iframe) do
-            flash[:notice] = @message
+            flash[:success] = @message
             redirect_to "#{ edit_testimonial_path(@testimonial, apikey: @user.apikey) }"
           end
           format.json { serve_json_response }
@@ -182,7 +182,7 @@ class TestimonialsController < ApplicationController
       else
         respond_to do |format|
           format.any(:html,:iframe) do 
-            flash[:notice] = @message
+            flash[:success] = @message
             redirect_to "#{ edit_testimonial_path(@testimonial, apikey: @user.apikey) }"
           end
           format.json { serve_json_response }

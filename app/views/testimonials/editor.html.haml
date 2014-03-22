@@ -20,6 +20,9 @@
       - if @testimonial.lock
         .alert.alert-danger
           This Testimonial is locked!
+      - elsif flash[:success]
+        .alert.alert-success
+          = flash[:success]
       - elsif flash[:notice]
         .alert.alert-danger
           = flash[:notice]
