@@ -29,10 +29,8 @@ module ThemeConfig
 
     if Rails.env.development?
       widget_url = "/javascripts/widget/widget.js"
-      facebox_url = "/javascripts/widget/facebox.js"
     else  
       widget_url = Storage.standard_widget_url
-      facebox_url = Storage.facebox_url
     end
 
     context.render_to_string(
@@ -42,8 +40,7 @@ module ThemeConfig
         :stylesheet         => opts[:stylesheet],
         :wrapper_html       => wrapper,
         :testimonial_html   => testimonial,
-        :widget_url         => widget_url,
-        :facebox_url        => facebox_url 
+        :widget_url         => widget_url
       }
     )
   end

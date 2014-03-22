@@ -22,11 +22,6 @@ class Storage
     # This is the s3 path to the static standard-widget-js-bootstrapper
     def standard_widget_url
       url("javascripts/widget/widget.js")
-    end
-  
-    # static s3 path to facebox.js  
-    def facebox_url
-      url("javascripts/widget/facebox.js")
-    end
+    end  
   end
 end
