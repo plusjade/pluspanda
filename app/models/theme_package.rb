@@ -1,3 +1,4 @@
+require 'sass'
 require 'fileutils'
 
 class ThemePackage
@@ -22,8 +23,23 @@ class ThemePackage
     FileUtils.cd(@path) { return Dir.glob('*.*') }
   end
 
+  # TODO: Cleanup hack to support scss files.
   def get_attribute(attribute_name)
     filepath = File.join(@path, attribute_name)
-    File.exist?(filepath) ? File.new(filepath).read : "/*No data*/"
+    ext = File.extname(filepath)
+    unless File.exist?(filepath)
+      if %w(.css .scss).include?(ext)
+        filepath = filepath.gsub(Regexp.new("#{ ext }$"), (ext == ".css") ? ".scss" : ".css")
+      end
+
+      return "/*No data*/" unless File.exist?(filepath)
+    end
+
+    if %w(.css .scss).include?(ext)
+      template = File.open(filepath).read
+      Sass::Engine.new(template, syntax: :scss).render
+    else
+      File.new(filepath).read
+    end
   end
 end

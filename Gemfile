@@ -17,6 +17,7 @@ gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
 gem 'aws-sdk'
 gem 'cancan'
 gem 'annotate', ">=2.6.0"
+gem "sass", '~>3'
 
 group :development do
   gem "wirble"
