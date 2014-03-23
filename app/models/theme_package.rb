@@ -3,6 +3,8 @@ require 'fileutils'
 class ThemePackage
   Path = Rails.root.join("public/_pAndAThemeS_")
 
+  attr_reader :theme_name
+
   def self.themes
     Path.children(false).map{ |a| a.to_s }
   end
@@ -12,6 +14,7 @@ class ThemePackage
       raise "Theme '#{ theme_name }' not found in #{ self.class.themes }" 
     end
 
+    @theme_name = theme_name
     @path = File.join(Path, theme_name)
   end
 

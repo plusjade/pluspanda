@@ -27,12 +27,6 @@ module ThemeConfig
     tokens = Testimonial.api_attributes
     testimonial = ThemeParser.parse_testimonial(opts[:testimonial], tokens)
 
-    if Rails.env.development?
-      widget_url = "/javascripts/widget/widget.js"
-    else  
-      widget_url = Storage.standard_widget_url
-    end
-
     context.render_to_string(
       :partial => "testimonials/theme_config",
       :locals  => {
@@ -40,8 +34,19 @@ module ThemeConfig
         :stylesheet         => opts[:stylesheet],
         :wrapper_html       => wrapper,
         :testimonial_html   => testimonial,
-        :widget_url         => widget_url
+        :widget_url         => widget_url(opts[:theme_name])
       }
     )
+  end
+
+  # Hack, need a proper way to discern which themes need which widget bootstrap version.
+  V2 = %w(modern)
+  def self.widget_url(theme_name)
+    version = (V2.include?(theme_name) ? 2 : 1)
+
+    widget = Publish::WidgetJs.new(version: version)
+    Rails.env.development? ?
+      "/javascripts/widget/widget-v#{ version }.js" :
+      widget.endpoint
   end
 end

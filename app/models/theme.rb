@@ -82,6 +82,7 @@ class Theme < ActiveRecord::Base
     end
 
     ThemeConfig.render({
+      :theme_name   => theme_name,
       :user         => user,
       :stylesheet   => stylesheet,
       :wrapper      => get_attribute("wrapper.html").staged,

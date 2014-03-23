@@ -21,6 +21,7 @@ class Api::WidgetController < ApplicationController
     theme = ThemePackage.new(params[:theme_name])
     @css = theme.get_attribute("style.css")
     @theme_config = ThemeConfig.render({
+      :theme_name   => theme.theme_name,
       :user         => @user,
       :stylesheet   => '',
       :wrapper      => theme.get_attribute("wrapper.html"),

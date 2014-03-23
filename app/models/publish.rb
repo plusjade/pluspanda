@@ -66,4 +66,31 @@ module Publish
       FilenameFormat.gsub("{{apikey}}", @apikey)
     end
   end
+
+  class WidgetJs
+
+    def initialize(opts)
+      opts[:version] ||= 1
+      @filename_format = "widget-v#{ opts[:version] }-{{digest}}.js"
+
+      @content_filepath = Rails.root.join('public','javascripts', 'widget', "widget-v#{ opts[:version] }.js")
+    end
+
+    def endpoint
+      Storage.url(filename)
+    end
+
+    def publish
+      Storage.store(filename, @content_filepath, content_type: "text/javascript")
+    end
+
+
+    def digest
+      @digest ||= Digest::MD5.file(@content_filepath).hexdigest
+    end
+
+    def filename
+      @filename_format.gsub("{{digest}}", digest)
+    end
+  end
 end
