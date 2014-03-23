@@ -11,22 +11,23 @@ module Publish
       Storage.url(filename)
     end
 
-    def publish
+    def digest
+      return @digest if @digest
       f = File.new(tmp, "w+")
       f.write(@content)
       f.rewind
 
-      @digest = Digest::MD5.file(tmp).hexdigest
+      Digest::MD5.file(tmp).hexdigest
+    end
 
+    def publish
       Storage.store(filename, tmp, content_type: "text/css")
     end
 
     def filename
-      publish unless @digest
-
       FilenameFormat
         .gsub("{{apikey}}", @apikey)
-        .gsub("{{digest}}", @digest)
+        .gsub("{{digest}}", digest)
     end
 
     def tmp
