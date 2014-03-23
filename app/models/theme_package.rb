@@ -3,11 +3,16 @@ require 'fileutils'
 
 class ThemePackage
   Path = Rails.root.join("public/theme-packages")
-
   attr_reader :theme_name
 
   def self.themes
     Path.children(false).map{ |a| a.to_s }
+  end
+
+  def self.default_theme
+    default = "modern"
+    raise "Cannot find default theme!" unless themes.include?(default)
+    default
   end
 
   def initialize(theme_name)

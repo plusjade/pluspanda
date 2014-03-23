@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
     # standard testimonials
     create_tconfig
     seed_testimonials
-    standard_themes.create(theme_name: ThemePackage.themes.first, staged: true).publish
+    standard_themes.create(theme_name: ThemePackage.default_theme, staged: true).publish
   end
 
   def deliver_password_reset_instructions!
