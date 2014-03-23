@@ -12,13 +12,25 @@ define([
     ShowStatus) {
 
     var ThemeAttribute = Backbone.Model.extend({
-        url : function() {
-            return this.user.url() + '/theme_attributes/'+ this.id +'/staged';
+        url : function(type) {
+            return [this.user.url(), 'theme_attributes', this.id, (type || 'staged')].join('/');
         }
         ,
         parse : function(data) {
             data['fetch-entropy'] = Date.now();
             return data;
+        }
+        ,
+        fetchOriginal : function() {
+            var self = this;
+            return $.ajax({
+                dataType: "JSON",
+                type : "GET",
+                url: this.url('original')
+            })
+            .done(function(rsp) {
+                self.set(self.parse(rsp));
+            })
         }
     })
     var ThemeAttributes = Backbone.Collection.extend({
@@ -59,6 +71,8 @@ define([
         ,
         events :  {
             'click .js-save' : 'save'
+            ,
+            'click a.load-original' : 'loadOriginal'
         }
         ,
         initialize : function(attrs) {
@@ -114,6 +128,16 @@ define([
                     ShowStatus.respond({ msg :'Template Saved!', status: "good" });
                 });
             }
+        }
+        ,
+        loadOriginal : function(e) {
+            e.preventDefault();
+            ShowStatus.submitting();
+            this.model
+                .fetchOriginal()
+                .done(function() {
+                    ShowStatus.respond({ msg :'Original reset!', status: "good" });
+                });
         }
     })
 

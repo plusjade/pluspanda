@@ -12,9 +12,10 @@
     %button.btn.btn-success.pull-right.js-save Save
     .btn-group.attribute-list
 
-    #derp{style: "margin-top: 10px;"}
-      #token-list{ style: "display:block; margin-bottom:10px" }
-      %textarea#code-editor{ style: "width:100%; height:400px;" }
+    #derp{style: "margin: 10px 0; position:relative;" }
+      #token-list{ style: "position:absolute; right:0" }
+      %a.load-original.btn.btn-sm.btn-default{ href: "#" } Reset to Original
+    %textarea#code-editor{ style: "width:100%; height:400px;" }
 
 #layout-previewer
   = render partial: "widget-previewer"
