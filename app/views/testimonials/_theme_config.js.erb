@@ -5,6 +5,8 @@
         apiVrsn : '<%= api_version_number %>',
         apikey : '<%= apikey %>',
     }
+    pandaSettings.formEndpoint = pandaSettings.apiUrl + '/' + pandaSettings.apiVrsn + '/testimonials/new.iframe?apikey=' + pandaSettings.apikey;
+    pandaSettings.testimonialsEndpoint = pandaSettings.apiUrl + '/' + pandaSettings.apiVrsn + '/testimonials.js';
 
     window.pandaThemeConfig = {
         cssUrl : '<%= stylesheet %>',

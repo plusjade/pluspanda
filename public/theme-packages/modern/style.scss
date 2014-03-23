@@ -1,0 +1,112 @@
+$border-style: 1px solid #d5d5d5;
+$base-padding: 10px;
+$content-head-background-style: #fafafa;
+$content-body-width: 80%;
+$content-body-background-style: #FFF;
+
+/* reset styles */
+#plusPandaYes div, #plusPandaYes span, #plusPandaYes iframe, #plusPandaYes h1, #plusPandaYes h2, #plusPandaYes h3, #plusPandaYes h4, #plusPandaYes h5, #plusPandaYes h6, #plusPandaYes p, #plusPandaYes blockquote, #plusPandaYes pre, #plusPandaYes a, #plusPandaYes abbr, #plusPandaYes acronym, #plusPandaYes address, #plusPandaYes big, #plusPandaYes cite, #plusPandaYes code, #plusPandaYes del, #plusPandaYes dfn, #plusPandaYes em, #plusPandaYes font, #plusPandaYes img, #plusPandaYes ins, #plusPandaYes kbd, #plusPandaYes q, #plusPandaYes s, #plusPandaYes samp, #plusPandaYes small, #plusPandaYes strike, #plusPandaYes strong, #plusPandaYes sub, #plusPandaYes sup, #plusPandaYes tt, #plusPandaYes var, #plusPandaYes dl, #plusPandaYes dt, #plusPandaYes dd, #plusPandaYes ol, #plusPandaYes ul, #plusPandaYes li, #plusPandaYes fieldset, #plusPandaYes form, #plusPandaYes label, #plusPandaYes legend, #plusPandaYes table, #plusPandaYes caption, #plusPandaYes tbody, #plusPandaYes tfoot, #plusPandaYes thead, #plusPandaYes tr, #plusPandaYes th, #plusPandaYes td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline; }
+
+#plusPandaYes {
+  :focus {
+    outline: 0;
+  }
+  .pluspanda-theme-modern {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4em;
+     .panda-form-container iframe {
+      margin-top: $base-padding;
+      border-top: $border-style;
+    }
+    .panda-header {
+      padding-bottom: $base-padding;
+      margin-bottom: 15px;
+      border-bottom: $border-style;
+    }
+    .title {
+      h2 {
+        font-size:1.5em;
+      }
+      .form-link {
+        float:right;
+        position:relative;
+        top:5px;
+      }
+    }
+    .t-single {
+      overflow: hidden;
+      clear: both;
+      width: 100%;
+      margin-bottom: $base-padding;
+      .content {
+        background: $content-body-background-style;
+        display:inline-block;
+        vertical-align: top;
+        width: $content-body-width;
+        .inner {
+          border-bottom: $border-style;
+        }
+        .head {
+          margin-bottom:5px;
+          background: $content-head-background-style;
+        }
+      }
+      .image {
+        display:inline-block;
+        vertical-align: top;
+        width:20%;
+         img {
+          border: $border-style;
+        }
+      }
+    }
+    ul.t-meta-data {
+      width:100%;
+      padding: $base-padding;
+      border-bottom: $border-style;
+      li { 
+        display:inline;
+        padding-right:3px;
+      }
+    }
+    .t-text {
+      padding: $base-padding;
+    }
+    .t-rating {
+      .panda-rating-stars {
+        background: url(//s3.amazonaws.com/pluspanda/themes/bernd/images/stars_sprite.png) no-repeat 0 0;
+        display: inline-block;
+        float: left;
+        padding: 0;
+        text-indent: -9999px;
+        height: 17px;
+        width: 92px;
+        &.s1 {
+          background-position: 0 -68px;
+        }
+        &.s2 {
+          background-position: 0 -51px;
+        }
+        &.s3 {
+          background-position: 0 -34px;
+        }
+        &.s4 {
+          background-position: 0 -17px;
+        }
+        &.s5 {
+          background-position: 0 0px;
+        }
+      }
+    }
+  }
+}
