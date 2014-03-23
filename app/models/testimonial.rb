@@ -210,7 +210,7 @@ class Testimonial < ActiveRecord::Base
   end
   
   def image_stock
-     Rails.env.production? ? "http://s3.amazonaws.com/pluspanda/stock.png" : "/images/stock.png"
+     Rails.env.production? ? "https://s3.amazonaws.com/pluspanda/stock.png" : "/images/stock.png"
   end
   
 end

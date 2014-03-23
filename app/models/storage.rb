@@ -1,7 +1,7 @@
 # This interfaces with amazon s3 to physically store files.
 class Storage
   Credentials = YAML::load(File.open(Rails.root.join('config', 's3.yml')))[Rails.env]
-  Url = "http://s3.amazonaws.com/"
+  Url = "https://s3.amazonaws.com/"
   raise "S3 storage credentials not found" unless Credentials
 
   class << self

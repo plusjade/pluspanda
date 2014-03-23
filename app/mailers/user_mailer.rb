@@ -10,7 +10,7 @@ class UserMailer < ActionMailer::Base
 
   def password_reset_instructions(user)
       @user = user
-      @reset_link = "http://api.pluspanda.com/session/perishable?token=#{@user.perishable_token}"
+      @reset_link = "https://api.pluspanda.com/session/perishable?token=#{@user.perishable_token}"
       mail(:to => user.email,
            :subject => "Pluspanda pasword reset instructions.")
   end

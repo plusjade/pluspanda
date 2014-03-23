@@ -13,7 +13,7 @@ module ApplicationHelper
   end
 
   def root_url
-    ::Rails.env == 'production' ? 'http://api.pluspanda.com' : 'http://localhost:3000'
+    ::Rails.env == 'production' ? 'https://api.pluspanda.com' : 'http://localhost:3000'
   end
   
 end
