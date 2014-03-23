@@ -1,12 +1,25 @@
 # This interfaces with amazon s3 to physically store files.
 class Storage
+  Credentials = YAML::load(File.open(Rails.root.join('config', 's3.yml')))[Rails.env]
   Url = "http://s3.amazonaws.com/"
+  raise "S3 storage credentials not found" unless Credentials
 
   class << self
     attr_accessor :handle, :bucket_name
 
+    def handle
+      @handle ||= AWS::S3.new({
+        access_key_id: Credentials["access_key_id"],
+        secret_access_key: Credentials["secret_access_key"]
+      })
+    end
+
     def bucket
       handle.buckets[bucket_name]
+    end
+
+    def bucket_name
+      Credentials['bucket']
     end
 
     # save/update a file to s3
@@ -18,10 +31,5 @@ class Storage
     def url(path=nil)
       path ? "#{Url}#{bucket_name}/#{path}" : "#{Url}#{bucket_name}"
     end
-
-    # This is the s3 path to the static standard-widget-js-bootstrapper
-    def standard_widget_url
-      url("javascripts/widget/widget.js")
-    end  
   end
 end
