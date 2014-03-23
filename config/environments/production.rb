@@ -1,7 +1,7 @@
 Pluspanda::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
-  Rails.application.routes.default_url_options[:host] = 'http://api.pluspanda.com'
+  Rails.application.routes.default_url_options[:host] = 'api.pluspanda.com'
 
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests

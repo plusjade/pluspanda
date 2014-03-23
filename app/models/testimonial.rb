@@ -109,7 +109,13 @@ class Testimonial < ActiveRecord::Base
     offset = ( opts[:page]*opts[:limit] ) - opts[:limit]
     chunk = offset + opts[:limit]
     if (total > chunk) && ( opts[:premium] || (TrialLimit > chunk) )
-      update_data["nextPageUrl"]  = Rails.application.routes.url_helpers.testimonials_url + ".js?apikey=" + opts[:apikey] + '&tag=' + opts[:tag] + '&sort=' + opts[:sort] + '&page=' + (opts[:page] + 1).to_s
+      update_data["nextPageUrl"]  = Rails.application.routes.url_helpers.testimonials_url({
+                                      format: 'js',
+                                      apikey: opts[:apikey],
+                                      tag: opts[:tag],
+                                      sort: opts[:sort],
+                                      page: (opts[:page] + 1),
+                                    })
       update_data["nextPage"]     = opts[:page] + 1
       update_data["tag"]          = opts[:tag]
       update_data["sort"]         = opts[:sort]
