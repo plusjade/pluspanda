@@ -42,15 +42,4 @@ class ThemeAttribute < ActiveRecord::Base
       self.staged = Sanitize.clean(staged.to_s, SANITIZE_CONFIG)
     end
   end
-
-  def self.migrate
-    %w{
-        wrapper.html
-        testimonial.html
-        style.css
-        modal.css
-      }.each_with_index do |name, i |
-        ThemeAttribute.update_all({ attribute_name: name }, { name: i })
-      end
-  end
 end

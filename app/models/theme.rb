@@ -89,16 +89,4 @@ class Theme < ActiveRecord::Base
       :testimonial  => get_attribute("testimonial.html").staged
     })
   end
-
-  def self.migrate
-    %w{
-        bernd
-        bernd-simple
-        legacy
-        custom
-        modern
-      }.each_with_index do |name, i|
-      StandardTheme.update_all({ theme_name: name }, { name: i })
-    end
-  end
 end
