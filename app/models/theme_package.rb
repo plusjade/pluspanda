@@ -2,7 +2,7 @@ require 'sass'
 require 'fileutils'
 
 class ThemePackage
-  Path = Rails.root.join("public/_pAndAThemeS_")
+  Path = Rails.root.join("public/theme-packages")
 
   attr_reader :theme_name
 
