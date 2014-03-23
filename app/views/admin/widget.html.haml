@@ -21,6 +21,10 @@
         - ThemePackage.themes.each do |name|
           %div{ class: (@theme.theme_name == name) ? "active" : false }= name
 
+    %div{style: "margin-top:30px;"}
+      %a.btn.btn-default.btn-lg{ href: "/admin/editor" }
+        Launch Theme Editor
+
     .data-description.buttons{style: "margin-top:30px;"}
       %strong NOTE
       %br
