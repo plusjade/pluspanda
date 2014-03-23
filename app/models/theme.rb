@@ -74,7 +74,7 @@ class Theme < ActiveRecord::Base
 
   def generate_theme_config(for_staging=false)
     if for_staging
-      stylesheet = 'stub-style.css'
+      stylesheet = ''
     else
       s = Publish::Stylesheet.new(user.apikey, generate_css)
       s.publish
