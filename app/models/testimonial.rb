@@ -34,6 +34,7 @@ class Testimonial < ActiveRecord::Base
     :storage => :s3,
     :s3_credentials => Rails.root.join("config", "s3.yml"),
     :s3_permissions => :public_read,
+    :s3_protocol => "https",
     :bucket => Rails.env.production? ? "pluspanda" : "pluspanda_development",
     :path   => ":attachment/:id/:style.:filename",
     :url    => "/:attachment/:id/:style.:filename",
@@ -210,7 +211,7 @@ class Testimonial < ActiveRecord::Base
   end
   
   def image_stock
-     Rails.env.production? ? "https://s3.amazonaws.com/pluspanda/stock.png" : "/images/stock.png"
+     Rails.env.production? ? "//s3.amazonaws.com/pluspanda/stock.png" : "/images/stock.png"
   end
   
 end
