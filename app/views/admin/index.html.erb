@@ -16,49 +16,41 @@
           <br>New testimonials are always saved so your data is never lost but you can only ever display 10 testimonials on your website.
         </p>
 
-        <h3>Publish Unlimited Testimonials for $29.99 per year.</h3>
+        <h3>Publish Unlimited Testimonials for $36 per year.</h3>
         <p style="margin-bottom:10px">
-          As soon as your payment clears I'll update your account to add and save unlimited testimonials.
-        </p>
-        <p style="margin-bottom:10px">
-          Currently this is a manual process so please give it a few minutes for me to do this.
-        </p>
-        <p style="margin-bottom:10px">
-          <b>Paypal Notes:</b>
-          <br/> You don't need a paypal account to pay with paypal.
-           Paypal will list "amateur" as the business as I used be an ebay seller.
+          Pay securely using any of the following methods:
         </p>
       </div>
 
       <table style="min-width:300px">
         <tr>
           <td>
-            <br>
+            <strong>Paypal</strong>
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
             <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="hosted_button_id" value="A8L4AC6E3CAY6">
-            <input type="hidden" name="on0" value="email">
+            <input type="hidden" name="hosted_button_id" value="EN3E2SASX9G6C">
+            <input type="hidden" name="on0" value="pluspanda-email">
             <input type="hidden" name="os0" value="<%= current_user.email %>" maxlength="200">
-            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
             <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
             </form>
           </td>
 
           <td>
-            <br>
+            <strong>Amazon</strong>
             <form action="https://authorize.payments.amazon.com/pba/paypipeline" method="post">
-              <input type="hidden" name="amount" value="USD 29.99" >
+              <input type="hidden" name="amount" value="USD 36.00" >
               <input type="hidden" name="processImmediate" value="0" >
               <input type="hidden" name="signatureMethod" value="HmacSHA256" >
               <input type="hidden" name="accessKey" value="11SEM03K88SD016FS1G2" >
               <input type="hidden" name="collectShippingAddress" value="0" >
               <input type="hidden" name="recurringFrequency" value="1 year" >
-              <input type="hidden" name="description" value="pluspanda.com testimonials yearly subscription" >
+              <input type="hidden" name="description" value="Pluspanda Testimonials Subscription" >
               <input type="hidden" name="amazonPaymentsAccountId" value="WAKPGHROJPXZ53M4NILK867AZ26T91AS5C7TQ9" >
               <input type="hidden" name="cobrandingStyle" value="logo" >
               <input type="hidden" name="signatureVersion" value="2" >
               <input type="hidden" name="immediateReturn" value="1" >
-              <input type="hidden" name="signature" value="hGw9kIX7ifLGK7UrqK+JyTQcrGZ3EKRIn4hDSq03Ek4=" >
+              <input type="hidden" name="signature" value="4m9i0gzAWh33ZRlTF3TaOGwXPHyJe7zi1yl7/2ywr98=" >
               <input type="image" src="http://g-ecx.images-amazon.com/images/G/01/asp/golden_large_subscribe_withlogo_whitebg.gif" border="0">
             </form>
           </td>
