@@ -103,11 +103,7 @@ class ApplicationController < ActionController::Base
     def admin_frontpage
       new_session_url
     end
-    
-    def root_url
-      ::Rails.env == 'production' ? 'https://api.pluspanda.com' : 'http://localhost:3000'
-    end
-    
+
     def default_url_options(options = nil)
       options ||= {}
       options[:format] = :iframe if request.format == :iframe

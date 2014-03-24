@@ -1,19 +1,13 @@
 module ApplicationHelper
-
   def api_version_number
     "v1"
   end
 
   def embed_code(apikey)
-    "<script type=\"text/javascript\">document.write(unescape(\"%3Cscript src='#{widget_script_url}' type='text/javascript'%3E%3C/script%3E\"));</script>"
+    "<script type='text/javascript'>(function() {
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;
+        s.src = '#{ Rails.application.routes.url_helpers.widget_testimonials_url(format: 'js', apikey: apikey) }';
+        document.body.appendChild(s);
+    })();</script>"
   end
-
-  def widget_script_url
-    "#{root_url+widget_testimonials_path}.js?apikey=#{@user.apikey}"
-  end
-
-  def root_url
-    ::Rails.env == 'production' ? 'https://api.pluspanda.com' : 'http://localhost:3000'
-  end
-  
 end

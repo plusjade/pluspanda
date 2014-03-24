@@ -30,7 +30,14 @@ module ThemeConfig
     context.render_to_string(
       :partial => "testimonials/theme_config",
       :locals  => {
-        :apikey             => opts[:user].apikey,
+        pandaSettings: {
+          generationTime: Time.now,
+          apiUrl: "//#{ Rails.application.routes.default_url_options[:host] }",
+          apiVrsn: "v1",
+          apikey: opts[:user].apikey,
+          formEndpoint: "//#{ Rails.application.routes.default_url_options[:host] }/v1/testimonials/new.iframe?apikey=#{ opts[:user].apikey }",
+          testimonialsEndpoint: "//#{ Rails.application.routes.default_url_options[:host] }/v1/testimonials.js"
+        },
         :stylesheet         => opts[:stylesheet],
         :wrapper_html       => wrapper,
         :testimonial_html   => testimonial,
