@@ -1,0 +1,11 @@
+%p#message{ style: "font-size:14px; font-weight:bold" }
+  Pluspanda is 100% Free for for 1 website and 10 published testimonials.
+  %br Sign up free and try it out for as long as you want.
+  %br Upgrade to unlimited testimonials for $36 per year.
+
+= form_for @user, :url => account_path do |f|
+  - if flash[:warning]
+    .notice
+      = flash[:warning]
+  = render :partial => "form", :object => f
+  %button{ type: "submit" } Register
