@@ -2,7 +2,7 @@
   .install-page
     %h3 Place This Code Where You Want Your Testimonials to Display:
     %p
-      %textarea= h "<div id=\"plusPandaYes\"></div>\n#{ embed_code(@user.apikey) }"
+      %textarea{ style: "height:200px;" }= h "<div id=\"plusPandaYes\"></div>\n#{ embed_code(@user.apikey) }"
     %h3 TIP: Check out your sample page!
     %p
       %a{href: "/users/#{ current_user.id }/widget/published", target: "_blank"}> Sample Page
