@@ -25,6 +25,20 @@
       <table style="min-width:300px">
         <tr>
           <td>
+            <strong>Preferred</strong>
+            <%= form_tag charges_path(@user) do %>
+              <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key= <%= Rails.configuration.stripe[:publishable_key] %>
+                data-amount="3600"
+                data-email="<%= @user.email %>"
+                data-name="Pluspanda Subscription"
+                data-description="$36.00 yearly"
+                data-image="/images/admin/panda.png">
+              </script>
+            <% end %>
+          </td>
+          <td>
             <strong>Paypal</strong>
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
             <input type="hidden" name="cmd" value="_s-xclick">
@@ -53,9 +67,6 @@
               <input type="hidden" name="signature" value="4m9i0gzAWh33ZRlTF3TaOGwXPHyJe7zi1yl7/2ywr98=" >
               <input type="image" src="http://g-ecx.images-amazon.com/images/G/01/asp/golden_large_subscribe_withlogo_whitebg.gif" border="0">
             </form>
-          </td>
-          <td>
-
           </td>
         </tr>
       </table>

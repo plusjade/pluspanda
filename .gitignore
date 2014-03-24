@@ -9,6 +9,7 @@ config/database.yml
 config/sendgrid.yml
 config/pinky.yml
 config/s3.yml
+config/stripe.json
 config/deploy.rb
 
 public/system/*

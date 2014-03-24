@@ -60,6 +60,7 @@ Pluspanda::Application.routes.draw do
 
   resources :users do
     member do
+      resources :charges
       put :settings, controller: "api/settings", action: "update"
 
       scope "/testimonials", controller: "api/testimonials", as: :testimonials do

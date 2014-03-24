@@ -18,6 +18,7 @@ gem 'aws-sdk'
 gem 'cancan'
 gem 'annotate', ">=2.6.0"
 gem "sass", '~>3'
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 group :development do
   gem "wirble"
