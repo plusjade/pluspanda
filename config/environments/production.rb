@@ -3,6 +3,7 @@ Pluspanda::Application.configure do
 
   config.force_ssl = true
   Rails.application.routes.default_url_options[:host] = 'api.pluspanda.com'
+  Rails.application.routes.default_url_options[:protocol] = 'https'
 
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
