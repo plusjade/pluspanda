@@ -6,14 +6,6 @@
   <title>PlusPanda Admin Panel</title>
 
   <%= stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css", "admin-new" %>
-<!--  
-  <link rel="stylesheet" href="/codemirror-3.1/lib/codemirror.css">
-  <style type="text/css">.CodeMirror {height:500px} </style>
-  <link rel="stylesheet" href="/codemirror-3.1/theme/ambiance.css">
-  <script type="text/javascript" src="/codemirror-3.1/lib/codemirror.js"></script>
-  <script type="text/javascript" src="/codemirror-3.1/mode/xml/xml.js"></script>
-  <script type="text/javascript" src="/codemirror-3.1/mode/css/css.js"></script>
- -->
 </head>
 
 <body>
@@ -33,6 +25,15 @@
   <div id="status-bar">
     <div id="submitting" style="display:none"><strong>Submitting..</strong></div>
     <div class="responding" style="display:none">&#160;</div>
+    <% if flash.present?
+        type = "bad" if flash[:error]
+        type = "warn" if flash[:info]
+        type = "good" if flash[:success]
+    %>
+      <div class="responding active <%= type %>">
+        <%= flash.map {|k,v| v}.join(',') %>
+      </div>
+    <% end %>
   </div>  
 
   <div id="main-wrapper">
@@ -127,6 +128,10 @@
 
     require(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, App) {
         App.start(<%= { id: current_user.id, apikey: current_user.apikey }.to_json.html_safe %>);
+
+      <% if flash.present? %>
+        setTimeout(function() { $("div.responding.active").fadeOut(3000) }, 3000);
+      <% end %>
     });
   </script>
 
