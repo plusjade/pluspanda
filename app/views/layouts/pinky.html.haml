@@ -1,0 +1,27 @@
+!!!
+%html{ lang: "en" }
+  %head
+    %title PlusPanda SUPA admin Panel
+    - if ::Rails.env == 'production'
+      = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
+    - else
+      = javascript_include_tag 'jquery/jquery'
+
+    :css
+      html, body {font-family: verdana; font-size:12px;}
+      #wrapper{
+        width:800px;
+        margin:auto;
+      }
+      table {width:50%; margin-bottom:15px;}
+      th {background:#222; color:#FFF;}
+      th, td {padding:5px; border:1px solid #eee;}  
+
+  %body
+    #wrapper
+    = yield
+    %script
+      :plain
+        $(function() {
+          $("abbr").timeago();
+        })
