@@ -70,8 +70,8 @@
     <h3>Install Pluspanda</h3>
     <stong>Place This Code Where You Want Your Testimonials to Display:</stong>
     <p>
-      <textarea style="height:200px;"><div id=\"plusPandaYes\"></div>
-<%= embed_code(@user.apikey) %></textarea>
+      <textarea style="height:200px;"><div id="plusPandaYes"></div>
+<%= embed_code(@user.apikey).html_safe %></textarea>
     </p>
     <h4>TIP: Check out your sample page!</h4>
     <p>
