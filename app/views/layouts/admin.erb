@@ -105,39 +105,51 @@
   <script type="text/javascript">
     var loading = '<div class="loading">Loading...</div>';
   </script>
-  <script src="/javascripts/modernizer-custom.js"></script>
-  <script src="/javascripts/require-js/require.js"></script>
+
+<%
+  scripts = if true || Rails.env.production?
+    %w(
+      lib/jquery-1.8.3
+      lib/underscore.1.5.2.min
+      lib/backbone.1.1.0.min
+      lib/mustache-0.7.3
+    )
+  else
+    %w(
+      lib/jquery-1.8.3
+      lib/underscore.1.5.2.min
+      lib/backbone.1.1.0.min
+      lib/mustache-0.7.3
+
+      vendor/modernizr-custom
+      vendor/addon
+      vendor/facebox
+      vendor/jquery.ui-1.10.2.min
+      vendor/timeago.min
+
+      app/_app
+      app/router
+      app/layoutView
+      app/manageView
+      app/collectView
+      app/accountView
+      app/widgetView
+      app/editorView
+      app/previewView
+    )
+  end
+
+  scripts.each do |path|
+%>
+  <script src="/javascripts/<%= path %>.js"></script>
+<% end %>
+
   <script>
-    require.config({
-      baseUrl : "/javascripts/<%= Rails.env.production? ? "require-js-build" : "require-js" %>/",
-      urlArgs: "bust=" + (new Date()).getTime(),
-      shim: {
-        underscore: {
-          exports: '_'
-        },
-        mustache: {
-          exports: 'Mustache'
-        },
-        backbone: {
-          deps: ["underscore", "jquery"],
-          exports: "Backbone"
-        }
-      },
-      paths : {
-        'jquery' : 'libs/jquery-1.8.3',
-        'underscore': 'libs/underscore.1.5.2.min',
-        'backbone': 'libs/backbone.1.1.0.min',
-        'mustache' : 'libs/mustache-0.7.3'
-      }  
-    });
+      App.start(<%= { id: current_user.id, apikey: current_user.apikey }.to_json.html_safe %>);
 
-    require(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, App) {
-        App.start(<%= { id: current_user.id, apikey: current_user.apikey }.to_json.html_safe %>);
-
-      <% if flash.present? %>
-        setTimeout(function() { $("div.responding.active").fadeOut(3000) }, 3000);
-      <% end %>
-    });
+    <% if flash.present? %>
+      setTimeout(function() { $("div.responding.active").fadeOut(3000) }, 3000);
+    <% end %>
   </script>
 
 <% if Rails.env.production? %>
