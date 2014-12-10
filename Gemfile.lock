@@ -73,6 +73,7 @@ GEM
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    execjs (2.2.2)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.4.1)
@@ -161,6 +162,9 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
+    uglifier (2.6.0)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
     uuidtools (2.1.4)
     webmock (1.17.3)
       addressable (>= 2.2.7)
@@ -194,6 +198,8 @@ DEPENDENCIES
   sass (~> 3)
   shoulda-matchers
   spork-rails
+  sprockets
   stripe!
+  uglifier
   webmock (~> 1.17)
   wirble

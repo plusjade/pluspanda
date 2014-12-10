@@ -23,6 +23,8 @@ gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 group :development do
   gem "wirble"
   gem "hirb"
+  gem 'sprockets'
+  gem 'uglifier'
 end
 
 group :test do
