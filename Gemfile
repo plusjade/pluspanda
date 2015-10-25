@@ -19,12 +19,11 @@ gem 'annotate', ">=2.6.0"
 gem "sass", '~>3'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
-# group :development do
-#   gem "wirble"
-#   gem "hirb"
-#   gem 'sprockets'
-#   gem 'uglifier'
-# end
+group :development do
+  gem 'sass-rails'
+  gem 'uglifier'
+  gem 'coffee-rails'
+end
 
 # group :test do
 #   gem 'factory_girl_rails'
