@@ -17,12 +17,12 @@
 <body>
 <div id="wrapper">
   <div id="top">
-    <ul id="parent_nav"> 
+    <ul id="parent_nav">
       <li><a href="/admin">Install</a></li>
-      <li><a href="/admin/widget">Customize Layout</a></li> 
-      <li><a href="/admin/manage">Manage Testimonials</a></li> 
+      <li><a href="/admin/widget">Customize Layout</a></li>
+      <li><a href="/admin/manage">Manage Testimonials</a></li>
       <li><a href="/admin/collect">Collect Testimonials</a></li>
-      <li><a href="/admin/account">Account</a></li> 
+      <li><a href="/admin/account">Account</a></li>
       <li><%= link_to "Logout", admin_logout_path %></li>
     </ul>
   </div>
@@ -39,7 +39,7 @@
         <%= flash.map {|k,v| v}.join(',') %>
       </div>
     <% end %>
-  </div>  
+  </div>
 
   <div id="main-wrapper">
     <%= yield %>
