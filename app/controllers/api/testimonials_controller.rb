@@ -75,7 +75,8 @@ class Api::TestimonialsController < ApplicationController
     when "untrash"
       updates = {:trash => false}  
     end
-    count = @user.testimonials.update_all(updates, :id => ids)
+
+    count = @user.testimonials.update_all(updates)
 
     @status  = "good"
     @message = "#{count} Testimonials update with: #{params[:do]}"

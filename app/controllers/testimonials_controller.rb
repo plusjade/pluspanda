@@ -67,12 +67,12 @@ class TestimonialsController < ApplicationController
     params[:testimonial].delete('lock')
 
     unless can_publish_new
-      @testimonial = Testimonial.new(params[:testimonial])
+      @testimonial = Testimonial.new(testimonial_params)
       render "editor", formats: [:html]
       return
     end
 
-    @testimonial = @user.testimonials.new(params[:testimonial])
+    @testimonial = @user.testimonials.new(testimonial_params)
 
     if @testimonial.save
       UserMailer.new_testimonial(@user, @testimonial).deliver if @user[:is_via_api]
@@ -104,7 +104,7 @@ class TestimonialsController < ApplicationController
         respond_to do |format|
           format.any(:html, :iframe) {
             flash[:notice] = @message
-            @testimonial = Testimonial.new(params[:testimonial])
+            @testimonial = Testimonial.new(testimonial_params)
             render "editor", formats: [:html]
           }
           format.json { serve_json_response }
@@ -169,10 +169,11 @@ class TestimonialsController < ApplicationController
     if params && params[:avatar]
       core_attrs = params.dup
       core_attrs.delete(:avatar)
-      @testimonial.update_attributes(core_attrs.slice(*WritableAttributes))
+      attributes = WritableAttributes.dup - [:avatar]
+      @testimonial.update_attributes(core_attrs.permit(*attributes))
     end
 
-    if @testimonial.update_attributes(params.slice(*WritableAttributes))
+    if @testimonial.update_attributes(params.permit(*WritableAttributes))
       @status   = "good"
       @message  = "Testimonial Updated!"
       @resource = @testimonial
@@ -213,11 +214,11 @@ class TestimonialsController < ApplicationController
   def can_publish_new
     access_key = @user.tconfig.form["require_key"]
 
-    email = (params[:testimonial][:email].nil?) ? '' : params[:testimonial][:email].strip
+    email = (testimonial_params[:email].nil?) ? '' : testimonial_params[:email].strip
 
     if access_key.present? && access_key != params[:access_key]
       flash[:notice] = "Invalid Access Key!"
-    elsif params[:testimonial][:name].nil? || params[:testimonial][:name].strip.blank?
+    elsif testimonial_params[:name].nil? || testimonial_params[:name].strip.blank?
       flash[:notice] = "Please enter your full name."
     elsif @user.tconfig.form["email"] && (email.blank? || email.index('@') == nil)
       flash[:notice] = "Please enter a valid email address."
@@ -226,5 +227,9 @@ class TestimonialsController < ApplicationController
     end
 
     false
+  end
+
+  def testimonial_params
+    params.require(:testimonial).permit(*WritableAttributes)
   end
 end

@@ -8,7 +8,7 @@ class Admin::AccountsController < ApplicationController
   end
 
   def update
-    if @current_user.update_attributes(params[:user])
+    if @current_user.update_attributes(user_params)
       @status  = "good"
       @message = "Account Updated!"
     elsif !@user.valid?
@@ -18,5 +18,9 @@ class Admin::AccountsController < ApplicationController
     serve_json_response and return
   end
 
+  private
 
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation)
+  end
 end

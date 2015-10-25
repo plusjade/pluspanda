@@ -11,7 +11,7 @@ class Api::SettingsController < ApplicationController
 
   # Save tconfig settings #note rename to user.settings
   def update
-    if @user.tconfig.update_attributes(params[:tconfig])
+    if @user.tconfig.update_attributes(settings_params)
       @status   = "good"
       @message  = "Settings updated"
       @resource = @user.tconfig
@@ -20,5 +20,11 @@ class Api::SettingsController < ApplicationController
     end
 
     serve_json_response
+  end
+
+  private
+
+  def settings_params
+    params.require(:tconfig).permit(:per_page, :sort, :message, form: [:rating, :company, :location, :c_position, :website, :avatar, :require_key, :meta])
   end
 end
