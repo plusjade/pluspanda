@@ -5,7 +5,6 @@ gem 'rails', '4.2.2'
 gem "nokogiri", '~> 1'
 gem "sanitize", '~> 2.0.3'
 gem "paperclip"
-#gem "rmagick"
 gem "pg"
 gem "haml", '~> 4'
 
