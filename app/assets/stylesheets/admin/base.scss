@@ -1,0 +1,1293 @@
+//@extend-elements
+//original selectors
+//html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, cite, code, del, dfn, em, font, img, ins, small, strike, strong, sub, sup, tt, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td
+%extend_1 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+//original selectors
+//table.tablesorter thead tr th, table.tablesorter tfoot tr th
+%extend_2 {
+  background-color: #d6d6d6;
+  border: 1px solid  white;
+  font-size: 8pt;
+  padding: 4px;
+}
+
+//original selectors
+//button.positive, .buttons a.positive
+%extend_3 {
+  color: white;
+  text-decoration: none;
+  background: #d1f0b9 url(/images/common/gradients.jpg) repeat-x 0 -205px;
+  border: 1px solid #bde99c;
+}
+
+//original selectors
+//.buttons a.negative, button.negative
+%extend_4 {
+  background: #333333 url(/images/common/gradients.jpg) repeat-x 0 -15px;
+  border: 1px solid  black;
+  color: white;
+}
+
+//original selectors
+//.buttons a.negative:hover, button.negative:hover
+%extend_5 {
+  background-attachment: fixed;
+  background: #d52020 url(../images/gradients.jpg) repeat-x 0 -465px;
+  border: 1px solid #cc0000;
+  color: white;
+}
+
+//original selectors
+//table.t-data thead tr th, table.t-data tfoot tr th
+%extend_6 {
+  background-color: #610000;
+  padding: 4px 4px 4px 6px;
+  border-right: 1px solid  white;
+}
+
+
+html {
+  @extend %extend_1;
+  min-width: 800px !important;
+  height: 100%;
+}
+body {
+  @extend %extend_1;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333333;
+  min-width: 800px;
+  height: 100%;
+}
+div {
+  @extend %extend_1;
+  &.textual {
+    font-family: Verdana, Helvetica, sans-serif;
+    color: #444444;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  &.jade_form_status_box {
+    font-weight: bold;
+    color: black;
+    font-size: 1.2em;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    &.box_positive {
+      background: green;
+      border: 1px solid  green;
+      color: white;
+    }
+    &.box_negative {
+      background: #fad6d6;
+      border: 1px solid #cc0000;
+    }
+  }
+  &.ajax_loading {
+    width: 100%;
+    height: 90px;
+    background: transparent url(/images/load.gif) no-repeat 50% 50%;
+    text-align: center;
+  }
+  &.editor-panel {
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 7px 10px !important;
+      border: 1px solid #bde99c;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    ul li {
+      display: inline;
+    }
+  }
+  &.responding.active {
+    padding: 5px;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    &.good {
+      background: green;
+      color: white;
+    }
+    &.bad {
+      background: red;
+      color: white;
+    }
+    &.warn {
+      background: orange;
+      color: white;
+    }
+  }
+}
+span {
+  @extend %extend_1;
+}
+applet {
+  @extend %extend_1;
+}
+object {
+  @extend %extend_1;
+}
+iframe {
+  @extend %extend_1;
+  border: 1px dashed #555555;
+}
+h1 {
+  @extend %extend_1;
+  color: #333333;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+h2 {
+  @extend %extend_1;
+  color: #333333;
+  font-size: 22px;
+  margin-bottom: 10px;
+  &.head {
+    border-bottom: 2px solid #d6d6d6;
+  }
+}
+h3 {
+  @extend %extend_1;
+  color: #333333;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #222222;
+}
+h4 {
+  @extend %extend_1;
+  color: #333333;
+  font-size: 15px;
+  margin: 10px 0;
+  text-transform: uppercase;
+  color: #333333;
+  padding: 0;
+}
+h5 {
+  @extend %extend_1;
+  color: #333333;
+  font-size: 15px;
+  margin: 10px 0;
+  text-transform: uppercase;
+  color: #999999;
+  padding: 0;
+}
+h6 {
+  @extend %extend_1;
+  color: #333333;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  color: #999999;
+}
+p {
+  @extend %extend_1;
+}
+blockquote {
+  @extend %extend_1;
+  quotes: none;
+  &:before {
+    content: "";
+    content: none;
+  }
+  &:after {
+    content: "";
+    content: none;
+  }
+}
+pre {
+  @extend %extend_1;
+}
+a {
+  @extend %extend_1;
+  outline: 0;
+  &.btn {
+    text-decoration: none;
+  }
+}
+abbr {
+  @extend %extend_1;
+}
+acronym {
+  @extend %extend_1;
+}
+cite {
+  @extend %extend_1;
+}
+code {
+  @extend %extend_1;
+}
+del {
+  @extend %extend_1;
+  text-decoration: line-through;
+}
+dfn {
+  @extend %extend_1;
+}
+em {
+  @extend %extend_1;
+}
+font {
+  @extend %extend_1;
+}
+img {
+  @extend %extend_1;
+}
+ins {
+  @extend %extend_1;
+  text-decoration: none;
+}
+small {
+  @extend %extend_1;
+}
+strike {
+  @extend %extend_1;
+}
+strong {
+  @extend %extend_1;
+}
+sub {
+  @extend %extend_1;
+}
+sup {
+  @extend %extend_1;
+}
+tt {
+  @extend %extend_1;
+}
+dl {
+  @extend %extend_1;
+}
+dt {
+  @extend %extend_1;
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+dd {
+  @extend %extend_1;
+  font-size: 12px;
+  color: #666666;
+  padding: 5px 0 10px 10px;
+  margin: 0 0 0 10px;
+}
+ol {
+  @extend %extend_1;
+  list-style: none;
+  list-style-type: lower-roman;
+}
+ul {
+  @extend %extend_1;
+  list-style: none;
+  &#parent_nav {
+    text-align: center;
+    min-width: 800px;
+    list-style: none;
+    line-height: 52px;
+    border-bottom: 1px solid #486a62;
+    li {
+      display: inline;
+      a {
+        padding: 18px;
+        margin-right: 5px;
+        color: #486a62;
+        font-size: 14px;
+        text-decoration: none;
+        font-weight: bold;
+        &:hover {
+          background-color: #b2e4c9;
+        }
+        &.active {
+          padding: 19px 18px;
+          background: white;
+          border: 1px solid #486a62;
+          border-bottom: 1px solid  white;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  &.sub-tabs {
+    list-style: none;
+    padding: 25px 0 20px;
+    li {
+      display: block;
+      clear: both;
+      margin-bottom: 4px;
+      a {
+        &:hover {
+        }
+        &.active {
+          background: #486a62;
+          color: #e2eed6;
+          position: relative;
+          left: 1px;
+        }
+      }
+    }
+    a {
+      display: block;
+      padding: 12px 17px;
+      background: #e2eed6;
+      color: #486a62;
+      font-size: 13px;
+      text-decoration: none;
+      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      border-radius: 3px 0 0 3px;
+      font-weight: bold;
+    }
+  }
+  &.tab-beans {
+    list-style: none;
+    ext-align: center;
+    padding: 4px 0;
+    margin-bottom: 20px;
+    li {
+      display: inline;
+      a {
+        padding: 5px 12px;
+        margin: 0 2px;
+        background: #b2e4c9;
+        color: #486a62;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: bold;
+        //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+        border-radius: 5px;
+        &.active {
+          background: #610000;
+          color: #f7fff8;
+        }
+      }
+    }
+  }
+  &.tokens input {
+    width: 100%;
+    padding: 6px 4px;
+    font-weight: bold;
+    font-size: 14px;
+    color: green;
+    border: 0;
+  }
+}
+li {
+  @extend %extend_1;
+}
+fieldset {
+  @extend %extend_1;
+  span {
+    &.jade_required_star {
+      color: red;
+    }
+    &.error_msg {
+      display: block;
+      color: red;
+    }
+  }
+  &.jade_error {
+    padding: 10px !important;
+    background: #fad6d6 !important;
+  }
+}
+form {
+  @extend %extend_1;
+}
+label {
+  @extend %extend_1;
+  font-weight: bold;
+}
+legend {
+  @extend %extend_1;
+}
+table {
+  @extend %extend_1;
+  border-spacing: 0;
+  font: 11px/24px Verdana, Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  border: 0;
+  &.tablesorter {
+    font-family: arial;
+    background-color: #cdcdcd;
+    font-size: 8pt;
+    width: 100%;
+    text-align: left;
+    margin-top: 10px;
+    margin-right: 0;
+    margin-bottom: 25px;
+    margin-left: 0;
+    tbody {
+      td {
+        color: #3d3d3d;
+        padding: 4px;
+        background-color: white;
+        vertical-align: top;
+      }
+      tr.odd td {
+        background-color: #f0f0f6;
+      }
+    }
+    thead tr {
+      th {
+        @extend %extend_2;
+      }
+      .header {
+        background-image: url(/images/admin/bg.gif);
+        background-repeat: no-repeat;
+        background-position: center right;
+        cursor: pointer;
+      }
+      .headerSortUp {
+        background-image: url(/images/admin/asc.gif);
+        background-color: #b7b7b7;
+      }
+      .headerSortDown {
+        background-image: url(/images/admin/desc.gif);
+        background-color: #b7b7b7;
+      }
+    }
+    tfoot tr th {
+      @extend %extend_2;
+    }
+  }
+  &.t-data {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+    tr {
+      td {
+        border-bottom: 1px dashed #cccccc;
+        background: white;
+      }
+      &.false td {
+        background: #eeeeee;
+        color: #777777;
+      }
+    }
+    tbody {
+      td {
+        padding: 4px 4px 4px 6px;
+        vertical-align: top;
+        border-right: 1px dashed #cccccc;
+      }
+      tr.odd td {
+        background-color: #f0f0f6;
+      }
+    }
+    thead tr {
+      th {
+        @extend %extend_6;
+      }
+      .header {
+        background-image: url(/images/admin/bg.gif);
+        background-repeat: no-repeat;
+        background-position: center right;
+        cursor: pointer;
+      }
+      .headerSortUp {
+        background-image: url(/images/admin/asc.gif);
+        background-color: #555555;
+      }
+      .headerSortDown {
+        background-image: url(/images/admin/desc.gif);
+        background-color: #555555;
+      }
+    }
+    tfoot tr th {
+      @extend %extend_6;
+    }
+  }
+}
+caption {
+  @extend %extend_1;
+}
+tbody {
+  @extend %extend_1;
+}
+tfoot {
+  @extend %extend_1;
+}
+thead {
+  @extend %extend_1;
+}
+tr {
+  @extend %extend_1;
+}
+th {
+  @extend %extend_1;
+}
+td {
+  @extend %extend_1;
+  &.edit {
+    text-align: center;
+  }
+  &.no-padding {
+    padding: 0 !important;
+  }
+  &.toggle-publish {
+    a {
+      display: block;
+      min-height: 44px;
+      width: 44px;
+      background: transparent url(/images/admin/icon-hidden.png) no-repeat center center;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+    &.publish a {
+      background: transparent url(/images/admin/icon-publish.png) no-repeat center center;
+    }
+  }
+  &.toggle-lock {
+    a {
+      display: block;
+      min-height: 44px;
+      width: 44px;
+      &:hover {
+        opacity: 0.5;
+        background: transparent url(/images/admin/icon-lock-black1.png) no-repeat center center;
+      }
+    }
+    &.lock a {
+      background: transparent url(/images/admin/icon-lock-black1.png) no-repeat center center;
+    }
+  }
+  &.move img {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    cursor: move;
+  }
+}
+q {
+  quotes: none;
+  &:before {
+    content: "";
+    content: none;
+  }
+  &:after {
+    content: "";
+    content: none;
+  }
+}
+:focus {
+  outline: 0;
+}
+.sub-head {
+  border-bottom: 1px dashed #d6d6d6;
+}
+button {
+  outline: 0;
+  cursor: pointer;
+  &.positive {
+    @extend %extend_3;
+    &:hover {
+      background: orange url(/images/common/gradients.jpg) repeat-x 0 -250px;
+      border: 1px solid  orange;
+    }
+  }
+  &.negative {
+    @extend %extend_4;
+    &:hover {
+      @extend %extend_5;
+    }
+  }
+}
+.even {
+  background-color: #eaeaea;
+}
+.indent {
+  margin: 15px;
+  line-height: 1.5em;
+  color: #444444;
+}
+#login-wrapper {
+  width: 320px;
+  margin: 50px auto 10px auto;
+  order: 10px solid #d6d6d6;
+  padding: 15px 30px;
+  //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+  box-shadow: 0 2px 4px #cccccc;
+  h1 {
+    text-align: center;
+    padding-bottom: 10px;
+    font-size: 28px;
+  }
+  button {
+    margin: auto;
+    width: 80px;
+  }
+}
+.user-status {
+  margin: auto;
+  line-height: 1.6em;
+  width: 450px;
+  padding: 10px;
+  text-align: center;
+  &.guest {
+    background: #ffffcc;
+  }
+  &.owner {
+  }
+  b {
+    font-size: 1.2em;
+  }
+}
+#wrapper {
+  min-width: 800px;
+}
+#top {
+  position: fixed;
+  width: 100%;
+  min-width: 900px;
+  z-index: 100;
+  background: #90d1bf url(/images/admin/panda.png) no-repeat 1% 50%;
+  overflow: hidden;
+  #top_links {
+    text-align: right;
+    position: absolute;
+    top: 18px;
+    right: 0;
+    list-style: none;
+    padding: 5px 0;
+    li {
+      display: inline;
+      color: #486a62;
+      font-weight: bold;
+      margin: 0;
+      a {
+        padding: 5px 10px;
+        margin: 0;
+        font-weight: bold;
+        color: inherit;
+        &:hover {
+          background: #f7fff8;
+          color: #486a62;
+        }
+      }
+    }
+  }
+}
+#main-wrapper {
+  min-width: 850px;
+  min-height: 350px;
+  padding: 0;
+}
+#side-wrapper {
+  float: left;
+  width: 15%;
+  height: 100%;
+  min-height: 400px;
+}
+.options-box {
+  clear: both;
+  padding: 20px;
+}
+.primary-content {
+  float: left;
+  width: 84%;
+  height: 100%;
+  border-left: 1px solid #e2eed6;
+  background: transparent;
+  tr:hover {
+    background-color: #ffffcc;
+  }
+}
+#footer {
+  clear: both;
+  font-size: 10px;
+  text-align: center;
+}
+.round-box-top {
+  clear: both;
+  padding: 7px 15px;
+  background: #555555;
+  color: white;
+  a.close {
+    float: right;
+    color: white;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+.round-box-body {
+  clear: both;
+  overflow: auto;
+  padding: 20px;
+  background: #f7f7f7;
+  margin-bottom: 15px;
+  border-right: 2px solid #dddddd;
+  border-bottom: 2px solid #dddddd;
+}
+#status-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 890px;
+  width: 100%;
+  z-index: 9995;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  text-align: center;
+  div {
+    &#submitting {
+      margin: auto;
+      width: 180px;
+      padding: 3px 20px;
+      background: #09a0fb url(/images/admin/circle.gif) no-repeat 80% 50%;
+      color: white;
+      height: 55px;
+      text-align: left;
+      strong {
+        display: block;
+        margin-top: 20px;
+        font-size: 1.2em;
+      }
+    }
+    &.responding {
+      margin: auto;
+      width: 350px;
+    }
+  }
+}
+.loading {
+  width: 200px;
+  margin: auto;
+  margin-top: 30px;
+  padding-top: 45px;
+  text-align: center;
+  color: #222222;
+  background: url(/images/loading.gif) no-repeat top center;
+  &.white {
+    color: white;
+  }
+}
+#facebox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  text-align: left;
+  .popup {
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0);
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 5px;
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+  }
+  .content {
+    display: table;
+    width: 370px;
+    padding: 10px;
+    background: white;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 4px;
+    > p {
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 2px;
+    background: transparent;
+    text-decoration: none;
+    color: #333333;
+    font-weight: bold;
+    font-size: 12px;
+    img {
+      opacity: 0.3;
+    }
+    &:hover {
+      color: red;
+    }
+  }
+  .loading {
+    text-align: center;
+  }
+  .image {
+    text-align: center;
+  }
+  img {
+    border: 0;
+    margin: 0;
+  }
+}
+#facebox_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.facebox_hide {
+  z-index: -100;
+}
+.facebox_overlayBG {
+  background-color: black;
+  z-index: 99;
+}
+#editor-wrapper {
+  fieldset {
+    margin-bottom: 7px;
+  }
+  .panda-image {
+    clear: both;
+    text-align: center;
+    padding: 7px 15px;
+    background: #555555;
+    color: white;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 10px;
+    //Instead of the line below you could use @include border-bottom-left-radius($radius)
+    border-bottom-left-radius: 0;
+    //Instead of the line below you could use @include border-bottom-right-radius($radius)
+    border-bottom-right-radius: 0;
+    input {
+      color: white;
+    }
+  }
+  .t-view {
+    clear: both;
+    overflow: auto;
+    padding: 20px;
+    background: #f7f7f7;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 10px;
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 0 0 3px #cccccc, inset 0 0 -3px #eeeeee;
+    margin-bottom: 15px;
+    #t-view-inner {
+      width: 725px;
+      margin: auto;
+    }
+  }
+  .t-details {
+    width: 190px;
+    float: right;
+    font-size: 11px;
+    .image {
+      width: 125px;
+      height: 125px;
+      margin-bottom: 7px;
+      background: #eeeeee;
+      border: 5px solid #cccccc;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input.hide {
+      border: 0;
+      display: inline;
+    }
+  }
+  .t-content {
+    width: 510px;
+    float: left;
+    overflow: hidden;
+    label {
+      display: inline-block !important;
+      width: 150px;
+      font-weight: bold;
+      margin: 0;
+      padding: 0;
+    }
+    input {
+      border: 0;
+      border: 1px solid #cccccc;
+      width: 200px !important;
+    }
+  }
+  .t-rating-wrapper {
+    margin-bottom: 5px;
+    overflow: auto;
+  }
+  .rating-fallback {
+    width: 100%;
+  }
+  .t-body {
+    clear: both;
+    padding: 10px;
+    background: #e6f5fc;
+    margin: 2px 0;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 5px;
+    textarea {
+      width: 99%;
+      height: 200px;
+    }
+  }
+  .t-url {
+    display: block;
+  }
+  #panda-star-rating {
+    float: right;
+    width: 160px;
+    height: 33px;
+    margin-bottom: 10px;
+    background: white url(/images/rating-select.png) no-repeat 0 0;
+    border: 1px solid #eeeeee;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 5px;
+    &._1 {
+      background-position: 0 -48px;
+    }
+    &._2 {
+      background-position: 0 -95px;
+    }
+    &._3 {
+      background-position: 0 -142px;
+    }
+    &._4 {
+      background-position: 0 -189px;
+    }
+    &._5 {
+      background-position: 0 -236px;
+    }
+    div {
+      width: 32px;
+      height: 40px;
+      float: left;
+      cursor: cursor;
+      cursor: pointer;
+    }
+  }
+  .panda-rating-text {
+    float: right;
+    margin-right: 10px;
+    padding-top: 7px;
+    font-size: 1.1em;
+    font-weight: bold;
+  }
+  #data {
+    clear: both;
+    margin-bottom: 10px;
+    td {
+      width: 400px;
+      padding-bottom: 3px;
+    }
+  }
+  .testimonial-wrapper select.hide {
+    border: 0;
+    display: inline;
+  }
+  .t-name input {
+    font-weight: bold;
+  }
+  .t-position input {
+    width: 80px;
+    font-style: italic;
+  }
+  .t-company input {
+    width: 110px;
+  }
+}
+#admin-table {
+  width: 100%;
+  td {
+    text-align: center;
+    &.t-publish {
+      border: 1px solid #ffff99;
+      background: #ffffcc;
+      font-weight: bold;
+    }
+  }
+}
+.crop-wrapper {
+  width: 650px;
+  padding: 10px;
+  overflow: auto;
+}
+.crop-image {
+  width: 500px;
+  float: left;
+}
+.crop-preview {
+  width: 130px;
+  float: right;
+}
+.crop-preview-holder {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #dddddd;
+  overflow: hidden;
+}
+#tab-settings {
+  position: relative;
+  fieldset {
+    padding: 15px 0;
+  }
+  button {
+    padding: 7px 10px !important;
+    border: 1px solid #bde99c;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+#installed-themes {
+  list-style: none;
+  padding: 5px;
+  li {
+    margin-right: 10px;
+    display: inline;
+    &.theme a {
+      padding: 3px 5px;
+      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      border-radius: 5px;
+      &:hover {
+        background: orange;
+      }
+      &.active {
+        background: orange;
+      }
+    }
+  }
+}
+#data-description {
+  color: #486a62;
+}
+.data-description {
+  color: #486a62;
+}
+.share-data {
+  width: 600px;
+  height: 300px;
+  text-align: center;
+  input {
+    width: 500px;
+    font-size: 1.2em;
+    padding: 5px;
+  }
+}
+#collector-form-url {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px;
+  border: 1px solid #eeeeee;
+  background: #ffff99;
+}
+.install-page {
+  div {
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+  }
+  .info {
+    margin-bottom: 10px;
+    background: #ffffcc;
+  }
+  textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+}
+.manage-testimonial {
+  margin-bottom: 5px;
+  &.true {
+    ackground-color: #e2eed6;
+    .header {
+      ackground-color: #c6d0bc;
+    }
+  }
+  .header {
+    background: #eee;
+    margin: 0;
+    padding: 0;
+    cursor: move;
+    i {
+      font-size: 1.2em;
+      &.icon-lock {
+      }
+      &.icon-unlock {
+      }
+    }
+    div {
+      display: inline-block;
+      padding: 5px 8px;
+      &.move {
+      }
+      &.created {
+        float: right;
+      }
+      &.updated {
+        float: right;
+      }
+      &.share {
+        width: 45px;
+        text-align: center;
+      }
+    }
+    button {
+      float: right;
+    }
+  }
+  input {
+    border: 1px solid #aaa;
+    width: 90%;
+    color: #333;
+  }
+  > div {
+    padding: 5px;
+  }
+  textarea {
+    display: block;
+    width: 99%;
+    height: 35px;
+    margin-bottom: 0;
+    color: #333;
+  }
+  td {
+    width: 200px !important;
+    text-align: center;
+    input {
+      width: 200px;
+    }
+    textarea {
+      width: 400px;
+    }
+    &.checkboxes input.select {
+      width: 30px;
+    }
+  }
+  &.selected td {
+    background-color: #ffffcc !important;
+  }
+  div label {
+    display: inline-block;
+    width: 19%;
+    strong {
+      display: block;
+    }
+  }
+}
+.form-control {
+  font-size: 12px;
+  height: auto;
+}
+.base-padding {
+  padding: 20px;
+}
+#layout-editor {
+  width: 45%;
+  height: 500px;
+  float: left;
+}
+#layout-previewer {
+  border-left: 1px solid #ccc;
+  width: 55%;
+  float: left;
+}
+#new-testimonial-view {
+  margin-bottom: 10px;
+  input {
+    min-width: 200px;
+  }
+  textarea {
+    min-width: 400px;
+  }
+}
+.table-wrapper-scrollable {
+  overflow: auto;
+  border: 1px solid #ddd;
+}
+#widget-published-wrapper {
+  margin-top: 10px;
+}
+input.save-account {
+  display: inline-block;
+  padding: 3px !important;
+  border: 1px solid #333333;
+  font-size: 12px;
+  color: green;
+  background: white;
+  &:hover {
+    background: orange;
+    color: white;
+    border: 1px solid  white;
+    cursor: cursor;
+    cursor: pointer;
+  }
+}
+.panda-image a.close {
+  float: right;
+  color: white;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.buttons a {
+  &.positive {
+    @extend %extend_3;
+    &:hover {
+      background: orange url(/images/common/gradients.jpg) repeat-x 0 -250px;
+      border: 1px solid  orange;
+    }
+    &:active {
+      background: orange url(/images/common/gradients.jpg) repeat-x 0 -250px;
+      border: 1px solid  orange;
+    }
+  }
+  &.negative {
+    @extend %extend_4;
+    &:hover {
+      @extend %extend_5;
+    }
+    &:active {
+      background-color: #d12f19;
+      border: 1px solid #d12f19;
+      color: white;
+    }
+  }
+}
+.questions-wrapper p {
+  margin: 5px;
+  padding: 5px;
+  background: #eeeeee;
+}
+#theme-change-form div {
+  padding: 10px;
+  background-color: #eee;
+  line-height: 40px;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  &:hover {
+    border: 1px solid #eea236;
+  }
+  &.active {
+    border: 1px solid #eea236;
+    background-color: #f0ad4e;
+  }
+}
