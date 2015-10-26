@@ -19,10 +19,20 @@ gem 'annotate', ">=2.6.0"
 gem "sass", '~>3'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
+
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
+
 group :development do
-  gem 'sass-rails'
-  gem 'uglifier'
-  gem 'coffee-rails'
+  gem 'capistrano', '>= 3.3.5'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler' # for capistrano/bundler
+  gem 'capistrano-rails'
+end
+
+group :production do
+  gem 'unicorn'
 end
 
 # group :test do
