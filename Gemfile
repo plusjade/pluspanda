@@ -22,6 +22,8 @@ gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
+gem 'react-rails', '~> 1.4.0'
+gem 'sprockets-coffee-react'
 
 group :development do
   gem 'capistrano', '>= 3.3.5'
