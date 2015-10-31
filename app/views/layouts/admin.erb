@@ -5,7 +5,8 @@
   <meta charset="utf-8">
   <title>PlusPanda Admin Panel</title>
 
-  <%= stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css", "admin-new" %>
+  <%= stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" %>
+  <%= stylesheet_link_tag "application" %>
 <% if Rails.env.production? %>
   <script type="text/javascript">
     var heap=heap||[];heap.load=function(a){window._heapid=a;var b=document.createElement("script");b.type="text/javascript",b.async=!0,b.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.heapanalytics.com/js/heap.js";var c=document.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);var d=function(a){return function(){heap.push([a].concat(Array.prototype.slice.call(arguments,0)))}},e=["identify","track"];for(var f=0;f<e.length;f++)heap[e[f]]=d(e[f])};
@@ -17,12 +18,12 @@
 <body>
 <div id="wrapper">
   <div id="top">
-    <ul id="parent_nav"> 
+    <ul id="parent_nav">
       <li><a href="/admin">Install</a></li>
-      <li><a href="/admin/widget">Customize Layout</a></li> 
-      <li><a href="/admin/manage">Manage Testimonials</a></li> 
+      <li><a href="/admin/widget">Customize Layout</a></li>
+      <li><a href="/admin/manage">Manage Testimonials</a></li>
       <li><a href="/admin/collect">Collect Testimonials</a></li>
-      <li><a href="/admin/account">Account</a></li> 
+      <li><a href="/admin/account">Account</a></li>
       <li><%= link_to "Logout", admin_logout_path %></li>
     </ul>
   </div>
@@ -39,7 +40,7 @@
         <%= flash.map {|k,v| v}.join(',') %>
       </div>
     <% end %>
-  </div>  
+  </div>
 
   <div id="main-wrapper">
     <%= yield %>
@@ -105,45 +106,19 @@
   <script type="text/javascript">
     var loading = '<div class="loading">Loading...</div>';
   </script>
-
 <%
-  scripts = if true || Rails.env.production?
-    %w(
-      lib/jquery-1.8.3
-      lib/underscore.1.5.2.min
-      lib/backbone.1.1.0.min
-      lib/mustache-0.7.3
-    )
-  else
-    %w(
-      lib/jquery-1.8.3
-      lib/underscore.1.5.2.min
-      lib/backbone.1.1.0.min
-      lib/mustache-0.7.3
 
-      vendor/modernizr-custom
-      vendor/addon
-      vendor/facebox
-      vendor/jquery.ui-1.10.2.min
-      vendor/timeago.min
-
-      app/_app
-      app/router
-      app/layoutView
-      app/manageView
-      app/collectView
-      app/accountView
-      app/widgetView
-      app/editorView
-      app/previewView
-    )
-  end
-
+  scripts = %w(
+    lib/jquery-1.8.3
+    lib/underscore.1.5.2.min
+    lib/backbone.1.1.0.min
+    lib/mustache-0.7.3
+  )
   scripts.each do |path|
 %>
   <script src="/javascripts/<%= path %>.js"></script>
 <% end %>
-
+  <%= javascript_include_tag "application" %>
   <script>
       App.start(<%= { id: current_user.id, apikey: current_user.apikey }.to_json.html_safe %>);
 

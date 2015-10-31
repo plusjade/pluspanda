@@ -13,6 +13,9 @@ env.logger = Logger.new(STDOUT)
 env.logger.level = Logger::WARN
 
 env.append_path('public/javascripts')
+env.append_path('public/stylesheets')
 
-manifest = Sprockets::Manifest.new(env, 'public/javascripts')
+manifest = Sprockets::Manifest.new(env, 'public/javascripts', 'public/stylesheets')
 manifest.compile('application.js')
+manifest.compile('application.css')
+

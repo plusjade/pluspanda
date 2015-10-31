@@ -53,7 +53,7 @@ module ThemeConfig
 
     widget = Publish::WidgetJs.new(version: version)
     Rails.env.development? ?
-      "/javascripts/widget/widget-v#{ version }.js" :
+      "//#{ Rails.application.routes.default_url_options[:host] }/javascripts/widget/widget-v#{ version }.js" :
       widget.endpoint
   end
 end

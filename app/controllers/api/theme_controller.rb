@@ -20,16 +20,17 @@ class Api::ThemeController < ApplicationController
 
   # install and stage a new theme.
   def create
-    unless ThemePackage.themes.include?(params[:theme][:name])
-      render(nothing: true, status: :not_found) and return
-    end
-
+    params[:theme] ||= {}
     params[:theme][:theme_name] = params[:theme][:name]
     params[:theme][:staged] = true
 
+    unless ThemePackage.themes.include?(theme_params[:name])
+      render(nothing: true, status: :not_found) and return
+    end
+
     if @user.standard_themes.count >= 10
       @message = "Your account only allows 5 themes."
-    elsif (theme = @user.standard_themes.find_by_theme_name(params[:theme][:name]))
+    elsif (theme = @user.standard_themes.find_by_theme_name(theme_params[:name]))
       @user.standard_themes.update_all(:staged => false)
       theme.staged = true
       theme.save
@@ -38,8 +39,7 @@ class Api::ThemeController < ApplicationController
       @message = "'#{theme.theme_name}' theme is now staged"
     else
       @user.standard_themes.update_all(:staged => false)
-
-      if theme = @user.standard_themes.create(params[:theme])
+      if theme = @user.standard_themes.create(theme_params)
         @status = "good"
         @message = "'#{theme.theme_name}' theme is now staged"
       else
@@ -48,5 +48,11 @@ class Api::ThemeController < ApplicationController
     end
 
     serve_json_response
+  end
+
+  private
+
+  def theme_params
+    params.require(:theme).permit(:name, :theme_name, :staged)
   end
 end

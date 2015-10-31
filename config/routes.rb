@@ -1,10 +1,9 @@
-Pluspanda::Application.routes.draw do
-  
+Rails.application.routes.draw do
   # legacy api
   resources :testimonials, as: :legacy_testimonials do
     get :widget, :on => :collection, as: :legacy_widget
   end
-  
+
   # current api
   scope "v1" do
     resources :testimonials do
@@ -37,7 +36,7 @@ Pluspanda::Application.routes.draw do
 
   # account management
   resource :account, :controller => "users", :only => [:new, :create] do
-    match :reset_password, on: :collection
+    get :reset_password, on: :collection, via: [:get, :post]
   end
 
   resource :session, :controller => "user_sessions" do
@@ -90,13 +89,12 @@ Pluspanda::Application.routes.draw do
     end
   end
 
-
   # dashboard
   scope "/pinky", :controller => "pinky", :as => "pinky" do
     get "()" ,:action => "index"
     get "users"
     post "as_user"
   end
-  
+
   root to: redirect('/admin')
 end
