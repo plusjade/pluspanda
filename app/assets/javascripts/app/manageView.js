@@ -255,7 +255,10 @@ var NewTestimonialView = Backbone.View.extend({
             type : "POST",
             dataType: "JSON",
             url : '/v1/testimonials',
-            data : { testimonial : data },
+            data : {
+                apikey: self.collection.user.get("apikey"),
+                testimonial : data
+            },
         })
         .done(function() {
             ShowStatus.respond({ msg :'Testimonial Saved', status: "good" });

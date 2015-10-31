@@ -212,6 +212,7 @@ class TestimonialsController < ApplicationController
 
   # verify this user can create a testimonial
   def can_publish_new
+    return true if @user == current_user
     access_key = @user.tconfig.form["require_key"]
 
     email = (testimonial_params[:email].nil?) ? '' : testimonial_params[:email].strip
