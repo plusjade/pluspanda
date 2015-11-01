@@ -53,7 +53,9 @@ end
 
 class User < ActiveRecord::Base
   include Seed
-  acts_as_authentic
+  acts_as_authentic do |c|
+    c.crypto_provider = Authlogic::CryptoProviders::Sha512
+  end
 
   has_many :testimonials, :dependent => :destroy
   has_many :standard_themes, :dependent => :destroy
