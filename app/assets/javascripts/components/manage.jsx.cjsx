@@ -39,7 +39,7 @@
     if active
       @loadTestimonials(active)
       @setState(activeFilter: active)
-      @toggleForm(false)
+      @toggleForm(false, {})
 
   loadTestimonials: (filter, page) ->
     @props.testimonials.loadTestimonials(filter.name, page).done (rsp) =>
