@@ -39,7 +39,7 @@
     if active
       @loadTestimonials(active)
       @setState(activeFilter: active)
-      @toggleForm(false, {})
+      @toggleForm(false)
 
   loadTestimonials: (filter, page) ->
     @props.testimonials.loadTestimonials(filter.name, page).done (rsp) =>
@@ -61,7 +61,7 @@
         t.set("selected", !t.get("selected"))
 
   toggleForm: (bool, testimonial) ->
-    @setState(formActive: bool, testimonial: testimonial)
+    @setState(formActive: bool, testimonial: testimonial || new Testimonial)
 
   render: ->
     props = _.extend {toggleForm: @toggleForm, setFilter: @handleSetFilter}, @props, @state

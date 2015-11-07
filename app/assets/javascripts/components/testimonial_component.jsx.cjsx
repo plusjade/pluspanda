@@ -17,8 +17,7 @@
     @save()
 
   componentWillReceiveProps: (nextProps) ->
-    if nextProps.testimonial
-      @setState(testimonial: nextProps.testimonial.attributes)
+    @setState(testimonial: nextProps.testimonial.attributes)
     if nextProps.active
       window.scrollTo(0, 0)
 
