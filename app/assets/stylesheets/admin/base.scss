@@ -544,30 +544,21 @@ td {
     padding: 0 !important;
   }
   &.toggle-publish {
-    a {
+    div {
       display: block;
       min-height: 44px;
-      width: 44px;
       background: transparent url(/images/admin/icon-hidden.png) no-repeat center center;
-      &:hover {
-        opacity: 0.5;
-      }
     }
-    &.publish a {
+    &.publish div {
       background: transparent url(/images/admin/icon-publish.png) no-repeat center center;
     }
   }
   &.toggle-lock {
-    a {
+    div {
       display: block;
       min-height: 44px;
-      width: 44px;
-      &:hover {
-        opacity: 0.5;
-        background: transparent url(/images/admin/icon-lock-black1.png) no-repeat center center;
-      }
     }
-    &.lock a {
+    &.lock div {
       background: transparent url(/images/admin/icon-lock-black1.png) no-repeat center center;
     }
   }
@@ -1209,6 +1200,15 @@ button {
   float: left;
 }
 #new-testimonial-view {
+  background-color: #FFF;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  &.closed {
+    display: none;
+  }
   margin-bottom: 10px;
   input {
     min-width: 200px;
@@ -1219,7 +1219,12 @@ button {
 }
 .table-wrapper-scrollable {
   overflow: auto;
-  border: 1px solid #ddd;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  table {
+    border-top: 0;
+    border-bottom: 0;
+  }
 }
 #widget-published-wrapper {
   margin-top: 10px;

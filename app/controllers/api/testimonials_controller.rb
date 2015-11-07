@@ -35,7 +35,7 @@ class Api::TestimonialsController < ApplicationController
       .order(order)
       .limit(limit)
       .offset(offset)
-      .map do |t| 
+      .map do |t|
         t.sanitize_for_api
           .merge(t.attributes)
           .merge({
@@ -46,12 +46,14 @@ class Api::TestimonialsController < ApplicationController
     render json: {
       testimonials: testimonials,
       total: total,
-      next_page: (limit*page < total) ? page+1 : false 
+      page: page,
+      next_page: (limit*page < total) ? page+1 : false
     }
   end
 
   def update
-    unless ['publish', 'hide', 'lock', 'unlock', 'trash', 'untrash'].include?(params[:do])
+    action = params[:do].to_s.downcase
+    unless ['publish', 'hide', 'lock', 'unlock', 'trash', 'untrash'].include?(action)
       @message = "Invalid action."
       serve_json_response
       return
@@ -59,7 +61,7 @@ class Api::TestimonialsController < ApplicationController
 
     ids = params[:ids].map! { |id| id.to_i }
 
-    case params[:do]
+    case action
     when "publish"
       updates = {:publish => true}
     when "hide"
@@ -73,19 +75,19 @@ class Api::TestimonialsController < ApplicationController
     when "trash"
       updates = {:trash => true}
     when "untrash"
-      updates = {:trash => false}  
+      updates = {:trash => false}
     end
 
-    count = @user.testimonials.update_all(updates)
+    count = @user.testimonials.where(id: ids).update_all(updates)
 
     @status  = "good"
-    @message = "#{count} Testimonials update with: #{params[:do]}"
+    @message = "#{count} Testimonials update with: #{action}"
 
     serve_json_response
-  end 
+  end
 
   def save_positions
-    if params['tstml'].nil? or !params['tstml'].is_a?(Array) 
+    if params['tstml'].nil? or !params['tstml'].is_a?(Array)
       serve_json_response
       return
     end

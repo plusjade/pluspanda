@@ -14,7 +14,4 @@
 //= require react_ujs
 //= require components
 //= require_tree ./vendor
-//= require react
-//= require react_ujs
-//= require components
 //= require_tree ./app

@@ -24,5 +24,11 @@ module Pluspanda
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # enable animations/etc for React
+    config.react.addons = true
+    config.react.jsx_transform_options = {
+      modules: "ignore"
+    }
   end
 end

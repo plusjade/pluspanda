@@ -10,7 +10,7 @@ class TestimonialsController < ApplicationController
 
     @active_tag   = (params['tag'].nil?)  ? 'all'    : params['tag']
     @active_sort  = (params['sort'].nil?) ? 'newest' : params['sort'].downcase
-    @active_page  = (params['page'].nil? ) ? 1       : params['page'].to_i 
+    @active_page  = (params['page'].nil? ) ? 1       : params['page'].to_i
     @tags  = Tag.where({:user_id => @user.id })
 
     criteria = {
@@ -18,7 +18,7 @@ class TestimonialsController < ApplicationController
       premium: @user.premium,
       limit: @user.tconfig.per_page,
       sort: @user.tconfig.sort,
-      page: @active_page, 
+      page: @active_page,
       tag: @active_tag,
       created: @active_sort
     }
@@ -63,6 +63,7 @@ class TestimonialsController < ApplicationController
   def create
     @user = User.find_by_apikey!(params['apikey'])
 
+    params[:testimonial] ||= {}
     params[:testimonial].delete('publish')
     params[:testimonial].delete('lock')
 
@@ -94,7 +95,7 @@ class TestimonialsController < ApplicationController
       end
     else
       if @testimonial.valid?
-        @message = "Oops! An unknown error occured. Please try again." 
+        @message = "Oops! An unknown error occured. Please try again."
         respond_to do |format|
           format.any(:html, :iframe) { flash[:notice] = @message }
           format.json { serve_json_response }
@@ -111,6 +112,9 @@ class TestimonialsController < ApplicationController
         end
       end
     end
+  rescue ActionController::ParameterMissing
+    message = "Missing required fields."
+    render json: {status: "bad", message: message}, status: 401
   end
 
   def edit
@@ -182,7 +186,7 @@ class TestimonialsController < ApplicationController
         serve_json_response
       else
         respond_to do |format|
-          format.any(:html,:iframe) do 
+          format.any(:html,:iframe) do
             flash[:success] = @message
             redirect_to "#{ edit_testimonial_path(@testimonial, apikey: @user.apikey) }"
           end

@@ -13,14 +13,15 @@ var Testimonials = Backbone.Collection.extend({
         this.user = args.user;
     }
     ,
-    loadTestimonials : function(filter) {
+    loadTestimonials : function(filter, page) {
+        filter = filter.toLowerCase();
         if($.inArray(filter, this.filters) === -1) return false;
         this.filterName = filter;
         var self = this;
         return  $.ajax({
                     dataType: "JSON",
                     url : this.user.url() + '/testimonials.json',
-                    data : { filter: filter },
+                    data : { filter: filter, page: page || 1 },
                 })
                 .done(function(data) {
                     self.next_page = data.next_page;
@@ -28,12 +29,13 @@ var Testimonials = Backbone.Collection.extend({
                 })
     }
     ,
-    loadNext : function() {
+    loadNext : function(filter, page) {
+        filter = filter.toLowerCase();
         var self = this;
         return  $.ajax({
                     dataType: "JSON",
                     url : this.user.url() + '/testimonials.json',
-                    data : { filter: this.filterName, page: this.next_page },
+                    data : { filter: filter, page: page },
                 })
                 .done(function(data) {
                     self.next_page = data.next_page;
@@ -50,11 +52,16 @@ var Testimonials = Backbone.Collection.extend({
                 })
     },
 
+    selectedCount: function() {
+        return this.where({ selected : true }).length;
+    }
+    ,
     // action (string) : what action to carry out.
     batchUpdate : function(action) {
+        action = action.toLowerCase();
         var selected = this.where({ selected : true }),
-            ids = _.pluck(selected, "id");
-
+            ids = _.pluck(selected, "id"),
+            self = this;
         return  $.ajax({
                     dataType: "JSON",
                     type: "PUT",
@@ -64,21 +71,19 @@ var Testimonials = Backbone.Collection.extend({
                 .done(function() {
                     _.each(selected, function(model) {
                         if(action === "lock")
-                            model.set('lock', true)
+                            model.set('lock', true, {silent: true})
                         else if(action === 'unlock')
-                            model.set('lock', false)
+                            model.set('lock', false, {silent: true})
                         else if(action === 'publish')
-                            model.set('publish', true)
+                            model.set('publish', true, {silent: true})
                         else if(action === 'hide')
-                            model.set('publish', false)
+                            model.set('publish', false, {silent: true})
                         else if(action === 'trash')
-                            model.set('trash', true)
+                            model.set('trash', true, {silent: true})
                         else if(action === 'unlock')
-                            model.set('trash', false)
-
-                        // trigger sync manually =(
-                        model.trigger('sync');
+                            model.set('trash', false, {silent: true})
                     })
+                    self.trigger("reset");
                 })
     }
 })
@@ -180,103 +185,6 @@ var TestimonialView = Backbone.View.extend({
     }
 })
 
-var TestimonialsView = Backbone.View.extend({
-    el : '#js-testimonials-pager'
-    ,
-    events : {
-        'click' : 'loadNext'
-    }
-    ,
-    initialize : function() {
-        this.$container = $('#t-data');
-        this.collection.on('reset', this.render, this);
-        this.collection.on('add', this.add, this);
-        this.collection.on('reset add', this.toggle, this);
-
-        this.collection.loadTestimonials("published");
-    }
-    ,
-    toggle : function() {
-        if(this.collection.next_page > 0) {
-            this.$el.show();
-        }
-        else {
-            this.$el.hide();
-        }
-    }
-    ,
-    loadNext : function(e) {
-        e.preventDefault();
-        this.collection.loadNext();
-    }
-    ,
-    render : function() {
-        this.$container.empty();
-        if(this.collection.length > 0) {
-            var cache = [];
-            this.collection.each(function(model) {
-                cache.push(new TestimonialView({ model : model }).render());
-            })
-            $.fn.append.apply(this.$container, cache);
-        }
-        else {
-            this.$container.html('<tr><td colspan="13"><h4>No results</h4></td></tr>');
-        }
-    }
-    ,
-    add : function(model) {
-        this.$container.append( new TestimonialView({ model : model }).render() );
-    }
-})
-
-var NewTestimonialView = Backbone.View.extend({
-    el : '#new-testimonial-view'
-    ,
-    events : {
-        'click a.js-cancel' : 'reset',
-        'submit' : 'save'
-    }
-    ,
-    render : function() {
-        this.$el.show();
-    }
-    ,
-    // Todo: Make this use the backbone model. Can't do it cuz it's namespaced =/
-    // and I don't know how to easily update it.
-    save : function(e) {
-        e.preventDefault();
-        var self = this,
-            testimonial = new Testimonial(),
-            params = this.$el.serializeArray(),
-            data = {};
-        _.each(params, function(param){ data[param.name] = param.value })
-
-        $.ajax({
-            type : "POST",
-            dataType: "JSON",
-            url : '/v1/testimonials',
-            data : {
-                apikey: self.collection.user.get("apikey"),
-                testimonial : data
-            },
-        })
-        .done(function() {
-            ShowStatus.respond({ msg :'Testimonial Saved', status: "good" });
-            self.reset();
-            self.collection.loadTestimonials('new');
-            delete testimonial;
-        })
-        .error(function(){
-            ShowStatus.respond({ msg :'There was an error! Please try again' });
-        })
-    }
-    ,
-    reset : function(e) {
-        if(e) e.preventDefault();
-        this.$el.hide()[0].reset();
-    }
-})
-
 var SelectedTestimonials = Backbone.View.extend({
     el : '.admin-new-testimonials-list'
     ,
@@ -344,41 +252,14 @@ var SelectedTestimonials = Backbone.View.extend({
     }
 })
 
-var Filters = Backbone.View.extend({
-    el : '.manage-testimonial-filters'
-    ,
-    events : {
-        'click a' : 'filter'
-    }
-    ,
-    initialize : function() {
-        this.collection.on('reset', this.render, this);
-    }
-    ,
-    render : function() {
-        this.$('a').removeClass('active');
-        var $node = this.$('.js-' + this.collection.filterName).addClass('active');
-        $(".data-description").html($node.prop('title'));
-    }
-    ,
-    filter : function(e) {
-        e.preventDefault();
-        this.collection.loadTestimonials(e.currentTarget.innerHTML.toLowerCase());
-    }
-});
-
 App.ManageView = Backbone.View.extend({
     initialize : function(args) {
         var testimonials = new Testimonials({ user: args.user });
+        var props = {
+            user: args.user,
+            testimonials: testimonials
+        }
 
-        new SelectedTestimonials({ collection: testimonials });
-        new Filters({ collection: testimonials });
-        new TestimonialsView({ collection : testimonials });
-        var newTestimonial = new NewTestimonialView({ collection : testimonials });
-
-        $("#new-testimonial-button").click(function(e) {
-            e.preventDefault();
-            newTestimonial.render();
-        })
+        ReactDOM.render(React.createElement(Manage, props), document.getElementById("manage-pane"));
     }
 });
