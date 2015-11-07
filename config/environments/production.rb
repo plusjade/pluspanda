@@ -1,7 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.force_ssl = true
+  #config.force_ssl = true
   Rails.application.routes.default_url_options[:host] = 'api.pluspanda.com'
   Rails.application.routes.default_url_options[:protocol] = 'https'
 
