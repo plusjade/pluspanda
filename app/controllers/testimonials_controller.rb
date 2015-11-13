@@ -124,7 +124,7 @@ class TestimonialsController < ApplicationController
 
     respond_to do |format|
       format.any(:html, :iframe) do
-        render "editor"
+        render "editor", formats: [:html]
       end
     end
   end
