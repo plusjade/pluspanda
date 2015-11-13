@@ -4,6 +4,7 @@ class TestimonialsController < ApplicationController
 
   # TODO this is for testing only
   skip_before_filter :verify_authenticity_token
+  before_filter :allow_iframe_requests
 
   def index
     @user = User.find_by_apikey!(params['apikey'])
@@ -236,5 +237,9 @@ class TestimonialsController < ApplicationController
 
   def testimonial_params
     params.require(:testimonial).permit(*WritableAttributes)
+  end
+
+  def allow_iframe_requests
+    response.headers.delete("X-Frame-Options")
   end
 end
